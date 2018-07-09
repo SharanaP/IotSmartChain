@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--<color name="color.Primary">#0764c7</color>-->
+    <!--<color name="color.PrimaryDark">#347ab8</color>-->
+    <!--<color name="color.Accent">#65bddf</color>-->
+    <!--<color name="navigation_bar_background">#347ab8</color>-->
+
+    <color name="color.Primary">#212121</color>
+    <color name="color.PrimaryDark">#181818</color>
+    <color name="color.Accent">#FF000000</color>
+    <color name="navigation_bar_background">#2e2d2d</color>
+
+    <!--<color name="color.background">#2175bb</color>-->
+    <!--<color name="color.actionBar">#2d86cf</color>-->
+
+    <color name="color.background">#686868</color>
+    <color name="color.actionBar">#FF000000</color>
+    <color name="color.background.light.grey">#f3f3f3</color>
+    <color name="color.background.screen">#ccede2</color>
+    <color name="color.text">#009687</color>
+
+    <color name="color.brand.primary">#28292C</color>
+    <color name="color.brand.primary_dark">#28292C</color>
+    <color name="color.brand.secondary">#077d6a</color>
+    <color name="color.brand.accent">#ff441a</color>
+
+    <color name="color.garnet">#3B0000</color>
+
+    <color name="white">@color/color.white</color>
+    <color name="color.white">#FFFFFF</color>
+    <color name="color.grey.light.hight">#e8e8e8</color>
+    <color name="color.grey.light">#bcbcbc</color>
+    <color name="color.green.light">#32CD32</color>
+    <color name="color.grey.medium">#ff808080</color>
+    <color name="color.grey.dark">#ff2c2c2c</color>
+    <color name="color.black_dark">#202020</color>
+    <color name="my_theme_edit_text">#FFFFFF</color>
+    <color name="color.grey">#f3f3f3</color>
+
+    <color name="color.floating.action.button">#e71e62</color>
+
+    <color name="qr_code_white">#FFFFFFFF</color>
+    <color name="qr_code_flashlight_bg">#66000000</color>
+    <color name="qr_code_finder_mask">#80000000</color>
+    <color name="qr_code_flash_light_text_color">#66FFFFFF</color>
+    <color name="qr_code_finder_frame">#FFFFFFFF</color>
+    <color name="qr_code_finder_laser">#058ef7</color>
+
+    <color name="progress_bar">#aa96def9</color>
+
+    <color name="color.green">#2CCC44</color>
+    <color name="color.red">#CC2C2C</color>
+
+    <color name="color.silver">#C0C0C0</color>
+    <color name ="color.random.green">#26A69A</color>
+
+    <color name="color_battery_full">#00f04c</color>
+    <color name="color_battery_avg">#b2c731</color>
+    <color name="color_battery_med">#ba8923</color>
+    <color name="color_battery_low">#b0461a</color>
+    <color name="color_battery_empty">#830228</color>
+
+</resources>

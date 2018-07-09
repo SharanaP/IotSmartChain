@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/listView_db_add_iot"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:divider="@null"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton_scanner"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right|bottom"
+        android:clickable="true"
+        app:srcCompat="@drawable/qrcode_scan"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:rippleColor="?attr/colorAccent"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        tools:ignore="VectorDrawableCompat" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton_manually"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:clickable="true"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:rippleColor="?attr/colorAccent"
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
+
+</RelativeLayout>

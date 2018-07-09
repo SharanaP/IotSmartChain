@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/global_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color.grey">
+
+    <!--Tool bar -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/color.actionBar"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:id="@+id/temperatureView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/temperatureImageEmpty"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_thermometer_16apr18" />
+
+                <ImageView
+                    android:id="@+id/temperatureImageFull"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_thermometer_16apr18" />
+
+                <!-- <lecho.lib.hellocharts.view.LineChartView
+                     android:id="@+id/temperatureChart"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="9dp"
+                    android:text="Temperature"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/temperatureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="18 C"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/compassView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_rowSpan="1"
+                android:layout_weight="1"
+                android:background="@drawable/back">
+
+                <!--  <android.opengl.GLSurfaceView
+                      android:id="@+id/compassShape"
+                      android:layout_width="100dp"
+                      android:layout_height="100dp"
+                      android:layout_margin="10dp"
+                      android:layout_centerHorizontal="true"
+                      android:layout_centerVertical="true" />-->
+
+                <ImageView
+                    android:id="@+id/compassShape"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_compass_16apr18" />
+
+                <!--<lecho.lib.hellocharts.view.LineChartView
+                    android:id="@+id/compassChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:id="@+id/compassText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Compass"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/compassLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="216 SW"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/calibratedImage"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/compassText"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/mag_not_calibrated"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/magWarningImage"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/compassText"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/mag_warning_red"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:id="@+id/humidityView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_rowSpan="1"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:padding="5dp">
+
+               <!-- <ImageView
+                    android:id="@+id/humidityImageEmpty"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_humidty_16apr18" />
+-->
+                <ImageView
+                    android:id="@+id/humidityImageFull"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_humidty_16apr18" />
+
+                <!--<lecho.lib.hellocharts.view.LineChartView
+                    android:id="@+id/humidityChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Humidity"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/humidityLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="13%"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gyroscopeView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_rowSpan="1"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:padding="5dp">
+
+                <!--<android.opengl.GLSurfaceView-->
+                <!--android:id="@+id/gyroscopeShape"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_centerVertical="true" />-->
+
+                <ImageView
+                    android:id="@+id/gyroscopeShape"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_gyroscope_16apr18" />
+
+                <!-- <lecho.lib.hellocharts.view.LineChartView
+                     android:id="@+id/gyroscopeChart"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Gyroscope"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:id="@+id/pressureView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/pressureIcon"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/icon_pressure_16apr18_1" />
+
+                <!--<lecho.lib.hellocharts.view.LineChartView
+                    android:id="@+id/pressureChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Pressure"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/pressureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="98430 Pa"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/accelerometerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/accelerometerIcon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_accelerometer_16apr18" />
+
+                <!--<lecho.lib.hellocharts.view.LineChartView
+                    android:id="@+id/accelerometerChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Accelerometer"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/accelerometerLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="1231"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

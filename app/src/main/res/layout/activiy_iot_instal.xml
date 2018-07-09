@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_screen_two"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color.actionBar"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white"
+        android:visibility="visible"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="IoT Device Installation and configuration "
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:padding="20dp"
+        android:textColor="@color/color.grey"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center"
+        android:gravity="left|center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/mysignup_button"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/button_WIFI"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textColor="@color/color.white"
+            android:background="@drawable/mysignin_button"
+            android:text="Wi-Fi" />
+
+        <ImageView
+            android:id="@+id/image_wifi_check"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/button_WIFI"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_check_green_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp" />
+
+        <Button
+            android:id="@+id/button_GSM"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/button_WIFI"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/color.white"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/mysignin_button"
+            android:text="GSM" />
+
+        <ImageView
+            android:id="@+id/image_gsm_check"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/button_GSM"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_check_green_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView_status"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textSize="13dp"
+        android:padding="20dp"
+        android:textColor="@color/color.grey.medium"
+        android:text="Status : "/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:gravity="center|bottom">
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text="Next"
+            android:textColor="@color/color.white"
+            android:textSize="13dp"
+            android:background="@drawable/mysignin_button"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+
+</LinearLayout>

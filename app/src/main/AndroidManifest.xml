@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.sharan.iotsmartchain"
+    android:versionCode="1"
+    android:versionName="V1.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".main.activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".main.activities.MainActivity"
+            android:label="IOT main"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".loginModule.activities.LoginActivity"
+            android:label="Login"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".loginModule.activities.RegisterActivity"
+            android:label="Register"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.HomeActivity"
+            android:label="IOT Smart"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.SensorsActivity"
+            android:label="Sensors"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.SensorReportActivity"
+            android:label="Sensor Report"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.RegisterIoTDeviceActivity"
+            android:label="Register IoT Devices"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".qrcodescanner.QrCodeActivity"
+            android:label="QrCode Scanner"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.InstalConfigureIoTActivity"
+            android:label="IoT Installation"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NormalFlow.activities.FloorPlanActivity"
+            android:label="Floor Plan"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.DashBoardActivity"
+            android:label="Dash Board"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.BatteryStatusActivity"
+            android:label="Battery Status"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.MasterLockActivity"
+            android:label="Master Locks"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <!-- Firebase Notifications -->
+        <service android:name=".Services.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Services.MyFireBaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- ./Firebase Notifications -->
+
+        <service
+            android:name=".Services.RegistrationIntentService"
+            tools:ignore="InnerclassSeparator" />
+
+    </application>
+
+</manifest>

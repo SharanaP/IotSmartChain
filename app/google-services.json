@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "499515855546",
+    "firebase_url": "https://iotsmartchain.firebaseio.com",
+    "project_id": "iotsmartchain",
+    "storage_bucket": "iotsmartchain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499515855546:android:13302ed336b4ab8e",
+        "android_client_info": {
+          "package_name": "com.example.sharan.iotsmartchain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499515855546-7m6mpj3e9g91ttiphl2c5det4i93tm31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sharan.iotsmartchain",
+            "certificate_hash": "df4e82c05b0128a354e1482723905f951b37bb3b"
+          }
+        },
+        {
+          "client_id": "499515855546-lht5b7qk9q28vsv6ufj7bs74jbr3vq34.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "499515855546-lht5b7qk9q28vsv6ufj7bs74jbr3vq34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjS6gv9B_RmE2nJ8V3m8R0nKVfRG-tuac"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499515855546-lht5b7qk9q28vsv6ufj7bs74jbr3vq34.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

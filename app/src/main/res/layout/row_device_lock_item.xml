@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <TextView
+            android:id="@+id/textView_lock_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#818283"
+            android:textSize="16sp"
+            android:maxLength="20"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            android:text="Lock all IoTs Devices"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SwitchCompatStyle"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/switch_background"/>
+    </RelativeLayout>
+
+</RelativeLayout>

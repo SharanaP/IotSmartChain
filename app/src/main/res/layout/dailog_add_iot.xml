@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/color.background.light.grey"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:text="Register IoT device Dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color.actionBar"
+        android:gravity="center|center_horizontal"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/color.white"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_iot_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView_title">
+
+        <EditText
+            android:id="@+id/editText_UID"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="enter UID number"
+            android:inputType="text"
+            android:textStyle="normal"
+            android:maxLength="20"
+            android:textSize="15sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/color.grey.dark"/>
+
+       <!-- <ImageView
+            android:id="@+id/ImageCamera"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_menu_camera"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"/>
+-->
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textView_Status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color.grey.light"
+        android:layout_below="@+id/relativeLayout_iot_uid"
+        android:gravity="center|right"
+        android:layout_marginRight="5dp"
+        android:text="status"/>
+
+</RelativeLayout>

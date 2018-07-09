@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/textView_label"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:gravity="center|left"
+                android:maxLength="20"
+                android:textColor="#818283"
+                android:layout_marginLeft="50dp"
+                android:typeface="monospace"
+                android:text="Home/Office"/>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="12dp"
+                android:layout_height="1dp"
+                android:layout_toRightOf="@+id/textView_label"
+                android:layout_toEndOf="@+id/textView_label"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="15dp"
+                android:background="#818283"/>
+
+            <ImageView
+                android:id="@+id/imageView_battery"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:padding="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/view_line"
+                android:layout_toEndOf="@+id/view_line"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/battery_1_full" />
+
+            <TextView
+                android:id="@+id/textView_batteryValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginRight="30dp"
+                android:typeface="monospace"
+                android:text="89%"
+                android:textColor="@color/color.silver"
+                android:layout_toRightOf="@+id/imageView_battery"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

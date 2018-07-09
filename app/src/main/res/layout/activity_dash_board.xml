@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:background="@drawable/background_screen_two"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash;<android.support.design.widget.BottomNavigationView-->
+        <!--android:id="@+id/navigation"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="0dp"-->
+        <!--android:layout_marginStart="0dp"-->
+        <!--android:background="?android:attr/windowBackground"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
+        <!--app:menu="@menu/navigation_dashboard" />-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/frame_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/color.background.light.grey"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/navigation"-->
+        <!--android:animateLayoutChanges="true"/>&ndash;&gt;-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?actionBarSize"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:titleTextColor="@color/color.white"-->
+            <!--android:visibility="visible"-->
+            <!--app:theme="@style/ToolbarColoredBackArrow"-->
+            <!--app:titleTextColor="@color/color.white" />-->
+
+        <!--<FrameLayout-->
+            <!--android:id="@+id/frame_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_above="@+id/navigation"-->
+            <!--android:layout_below="@+id/toolbar"-->
+            <!--android:animateLayoutChanges="true"/>-->
+
+        <!--<android.support.design.widget.BottomNavigationView-->
+            <!--android:id="@+id/navigation"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="0dp"-->
+            <!--android:layout_marginStart="0dp"-->
+            <!--android:background="?android:attr/windowBackground"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:visibility="visible"-->
+            <!--app:itemBackground="@android:color/black"-->
+            <!--app:itemIconTint="@color/tabs"-->
+            <!--app:itemTextColor="@color/tabs"-->
+            <!--app:menu="@menu/navigation_dashboard" />-->
+
+        <!--&lt;!&ndash;android:background="?android:attr/windowBackground"&ndash;&gt;-->
+            <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlways|snap"&ndash;&gt;-->
+
+    <!--</RelativeLayout>-->
+
+<!--</android.support.constraint.ConstraintLayout>-->
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_screen_two"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:layout_below="@+id/toolbar">
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        app:elevation="4dp"
+        app:itemBackground="@color/color.Primary"
+        app:itemIconTint="@color/tabs"
+        app:itemTextColor="@color/tabs"
+        app:menu="@menu/navigation_dashboard">
+    </android.support.design.widget.BottomNavigationView>
+
+</RelativeLayout>

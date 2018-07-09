@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color.silver">
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:text="Request OTP Dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color.actionBar"
+        android:gravity="center|center_horizontal"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/color.white"/>
+
+    <EditText
+        android:id="@+id/editText_enter_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_title"
+        android:layout_marginTop="10dp"
+        android:hint="enter OTP number"
+        android:inputType="number"
+        android:textStyle="normal"
+        android:maxLength="6"
+        android:textSize="15sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/color.grey.dark"/>
+
+    <TextView
+        android:id="@+id/textView_Status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color.grey.light"
+        android:layout_below="@+id/editText_enter_otp"
+        android:gravity="center|right"
+        android:layout_marginRight="5dp"
+        android:text="status"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/textView_Status">
+
+        <Button
+            android:id="@+id/button_RegenerateOTP"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Regenerate OTP"
+            android:textStyle="normal"
+            android:textSize="13sp"
+            android:layout_gravity="left|center"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/mysignin_button"
+            android:textColor="@color/color.white"/>
+
+        <Button
+            android:id="@+id/button_submitOTP"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="submit"
+            android:textColor="@color/color.white"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/mysignin_button"
+            android:textSize="13sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

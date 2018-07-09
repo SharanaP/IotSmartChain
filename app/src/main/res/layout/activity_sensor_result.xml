@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/viewLiveData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Sensor data"
+                android:textColor="@color/color.grey.dark"
+                android:layout_centerHorizontal="true"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/SensorChartView"
+                android:padding="5dp"
+                android:layout_below="@+id/viewLiveData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/previewsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previews Sensor data"
+                android:textColor="@color/color.grey.dark"
+                android:layout_centerHorizontal="true"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/PreviewsChartView"
+                android:padding="5dp"
+                android:layout_below="@+id/previewsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
