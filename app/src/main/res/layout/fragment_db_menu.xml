@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_height="110dp">
@@ -20,8 +20,20 @@
             android:layout_height="fill_parent"
             app:civ_border_width="2dp"
             android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:onClick="profilePhoto"
+            app:civ_border_color="#FF000000"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_camera"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_menu_camera"
+            android:layout_alignParentLeft="true"
+            app:civ_border_width="1dp"
+            app:civ_circle_background_color="@color/color.silver"
             app:civ_border_color="#FF000000"/>
 
         <LinearLayout
@@ -70,14 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_camera"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_menu_camera"
-                    android:layout_alignParentLeft="true"/>
+
 
                 <ImageView
                     android:id="@+id/imageView_update_profile"
