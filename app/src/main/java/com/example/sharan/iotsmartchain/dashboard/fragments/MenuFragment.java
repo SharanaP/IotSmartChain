@@ -1,13 +1,14 @@
 package com.example.sharan.iotsmartchain.dashboard.fragments;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -15,8 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,20 +28,29 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
-public class MenuFragment extends BaseFragment{
+public class MenuFragment extends BaseFragment {
+    private static final int REQUEST_CODE = 0x11;
+    private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
     private static String TAG = MenuFragment.class.getSimpleName();
-
+    final int CAMERA_CAPTURE = 1;
+    final int CROP_PIC = 2;
     private CircleImageView img_profile;
     private CircleImageView mProfileUpdate;
     private TextView mTvLoginName;
@@ -57,17 +65,10 @@ public class MenuFragment extends BaseFragment{
     private RelativeLayout mRlLogout;
     private RelativeLayout mRlCloseAccount;
     private TextView mTvVersion;
-
     private String mUrl, token, loginId;
-
-    final int CAMERA_CAPTURE = 1;
-    final int CROP_PIC = 2;
+    private AppLogOutAsync appLogOutAsync = null;
+    private CloseAccountAsync closeAccountAsync = null;
     private Uri picUri, mImageCaptureUri;
-
-    private static final int REQUEST_CODE = 0x11;
-
-    private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
-
     private File outPutFile = null;
 
     public static MenuFragment newInstance() {
@@ -91,19 +92,19 @@ public class MenuFragment extends BaseFragment{
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_db_menu, container, false);
 
-        img_profile = (CircleImageView)rootView.findViewById(R.id.profile_photo);
-        mProfileUpdate = (CircleImageView)rootView.findViewById(R.id.profile_camera);
-        mTvLoginName = (TextView)rootView.findViewById(R.id.textView_login_name);
-        mTvEmail = (TextView)rootView.findViewById(R.id.textView_email);
-        mProfileEditIcon  = (ImageView)rootView.findViewById(R.id.imageView_update_profile);
-        mScrollView = (ScrollView)rootView.findViewById(R.id.scrollView_menu);
-        mRlSettings = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_setting);
-        mRlFeedBack = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_feedback);
-        mRlAbout = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_about);
-        mRlFAQ = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_faq);
-        mRlSupport = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_support);
-        mRlLogout = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_logout);
-        mRlCloseAccount = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_close_account);
+        img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
+        mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
+        mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
+        mTvEmail = (TextView) rootView.findViewById(R.id.textView_email);
+        mProfileEditIcon = (ImageView) rootView.findViewById(R.id.imageView_update_profile);
+        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView_menu);
+        mRlSettings = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_setting);
+        mRlFeedBack = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_feedback);
+        mRlAbout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_about);
+        mRlFAQ = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_faq);
+        mRlSupport = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_support);
+        mRlLogout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_logout);
+        mRlCloseAccount = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_close_account);
         mTvVersion = (TextView) rootView.findViewById(R.id.textView_version);
 
         mProfileUpdate.setOnClickListener(new View.OnClickListener() {
@@ -117,16 +118,57 @@ public class MenuFragment extends BaseFragment{
             @Override
             public void onClick(View v) {
                 //show Profile Pre-view
-               //TODO new PhotoFullPopupWindow(context, R.layout.popup_photo_full, yourImageView, URL, null);
                 profileDialog();
             }
         });
 
-        if(loginId != null || !loginId.isEmpty()){
+        //Set login email id and mobile number
+        if (loginId != null || !loginId.isEmpty()) {
             mTvEmail.setText(loginId);
         }
 
+        mRlLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppLogout();//application clear loginId and token value
+            }
+        });
+
+        mRlCloseAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CloseAccount();//UnRegister user account
+            }
+        });
+
         return rootView;
+    }
+
+    //Application close account and clear device INFO
+    private void CloseAccount() {
+        closeAccountAsync = new CloseAccountAsync();
+        closeAccountAsync.execute((Void) null);
+
+        //Clear login id and token
+        SharedPreferences.Editor editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+        editor.putString("TOKEN", "");
+        editor.putString("AUTH_EMAIL_ID", "");
+        editor.apply();
+
+    }
+
+    //Application clear login id and token
+    private void AppLogout() {
+        //App logout async and unregister a device ID and info
+        AppLogOutAsync appLogOutAsync = new AppLogOutAsync();
+        appLogOutAsync.execute((Void) null);
+
+        // clear the login token
+        SharedPreferences.Editor
+                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+        editor.putString("TOKEN", "");
+        editor.putString("AUTH_EMAIL_ID", "");
+        editor.apply();
     }
 
     private void profileUpdate(View v) {
@@ -146,12 +188,12 @@ public class MenuFragment extends BaseFragment{
 
                 } else if (items[item].equals("Choose from Gallery")) {
 
-                    try{
+                    try {
                         //Pick Image From Gallery
                         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         i.setType("image/*");
-                        startActivityForResult(Intent.createChooser(i,"Complete action using"), GALLERY_CODE);
-                    }catch(Exception e){
+                        startActivityForResult(Intent.createChooser(i, "Complete action using"), GALLERY_CODE);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -169,13 +211,13 @@ public class MenuFragment extends BaseFragment{
             Log.d("DEBUG", "GALLERY_CODE");
 
             mImageCaptureUri = data.getData();
-            System.out.println("Gallery Image URI : "+mImageCaptureUri);
+            System.out.println("Gallery Image URI : " + mImageCaptureUri);
             performCrop();
 
         } else if (requestCode == CAMERA_CODE && resultCode == Activity.RESULT_OK) {
             Log.d("DEBUG", "CAMERA_CODE");
             picUri = data.getData();
-            System.out.println("Camera Image URI : "+picUri);
+            System.out.println("Camera Image URI : " + picUri);
             cameraPerformCrop();
         } else if (requestCode == CROPING_CODE) {
             Log.d("DEBUG", "CROPING_CODE");
@@ -193,7 +235,7 @@ public class MenuFragment extends BaseFragment{
         } else if (requestCode == CROP_PIC) {
             Log.d("DEBUG", "CROP_PIC");
 
-            try{
+            try {
                 // get the returned data
                 Bundle extras = data.getExtras();
                 if (extras != null) {
@@ -202,7 +244,7 @@ public class MenuFragment extends BaseFragment{
                     img_profile.setImageBitmap(thePic);
                 }
 
-            }catch (NullPointerException ex){
+            } catch (NullPointerException ex) {
 
             }
         }
@@ -237,7 +279,7 @@ public class MenuFragment extends BaseFragment{
         return null;
     }
 
-    private void cameraPerformCrop(){
+    private void cameraPerformCrop() {
         // take care of exceptions
         try {
             // call the standard crop action intent (the user device may not
@@ -282,7 +324,11 @@ public class MenuFragment extends BaseFragment{
             // call the standard crop action intent (the user device may not
             // support it)
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            cropIntent.setType("image/*");
+            //cropIntent.setType("image/*");
+
+            //indicate image type and Uri
+            cropIntent.setDataAndType(mImageCaptureUri, "image/*");
+
 
             // set crop properties
             cropIntent.putExtra("crop", "true");
@@ -313,7 +359,7 @@ public class MenuFragment extends BaseFragment{
     }
 
     /*Photo preview */
-    private void profileDialog(){
+    private void profileDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final AlertDialog dialog = builder.create();
         LayoutInflater inflater = getLayoutInflater();
@@ -328,14 +374,126 @@ public class MenuFragment extends BaseFragment{
                 ImageView image = (ImageView) dialog.findViewById(R.id.goProDialogImage);
                 Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
                         R.drawable.profile_upload_white);
-                float imageWidthInPX = (float)image.getWidth();
+                float imageWidthInPX = (float) image.getWidth();
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Math.round(imageWidthInPX),
-                        Math.round(imageWidthInPX * (float)icon.getHeight() / (float)icon.getWidth()));
+                        Math.round(imageWidthInPX * (float) icon.getHeight() / (float) icon.getWidth()));
                 image.setLayoutParams(layoutParams);
             }
         });
 
+    }
+
+    //Application logout async
+    public class AppLogOutAsync extends AsyncTask<Void, String, String> {
+        private String mUrl, loginId, token;
+
+        public AppLogOutAsync() {
+            /**read token and login id from shared preferance file**/
+            mUrl = App.getAppComponent().getApiServiceUrl();
+
+            token = App.getSharedPrefsComponent()
+                    .getSharedPrefs()
+                    .getString("TOKEN", "");
+
+            loginId = App.getSharedPrefsComponent()
+                    .getSharedPrefs()
+                    .getString("AUTH_EMAIL_ID", "");
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            RequestBody formBody = new FormEncodingBuilder()
+                    .add("device", "android")
+                    .build();
+            Request request = new Request.Builder()
+                    .addHeader("email-id", loginId)
+                    .addHeader("x-access-token", token)
+                    .url(mUrl + "/api/device/applogout")
+                    .post(formBody)
+                    .build();
+
+            String retVal = "false";
+            try {
+                Response response = okHttpClient.newCall(request).execute();
+                if (response.code() != 200) {
+                    retVal = "false";
+                } else {
+                    retVal = "true";
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at app logout device info: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at app logout device info : " + e1.getMessage());
+            }
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(String data) {
+            super.onPostExecute(data);
+            if (data.equalsIgnoreCase("true")) {
+                // showProgress(false);
+                // Start the login activity
+                Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(loginActivityIntent);
+                getActivity().finish();
+            }
+        }
+    }
+
+    //Un register or close account
+    public class CloseAccountAsync extends AsyncTask<Void, String, String> {
+        private String mUrl, token, loginId;
+
+        public CloseAccountAsync() {
+            mUrl = App.getAppComponent().getApiServiceUrl();
+            token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", "");
+            loginId = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", "");
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormEncodingBuilder()
+                    .add("device", "android")
+                    .build();
+            Request request = new Request.Builder()
+                    .addHeader("email-id", loginId)
+                    .addHeader("x-access-token", token)
+                    .url(mUrl + "/api/device/closeaccount")
+                    .post(formBody)
+                    .build();
+
+            String retVal = "false";
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    retVal = "false";
+                } else {
+                    retVal = "true";
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at close account and device info: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at close account: " + e1.getMessage());
+            }
+
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(String data) {
+            super.onPostExecute(data);
+            if (data.equalsIgnoreCase("true")) {
+
+                //Call login screen
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(loginIntent);
+                getActivity().finish();
+            }
+        }
     }
 
 }

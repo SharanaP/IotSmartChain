@@ -19,11 +19,11 @@
             android:id="@+id/textView_lock_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#818283"
-            android:textSize="16sp"
+            android:textColor="@color/color.grey.light"
+            android:textSize="14sp"
             android:maxLength="20"
-            android:typeface="monospace"
-            android:textStyle="bold"
+            android:textStyle="normal"
+            android:layout_centerVertical="true"
             android:text="Lock all IoTs Devices"/>
 
         <android.support.v7.widget.SwitchCompat
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             style="@style/SwitchCompatStyle"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/switch_background"/>
     </RelativeLayout>
 

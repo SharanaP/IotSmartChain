@@ -3,6 +3,8 @@ package com.example.sharan.iotsmartchain.model;
 public class DeviceLockerModel {
     private String deviceId;
     private String deviceType;
+    private String message;
+    private boolean isMasterLocked;
     private boolean isLocked;
     private String status;
 
@@ -20,6 +22,22 @@ public class DeviceLockerModel {
 
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isMasterLocked() {
+        return isMasterLocked;
+    }
+
+    public void setMasterLocked(boolean masterLocked) {
+        isMasterLocked = masterLocked;
     }
 
     public boolean isLocked() {
@@ -43,6 +61,8 @@ public class DeviceLockerModel {
         return "DeviceLockerModel{" +
                 "deviceId='" + deviceId + '\'' +
                 ", deviceType='" + deviceType + '\'' +
+                ", message='" + message + '\'' +
+                ", isMasterLocked=" + isMasterLocked +
                 ", isLocked=" + isLocked +
                 ", status='" + status + '\'' +
                 '}';

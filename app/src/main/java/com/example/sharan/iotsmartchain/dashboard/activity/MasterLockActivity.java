@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.example.sharan.iotsmartchain.App;
@@ -39,13 +40,14 @@ public class MasterLockActivity extends BaseActivity {
     private String mUrl, loginId, token;
     private ArrayList<DeviceLockerModel> arrayListOfLock = new ArrayList<>();
 
-    private String listDeviceLockStr = "{\"tokenid\": \"84h39873423h823\",\"emailid\": \"personName@gmail.com\", \"status\": \"true\", \n" +
-            "\"deviceLockInfo\": [\n" +
-            "{\"deviceId\": \"371je1ooj293u102938\", \"deviceType\": \"offic e main door\", \"isLocked\": true}, \n" +
-            "{\"deviceId\": \"371je1ooj2lkjlkjlkj02938\", \"deviceType\": \"WorkStation locker\", \"isLocked\": false}, \n" +
-            "{\"deviceId\": \"371jesdfjhgaf43452938\", \"deviceType\": \"Home main door\", \"isLocked\": false}, \n" +
-            "{\"deviceId\": \"371rtyrtydfjhgafu102938\", \"deviceType\": \"office locker door\", \"isLocked\": true}, \n" +
-            "{\"deviceId\": \"371jesdfsdfsafu102938\", \"deviceType\": \"Home locker door\", \"isLocked\": true}]}";
+    private String listDeviceLockStr = "{\"tokenid\": \"84h39873423h823\",\"emailid\": \"personName@gmail.com\", " +
+            "\"status\": \"true\", \"message\" : \"Successfully\",  \"masterLock\" : false, " +
+            " \"deviceLockInfo\": [\n" +
+            "    {\"deviceId\": \"371je1ooj293u102938\", \"deviceType\": \"offic e main door\", \"isLocked\": true}, \n" +
+            "    {\"deviceId\": \"371je1ooj2lkjlkjlkj02938\", \"deviceType\": \"WorkStation locker\", \"isLocked\": false}, \n" +
+            "    {\"deviceId\": \"371jesdfjhgaf43452938\", \"deviceType\": \"Home main door\", \"isLocked\": false}, \n" +
+            "    {\"deviceId\": \"371rtyrtydfjhgafu102938\", \"deviceType\": \"office locker door\", \"isLocked\": true}, \n" +
+            "    {\"deviceId\": \"371jesdfsdfsafu102938\", \"deviceType\": \"Home locker door\", \"isLocked\": true}]}";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,13 +72,27 @@ public class MasterLockActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+
             }
         });
 
-        readStringTOlist();
+        mSwitchLockAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //TODO based on selection enable switch
+                mAdapter.clear();
+                if(isChecked){
+                    readStringTOlist(true);
+                }else{
+                    readStringTOlist(false);
+                }
+            }
+        });
+
+        readStringTOlist(false);
     }
 
-    private void readStringTOlist() {
+    private void readStringTOlist(boolean isMasterLocked) {
         JSONObject jObject = null;
         try {
             jObject = new JSONObject(listDeviceLockStr);
@@ -87,22 +103,33 @@ public class MasterLockActivity extends BaseActivity {
         String emailId = null;
         String tokenid = null;
         String status = null;
+        String message = null;
         try {
             emailId = (String) jObject.get("emailid");
             tokenid = (String) jObject.get("tokenid");
             status = (String) jObject.get("status");
+            message = (String)jObject.get("message");
+            isMasterLocked = (Boolean)jObject.getBoolean("masterLock");
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
         System.out.println(emailId);
         System.out.println(tokenid);
         System.out.println(status);
+        System.out.println(message);
+        System.out.println(isMasterLocked);
 
         JSONArray jsonArray = null;
         try {
             jsonArray = jObject.getJSONArray("deviceLockInfo");
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        if(isMasterLocked){
+            mSwitchLockAll.setChecked(true);
         }
 
         mDeviceMap = new LinkedHashMap<>();
@@ -113,6 +140,7 @@ public class MasterLockActivity extends BaseActivity {
                 deviceLockerModel.setDeviceId(object.getString("deviceId"));
                 deviceLockerModel.setLocked(object.getBoolean("isLocked"));
                 deviceLockerModel.setDeviceType(object.getString("deviceType"));
+                deviceLockerModel.setMasterLocked(isMasterLocked);
                 mDeviceMap.put(jsonArray.getString(i), deviceLockerModel);
 
                 Log.d(TAG, "mDeviceMap : "+mDeviceMap.values());

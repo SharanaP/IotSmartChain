@@ -29,10 +29,10 @@
             android:id="@+id/textView_ms_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color.silver"
             android:textSize="18sp"
-            android:typeface="monospace"
-            android:textStyle="bold"
+            android:textStyle="normal"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="Lock all IoTs Devices"/>
 
@@ -40,6 +40,7 @@
             android:id="@+id/switch_lock_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             style="@style/SwitchCompatStyle"
             android:layout_alignParentRight="true"
             android:background="@drawable/switch_background"/>
@@ -66,7 +67,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@null"
-            android:dividerHeight="0dp">
+            android:dividerHeight="2dp">
         </ListView>
 
     </RelativeLayout>

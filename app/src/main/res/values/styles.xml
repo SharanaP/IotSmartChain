@@ -84,7 +84,7 @@
 
     <!--theme for progressbar-->
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/progress_bar</item>
+        <item name="colorAccent">@color/color.Accent</item>
     </style>
 
 

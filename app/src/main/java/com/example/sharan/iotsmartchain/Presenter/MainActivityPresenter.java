@@ -3,6 +3,7 @@ package com.example.sharan.iotsmartchain.Presenter;
 import android.content.Intent;
 
 import com.example.sharan.iotsmartchain.App;
+import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.BatteryStatusActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.NormalFlow.activities.HomeActivity;
@@ -67,7 +68,7 @@ public class MainActivityPresenter implements ActivityPresenterBase {
     public void launchRegisterIotActivity(){
         //Launch RegIoTDeviceActivity
         Intent regIotActivityIntent = new Intent(mMainActivity.getApplicationContext(),
-                RegisterIoTDeviceActivity.class);
+                DashBoardActivity.class);
         regIotActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mMainActivity.startActivity(regIotActivityIntent);
         mMainActivity.finish();

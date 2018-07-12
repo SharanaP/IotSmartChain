@@ -70,6 +70,11 @@ public class ListOfLockAdapter extends ArrayAdapter<DeviceLockerModel> {
             } else {
                 viewHolder.mSwitch.setChecked(false);
             }
+
+            if(viewHolder.deviceLockerModel.isMasterLocked()){
+//                viewHolder.mSwitch.setChecked(true);
+                viewHolder.mSwitch.setEnabled(false);
+            }
         }
 
         viewHolder.mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

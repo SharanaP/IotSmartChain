@@ -102,13 +102,11 @@ public class Utils {
     }
 
     public static String convertTime(long time){
-
-
-        String dateString = new SimpleDateFormat("yyyy MM dd HH:mm:ss").format(new Date(time));
+        String dateString = new SimpleDateFormat("yyyy MMM dd, HH:mm aa").format(new Date(time));
         Log.d("Utils", "dateString : "+dateString);
 
         Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+        Format format = new SimpleDateFormat("yyyy MMM dd, HH:mm aa");
         return format.format(date);
     }
 }

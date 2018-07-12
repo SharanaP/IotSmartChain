@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textview_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="temperature"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/color.silver"/>
+        <TextView
+            android:id="@+id/textview_numofdooropen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Num of door open "
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/color.silver"/>
+        <TextView
+            android:id="@+id/textview_humidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="humidity"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/color.silver"/>
+        <TextView
+            android:id="@+id/textview_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="sample child view details"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/color.silver"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_timeFormat"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="12dp"
+        android:textColor="@color/color.grey.medium"
+        android:text="dd/mm/yyy HH:mm:ss"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

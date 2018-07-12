@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.BatteryStatusActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.MasterLockActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
@@ -99,34 +100,36 @@ public class DashBoardFragment extends BaseFragment {
     }
 
     private void listOfModulesView(View v) {
-        Toast.makeText(getActivity(), "listOfModulesView", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "list Of ModulesView", Toast.LENGTH_SHORT).show();
     }
 
     private void masterLockView(View v) {
-        Toast.makeText(getActivity(), "masterLockView", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "masterLockView", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), MasterLockActivity.class);
         startActivity(intent);
     }
 
     private void batteryView(View v) {
-        Toast.makeText(getActivity(), "batteryView", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "batteryView", Toast.LENGTH_SHORT).show();
         //call Battery status screen
         Intent intent = new Intent(getActivity(), BatteryStatusActivity.class);
         startActivity(intent);
     }
 
     private void analyticsView(View v) {
-        Toast.makeText(getActivity(), "analyticsView", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "analyticsView", Toast.LENGTH_SHORT).show();
+        Intent analyticsIntent = new Intent(getActivity(), AnalyticsActivity.class);
+        startActivity(analyticsIntent);
     }
 
     //Modules not in use
     private void modulesNotInUse(View v) {
-        Toast.makeText(getActivity(), "modulesNotInUse", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "modules Not In Use", Toast.LENGTH_SHORT).show();
     }
 
     //ModulesInUse
     private void modulesInUseView(View v) {
-        Toast.makeText(getActivity(), "modulesInUseView", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "modules In Use View", Toast.LENGTH_SHORT).show();
     }
 
 
