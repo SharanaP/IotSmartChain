@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -65,6 +67,8 @@ public class MenuFragment extends BaseFragment {
     private RelativeLayout mRlLogout;
     private RelativeLayout mRlCloseAccount;
     private TextView mTvVersion;
+    private ProgressBar mProgressBar;
+    private View mProgressView;
     private String mUrl, token, loginId;
     private AppLogOutAsync appLogOutAsync = null;
     private CloseAccountAsync closeAccountAsync = null;
@@ -92,6 +96,8 @@ public class MenuFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_db_menu, container, false);
 
+        mProgressBar = (ProgressBar)rootView.findViewById(R.id.progressbar_profile);
+        mProgressView = (View)rootView.findViewById(R.id.progressView);
         img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
         mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
         mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
@@ -146,29 +152,31 @@ public class MenuFragment extends BaseFragment {
 
     //Application close account and clear device INFO
     private void CloseAccount() {
+        Utils.showProgress(this.getActivity(), mProgressView, mProgressBar, true);
         closeAccountAsync = new CloseAccountAsync();
         closeAccountAsync.execute((Void) null);
 
-        //Clear login id and token
-        SharedPreferences.Editor editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-        editor.putString("TOKEN", "");
-        editor.putString("AUTH_EMAIL_ID", "");
-        editor.apply();
+        //TODO Clear login id and token
+//        SharedPreferences.Editor editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+//        editor.putString("TOKEN", "");
+//        editor.putString("AUTH_EMAIL_ID", "");
+//        editor.apply();
 
     }
 
     //Application clear login id and token
     private void AppLogout() {
+        Utils.showProgress(this.getActivity(), mProgressView, mProgressBar, true);
         //App logout async and unregister a device ID and info
         AppLogOutAsync appLogOutAsync = new AppLogOutAsync();
         appLogOutAsync.execute((Void) null);
 
-        // clear the login token
-        SharedPreferences.Editor
-                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-        editor.putString("TOKEN", "");
-        editor.putString("AUTH_EMAIL_ID", "");
-        editor.apply();
+        //TODO clear the login token
+//        SharedPreferences.Editor
+//                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+//        editor.putString("TOKEN", "");
+//        editor.putString("AUTH_EMAIL_ID", "");
+//        editor.apply();
     }
 
     private void profileUpdate(View v) {
@@ -433,6 +441,8 @@ public class MenuFragment extends BaseFragment {
         @Override
         protected void onPostExecute(String data) {
             super.onPostExecute(data);
+            Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
+
             if (data.equalsIgnoreCase("true")) {
                 // showProgress(false);
                 // Start the login activity
@@ -486,6 +496,8 @@ public class MenuFragment extends BaseFragment {
         @Override
         protected void onPostExecute(String data) {
             super.onPostExecute(data);
+            Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
+
             if (data.equalsIgnoreCase("true")) {
 
                 //Call login screen

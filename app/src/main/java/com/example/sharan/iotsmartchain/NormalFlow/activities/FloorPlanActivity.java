@@ -62,6 +62,14 @@ public class FloorPlanActivity extends BaseActivity {
         WebSettings webSetting = webView.getSettings();
         webSetting.setJavaScriptEnabled(true);
         webSetting.setDisplayZoomControls(true);
+        // performance hacks!
+        webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        // multi-touch zoom
+        webSetting.setBuiltInZoomControls(true);
+        webSetting.setDisplayZoomControls(true);
+
         webView.loadUrl("https://floorplanner.com/");
     }
 

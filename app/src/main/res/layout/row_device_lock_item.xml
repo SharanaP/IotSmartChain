@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color.grey.light"
-            android:textSize="14sp"
+            android:textSize="16dp"
             android:maxLength="20"
             android:textStyle="normal"
             android:layout_centerVertical="true"

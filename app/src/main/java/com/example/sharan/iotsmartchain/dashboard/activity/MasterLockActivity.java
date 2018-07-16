@@ -43,7 +43,7 @@ public class MasterLockActivity extends BaseActivity {
     private String listDeviceLockStr = "{\"tokenid\": \"84h39873423h823\",\"emailid\": \"personName@gmail.com\", " +
             "\"status\": \"true\", \"message\" : \"Successfully\",  \"masterLock\" : false, " +
             " \"deviceLockInfo\": [\n" +
-            "    {\"deviceId\": \"371je1ooj293u102938\", \"deviceType\": \"offic e main door\", \"isLocked\": true}, \n" +
+            "    {\"deviceId\": \"371je1ooj293u102938\", \"deviceType\": \"office main door\", \"isLocked\": true}, \n" +
             "    {\"deviceId\": \"371je1ooj2lkjlkjlkj02938\", \"deviceType\": \"WorkStation locker\", \"isLocked\": false}, \n" +
             "    {\"deviceId\": \"371jesdfjhgaf43452938\", \"deviceType\": \"Home main door\", \"isLocked\": false}, \n" +
             "    {\"deviceId\": \"371rtyrtydfjhgafu102938\", \"deviceType\": \"office locker door\", \"isLocked\": true}, \n" +

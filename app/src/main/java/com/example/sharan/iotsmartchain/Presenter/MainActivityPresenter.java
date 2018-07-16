@@ -68,7 +68,7 @@ public class MainActivityPresenter implements ActivityPresenterBase {
     public void launchRegisterIotActivity(){
         //Launch RegIoTDeviceActivity
         Intent regIotActivityIntent = new Intent(mMainActivity.getApplicationContext(),
-                DashBoardActivity.class);
+                RegisterIoTDeviceActivity.class);
         regIotActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mMainActivity.startActivity(regIotActivityIntent);
         mMainActivity.finish();
