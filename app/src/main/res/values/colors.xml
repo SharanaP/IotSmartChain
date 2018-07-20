@@ -11,7 +11,7 @@
 
     <color name="color.Primary">#212121</color>
     <color name="color.PrimaryDark">#181818</color>
-    <color name="color.Accent">#ffd700</color>  //#ffd700
+    <color name="color.Accent">#E3A506</color>  //#ffd700
     <color name="navigation_bar_background">#2e2d2d</color>
 
     <!--<color name="color.background">#2175bb</color>-->
@@ -65,5 +65,7 @@
     <color name="color_battery_empty">#830228</color>
 
     <color name="color_bg_green">#7DDAC1</color>
+    <color name="color_yellow">#E3A506</color>
+    <color name="color_yellow_light">#5ffff9c4</color>
 
 </resources>

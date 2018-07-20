@@ -119,8 +119,20 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
+    private void testMessage(){
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.putExtra("jid", "918290819246" + "@s.whatsapp.net"); //phone number without "+" prefix
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        try {
+            startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+         //   ToastHelper.MakeShortText("Whatsapp have not been installed.");
+            Log.d(TAG, "Whatsapp have not been installed.");
+        }
     }
 
     private void setupToolbar() {

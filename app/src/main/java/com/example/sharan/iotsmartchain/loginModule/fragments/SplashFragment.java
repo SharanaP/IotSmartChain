@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.global.BusProvider;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -33,13 +34,22 @@ public class SplashFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
 
+        //App title and logo
+        ImageView mImageViewLogo = (ImageView)view.findViewById(R.id.app_logo);
+        ImageView mImageTitle = (ImageView)view.findViewById(R.id.app_title_logo);
+
+        //Load image locally : logo and title
+        Picasso.get().load(R.drawable.app_icon).into(mImageViewLogo);
+        Picasso.get().load(R.drawable.app_title).into(mImageTitle);
+
+
         // Set font
-        TextView appName = (TextView) view.findViewById(R.id.appName);
-        appName.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
-                "fonts/MyriadPro-Light.otf"));
+//        TextView appName = (TextView) view.findViewById(R.id.appName);
+//        appName.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
+//                "fonts/MyriadPro-Light.otf"));
 
         //geokno or app powered by logo
-        ImageView imageLogo = (ImageView)view.findViewById(R.id.geoknoLogo);
+      //  ImageView imageLogo = (ImageView)view.findViewById(R.id.geoknoLogo);
 
         // Dismiss timer
         Runnable exitRunnable = new Runnable() {
@@ -60,18 +70,18 @@ public class SplashFragment extends Fragment {
         });
 
         //Start animation title
-        Animation animation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.alpha);
-        animation.reset();
-        appName.setAnimation(animation);
-        appName.clearAnimation();
-        appName.startAnimation(animation);
+//        Animation animation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.alpha);
+//        animation.reset();
+//        appName.setAnimation(animation);
+//        appName.clearAnimation();
+//        appName.startAnimation(animation);
 
         //start animation logo
-        Animation animLogo= AnimationUtils.loadAnimation(this.getActivity(), R.anim.translate);
-        animLogo.reset();
-        imageLogo.setAnimation(animLogo);
-        imageLogo.clearAnimation();
-        imageLogo.setAnimation(animLogo);
+//        Animation animLogo= AnimationUtils.loadAnimation(this.getActivity(), R.anim.translate);
+//        animLogo.reset();
+//        imageLogo.setAnimation(animLogo);
+//        imageLogo.clearAnimation();
+//        imageLogo.setAnimation(animLogo);
 
         return view;
     }

@@ -11,7 +11,25 @@
         android:background="@drawable/background_splash_screen"
         android:id="@+id/img_splash"/>
 
-    <TextView
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/app_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/app_title_logo"/>
+
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/app_title"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <!--<TextView
         android:id="@+id/appName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,32 +41,33 @@
         android:typeface="monospace"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white"
-        android:textSize="55sp"/>
+        android:textSize="55sp"/>-->
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@android:color/white"
-        android:layout_above="@+id/geoknoLogo"
+        android:background="@color/color.silver"
+        android:layout_above="@+id/poweredBy"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
-    <ImageView
-        android:id="@+id/geoknoLogo"
-        android:layout_width="240dp"
-        android:layout_height="80dp"
-        android:background="@drawable/geokno_logo"
-        android:layout_marginTop="25dp"
-        android:layout_above="@+id/poweredBy"
-        android:layout_centerHorizontal="true" />
+    <!--<ImageView-->
+        <!--android:id="@+id/geoknoLogo"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:background="@drawable/geokno_logo"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:layout_above="@+id/poweredBy"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <TextView
         android:id="@+id/poweredBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Powered by GeoKno India."
-        android:textColor="@color/white"
+        android:textColor="@color/color.silver"
         android:textSize="10sp"
         android:typeface="normal"
         android:textStyle="bold"

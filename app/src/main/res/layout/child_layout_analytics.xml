@@ -10,6 +10,7 @@
         android:orientation="vertical"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:background="@color/color_yellow_light"
         android:gravity="center">
 
         <TextView
@@ -53,12 +54,13 @@
     <TextView
         android:id="@+id/textView_timeFormat"
         android:layout_below="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="12dp"
-        android:textColor="@color/color.grey.medium"
+        android:gravity="right"
+        android:background="@color/color_yellow_light"
         android:text="dd/mm/yyy HH:mm:ss"
         android:layout_alignParentRight="true"/>
 

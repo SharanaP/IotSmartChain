@@ -17,6 +17,7 @@ import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.BatteryStatusActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.MasterLockActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.ModulesActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 
 
@@ -100,7 +101,9 @@ public class DashBoardFragment extends BaseFragment {
     }
 
     private void listOfModulesView(View v) {
-        Toast.makeText(getActivity(), "list Of ModulesView", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "list Of ModulesView", Toast.LENGTH_SHORT).show();
+        Intent moduleIntent = new Intent(getActivity(), ModulesActivity.class);
+        startActivity(moduleIntent);
     }
 
     private void masterLockView(View v) {

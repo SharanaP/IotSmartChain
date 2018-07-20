@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/navigation_spatial"
+        android:icon="@drawable/ic_sptailsample_24dp"
+        android:title="Spatial"
+        android:showAsAction="always|withText"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/navigation_nonspatial"
+        android:icon="@drawable/database"
+        android:title="Non-Spatial"
+        android:showAsAction="always|withText"
+        tools:ignore="AppCompatResource" />
+
+</menu>

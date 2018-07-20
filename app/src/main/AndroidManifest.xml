@@ -90,6 +90,9 @@
         <activity android:name=".dashboard.activity.AnalyticsActivity"
             android:label="Analytics"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.ModulesActivity"
+            android:label="Modules"
+            android:windowSoftInputMode="adjustPan"/>
 
         <!-- Firebase Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">

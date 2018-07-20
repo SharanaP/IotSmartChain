@@ -192,7 +192,7 @@ public class DashBoardActivity extends BaseActivity {
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        setTitle("IoT Smart");
+        setTitle("iSmartLink");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 

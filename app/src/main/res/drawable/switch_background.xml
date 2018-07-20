@@ -13,7 +13,7 @@
                 android:color="#000000">
             </stroke>
             <solid
-                android:color="@color/color.random.green">
+                android:color="@color/color_yellow">
             </solid>
             <stroke
                 android:width="10dp"

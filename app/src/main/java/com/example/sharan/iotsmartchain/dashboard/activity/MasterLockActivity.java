@@ -82,17 +82,17 @@ public class MasterLockActivity extends BaseActivity {
                 //TODO based on selection enable switch
                 mAdapter.clear();
                 if(isChecked){
-                    readStringTOlist(true);
+                    readStringToList(true);
                 }else{
-                    readStringTOlist(false);
+                    readStringToList(false);
                 }
             }
         });
 
-        readStringTOlist(false);
+        readStringToList(false);
     }
 
-    private void readStringTOlist(boolean isMasterLocked) {
+    private void readStringToList(boolean isMasterLocked) {
         JSONObject jObject = null;
         try {
             jObject = new JSONObject(listDeviceLockStr);
