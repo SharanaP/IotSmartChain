@@ -30,8 +30,6 @@ public class FloorPlanActivity extends BaseActivity {
     @BindView(R.id.button_next)
     Button mBtnNext;
 
-    @BindView(R.id.webView_floorplan)
-    WebView webView;
 
     @BindView(R.id.progressBar_webView)
     ProgressBar progressBar;
@@ -45,9 +43,6 @@ public class FloorPlanActivity extends BaseActivity {
 
         setupToolbar();
 
-        /*Set/Call web page load inside a activity*/
-        setWebView();
-
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,57 +50,6 @@ public class FloorPlanActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void setWebView() {
-        webView.setWebViewClient(new CustomWebViewClient());
-        WebSettings webSetting = webView.getSettings();
-        webSetting.setJavaScriptEnabled(true);
-        webSetting.setDisplayZoomControls(true);
-        // performance hacks!
-        webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        // multi-touch zoom
-        webSetting.setBuiltInZoomControls(true);
-        webSetting.setDisplayZoomControls(true);
-
-        webView.loadUrl("https://floorplanner.com/");
-    }
-
-    public class CustomWebViewClient extends WebViewClient{
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            progressBar.setVisibility(View.VISIBLE);
-            view.loadUrl(url);
-            return true;
-        }
-
-
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-
-    }
-
-    // To handle "Back" key press event for WebView to go back to previous screen.
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-            webView.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     private void setupToolbar() {

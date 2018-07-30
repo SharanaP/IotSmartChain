@@ -3,6 +3,7 @@ package com.example.sharan.iotsmartchain.dashboard.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,11 @@ public class NonSpatialFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Setup action bar title and sub title
+        getActivity().setTitle("iSmartLink");
+        android.support.v7.app.ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setSubtitle("Non-Spatial");
     }
 
     @Nullable

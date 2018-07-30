@@ -86,7 +86,7 @@ public class ListOfNotificationAdapter extends ArrayAdapter<NotificationModel> {
             if (viewHolder.notificationModel.getBody() != null)
                 viewHolder.mTextViewBody.setText("Type : " + viewHolder.notificationModel.getBody().trim());
 
-//            if (viewHolder.notificationModel.isStatus())
+//            if (ViewHolder.notificationModel.isStatus())
                 viewHolder.mTextViewStatus.setText("Status : " + viewHolder.notificationModel.isStatus());
 
             if (viewHolder.notificationModel.getTimeStamp() != null){

@@ -32,6 +32,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -107,6 +109,9 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     private String registrationId;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    private long mBackPressed;
+    private static final int TIME_INTERVAL = 2000; // milliseconds, time between two back presses.
 
     private View.OnTouchListener mPasswordVisibleTouchListener = new View.OnTouchListener() {
 
@@ -717,5 +722,41 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+        Toast onBackPressedToast = Toast
+                .makeText(getBaseContext(), "Tap back again to exit", Toast.LENGTH_SHORT);
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis() && count == 0) {
+            super.onBackPressed();
+            onBackPressedToast.cancel();
+            return;
+        } else {
+            onBackPressedToast.show();
+        }
+        getFragmentManager().popBackStack();
+        mBackPressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case android.R.id.home:
+                Log.d(TAG, ":: HOME");
+                finish();
+                break;
+            default :
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

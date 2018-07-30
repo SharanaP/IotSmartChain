@@ -99,7 +99,7 @@ public class ModulesActivity extends BaseActivity {
 
     private void setupToolBar() {
         setSupportActionBar(toolbar);
-        setTitle("iSmartLink");
+        setTitle("Spatial/Non-Spatial");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

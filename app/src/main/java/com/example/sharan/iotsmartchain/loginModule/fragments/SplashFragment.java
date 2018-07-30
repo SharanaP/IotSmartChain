@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 public class SplashFragment extends Fragment {
 
-    private static final int SPLASH_TIME = 5000;
+    private static final int SPLASH_TIME = 3000;
     private static final String TAG = "SplashFragment";
     private Handler mHandler = new Handler();
 
@@ -39,9 +39,10 @@ public class SplashFragment extends Fragment {
         ImageView mImageTitle = (ImageView)view.findViewById(R.id.app_title_logo);
 
         //Load image locally : logo and title
-        Picasso.get().load(R.drawable.app_icon).into(mImageViewLogo);
+      //  Picasso.get().load(R.drawable.app_icon).into(mImageViewLogo);
         Picasso.get().load(R.drawable.app_title).into(mImageTitle);
 
+        mImageViewLogo.setVisibility(View.GONE);
 
         // Set font
 //        TextView appName = (TextView) view.findViewById(R.id.appName);

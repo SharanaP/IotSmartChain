@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -109,4 +110,40 @@ public class Utils {
         Format format = new SimpleDateFormat("yyyy MMM dd, HH:mm aa");
         return format.format(date);
     }
+
+    public static String pickUpColorCode(String pos){
+        String selectedColor ="";
+        ArrayList<String> listOfColor = new ArrayList<String>();
+
+        listOfColor.add("#FF6D00");listOfColor.add("#00C853");listOfColor.add("#AA00EF");
+        listOfColor.add("#FFD600"); listOfColor.add("#00B8D4"); listOfColor.add("#00C853");
+        listOfColor.add("#6200EA"); listOfColor.add("#304FFE");listOfColor.add("#AEFA00");
+        listOfColor.add("#64DD17");
+
+
+        if(pos.contains("0")){
+            selectedColor = listOfColor.get(0);
+        }else if(pos.contains("1")){
+            selectedColor = listOfColor.get(1);
+        }else if(pos.contains("2")){
+            selectedColor = listOfColor.get(2);
+        }else if(pos.contains("3")){
+            selectedColor = listOfColor.get(3);
+        }else if(pos.contains("4")){
+            selectedColor = listOfColor.get(4);
+        }else if(pos.contains("5")){
+            selectedColor = listOfColor.get(5);
+        }else if(pos.contains("6")){
+            selectedColor = listOfColor.get(6);
+        }else if(pos.contains("7")){
+            selectedColor = listOfColor.get(7);
+        }else if(pos.contains("8")){
+            selectedColor = listOfColor.get(8);
+        }else if(pos.contains("9")){
+            selectedColor = listOfColor.get(9);
+        }
+
+        return selectedColor;
+    }
+
 }

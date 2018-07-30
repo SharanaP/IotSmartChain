@@ -82,11 +82,16 @@ public class AdapterRegisterIoTDevices extends ArrayAdapter<RegisterIoTInfo> {
 
         if(viewHolder.registerIoTInfo != null){
             if(viewHolder.registerIoTInfo.getSensorName() != null)
-                viewHolder.tvDeviceName.setText("Name : "+viewHolder.registerIoTInfo.getSensorName().trim());
+                viewHolder.tvDeviceName.setText(""+viewHolder.registerIoTInfo.getSensorName().trim());
             if(viewHolder.registerIoTInfo.getSensorType() != null)
                 viewHolder.tvDeviceType.setText("Type : "+viewHolder.registerIoTInfo.getSensorType().trim());
             if(viewHolder.registerIoTInfo.getSensorStatus() != null)
-                viewHolder.tvRegStatus.setText("Status : "+viewHolder.registerIoTInfo.getSensorStatus().trim());
+
+                if(viewHolder.registerIoTInfo.getSensorStatus().trim().equalsIgnoreCase("active")){
+                    viewHolder.tvRegStatus.setText("Status : "+viewHolder.registerIoTInfo.getSensorStatus().trim());
+                }else if(viewHolder.registerIoTInfo.getSensorStatus().trim().equalsIgnoreCase("inactive")){
+                    viewHolder.tvRegStatus.setText("Status : "+viewHolder.registerIoTInfo.getSensorStatus().trim());
+                }
             if(viewHolder.registerIoTInfo.getTimeStamp() != null )
                 viewHolder.tvDeviceTimeStamp.setText(viewHolder.registerIoTInfo.getTimeStamp().trim());
             if(viewHolder.registerIoTInfo.getSensorDetails()!= null ){

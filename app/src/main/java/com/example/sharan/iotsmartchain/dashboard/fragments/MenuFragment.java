@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,11 @@ public class MenuFragment extends BaseFragment {
         mUrl = App.getAppComponent().getApiServiceUrl();
         loginId = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
         token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
+
+        //Setup action bar title
+        getActivity().setTitle("iSmartLink");
+        android.support.v7.app.ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setSubtitle("MyAccount");
 
     }
 

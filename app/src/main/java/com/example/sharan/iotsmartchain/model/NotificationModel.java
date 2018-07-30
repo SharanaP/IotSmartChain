@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class NotificationModel {
 
+    @SerializedName("deviceId")
+    private String deviceId;
+
     @SerializedName("messageId")
     private String messageId;
 
@@ -26,6 +29,14 @@ public class NotificationModel {
     private boolean isRead;
 
     private boolean isStatus;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     public String getMessageId() {
         return messageId;
@@ -94,7 +105,8 @@ public class NotificationModel {
     @Override
     public String toString() {
         return "NotificationModel{" +
-                "messageId='" + messageId + '\'' +
+                "deviceId='" + deviceId + '\'' +
+                ", messageId='" + messageId + '\'' +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", message='" + message + '\'' +

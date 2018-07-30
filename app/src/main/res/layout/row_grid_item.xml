@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_grid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/cardview_shape">
+            <!--title-->
+            <TextView
+                android:id="@+id/textview_grid_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="notification title"
+                android:textStyle="italic|bold"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/color.grey.dark"/>
+            <!--line-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/color.grey"
+                android:layout_below="@id/textview_grid_title"/>
+            <!--image view icon-->
+            <ImageView
+                android:id="@+id/imageview_grid_icon"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/app_icon"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+            <!--TimeStamp-->
+            <TextView
+                android:id="@+id/textview_last_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:text="dd/mm/yyyy hh:mm a"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/imageview_grid_icon"
+                android:layout_toEndOf="@+id/imageview_grid_icon"
+                android:gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/color.grey.dark"/>
+
+        </RelativeLayout>
+
+        <!--Unread count -->
+        <TextView
+            android:id="@+id/textview_grid_unread"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="1dp"
+            android:textColor="@color/color.silver"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/badge_background"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

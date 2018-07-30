@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.adapter.NotificationGridAdapter;
+import com.example.sharan.iotsmartchain.dashboard.fragments.AllNotificationsFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.DashBoardFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.FloorPlanFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.HomeFragment;
@@ -93,7 +95,8 @@ public class DashBoardActivity extends BaseActivity {
 
                     break;
                 case R.id.navigation_notifications:
-                    selectedFragment = NotificationsFragment.newInstance();
+                  //  selectedFragment = NotificationsFragment.newInstance();
+                    selectedFragment = AllNotificationsFragment.newInstance();
                     break;
                 case R.id.navigation_menu:
                     selectedFragment = MenuFragment.newInstance();
@@ -197,15 +200,15 @@ public class DashBoardActivity extends BaseActivity {
     }
 
     //WebView Back button floorPlanFragment
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && DashBoardActivity.this != null && this.floorPlanFragment != null) {
-            if (this.floorPlanFragment.canGoBack())
-                this.floorPlanFragment.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && DashBoardActivity.this != null && this.floorPlanFragment != null) {
+//            if (this.floorPlanFragment.canGoBack())
+//                this.floorPlanFragment.goBack();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     @Override
     public void onBackPressed() {

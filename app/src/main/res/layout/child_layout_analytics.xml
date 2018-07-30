@@ -60,6 +60,7 @@
         android:layout_marginLeft="10dp"
         android:textSize="12dp"
         android:gravity="right"
+        android:textColor="@color/color.grey.medium"
         android:background="@color/color_yellow_light"
         android:text="dd/mm/yyy HH:mm:ss"
         android:layout_alignParentRight="true"/>

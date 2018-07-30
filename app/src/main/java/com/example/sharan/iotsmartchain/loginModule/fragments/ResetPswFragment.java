@@ -164,7 +164,6 @@ public class ResetPswFragment extends Fragment {
         }
     };
 
-
     private void setToolBar() {
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         appCompatActivity.setTitle("Reset login Password");
@@ -515,4 +514,5 @@ public class ResetPswFragment extends Fragment {
             }
         });
     }
+
 }

@@ -89,12 +89,12 @@ public class SpatialAdapter extends ArrayAdapter<SpatialDataModel> {
                 String time = Utils.convertTime(Long.parseLong(viewHolder.spatialDataModel.getTimeStamp()));
                 viewHolder.mTvTimeStamp.setText(time);
             }
-//            if (!viewHolder.spatialDataModel.getLongitude().isEmpty()
-//                    && !viewHolder.spatialDataModel.getLatitude().isEmpty()) {
-//                //TODO viewHolder.mImageLocation based on longitude and latitude goto map
-//                viewHolder.mImageLocation.setVisibility(View.VISIBLE);
+//            if (!ViewHolder.spatialDataModel.getLongitude().isEmpty()
+//                    && !ViewHolder.spatialDataModel.getLatitude().isEmpty()) {
+//                //TODO ViewHolder.mImageLocation based on longitude and latitude goto map
+//                ViewHolder.mImageLocation.setVisibility(View.VISIBLE);
 //            }else{
-//                viewHolder.mImageLocation.setVisibility(View.GONE);
+//                ViewHolder.mImageLocation.setVisibility(View.GONE);
 //            }
 
             /*Floor plan */

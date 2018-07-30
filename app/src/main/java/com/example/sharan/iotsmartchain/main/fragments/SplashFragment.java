@@ -33,8 +33,10 @@ public class SplashFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
 
         //App title logo
+        ImageView mImageIcon = (ImageView)view.findViewById(R.id.app_logo);
         ImageView mImageTitle = (ImageView)view.findViewById(R.id.app_title_logo);
 
+        mImageIcon.setVisibility(View.GONE);
 
         // Set font
 //        TextView appName = (TextView) view.findViewById(R.id.appName);

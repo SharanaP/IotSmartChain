@@ -66,6 +66,15 @@
 
     <color name="color_bg_green">#7DDAC1</color>
     <color name="color_yellow">#E3A506</color>
-    <color name="color_yellow_light">#5ffff9c4</color>
+    <color name="color_yellow_light">#16fff9c4</color>
+
+    <color name="color_orange">#E65100</color>
+    <color name="color_orange_medium">#FFD180</color>
+
+    <color name="color_cyan">#00B8D4</color>
+    <color name="color_cyan_medium">#84FFFF</color>
+
+    <color name="color_pink">#C51162</color>
+    <color name="color_pink_medium">#FF80AB</color>
 
 </resources>

@@ -103,14 +103,11 @@ public class NonSpatialAdapter extends ArrayAdapter<SpatialDataModel> {
             }
             if (!viewHolder.spatialDataModel.getLongitude().isEmpty()
                     && !viewHolder.spatialDataModel.getLatitude().isEmpty()) {
-                //TODO viewHolder.mImageLocation based on longitude and latitude goto map
+                //TODO ViewHolder.mImageLocation based on longitude and latitude goto map
                 viewHolder.mImageLocation.setVisibility(View.VISIBLE);
             }else{
                 viewHolder.mImageLocation.setVisibility(View.GONE);
             }
-
-
-
         }
 
         return convertView;

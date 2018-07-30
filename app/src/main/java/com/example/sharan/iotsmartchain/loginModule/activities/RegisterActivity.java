@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
@@ -73,6 +74,10 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     private boolean mStatus = false;
     private String mUrl;
     private UserSignUpAsync mSignUpTask = null;
+
+    private long mBackPressed;
+    private static int TIME_INTERVAL = 2000;//to exit a back application
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -541,5 +546,19 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         });
     }
 
-    /**/
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+        Toast onBackPressedToast = Toast
+                .makeText(getBaseContext(), "Tap back again to exit", Toast.LENGTH_SHORT);
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis() && count == 0) {
+            super.onBackPressed();
+            onBackPressedToast.cancel();
+            return;
+        } else {
+            onBackPressedToast.show();
+        }
+        getFragmentManager().popBackStack();
+        mBackPressed = System.currentTimeMillis();
+    }
 }
