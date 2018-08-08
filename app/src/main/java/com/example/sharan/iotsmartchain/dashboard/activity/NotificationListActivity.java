@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ public class NotificationListActivity extends BaseActivity {
 
     @BindView(R.id.listview_all_notification) ListView mListView;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.linearLayout_no_notification) LinearLayout mLlNoNotification;
     private List<NotificationModel> mList = new ArrayList<>();
 
     private ListOfNotificationAdapter mAdapter;
@@ -135,19 +138,19 @@ public class NotificationListActivity extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("email", email)
-                    .add("tokenid", tokenId)
-                    .add("mtoken", registrationId)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(mUrl + "/notificationList")
-                    .post(formBody)
-                    .build();
 
             boolean retVal = false;
             try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("email", email)
+                        .add("tokenid", tokenId)
+                        .add("mtoken", registrationId)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(mUrl + "/notificationList")
+                        .post(formBody)
+                        .build();
                 Response response = client.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = false;
@@ -208,6 +211,8 @@ public class NotificationListActivity extends BaseActivity {
                 mList.add(notificationModel);
                 mAdapter.notifyDataSetChanged();
             }
+            if(!mList.isEmpty()) mLlNoNotification.setVisibility(View.GONE);
+
             getNotificationDetailLists = null;
         }
     }

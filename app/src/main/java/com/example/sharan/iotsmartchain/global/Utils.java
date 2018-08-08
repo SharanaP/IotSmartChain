@@ -111,6 +111,15 @@ public class Utils {
         return format.format(date);
     }
 
+    public static String getChatTimeStamp(long time){
+        String dateString = new SimpleDateFormat("yyyy MMM dd, HH:mm aa").format(new Date(time));
+        Log.d("Utils", "dateString : "+dateString);
+
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("HH:mm aa");
+        return format.format(date);
+    }
+
     public static String pickUpColorCode(String pos){
         String selectedColor ="";
         ArrayList<String> listOfColor = new ArrayList<String>();

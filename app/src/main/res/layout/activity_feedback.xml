@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/constrainlayout_feedback"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_screen_two">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!--Email Id-->
+        <EditText
+            android:id="@+id/edittext_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@color/color.silver"
+            android:clickable="false"
+            android:hint="email"
+            android:singleLine="true"
+            android:paddingLeft="4dp"
+            android:background="@drawable/edittextstyle"
+            android:maxLength="100"
+            android:textColorHint="@color/color.silver"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_email_black_24dp"/>
+
+          <!--write commits-->
+        <EditText
+            android:id="@+id/edittext_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="4dp"
+            android:padding="@dimen/_3sdp"
+            android:maxLength="250"
+            android:inputType="textMultiLine"
+            android:textStyle="normal"
+            android:textColor="@color/color.silver"
+            android:hint="Write your comments..."
+            android:textColorHint="@color/color.silver"
+            android:focusable="true"
+            android:gravity="left|top"
+            android:background="@drawable/edittextstyle"/>
+
+        <!--Send/submit button -->
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Submit_query"
+            android:textColor="@color/color.silver"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/mysignin_button"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

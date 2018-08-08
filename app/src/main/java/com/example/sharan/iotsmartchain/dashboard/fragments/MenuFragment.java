@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -30,6 +29,10 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.activity.AboutInfoActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.FaqActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.FeedBackActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.SupportActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
@@ -91,7 +94,7 @@ public class MenuFragment extends BaseFragment {
 
         //Setup action bar title
         getActivity().setTitle("iSmartLink");
-        android.support.v7.app.ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setSubtitle("MyAccount");
 
     }
@@ -102,8 +105,8 @@ public class MenuFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_db_menu, container, false);
 
-        mProgressBar = (ProgressBar)rootView.findViewById(R.id.progressbar_profile);
-        mProgressView = (View)rootView.findViewById(R.id.progressView);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressbar_profile);
+        mProgressView = (View) rootView.findViewById(R.id.progressView);
         img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
         mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
         mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
@@ -118,6 +121,42 @@ public class MenuFragment extends BaseFragment {
         mRlLogout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_logout);
         mRlCloseAccount = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_close_account);
         mTvVersion = (TextView) rootView.findViewById(R.id.textView_version);
+
+        /*Support Screen*/
+        mRlSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSupport = new Intent(getActivity(), SupportActivity.class);
+                startActivity(intentSupport);
+            }
+        });
+
+        mRlAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentAbout = new Intent(getActivity(), AboutInfoActivity.class);
+                startActivity(intentAbout);
+            }
+        });
+
+
+        mRlFeedBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO reset password link and set new password
+                Intent intentFaq = new Intent(getActivity(), FeedBackActivity.class);
+                startActivity(intentFaq);
+            }
+        });
+
+        mRlFAQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO reset password link and set new password
+                Intent intentFaq = new Intent(getActivity(), FaqActivity.class);
+                startActivity(intentFaq);
+            }
+        });
 
         mProfileUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,8 +174,12 @@ public class MenuFragment extends BaseFragment {
         });
 
         //Set login email id and mobile number
-        if (loginId != null || !loginId.isEmpty()) {
-            mTvEmail.setText(loginId);
+        try {
+            if (loginId != null || !loginId.isEmpty()) {
+                mTvEmail.setText(loginId);
+            }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
         }
 
         mRlLogout.setOnClickListener(new View.OnClickListener() {
@@ -417,19 +460,19 @@ public class MenuFragment extends BaseFragment {
 
         @Override
         protected String doInBackground(Void... voids) {
-            OkHttpClient okHttpClient = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("device", "android")
-                    .build();
-            Request request = new Request.Builder()
-                    .addHeader("email-id", loginId)
-                    .addHeader("x-access-token", token)
-                    .url(mUrl + "/api/device/applogout")
-                    .post(formBody)
-                    .build();
-
             String retVal = "false";
             try {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("device", "android")
+                        .build();
+                Request request = new Request.Builder()
+                        .addHeader("email-id", loginId)
+                        .addHeader("x-access-token", token)
+                        .url(mUrl + "/api/device/applogout")
+                        .post(formBody)
+                        .build();
+
                 Response response = okHttpClient.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = "false";
@@ -471,19 +514,19 @@ public class MenuFragment extends BaseFragment {
 
         @Override
         protected String doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("device", "android")
-                    .build();
-            Request request = new Request.Builder()
-                    .addHeader("email-id", loginId)
-                    .addHeader("x-access-token", token)
-                    .url(mUrl + "/api/device/closeaccount")
-                    .post(formBody)
-                    .build();
 
             String retVal = "false";
             try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("device", "android")
+                        .build();
+                Request request = new Request.Builder()
+                        .addHeader("email-id", loginId)
+                        .addHeader("x-access-token", token)
+                        .url(mUrl + "/api/device/closeaccount")
+                        .post(formBody)
+                        .build();
                 Response response = client.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = "false";

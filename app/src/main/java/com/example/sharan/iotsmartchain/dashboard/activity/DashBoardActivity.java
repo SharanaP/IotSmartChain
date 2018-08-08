@@ -124,11 +124,6 @@ public class DashBoardActivity extends BaseActivity {
         token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
         registrationId = FirebaseInstanceId.getInstance().getToken();
 
-        Log.d(TAG, mUrl);
-        Log.d(TAG, loginId);
-        Log.d(TAG, token);
-        Log.d(TAG, registrationId);
-
         //Handle a Push notification
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -252,19 +247,19 @@ public class DashBoardActivity extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("email", mEmail)
-                    .add("tokenid", mToken)
-                    .add("mtoken", registrationId)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(mUrl + "/notificationCountValue")
-                    .post(formBody)
-                    .build();
 
             boolean retVal = false;
             try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("email", mEmail)
+                        .add("tokenid", mToken)
+                        .add("mtoken", registrationId)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(mUrl + "/notificationCountValue")
+                        .post(formBody)
+                        .build();
                 Response response = client.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = false;

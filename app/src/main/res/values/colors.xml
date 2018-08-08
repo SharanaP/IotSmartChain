@@ -77,4 +77,7 @@
     <color name="color_pink">#C51162</color>
     <color name="color_pink_medium">#FF80AB</color>
 
+    <color name="btn_send">#E3A506</color>
+    <color name="btn_send_disabled">#8e8e8e</color>
+
 </resources>

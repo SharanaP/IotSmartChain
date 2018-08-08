@@ -96,6 +96,19 @@
         <activity android:name=".dashboard.activity.NotificationListActivity"
             android:label="Notifications"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.FaqActivity"
+            android:label="FAQ"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.FeedBackActivity"
+            android:label="FeedBack"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.AboutInfoActivity"
+            android:label="Info"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".dashboard.activity.SupportActivity"
+            android:label="Support"
+            android:windowSoftInputMode="adjustPan"/>
+
 
         <!-- Firebase Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">

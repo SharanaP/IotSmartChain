@@ -361,31 +361,31 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     public class GetListOfRegDevicesAync extends AsyncTask<Void, Void, Boolean>{
 
         private final String mEmail;
-        private final String mIoTAdd;
+        private final String token;
         private Context mContext;
         private LinkedList<RegisterIoTInfo> linkedList = new LinkedList<>();
 
-        public GetListOfRegDevicesAync(String mEmail, String mIoTAdd, Context mContext) {
+        public GetListOfRegDevicesAync(String mEmail, String token, Context mContext) {
             this.mEmail = mEmail;
-            this.mIoTAdd = mIoTAdd;
+            this.token = token;
             this.mContext = mContext;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("email", loginId)
-                    .add("tokenid", token)
-                    .add("isApp", "true")
-                    .build();
-            Request request = new Request.Builder()
-                    .url(mUrl + "/usersensorlist")
-                    .post(formBody)
-                    .build();
 
             boolean retVal = false;
             try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("email", mEmail)
+                        .add("tokenid", token)
+                        .add("isApp", "true")
+                        .build();
+                Request request = new Request.Builder()
+                        .url(mUrl + "/usersensorlist")
+                        .post(formBody)
+                        .build();
                 Response response = client.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = false;

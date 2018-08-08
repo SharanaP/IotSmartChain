@@ -243,17 +243,19 @@ public class AnalyticsActivity extends BaseActivity {
 
             String retVal = "false";
 
-            OkHttpClient okHttpClient = new OkHttpClient();
-
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("email", mEmail)
-                    .add("tokenid", mToken)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(mUrl + "/getAnalytics")
-                    .post(formBody)
-                    .build();
             try {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+
+                RequestBody formBody = new FormEncodingBuilder()
+                        .add("email", mEmail)
+                        .add("tokenid", mToken)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(mUrl + "/getAnalytics")
+                        .post(formBody)
+                        .build();
+
                 Response response = okHttpClient.newCall(request).execute();
                 if (response.code() != 200) {
                     retVal = "false";

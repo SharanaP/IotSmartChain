@@ -23,7 +23,6 @@
         android:divider="@null"
         android:dividerHeight="2dp"
         android:groupIndicator="@color/color.silver"
-
         android:layout_height="match_parent"></ExpandableListView>
 
 </LinearLayout>
