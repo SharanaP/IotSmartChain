@@ -32,7 +32,8 @@ import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.AboutInfoActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.FaqActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.FeedBackActivity;
-import com.example.sharan.iotsmartchain.dashboard.activity.SupportActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.SupportChatActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.SupportMainActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
@@ -126,7 +127,7 @@ public class MenuFragment extends BaseFragment {
         mRlSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSupport = new Intent(getActivity(), SupportActivity.class);
+                Intent intentSupport = new Intent(getActivity(), SupportMainActivity.class);
                 startActivity(intentSupport);
             }
         });

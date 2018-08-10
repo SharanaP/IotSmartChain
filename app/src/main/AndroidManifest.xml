@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
 
     <application
@@ -101,11 +102,14 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".dashboard.activity.FeedBackActivity"
             android:label="FeedBack"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name=".dashboard.activity.AboutInfoActivity"
             android:label="Info"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.SupportActivity"
+        <activity android:name=".dashboard.activity.SupportChatActivity"
+            android:label="Message"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity android:name=".dashboard.activity.SupportMainActivity"
             android:label="Support"
             android:windowSoftInputMode="adjustPan"/>
 

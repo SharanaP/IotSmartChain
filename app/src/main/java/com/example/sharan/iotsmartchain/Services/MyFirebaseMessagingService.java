@@ -65,8 +65,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
             try {
-                JSONObject json = new JSONObject(remoteMessage.getData());
-                handleDataMessage(json);
+                String remoteData = remoteMessage.getData().toString();
+
+                //This line for remove all '\' character
+                remoteData = remoteData.toString().replaceAll("\\\\", "");
+
+                Log.e(TAG, "Sh : "+remoteData);
+
+                //Json object
+                JSONObject TestJson = new JSONObject(remoteData);
+                String strData = TestJson.getJSONObject("default").toString();
+                     //   .getJSONObject("GCM").getJSONObject("data").toString();
+
+                Log.e(TAG, "SH : "+strData.toString());
+                JSONObject jsonObjectData = new JSONObject(strData);
+
+//                JSONObject json = new JSONObject(remoteMessage.getData());
+                handleDataMessage(jsonObjectData);
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
@@ -147,12 +162,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
-                    Log.d(TAG, " imageUrl is not null");
-                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
+                    Log.d(TAG, " imageUrl is null");
+                    showNotificationMessage(getApplicationContext(), body, message, timestamp, resultIntent);
                 } else {
                     Log.d(TAG, " imageUrl is not null");
                     // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
+                    showNotificationMessageWithBigImage(getApplicationContext(), body, message, timestamp, resultIntent, imageUrl);
                 }
             }
         } catch (JSONException e) {

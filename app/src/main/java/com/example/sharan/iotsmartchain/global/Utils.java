@@ -116,7 +116,7 @@ public class Utils {
         Log.d("Utils", "dateString : "+dateString);
 
         Date date = new Date(time);
-        Format format = new SimpleDateFormat("HH:mm aa");
+        Format format = new SimpleDateFormat("HH:mm:ss");
         return format.format(date);
     }
 
