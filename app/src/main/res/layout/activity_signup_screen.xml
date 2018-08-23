@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_splash_screen">
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        &lt;!&ndash;<ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -27,8 +27,8 @@
             android:text="IoT Smart Chain"
             android:typeface="serif"
             android:textColor="@color/color.grey"
-            android:textSize="35sp" />
-    </LinearLayout>
+            android:textSize="35sp" />&ndash;&gt;
+    </LinearLayout>-->
 
     <ProgressBar
         android:id="@+id/login_progress_reg"
@@ -41,6 +41,11 @@
         android:layout_marginBottom="8dp"
         android:theme="@style/CircularProgress"
         android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/login_form_reg"
@@ -68,6 +73,23 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/image_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/app_icon" />
+
+                <TextView
+                    android:id="@+id/TextView_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="iSmartLink"
+                    android:typeface="serif"
+                    android:textColor="@color/color_yellow"
+                    android:textSize="35sp" />
+
                 <!--First name -->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -75,8 +97,8 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:theme="@style/Widget.Design.TextInputLayout"
-                    android:backgroundTint="@color/color.white"
-                    android:textColorHint="@color/color.white">
+                    android:backgroundTint="@color/color.silver"
+                    android:textColorHint="@color/color.silver">
 
                     <EditText
                         android:id="@+id/view_firstName"
@@ -93,8 +115,8 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textColor="@color/color.grey"
-                        android:textColorHint="@color/color.grey"
+                        android:textColor="@color/color.silver"
+                        android:textColorHint="@color/color.silver"
                         android:textSize="16sp"
                         tools:ignore="InvalidImeActionId" />
 
@@ -103,7 +125,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--Last name -->
                 <android.support.design.widget.TextInputLayout
@@ -112,8 +134,8 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:theme="@style/Widget.Design.TextInputLayout"
-                    android:backgroundTint="@color/color.white"
-                    android:textColorHint="@color/color.white">
+                    android:backgroundTint="@color/color.silver"
+                    android:textColorHint="@color/color.silver">
 
                     <EditText
                         android:id="@+id/view_lastName"
@@ -130,8 +152,8 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textColor="@color/color.white"
-                        android:textColorHint="@color/color.white"
+                        android:textColor="@color/color.silver"
+                        android:textColorHint="@color/color.silver"
                         android:textSize="16sp"
                         tools:ignore="InvalidImeActionId" />
 
@@ -140,7 +162,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--Email-->
                 <android.support.design.widget.TextInputLayout
@@ -149,8 +171,8 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:theme="@style/Widget.Design.TextInputLayout"
-                    android:backgroundTint="@color/color.white"
-                    android:textColorHint="@color/color.white">
+                    android:backgroundTint="@color/color.silver"
+                    android:textColorHint="@color/color.silver">
 
                     <EditText
                         android:id="@+id/view_email"
@@ -168,8 +190,8 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/color.white"
-                        android:textColorHighlight="@color/color.grey.light"
-                        android:textColorHint="@color/color.white"
+                        android:textColorHighlight="@color/color.silver"
+                        android:textColorHint="@color/color.silver"
                         android:textSize="16sp"
                         tools:ignore="InvalidImeActionId" />
 
@@ -178,7 +200,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--Mobile number-->
                 <android.support.design.widget.TextInputLayout
@@ -187,8 +209,8 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:theme="@style/Widget.Design.TextInputLayout"
-                    android:backgroundTint="@color/color.white"
-                    android:textColorHint="@color/color.white">
+                    android:backgroundTint="@color/color.silver"
+                    android:textColorHint="@color/color.silver">
 
                     <EditText
                         android:id="@+id/view_phone_number"
@@ -206,8 +228,8 @@
                         android:maxLength="10"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textColor="@color/color.white"
-                        android:textColorHint="@color/color.white"
+                        android:textColor="@color/color.silver"
+                        android:textColorHint="@color/color.silver"
                         android:textSize="16sp"
                         tools:ignore="InvalidImeActionId" />
 
@@ -216,7 +238,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--Password-->
                 <RelativeLayout
@@ -230,15 +252,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:theme="@style/Widget.Design.TextInputLayout"
-                        android:backgroundTint="@color/color.white"
-                        android:textColorHint="@color/color.white">
+                        android:backgroundTint="@color/color.silver"
+                        android:textColorHint="@color/color.silver">
 
                         <EditText
                             android:id="@+id/view_password_one"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            android:backgroundTint="@color/color.white"
+                            android:backgroundTint="@color/color.silver"
                             android:drawableLeft="@drawable/ic_lock_black_24dp"
                             android:fontFamily="sans-serif"
                             android:gravity="center_vertical"
@@ -249,8 +271,8 @@
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color.white"
-                            android:textColorHint="@color/color.white"
+                            android:textColor="@color/color.silver"
+                            android:textColorHint="@color/color.silver"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -265,14 +287,14 @@
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_visibility_24dp"
-                        android:tint="@color/color.white" />
+                        android:tint="@color/color.silver" />
 
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--Re-enter password-->
                 <RelativeLayout
@@ -286,15 +308,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:theme="@style/Widget.Design.TextInputLayout"
-                        android:backgroundTint="@color/color.white"
-                        android:textColorHint="@color/color.white">
+                        android:backgroundTint="@color/color.silver"
+                        android:textColorHint="@color/color.silver">
 
                         <EditText
                             android:id="@+id/view_password_second"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            android:backgroundTint="@color/color.white"
+                            android:backgroundTint="@color/color.silver"
                             android:drawableLeft="@drawable/ic_lock_black_24dp"
                             android:fontFamily="sans-serif"
                             android:gravity="center_vertical"
@@ -305,8 +327,8 @@
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color.white"
-                            android:textColorHint="@color/color.white"
+                            android:textColor="@color/color.silver"
+                            android:textColorHint="@color/color.silver"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -321,14 +343,14 @@
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_visibility_24dp"
-                        android:tint="@color/color.white" />
+                        android:tint="@color/color.silver" />
 
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color.silver" />
 
                 <!--check -->
                 <RelativeLayout
@@ -343,7 +365,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:buttonTint="@color/color.random.green"
-                       android:textColor="@color/color.white"
+                       android:textColor="@color/color.silver"
                        android:textStyle="normal"
                        android:theme="@style/checkBoxColorStyle" />
 
@@ -356,7 +378,7 @@
                         android:layout_toRightOf="@+id/checkbox_accept"
                         android:layout_toEndOf="@+id/checkbox_accept"
                         android:text="I have read and agree to the terms and conditions"
-                        android:textColor="@color/color.grey.light"/>
+                        android:textColor="@color/color_orange"/>
 
                 </RelativeLayout>
 
@@ -373,13 +395,13 @@
                         android:id="@+id/button_register"
                         style="?android:textAppearanceSmall"
                         android:layout_width="180dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="35dp"
                         android:background="@drawable/mysignin_button"
                         android:fontFamily="sans-serif"
                         android:gravity="center"
                         android:text="Register"
-                        android:textColor="@color/color.white"
-                        android:textSize="22sp"
+                        android:textColor="@color/color_yellow"
+                        android:textSize="20sp"
                         android:textStyle="normal"
                         android:typeface="monospace" />
 

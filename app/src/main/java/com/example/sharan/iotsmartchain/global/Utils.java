@@ -2,10 +2,14 @@ package com.example.sharan.iotsmartchain.global;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -16,6 +20,8 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
  * Created by Sharan on 19-03-2018.
@@ -153,6 +159,28 @@ public class Utils {
         }
 
         return selectedColor;
+    }
+
+//    @SuppressLint("HardwareIds")
+//    public static String getDeviceId(Context context){
+//        String android_name="";
+//        return android_name = Settings.Secure.getString(context.getContentResolver(),
+//                Settings.Secure.ANDROID_ID);
+//    }
+
+    @SuppressLint("MissingPermission")
+    public static String getDeviceId(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+        Log.d("device ID : ", telephonyManager.getDeviceId());
+        return telephonyManager.getDeviceId();
+    }
+
+
+    public static String getDeviceName() {
+        String deviceName = Build.MODEL;
+        String deviceMan = Build.MANUFACTURER;
+        Log.d("deviceName : ", deviceMan + " " + deviceName);
+        return deviceMan + " " + deviceName;
     }
 
 }

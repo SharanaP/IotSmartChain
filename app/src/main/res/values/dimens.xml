@@ -10,4 +10,9 @@
     <dimen name="title_bar_height">54dp</dimen>
 
     <dimen name="bottom_navigation_padding">10dp</dimen>
+
+    <dimen name="file_icon_width">40dp</dimen>
+    <dimen name="file_icon_height">40dp</dimen>
+    <dimen name="file_name_textSize">17sp</dimen>
+    <dimen name="file_item_checkbox_size">22dp</dimen>
 </resources>

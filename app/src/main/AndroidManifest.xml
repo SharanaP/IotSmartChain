@@ -9,10 +9,10 @@
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
 
     <application
@@ -46,11 +48,18 @@
         <activity
             android:name=".loginModule.activities.LoginActivity"
             android:label="Login"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".loginModule.activities.OtpLoginActivity"
+            android:label="Login via OTP"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".loginModule.activities.RegisterActivity"
             android:label="Register"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".loginModule.activities.MobEmailValidationActivity"
+            android:label="Validation"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".NormalFlow.activities.HomeActivity"
             android:label="IOT Smart"
@@ -78,41 +87,89 @@
         <activity
             android:name=".NormalFlow.activities.FloorPlanActivity"
             android:label="Floor Plan"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.DashBoardActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.DashBoardActivity"
             android:label="Dash Board"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.BatteryStatusActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.BatteryStatusActivity"
             android:label="Battery Status"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.MasterLockActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.MasterLockActivity"
             android:label="Master Locks"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.AnalyticsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.AnalyticsActivity"
             android:label="Analytics"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.ModulesActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.ModulesActivity"
             android:label="Modules"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.NotificationListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.NotificationListActivity"
             android:label="Notifications"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.FaqActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.FaqActivity"
             android:label="FAQ"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.FeedBackActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.FeedBackActivity"
             android:label="FeedBack"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
-        <activity android:name=".dashboard.activity.AboutInfoActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".dashboard.activity.AboutInfoActivity"
             android:label="Info"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".dashboard.activity.SupportChatActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.activity.SupportChatActivity"
             android:label="Message"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
-        <activity android:name=".dashboard.activity.SupportMainActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".dashboard.activity.SupportMainActivity"
             android:label="Support"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--<activity android:name=".vi.filepicker.MainActivity"/>-->
+
+        <activity android:name=".vi.filepicker.FragmentActivity"
+            android:label="File Picker"
             android:windowSoftInputMode="adjustPan"/>
 
+        <!--<provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="vi.filepicker"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"></meta-data>
+        </provider>-->
+
+        <activity
+            android:name=".fp.FilePickerActivity"
+            android:label="File Picker"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity
+            android:name=".fp.MediaDetailsActivity"
+            android:label="FilePicker"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize" />
+
+        <!-- <provider
+            android:name=".fp.utils.FilePickerProvider"
+            android:authorities="${applicationId}.fp.filepicker.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>-->
 
         <!-- Firebase Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">
@@ -121,14 +178,13 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".Services.MyFireBaseInstanceIdService">
+        <service android:name=".Services.MyFireBaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <!-- ./Firebase Notifications -->
 
+        <!-- ./Firebase Notifications -->
         <service
             android:name=".Services.RegistrationIntentService"
             tools:ignore="InnerclassSeparator" />

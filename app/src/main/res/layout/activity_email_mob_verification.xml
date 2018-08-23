@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_screen_two">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+    <ProgressBar
+        android:id="@+id/verify_progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:theme="@style/CircularProgress"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <!--Mobile Number-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_sms_verify"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                    <!--Text via a mobile num -->
+                    <TextView
+                        android:id="@+id/textView_via_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Verification via mobile number"
+                        android:textColor="@color/color_orange"
+                        android:textSize="18sp"
+                        android:textStyle="normal|italic" />
+
+                    <!--View line -->
+                    <View
+                        android:id="@+id/viewLine_via_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/textView_via_sms"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_yellow" />
+
+                    <!--EditText-->
+                    <EditText
+                        android:id="@+id/editText_via_sms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/viewLine_via_sms"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:hint="enter OTP number"
+                        android:textColorHint="@color/color.grey.medium"
+                        android:gravity="center"
+                        android:maxLength="6"
+                        android:inputType="number"
+                        android:textColor="@color/color_yellow"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/button_resend_smsOTP"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/editText_via_sms"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/mysignup_button"
+                        android:gravity="center"
+                        android:text="Resend OTP ?"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/color_yellow"/>
+
+                    <Button
+                        android:id="@+id/button_submit_smsOTP"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/editText_via_sms"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/mysignup_button"
+                        android:gravity="center"
+                        android:text="Submit"
+                        android:textColor="@color/color_yellow" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView_sms_status"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/editText_via_sms"
+                        android:layout_marginRight="10dp"
+                        android:visibility="invisible"
+                        android:src="@drawable/ic_check_green_24dp" />
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--Email-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_email_verify"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                    <!--Text via a mobile num -->
+                    <TextView
+                        android:id="@+id/textView_via_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Verification via Email"
+                        android:textColor="@color/color_orange"
+                        android:textSize="18sp"
+                        android:textStyle="normal|italic" />
+
+                    <!--View line -->
+                    <View
+                        android:id="@+id/viewLine_via_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/textView_via_email"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@color/color_yellow" />
+
+                    <!--EditText-->
+                    <EditText
+                        android:id="@+id/editText_via_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/viewLine_via_email"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:hint="enter OTP number"
+                        android:textColorHint="@color/color.grey.medium"
+                        android:inputType="number"
+                        android:gravity="center"
+                        android:textColor="@color/color_yellow"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/button_resend_emailOTP"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/editText_via_email"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/mysignup_button"
+                        android:gravity="center"
+                        android:text="Resend OTP ?"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/color_yellow"/>
+
+                    <Button
+                        android:id="@+id/button_submit_emailOTP"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/editText_via_email"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/mysignup_button"
+                        android:gravity="center"
+                        android:text="Submit"
+                        android:textColor="@color/color_yellow" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView_email_status"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/editText_via_email"
+                        android:layout_marginRight="5dp"
+                        android:visibility="invisible"
+                        android:src="@drawable/ic_check_green_24dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:layout_below="@id/imageView_email_status"
+                        android:textColor="@color/color.red"
+                        android:textSize="10sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="NOTE: OTP sent mail"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/button_done_verify"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/mysignin_button"
+                android:text="Done"
+                android:textColor="@color/color_yellow"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="right"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

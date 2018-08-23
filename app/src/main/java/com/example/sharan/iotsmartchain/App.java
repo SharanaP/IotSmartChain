@@ -35,7 +35,10 @@ public class App extends Application implements OnFinishedListener {
 
 //   private final String API_SERVICE_URL = "http://192.168.1.59:10000/IOTSensor/";  //Local server
 
-    private final String API_SERVICE_URL = "http://111.93.31.170/IOTSensor/"; //GeoKno Server
+   // private final String API_SERVICE_URL = "http://111.93.31.170/IOTSensor/"; //GeoKno Server
+
+    /*AWS server URL */
+    private final String API_SERVICE_URL = "https://pusocx9ctk.execute-api.us-west-2.amazonaws.com/betaStage_IoTSmartLink/iotsmartlink/";
 
     private final String SHARED_PREF_NAME = "IotSmartInfo";
     private final int POLL_INTERVAL_MSEC = 5000;

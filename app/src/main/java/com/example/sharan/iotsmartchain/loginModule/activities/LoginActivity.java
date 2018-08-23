@@ -65,10 +65,14 @@ import com.example.sharan.iotsmartchain.model.LoginResultType;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,8 +102,9 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     @BindView(R.id.login_password) EditText mPasswordView;
     @BindView(R.id.ic_showPassword) ImageView mPasswordVisibility;
     @BindView(R.id.textView_forgot_psw) TextView mTvForgotPsw;
-    @BindView(R.id.checkBox_Request_Otp) CheckBox mCheckRequestOtp;
+  //  @BindView(R.id.checkBox_Request_Otp) CheckBox mCheckRequestOtp;
     @BindView(R.id.email_sign_in_button) Button mSignInButton;
+    @BindView(R.id.otp_sign_in_button) Button mOtpLoginButton;
     @BindView(R.id.tv_signup) TextView mTvForSignUp;
     @BindView(R.id.email_sign_up_button) Button mSingUpButton;
 
@@ -198,16 +203,20 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCheckRequestOtp.isChecked()) {
-                    //TODO call OTP Dialog window
-                    showDialog(ALERT_DIALOG_ID);
-                } else {
-                    //TODO normally login through emailId and Psw
-                    attemptSignIn();
+                //TODO normally login through emailId and Psw
+                attemptSignIn();
+            }
+        });
 
-                    //TODO
-                }
+        mOtpLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO call OTP Dialog window
+                //TODO showDialog(ALERT_DIALOG_ID);
 
+                //Call by activity
+                Intent otpIntent = new Intent(LoginActivity.this, OtpLoginActivity.class);
+                startActivity(otpIntent);
             }
         });
 
@@ -589,27 +598,53 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         private final String mRegTokenId;
         private Context mContext;
         private LoginResultType mLoginResultType;
+        private String deviceId ="";
+        private String deviceName ="";
+        private String deviceToken ="";
 
         public UserLoginAsync(Context mContext, String mEmail, String mPassword, String registrationId) {
             this.mEmail = mEmail;
             this.mPassword = mPassword;
             this.mContext = mContext;
             mRegTokenId = registrationId;
+
             mLoginResultType = LoginResultType.LOGIN_SERVER_ERROR;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
+
+            deviceId = Utils.getDeviceId(getApplicationContext());
+            deviceName = Utils.getDeviceName();
+            deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+            Log.e(TAG, "deviceId : " + deviceId);
+            Log.e(TAG, "deviceName : " + deviceName);
+            Log.e(TAG, "deviceToken : " + deviceToken);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", mEmail);
+                jsonObject.put("password", mPassword);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("email", mEmail)
-                    .add("password", mPassword)
-                  //  .add("RegistrationTokenId", mRegTokenId)
-                    .add("isApp", "true")
-                    .add("signup", "false")
-                    .build();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
             Request request = new Request.Builder()
-                    .url(mUrl + "login")
+                    .url(mUrl + "register")
                     .post(formBody)
                     .build();
 
@@ -677,7 +712,7 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             showProgress(false);
             if (success) {
 
-                startRegisterService();
+//                startRegisterService();
 
                 //TODO first Time Login goto Register Iot devices Screen
                 RegisterIoTScreen();

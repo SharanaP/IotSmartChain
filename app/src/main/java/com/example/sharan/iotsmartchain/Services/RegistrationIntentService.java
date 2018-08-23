@@ -37,6 +37,8 @@ public class RegistrationIntentService extends IntentService {
 
         registrationId = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "registrationId : " + registrationId);
+        Log.d(TAG, "deviceId : " + deviceId);
+        Log.d(TAG, "deviceName : " + deviceName);
 
         //Call register device info
         final String finalRegistrationId = registrationId;

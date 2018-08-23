@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
@@ -33,15 +34,21 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
 import com.example.sharan.iotsmartchain.model.LoginResultType;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +72,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     @BindView(R.id.view_password_second) EditText viewSecPsw;
     @BindView(R.id.button_register) Button buttonReg;
     @BindView(R.id.login_progress_reg) View mProgressView;
+    @BindView(R.id.relativeLayout_view) View mView;
     @BindView(R.id.login_form_reg) View mLoginFormView;
     @BindView(R.id.ic_showPassword) ImageView mImagePswShow;
     @BindView(R.id.ic_reEnter_showPassword) ImageView mImageReEnterPswShow;
@@ -84,7 +92,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         super.onCreate(savedInstanceState);
       //  setContentView(R.layout.activity_register);
         setContentView(R.layout.activity_signup_screen);
-
 
         injectViews();
 
@@ -327,12 +334,12 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            mView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -348,7 +355,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -413,6 +420,11 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         private String mPassword = "";
         private Context mContext;
         private LoginResultType mLoginResultType;
+        private String deviceId = "";
+        private String deviceName = "";
+        private String deviceToken = "";
+        private DataModel authResponse = new DataModel();
+
 
         public UserSignUpAsync(String mFirstName, String mLastName, String mEmail, String mPhoneNum,
                                String mPassword, Context mContext) {
@@ -427,16 +439,40 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
 
         @Override
         protected Boolean doInBackground(Void... params) {
+
+            deviceId = Utils.getDeviceId(getApplicationContext());
+            deviceName = Utils.getDeviceName();
+            deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+            Log.e(TAG, "deviceId : " + deviceId);
+            Log.e(TAG, "deviceName : " + deviceName);
+            Log.e(TAG, "deviceToken : " + deviceToken);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("fName", mFirstName);
+                jsonObject.put("lName", mLastName);
+                jsonObject.put("email", mEmail);
+                jsonObject.put("phone", mPhoneNum);
+                jsonObject.put("password", mPassword);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "true");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add("fname", mFirstName)
-                    .add("lname", mLastName)
-                    .add("email", mEmail)
-                    .add("phone", mPhoneNum)
-                    .add("password", mPassword)
-                    .add("isApp", "true")
-                    .add("signup", "true")
-                    .build();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
             Request request = new Request.Builder()
                     .url(mUrl + "register")
                     .post(formBody)
@@ -450,6 +486,40 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             boolean retVal = false;
             try {
                 Response response = client.newCall(request).execute();
+                Log.e(TAG, ""+response.toString());
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: "+authResponseStr);
+
+                //TODO testing
+//                authResponseStr ="{\"statusCode\":\"200\",\n" +
+//                        "                 \"body\":{\"message\":\"User info laready avilable\",\n" +
+//                        "                 \"isEmailExisted\":true,\"isPhoneExisted\":true,\n" +
+//                        "                 \"email\":\"sharan.pallada@gmail.com\",\n" +
+//                        "                 \"userId\":\"75413560-a637-11e8-a09c-179c8209d19b\",\n" +
+//                        "                 \"status\":\"true\"},\"headers\":{\"Content-Type\":\"application/json\"}}";
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+                    Log.e(TAG, "TestJson :: "+TestJson.toString());
+                    Log.e(TAG, "TestJson : body :: "+TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: "+strData.toString());
+
+
+                    authResponse = new GsonBuilder()
+                            .create()
+                            .fromJson(strData, DataModel.class);
+
+                    Log.e(TAG, " SH : "+authResponse.toString());
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if(response.code() != 200){
                     mLoginResultType = LoginResultType.LOGIN_FAILED;
                     retVal = false;
@@ -457,10 +527,14 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                     mLoginResultType = LoginResultType.LOGIN_SUCCESS;
                     retVal = true;
 
-                    String authResponseStr = response.body().string();
-                    DataModel authResponse = new GsonBuilder()
-                            .create()
-                            .fromJson(authResponseStr, DataModel.class);
+//                    String authResponseStr = response.body().string();
+//                    Log.e(TAG, "authResponseStr :: "+authResponseStr);
+//
+//                    DataModel authResponse = new GsonBuilder()
+//                            .create()
+//                            .fromJson(authResponseStr, DataModel.class);
+//
+//                    Log.e(TAG, "authResponse :: "+authResponse.toString());
 
                     String tokenStr = authResponse.getToken();
 
@@ -494,25 +568,25 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             mSignUpTask = null;
             showProgress(false);
             if (success) {
-                viewFirstName.setText("");
-                viewLastName.setText("");
-                viewEmailID.setText("");
-                viewFstPsw.setText("");
-                viewSecPsw.setText("");
-                viewPhoneNum.setText("");
-                showLoginView();
 
-                //TODO register Device
-//                if (checkPlayServices()) {
-//                    startRegisterProcess();
-//                }
+                /*TODO testing time being comment below lines*/
+//                viewFirstName.setText("");
+//                viewLastName.setText("");
+//                viewEmailID.setText("");
+//                viewFstPsw.setText("");
+//                viewSecPsw.setText("");
+//                viewPhoneNum.setText("");
+
+                /*Check email and mobile number validation */
+                mobileEmailValidation();
+
+                //TODO showLoginView();
 
                 //TODO Goto Next screen
 
-
             } else {
-                viewEmailID.setError(getString(R.string.email_not_in_contactbook));
-                viewEmailID.requestFocus();
+//                viewEmailID.setError(getString(R.string.email_not_in_contactbook));
+//                viewEmailID.requestFocus();
 
                 Snackbar sEvents = Snackbar.make(mLoginFormView,
                             "Unable to reach the server - Try again later!",
@@ -527,6 +601,12 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             showProgress(false);
             super.onCancelled();
         }
+    }
+
+    /*Next screen for verification user mobile number and email*/
+    private void mobileEmailValidation(){
+        Intent intent = new Intent(RegisterActivity.this, MobEmailValidationActivity.class);
+        startActivity(intent);
     }
 
     private void showLoginView(){

@@ -72,6 +72,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Log.e(TAG, "Sh : "+remoteData);
 
+                /** TODO {default={ "imageurl":"",
+              "id":"12",
+              "body":"This is body",
+              "title":"SignUP Process Completed ",
+              "message":"The message contains a details infomation",
+              "timestamp": d.getTime(),
+              "isbackground":"true"
+          };}*/
+
                 //Json object
                 JSONObject TestJson = new JSONObject(remoteData);
                 String strData = TestJson.getJSONObject("default").toString();
@@ -107,6 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
+
 
         try {
             //TODO JSONObject data = json.getJSONObject(json.toString());
@@ -163,11 +173,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
                     Log.d(TAG, " imageUrl is null");
-                    showNotificationMessage(getApplicationContext(), body, message, timestamp, resultIntent);
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
                 } else {
                     Log.d(TAG, " imageUrl is not null");
                     // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), body, message, timestamp, resultIntent, imageUrl);
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
                 }
             }
         } catch (JSONException e) {

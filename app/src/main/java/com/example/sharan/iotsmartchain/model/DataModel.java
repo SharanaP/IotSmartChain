@@ -7,22 +7,34 @@ import com.google.gson.annotations.SerializedName;
  *
  */
 
+/*{"statusCode":"200","body":{"message":{"isEmailExisted":-1,"isPhoneExisted":-1},
+"email":"sharan.pallada@gmail.com","userId":"d7aa4080-a53c-11e8-b852-237d818e0c0c","status":"true"},
+"headers":{"Content-Type":"application/json"}}*/
 
 
-//{"tokenid":"95d4f181-5499-494b-a7a6-c4126753085f","message":"Successfully Registered","email":"sharan@gmail.com"}
+//OLD {"tokenid":"95d4f181-5499-494b-a7a6-c4126753085f","message":"Successfully Registered","email":"sharan@gmail.com"}
 
 public class DataModel {
     @SerializedName("email")
     String mEmailId;
 
-    @SerializedName("tokenid")
+    @SerializedName("userId")
     String mToken;
 
-    @SerializedName("appstatus")
+    @SerializedName("status")
     boolean mStatus;
 
     @SerializedName("message")
     String mMessage;
+
+    @SerializedName("statusCode")
+    String mStatusCode;
+
+    @SerializedName("isEmailExisted")
+    String emailIsExisted;
+
+    @SerializedName("isPhoneExisted")
+    String phoneIsExisted;
 
     public String getEmailId() {
         return mEmailId;
@@ -38,5 +50,17 @@ public class DataModel {
 
     public String getMessage() {
         return mMessage;
+    }
+
+    public String getStatusCode() {
+        return mStatusCode;
+    }
+
+    public String getEmailIsExisted() {
+        return emailIsExisted;
+    }
+
+    public String getPhoneIsExisted() {
+        return phoneIsExisted;
     }
 }
