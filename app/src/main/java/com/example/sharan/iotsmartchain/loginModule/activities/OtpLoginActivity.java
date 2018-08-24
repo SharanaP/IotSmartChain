@@ -5,10 +5,17 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,98 +25,187 @@ import android.widget.TextView;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.NormalFlow.activities.RegisterIoTDeviceActivity;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.SMS.OnSmsCatchListener;
+import com.example.sharan.iotsmartchain.SMS.SmsVerifyCatcher;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
+import com.example.sharan.iotsmartchain.model.DataModel;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 
 public class OtpLoginActivity extends BaseActivity {
     private static String TAG = OtpLoginActivity.class.getSimpleName();
 
-    @BindView(R.id.textView_title)TextView textViewTitle;
-    @BindView(R.id.editText_enter_mobile)EditText mEditTextMobile;
-    @BindView(R.id.editText_enter_otp)EditText mEditTextOTP;
-    @BindView(R.id.textView_Status)TextView mTextViewStatus;
-    @BindView(R.id.button_RegenerateOTP)Button mResendOtpButton;
-    @BindView(R.id.button_submitOTP)Button mSubmitOtpButton;
-    @BindView(R.id.login_progress)ProgressBar mProgressView;
-    @BindView(R.id.relativeLayout_login_form)View mView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.editText_enter_mobile)
+    EditText mEditTextMobile;
+    @BindView(R.id.editText_enter_otp)
+    EditText mEditTextOTP;
+    @BindView(R.id.textView_Status)
+    TextView mTextViewStatus;
+    @BindView(R.id.button_RegenerateOTP)
+    Button mResendOtpButton;
+    @BindView(R.id.button_submitOTP)
+    Button mVerifyOtpButton;
+    @BindView(R.id.login_progress)
+    ProgressBar mProgressView;
+    @BindView(R.id.relativeLayout_login_form)
+    View mView;
+    @BindView(R.id.button_request_otp)
+    Button mRequestOtpButton;
 
+    private SmsVerifyCatcher smsVerifyCatcher;
     private UserLoginOTPAsync userLoginOTPAsync = null;
-    private String deviceId, mUrl;
+    private RequestOtpAsync requestOtpAsync = null;
+    private String deviceId, deviceName, deviceToken, mUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_otp_login);
         injectViews();
+        setupToolbar();
 
         //get url and device id
         mUrl = App.getAppComponent().getApiServiceUrl();
         deviceId = Utils.getDeviceId(OtpLoginActivity.this);
+        deviceName = Utils.getDeviceName();
+        deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+        mEditTextOTP.setVisibility(View.INVISIBLE);
+        mResendOtpButton.setVisibility(View.INVISIBLE);
+
+
+        //init SmsVerifyCatcher
+        smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
+            @Override
+            public void onSmsCatch(String message) {
+                String code = parseCode(message);//Parse verification code
+                mEditTextOTP.setText(code);//set code in edit text
+
+                //then you can send verification code to server
+            }
+        });
+
+        //set phone number filter if needed
+        String str = "Im-Notice";
+        smsVerifyCatcher.setPhoneNumberFilter(("Notice"));
+        //smsVerifyCatcher.setFilter("Verification code:");
+
 
         mResendOtpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Regenerate OTP number
+                //Regenerate OTP number
+                String mobileStr = mEditTextMobile.getText().toString();
+
+                if (!mobileStr.isEmpty()) {
+                    showProgress(true);
+                    requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobileStr);
+                    requestOtpAsync.execute((Void) null);
+                } else {
+                    mEditTextMobile.setError(getString(R.string.error_field_required));
+                    mEditTextMobile.requestFocus();
+
+                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                            "Please enter registered mobile number...!",
+                            Snackbar.LENGTH_LONG);
+                    sEvents.show();
+                }
             }
         });
 
-        mSubmitOtpButton.setOnClickListener(new View.OnClickListener() {
+        mRequestOtpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO submit otp number via mobile
-                showProgress(true);
-                userLoginOTPAsync = new UserLoginOTPAsync(OtpLoginActivity.this,
-                        mEditTextMobile.getText().toString(), mEditTextOTP.getText().toString());
-                userLoginOTPAsync.execute((Void)null);
+                // requesting for OTP
+                String mobile = mEditTextMobile.getText().toString();
+                if (!mobile.isEmpty()) {
+                    showProgress(true);
+                    requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobile);
+                    requestOtpAsync.execute((Void) null);
+                } else {
+                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                            "Please enter registered mobile number...!",
+                            Snackbar.LENGTH_LONG);
+                    sEvents.show();
+                }
+            }
+        });
+
+        mVerifyOtpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // submit otp number via mobile
+                String mobileStr = mEditTextMobile.getText().toString();
+                String otpStr = mEditTextOTP.getText().toString();
+
+                if (!mobileStr.isEmpty()) {
+                    if (isValidMobile(mobileStr)) {
+                        if (!otpStr.isEmpty()) {
+                            showProgress(true);
+                            userLoginOTPAsync = new UserLoginOTPAsync(OtpLoginActivity.this,
+                                    mobileStr, otpStr);
+                            userLoginOTPAsync.execute((Void) null);
+                        } else {
+                            mEditTextOTP.setError(getString(R.string.error_field_required));
+                            mEditTextOTP.requestFocus();
+
+                            Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                                    "Enter OTP number...!",
+                                    Snackbar.LENGTH_LONG);
+                            sEvents.show();
+                        }
+
+                    } else {
+                        mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
+                        mEditTextMobile.requestFocus();
+
+                        Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                                "Please enter registered mobile number...!",
+                                Snackbar.LENGTH_LONG);
+                        sEvents.show();
+                    }
+                } else {
+                    mEditTextMobile.setError(getString(R.string.error_field_required));
+                    mEditTextMobile.requestFocus();
+                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                            "Enter mobile number it should not be empty!",
+                            Snackbar.LENGTH_LONG);
+                    sEvents.show();
+                }
             }
         });
     }
 
     private void DashBoardScreen() {
         Intent homeIntent = new Intent(OtpLoginActivity.this, DashBoardActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(homeIntent);
-        finish();
+        this.finish();
     }
 
     private void RegisterIoTScreen() {
         Intent intent = new Intent(OtpLoginActivity.this, RegisterIoTDeviceActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    /*TODO Server API : To request server for login through a mobile OTP*/
-    public class UserLoginOTPAsync extends AsyncTask<Void, String, Boolean>{
-
-        private Context context;
-        private String mobile;
-        private String otp;
-        private boolean retVal = false;
-
-        public UserLoginOTPAsync(Context context, String mobile, String otp) {
-            this.context = context;
-            this.mobile = mobile;
-            this.otp = otp;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            return retVal;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-
-            showProgress(false);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            showProgress(false);
-        }
     }
 
     /**
@@ -147,6 +243,346 @@ public class OtpLoginActivity extends BaseActivity {
             mView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
+        setTitle("Login via OTP");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_battery_status, menu);
+        MenuItem menuRefresh = menu.findItem(R.id.menu_refresh);
+        menuRefresh.setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private boolean isValidMobile(String phone) {
+        if (TextUtils.isEmpty(phone)) return false;
+        else {
+            return android.util.Patterns.PHONE.matcher(phone).matches();
+        }
+    }
+
+    /**
+     * Parse verification code
+     *
+     * @param message sms message
+     * @return only four numbers from massage string
+     */
+    private String parseCode(String message) {
+        Pattern p = Pattern.compile("\\b\\d{6}\\b");
+        Matcher m = p.matcher(message);
+        String code = "";
+        while (m.find()) {
+            code = m.group(0);
+        }
+        return code;
+    }
+
+    /* Server API : To request server for login through a mobile OTP*/
+    public class UserLoginOTPAsync extends AsyncTask<Void, String, Boolean> {
+
+        private Context context;
+        private String mobile;
+        private String otp;
+        private boolean retVal = false;
+        private DataModel authResponse = new DataModel();
+
+        public UserLoginOTPAsync(Context context, String mobile, String otp) {
+            this.context = context;
+            this.mobile = mobile;
+            this.otp = otp;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("phone", mobile);
+                jsonObject.put("loginOTP", otp);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+                jsonObject.put("loginType", "otp");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "register")
+                    .post(formBody)
+                    .build();
+            Log.d(TAG, "SH : URL " + mUrl);
+            Log.d(TAG, "SH : mobile  " + mobile);
+            Log.d(TAG, "SH : otp " + otp);
+
+            retVal = false;
+            try {
+
+                Response response = client.newCall(request).execute();
+
+                if (response.code() != 200) {
+                    retVal = false;
+                } else {
+
+                    String authResponseStr = response.body().string();
+
+                    //Json object
+                    try {
+                        JSONObject TestJson = new JSONObject(authResponseStr);
+
+                        Log.e(TAG, "authResponse :: " + TestJson.toString());
+                        Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                        String strData = TestJson.getString("body").toString();
+                        Log.e(TAG, "strData :: " + strData.toString());
+
+                        authResponse = new GsonBuilder()
+                                .create()
+                                .fromJson(strData, DataModel.class);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    String emailStr = authResponse.getEmailId();
+                    Log.d(TAG, "emailStr : " + emailStr);
+                    String message = authResponse.getMessage();
+                    Log.d(TAG, "message : " + message);
+                    boolean status = authResponse.isStatus();
+                    Log.d(TAG, "Status : " + status);
+                    String tokenid = authResponse.getToken();
+                    Log.d(TAG, "" + tokenid);
+
+                    if (authResponse.isStatus()) {
+                        retVal = true;
+
+                        if (!tokenid.isEmpty()) {
+                            SharedPreferences.Editor
+                                    editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+                            editor.putString("TOKEN", tokenid);
+                            editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
+                            editor.apply();
+                            App.setLoginId(authResponse.getEmailId());
+                            App.setTokenStr(tokenid);
+                        }
+                    } else {
+                        retVal = false;
+                    }
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at OTP login activity: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at OTP login Activity: " + e1.getMessage());
+            }
+
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            userLoginOTPAsync = null;
+            showProgress(false);
+            if (success) {
+
+                //TODO first Time Login goto Register Iot devices Screen
+                // RegisterIoTScreen();
+
+                //TODO goto DASH BROAD / HOME SCREEN
+                DashBoardScreen();
+
+                Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                        authResponse.getMessage(),
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
+
+            } else {
+                if (authResponse.getMessage().toString().equalsIgnoreCase("Invalid Password")) {
+                    mEditTextOTP.setError(getString(R.string.error_otp_not_match));
+                    mEditTextOTP.requestFocus();
+                } else if (authResponse.getMessage().toString().equalsIgnoreCase("OTP not match")) {
+                    mEditTextOTP.setError(getString(R.string.error_otp_not_match));
+                    mEditTextOTP.requestFocus();
+                } else {
+                    mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
+                    mEditTextMobile.requestFocus();
+                }
+
+                Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                        authResponse.getMessage() + " and User is unable login - Try again later!",
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            userLoginOTPAsync = null;
+            super.onCancelled();
+            showProgress(false);
+        }
+    }
+
+    /* Requesting for OTP based on Registered mobile number */
+    public class RequestOtpAsync extends AsyncTask<Void, String, Boolean> {
+        private Context context;
+        private String mobile;
+        private boolean retVal = false;
+        private DataModel authResponse = new DataModel();
+
+        public RequestOtpAsync(Context context, String mobile) {
+            this.context = context;
+            this.mobile = mobile;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("phone", mobile);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+                jsonObject.put("loginType", "otp");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "generate-login-otp")
+                    .post(formBody)
+                    .build();
+            Log.d(TAG, "SH : URL " + mUrl);
+            Log.d(TAG, "SH : mobile  " + mobile);
+
+            retVal = false;
+            try {
+
+                Response response = client.newCall(request).execute();
+
+                if (response.code() != 200) {
+                    retVal = false;
+                } else {
+
+                    String authResponseStr = response.body().string();
+
+                    //Json object
+                    try {
+                        JSONObject TestJson = new JSONObject(authResponseStr);
+
+                        Log.e(TAG, "authResponse :: " + TestJson.toString());
+                        Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                        String strData = TestJson.getString("body").toString();
+                        Log.e(TAG, "strData :: " + strData.toString());
+
+                        authResponse = new GsonBuilder()
+                                .create()
+                                .fromJson(strData, DataModel.class);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    String emailStr = authResponse.getEmailId();
+                    Log.d(TAG, "emailStr : " + emailStr);
+                    String message = authResponse.getMessage();
+                    Log.d(TAG, "message : " + message);
+                    boolean status = authResponse.isStatus();
+                    Log.d(TAG, "Status : " + status);
+                    String tokenid = authResponse.getToken();
+                    Log.d(TAG, "" + tokenid);
+
+                    if (authResponse.isStatus()) {
+                        retVal = true;
+                    } else {
+                        retVal = false;
+                    }
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at generating login OTP  " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at generating login OTP " + e1.getMessage());
+            }
+
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            requestOtpAsync = null;
+            showProgress(false);
+            if (success) {
+                mVerifyOtpButton.setVisibility(View.VISIBLE);
+                mRequestOtpButton.setVisibility(View.INVISIBLE);
+                mEditTextOTP.setVisibility(View.VISIBLE);
+                mResendOtpButton.setVisibility(View.VISIBLE);
+            } else {
+                mVerifyOtpButton.setVisibility(View.INVISIBLE);
+                mRequestOtpButton.setVisibility(View.VISIBLE);
+                mResendOtpButton.setVisibility(View.INVISIBLE);
+            }
+            super.onPostExecute(success);
+        }
+
+        @Override
+        protected void onCancelled() {
+            requestOtpAsync = null;
+            super.onCancelled();
+            showProgress(false);
+        }
+    }
+
 }
 
 

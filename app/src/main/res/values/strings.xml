@@ -18,6 +18,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="email_not_in_contactbook">You are not provisioned. Contact Admin.</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_otp_not_match">This OTP not yet match</string>
     <string name="permission_rationale">Contacts permissions are needed for providing email
         completions.
     </string>

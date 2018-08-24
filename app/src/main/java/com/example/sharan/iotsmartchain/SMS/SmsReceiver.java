@@ -27,14 +27,16 @@ public class SmsReceiver extends BroadcastReceiver {
                 Log.e(TAG, ""+bundle.toString());
                 final Object[] pdusObj = (Object[]) bundle.get("pdus");
                 for (int i = 0; i < pdusObj.length; i++) {
+
                     SmsMessage currentMessage = getIncomingMessage(pdusObj[i], bundle);
 
                     Log.e(TAG, currentMessage.toString());
 
                     //TODO check it out for sub string
-                    String phoneNumber = currentMessage.getDisplayOriginatingAddress().substring(2);
+                    String phoneNumber = currentMessage.getDisplayOriginatingAddress();
 
                     Log.e(TAG, phoneNumber);
+
 
                     if (phoneNumberFilter != null && !phoneNumber.equals(phoneNumberFilter)) {
                        // return;

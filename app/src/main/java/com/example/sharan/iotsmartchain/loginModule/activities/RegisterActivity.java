@@ -491,14 +491,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 String authResponseStr = response.body().string();
                 Log.e(TAG, "authResponseStr :: "+authResponseStr);
 
-                //TODO testing
-//                authResponseStr ="{\"statusCode\":\"200\",\n" +
-//                        "                 \"body\":{\"message\":\"User info laready avilable\",\n" +
-//                        "                 \"isEmailExisted\":true,\"isPhoneExisted\":true,\n" +
-//                        "                 \"email\":\"sharan.pallada@gmail.com\",\n" +
-//                        "                 \"userId\":\"75413560-a637-11e8-a09c-179c8209d19b\",\n" +
-//                        "                 \"status\":\"true\"},\"headers\":{\"Content-Type\":\"application/json\"}}";
-
                 //Json object
                 try {
                     JSONObject TestJson = new JSONObject(authResponseStr);
@@ -526,15 +518,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 } else {
                     mLoginResultType = LoginResultType.LOGIN_SUCCESS;
                     retVal = true;
-
-//                    String authResponseStr = response.body().string();
-//                    Log.e(TAG, "authResponseStr :: "+authResponseStr);
-//
-//                    DataModel authResponse = new GsonBuilder()
-//                            .create()
-//                            .fromJson(authResponseStr, DataModel.class);
-//
-//                    Log.e(TAG, "authResponse :: "+authResponse.toString());
 
                     String tokenStr = authResponse.getToken();
 

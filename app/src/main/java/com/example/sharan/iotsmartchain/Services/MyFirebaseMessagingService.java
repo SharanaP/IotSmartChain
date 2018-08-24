@@ -153,18 +153,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent,
                         imageUrl);
             }*/
-
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                Log.e(TAG, "App not in background");
-                // app is in foreground, broadcast the push message
-                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-                pushNotification.putExtra("message", message);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-                // play notification sound
-                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-                notificationUtils.playNotificationSound();
-            } else {
+            //TODO testing mode :
+//            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+//                Log.e(TAG, "App not in background");
+//                // app is in foreground, broadcast the push message
+//                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+//                pushNotification.putExtra("message", message);
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+//
+//                // play notification sound
+//                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+//                notificationUtils.playNotificationSound();
+//            } else {
                 // app is in background, show the notification in notification tray
                 Log.e(TAG, "App is in background");
                 Intent resultIntent = new Intent(getApplicationContext(), DashBoardActivity.class);
@@ -178,7 +178,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     Log.d(TAG, " imageUrl is not null");
                     // image is present, show notification with image
                     showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
-                }
+//                }
             }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_screen_two">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -22,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView_title"
         android:text="Login through OTP"
         android:layout_width="match_parent"
@@ -32,13 +42,13 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/color.white"/>
+        android:textColor="@color/color.white"/>-->
 
     <EditText
         android:id="@+id/editText_enter_mobile"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/textView_title"
+        android:layout_below="@+id/toolbar"
         android:layout_marginTop="30dp"
         android:hint="enter mobile number ex:9023423423"
         android:textColorHint="@color/color.silver"
@@ -56,6 +66,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/editText_enter_mobile"
         android:layout_marginTop="10dp"
+        android:visibility="invisible"
         android:hint="enter OTP number"
         android:textColorHint="@color/color.silver"
         android:inputType="number"
@@ -100,6 +111,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
+            android:visibility="invisible"
             android:background="@drawable/mysignin_button"
             android:textColor="@color/color_yellow"/>
 
@@ -107,7 +119,25 @@
             android:id="@+id/button_submitOTP"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="submit"
+            android:text="Verify OTP"
+            android:textColor="@color/color_yellow"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="invisible"
+            android:background="@drawable/mysignin_button"
+            android:textSize="13sp"
+            android:textStyle="normal" />
+
+
+        <Button
+            android:id="@+id/button_request_otp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Request OTP"
             android:textColor="@color/color_yellow"
             android:layout_gravity="right"
             android:layout_alignParentRight="true"

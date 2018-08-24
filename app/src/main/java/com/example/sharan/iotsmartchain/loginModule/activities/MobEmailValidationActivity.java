@@ -101,7 +101,8 @@ public class MobEmailValidationActivity extends BaseActivity {
         });
 
         //set phone number filter if needed
-        smsVerifyCatcher.setPhoneNumberFilter("Notice");
+        String str = "Notice";
+        smsVerifyCatcher.setPhoneNumberFilter(str);
         //smsVerifyCatcher.setFilter("Verification code:");
 
         //Default email card view invisible
@@ -380,6 +381,7 @@ public class MobEmailValidationActivity extends BaseActivity {
                         mImageViewEmailStatus.setBackground(getResources().getDrawable(R.drawable.ic_check_green_24dp));
                     }
                     mImageViewEmailStatus.setVisibility(View.VISIBLE);
+                    mButtonDoneVerify.setVisibility(View.VISIBLE);
                 }
 
                 /*mobile based */
@@ -391,7 +393,6 @@ public class MobEmailValidationActivity extends BaseActivity {
                     mCardViewEmail.setVisibility(View.VISIBLE);
                 }
 
-                mButtonDoneVerify.setVisibility(View.VISIBLE);
                 Snackbar snackbar = Snackbar.make(mView, respMessage+" Valid information & Thank you", Snackbar.LENGTH_LONG);
                 snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
                 snackbar.show();

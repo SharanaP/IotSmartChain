@@ -40,9 +40,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,7 +62,6 @@ import com.example.sharan.iotsmartchain.model.DataModel;
 import com.example.sharan.iotsmartchain.model.LoginResultType;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -89,35 +86,42 @@ import butterknife.BindView;
 public class LoginActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
-
+    private static final int TIME_INTERVAL = 2000; // milliseconds, time between two back presses.
     public static String TAG = "LoginActivity";
     public static int ALERT_DIALOG_ID = 1;
-
-    @BindView(R.id.app_logo) ImageView mImageAppLogo;
-    @BindView(R.id.textView_app_title) TextView mTvAppTitle;
-    @BindView(R.id.email_login_form) LinearLayout mLinearLoginLayout;
-    @BindView(R.id.login_progress) View mProgressView;
-    @BindView(R.id.relativeLayout_login_form) View mLoginFormView;
-    @BindView(R.id.login_email) AutoCompleteTextView mEmailView;
-    @BindView(R.id.login_password) EditText mPasswordView;
-    @BindView(R.id.ic_showPassword) ImageView mPasswordVisibility;
-    @BindView(R.id.textView_forgot_psw) TextView mTvForgotPsw;
-  //  @BindView(R.id.checkBox_Request_Otp) CheckBox mCheckRequestOtp;
-    @BindView(R.id.email_sign_in_button) Button mSignInButton;
-    @BindView(R.id.otp_sign_in_button) Button mOtpLoginButton;
-    @BindView(R.id.tv_signup) TextView mTvForSignUp;
-    @BindView(R.id.email_sign_up_button) Button mSingUpButton;
-
+    @BindView(R.id.app_logo)
+    ImageView mImageAppLogo;
+    @BindView(R.id.textView_app_title)
+    TextView mTvAppTitle;
+    @BindView(R.id.email_login_form)
+    LinearLayout mLinearLoginLayout;
+    @BindView(R.id.login_progress)
+    View mProgressView;
+    @BindView(R.id.relativeLayout_login_form)
+    View mLoginFormView;
+    @BindView(R.id.login_email)
+    AutoCompleteTextView mEmailView;
+    @BindView(R.id.login_password)
+    EditText mPasswordView;
+    @BindView(R.id.ic_showPassword)
+    ImageView mPasswordVisibility;
+    @BindView(R.id.textView_forgot_psw)
+    TextView mTvForgotPsw;
+    //  @BindView(R.id.checkBox_Request_Otp) CheckBox mCheckRequestOtp;
+    @BindView(R.id.email_sign_in_button)
+    Button mSignInButton;
+    @BindView(R.id.otp_sign_in_button)
+    Button mOtpLoginButton;
+    @BindView(R.id.tv_signup)
+    TextView mTvForSignUp;
+    @BindView(R.id.email_sign_up_button)
+    Button mSingUpButton;
     private String mUrl, loginId, token;
     private UserLoginAsync mAuthTask = null;
     private LoginActivityPresenter mPresenter;
     private String registrationId;
-
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-
     private long mBackPressed;
-    private static final int TIME_INTERVAL = 2000; // milliseconds, time between two back presses.
-
     private View.OnTouchListener mPasswordVisibleTouchListener = new View.OnTouchListener() {
 
         @Override
@@ -146,7 +150,7 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.login_activity);
+        // setContentView(R.layout.login_activity);
         setContentView(R.layout.activity_login_screen);
 
         injectViews();
@@ -165,13 +169,13 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                Log.d(TAG, ""+intent.getAction().toString());
+                Log.d(TAG, "" + intent.getAction().toString());
                 // checking for type intent filter
                 if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
 
                     String message = intent.getStringExtra("message");
-                    Log.d(TAG, ""+message);
+                    Log.d(TAG, "" + message);
 
                     Toast.makeText(getApplicationContext(), "Push notification: " + message,
                             Toast.LENGTH_LONG).show();
@@ -308,10 +312,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
     private void attemptSignIn() {
 
-//        if(mAuthTask != null){
-//            return;
-//        }
-
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
@@ -397,7 +397,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -576,168 +575,10 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
     private void RegisterIoTScreen() {
         Intent intent = new Intent(LoginActivity.this, RegisterIoTDeviceActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish();
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-    /*Represents an asynchronous login/registration task used a authenticate to a user  */
-    public class UserLoginAsync extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-        private final String mRegTokenId;
-        private Context mContext;
-        private LoginResultType mLoginResultType;
-        private String deviceId ="";
-        private String deviceName ="";
-        private String deviceToken ="";
-
-        public UserLoginAsync(Context mContext, String mEmail, String mPassword, String registrationId) {
-            this.mEmail = mEmail;
-            this.mPassword = mPassword;
-            this.mContext = mContext;
-            mRegTokenId = registrationId;
-
-            mLoginResultType = LoginResultType.LOGIN_SERVER_ERROR;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            deviceId = Utils.getDeviceId(getApplicationContext());
-            deviceName = Utils.getDeviceName();
-            deviceToken = FirebaseInstanceId.getInstance().getToken();
-
-            Log.e(TAG, "deviceId : " + deviceId);
-            Log.e(TAG, "deviceName : " + deviceName);
-            Log.e(TAG, "deviceToken : " + deviceToken);
-
-            // create your json here
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("email", mEmail);
-                jsonObject.put("password", mPassword);
-                jsonObject.put("deviceId", deviceId);
-                jsonObject.put("deviceName", deviceName);
-                jsonObject.put("deviceTokenId", deviceToken);
-                jsonObject.put("isApp", "true");
-                jsonObject.put("signUp", "false");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            OkHttpClient client = new OkHttpClient();
-
-            MediaType JSON
-                    = MediaType.parse("application/json; charset=utf-8");
-
-            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
-            Request request = new Request.Builder()
-                    .url(mUrl + "register")
-                    .post(formBody)
-                    .build();
-
-            Log.d(TAG, "SH : URL " + mUrl);
-            Log.d(TAG, "SH : email  " + mEmail);
-            Log.d(TAG, "SH : password " + mPassword);
-
-            boolean retVal = false;
-            try {
-
-                Response response = client.newCall(request).execute();
-
-                if (response.code() != 200) {
-                    mLoginResultType = LoginResultType.LOGIN_FAILED;
-                    retVal = false;
-                } else {
-
-                    String authResponseStr = response.body().string();
-                    DataModel authResponse = new GsonBuilder()
-                            .create()
-                            .fromJson(authResponseStr, DataModel.class);
-
-                    String emailStr = authResponse.getEmailId();
-                    Log.d(TAG, "emailStr : " + emailStr);
-                    String message = authResponse.getMessage();
-                    Log.d(TAG, "message : " + message);
-                    boolean status = authResponse.isStatus();
-                    Log.d(TAG, "Status : " + status);
-                    String tokenid = authResponse.getToken();
-                    Log.d(TAG, "" + tokenid);
-
-                    if (status) {
-                        mLoginResultType = LoginResultType.LOGIN_SUCCESS;
-                        retVal = true;
-
-                        if (!tokenid.isEmpty()) {
-                            SharedPreferences.Editor
-                                    editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-                            editor.putString("TOKEN", tokenid);
-                            editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
-                            editor.apply();
-                            App.setLoginId(authResponse.getEmailId());
-                            App.setTokenStr(tokenid);
-
-                        } else {
-                            Log.d(TAG, "Invalid emial Id....!");
-                        }
-                    } else {
-                        mLoginResultType = LoginResultType.LOGIN_FAILED;
-                        retVal = false;
-                        Log.d(TAG, "Failed login email Id....try again!");
-                    }
-                }
-            } catch (IOException e) {
-                Log.e("ERROR: ", "Exception at LoginActivity: " + e.getMessage());
-            } catch (NullPointerException e1) {
-                Log.e("ERROR: ", "null pointer Exception at LoginActivity: " + e1.getMessage());
-            }
-            return retVal;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-            if (success) {
-
-//                startRegisterService();
-
-                //TODO first Time Login goto Register Iot devices Screen
-                RegisterIoTScreen();
-
-                //TODO goto DASH BROAD / HOME SCREEN
-                //   DashBoardScreen();
-
-            } else {
-
-                mEmailView.setError(getString(R.string.email_not_in_contactbook));
-                mEmailView.requestFocus();
-
-                Snackbar sEvents = Snackbar.make(mLoginFormView,
-                        "Unable login - Try again later!",
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
-            }
-        }
-
-        @Override
-        protected void onCancelled(Boolean aBoolean) {
-            mAuthTask = null;
-            showProgress(false);
-            super.onCancelled(aBoolean);
-        }
+        this.finish();
     }
 
     @Override
@@ -784,14 +625,193 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case android.R.id.home:
                 Log.d(TAG, ":: HOME");
                 finish();
                 break;
-            default :
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private interface ProfileQuery {
+        String[] PROJECTION = {
+                ContactsContract.CommonDataKinds.Email.ADDRESS,
+                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
+        };
+
+        int ADDRESS = 0;
+        int IS_PRIMARY = 1;
+    }
+
+    /*Represents an asynchronous login/registration task used a authenticate to a user  */
+    public class UserLoginAsync extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+        private final String mRegTokenId;
+        private Context mContext;
+        private LoginResultType mLoginResultType;
+        private String deviceId = "";
+        private String deviceName = "";
+        private String deviceToken = "";
+        private DataModel authResponse = new DataModel();
+
+        public UserLoginAsync(Context mContext, String mEmail, String mPassword, String registrationId) {
+            this.mEmail = mEmail;
+            this.mPassword = mPassword;
+            this.mContext = mContext;
+            mRegTokenId = registrationId;
+            mLoginResultType = LoginResultType.LOGIN_SERVER_ERROR;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            deviceId = Utils.getDeviceId(getApplicationContext());
+            deviceName = Utils.getDeviceName();
+            deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+            Log.e(TAG, "deviceId : " + deviceId);
+            Log.e(TAG, "deviceName : " + deviceName);
+            Log.e(TAG, "deviceToken : " + deviceToken);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", mEmail);
+                jsonObject.put("password", mPassword);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+                jsonObject.put("loginType", "email");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "register")
+                    .post(formBody)
+                    .build();
+
+            Log.d(TAG, "SH : URL " + mUrl);
+            Log.d(TAG, "SH : email  " + mEmail);
+            Log.d(TAG, "SH : password " + mPassword);
+
+            boolean retVal = false;
+            try {
+
+                Response response = client.newCall(request).execute();
+
+                if (response.code() != 200) {
+                    mLoginResultType = LoginResultType.LOGIN_FAILED;
+                    retVal = false;
+                } else {
+
+                    String authResponseStr = response.body().string();
+
+                    //Json object
+                    try {
+                        JSONObject TestJson = new JSONObject(authResponseStr);
+
+                        Log.e(TAG, "authResponse :: " + TestJson.toString());
+                        Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                        String strData = TestJson.getString("body").toString();
+                        Log.e(TAG, "strData :: " + strData.toString());
+
+                        authResponse = new GsonBuilder()
+                                .create()
+                                .fromJson(strData, DataModel.class);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    String emailStr = authResponse.getEmailId();
+                    Log.d(TAG, "emailStr : " + emailStr);
+                    String message = authResponse.getMessage();
+                    Log.d(TAG, "message : " + message);
+                    boolean status = authResponse.isStatus();
+                    Log.d(TAG, "Status : " + status);
+                    String tokenid = authResponse.getToken();
+                    Log.d(TAG, "" + tokenid);
+
+                    if (status) {
+                        mLoginResultType = LoginResultType.LOGIN_SUCCESS;
+                        retVal = true;
+
+                        if (!tokenid.isEmpty()) {
+                            SharedPreferences.Editor
+                                    editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+                            editor.putString("TOKEN", tokenid);
+                            editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
+                            editor.apply();
+                            App.setLoginId(authResponse.getEmailId());
+                            App.setTokenStr(tokenid);
+
+                        } else {
+                            Log.d(TAG, "Invalid emial Id....!");
+                        }
+                    } else {
+                        mLoginResultType = LoginResultType.LOGIN_FAILED;
+                        retVal = false;
+                        Log.d(TAG, "Failed login email Id....try again!");
+                    }
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at LoginActivity: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at LoginActivity: " + e1.getMessage());
+            }
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            mAuthTask = null;
+            showProgress(false);
+            if (success) {
+
+                //TODO first Time Login goto Register Iot devices Screen
+                RegisterIoTScreen();
+
+                //TODO goto DASH BROAD / HOME SCREEN
+                //   DashBoardScreen();
+
+            } else {
+
+                if (authResponse.getMessage().toString().equalsIgnoreCase("Invalid Password")) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                } else {
+                    mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();
+                }
+
+                Snackbar sEvents = Snackbar.make(mLoginFormView,
+                        authResponse.getMessage() + " and User is unable login - Try again later!",
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
+            }
+        }
+
+        @Override
+        protected void onCancelled(Boolean aBoolean) {
+            mAuthTask = null;
+            showProgress(false);
+            super.onCancelled(aBoolean);
+        }
     }
 }
