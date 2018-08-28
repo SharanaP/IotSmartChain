@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-public class SmsReceiver extends BroadcastReceiver {
+public class  SmsReceiver extends BroadcastReceiver {
     private static String TAG = SmsReceiver.class.getSimpleName();
     private OnSmsCatchListener<String> callback;
     private String phoneNumberFilter;
@@ -32,22 +32,19 @@ public class SmsReceiver extends BroadcastReceiver {
 
                     Log.e(TAG, currentMessage.toString());
 
-                    //TODO check it out for sub string
+                    //TODO check it out for sub string and Write proper logic here
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-
-                    Log.e(TAG, phoneNumber);
-
-
+                    Log.e(TAG, "phoneNumber : "+phoneNumber);
+                    Log.e(TAG, "phoneNumberFilter : "+phoneNumberFilter);
                     if (phoneNumberFilter != null && !phoneNumber.equals(phoneNumberFilter)) {
                        // return;
                     }
 
                     String message = currentMessage.getDisplayMessageBody();
-
-                    Log.e(TAG, message);
-
+                    Log.e(TAG, " message : "+ message);
+                    Log.e(TAG, " filter : "+ filter);
                     if (filter != null && !message.matches(filter)) {
-                        return;
+                       // return;
                     }
 
                     if (callback != null) {

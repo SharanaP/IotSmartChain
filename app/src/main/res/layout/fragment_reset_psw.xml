@@ -17,183 +17,233 @@
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@color/color.white" />
 
-    <LinearLayout
-        android:id="@+id/linearlayout_main"
+
+    <ProgressBar
+        android:id="@+id/progressBar_reset"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:theme="@style/CircularProgress"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:orientation="vertical"
-        android:layout_below="@+id/toolbar"
-        android:weightSum="2"
-        android:layout_alignParentLeft="true">
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
+            android:id="@+id/linearlayout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView_one"
+            android:weightSum="2"
+            android:layout_alignParentLeft="true">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@color/color.silver"
-                    android:layout_gravity="bottom|center"
-                    android:gravity="center|bottom"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/geokno_logo" />
-
-                    <EditText
-                        android:id="@+id/editText_email_mob"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="enter email / mobile number"
-                        android:inputType="text"
-                        android:textColor="@color/color.grey.dark" />
-
-                    <Button
-                        android:id="@+id/button_send_reset_link"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/mysignin_button"
-                        android:text="Send reset link"
-                        android:textColor="@color/color.white"
-                        android:textSize="15dp"
-                        android:textStyle="normal" />
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/progressBar_reset"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:theme="@style/Widget.AppCompat.ProgressBar"
-                    android:visibility="gone" />
-
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayout_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"></RelativeLayout>
-
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView_two"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView_one"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/color.silver"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    app:cardBackgroundColor="@color/color_yellow_light"
+                    android:layout_marginTop="5dp">
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="bottom|center"
+                        android:gravity="center|bottom"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/image_app_icon"
+                            android:layout_width="200dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/app_title" />
 
                         <EditText
-                            android:id="@+id/editText_password"
+                            android:id="@+id/editText_email_mob"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:hint="new password"
-                            android:inputType="textPassword"
-                            android:textColor="@color/color.grey.dark" />
-
-                        <ImageButton
-                            android:id="@+id/ic_newShowPassword"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/ic_visibility_24dp"
-                            android:tint="@color/color.black_dark" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                            android:layout_marginTop="5dp"
+                            android:hint="enter email"
+                            android:inputType="text"
+                            android:textSize="18sp"
+                            android:gravity="center"
+                            android:textColorHint="@color/color.silver"
+                            android:layout_below="@+id/image_app_icon"
+                            android:textColor="@color/color.silver" />
 
                         <EditText
-                            android:id="@+id/editText_reenter_password"
+                            android:id="@+id/editText_email_otp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:hint="Re-enter new password"
-                            android:inputType="textPassword"
-                            android:textColor="@color/color.grey.dark" />
+                            android:layout_marginTop="10dp"
+                            android:hint="enter OTP "
+                            android:inputType="number"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:maxLength="4"
+                            android:textSize="18sp"
+                            android:textColorHint="@color/color.silver"
+                            android:layout_below="@+id/editText_email_mob"
+                            android:textColor="@color/color.silver" />
 
-                        <ImageButton
-                            android:id="@+id/ic_reEnterShowPassword"
-                            android:layout_width="50dp"
+                        <Button
+                            android:id="@+id/button_send_reset_link"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/ic_visibility_24dp"
-                            android:tint="@color/color.black_dark" />
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_below="@+id/editText_email_otp"
+                            android:background="@drawable/mysignin_button"
+                            android:text="Send reset link"
+                            android:textColor="@color/color_yellow"
+                            android:textSize="15dp"
+                            android:textStyle="normal" />
 
+                        <Button
+                            android:id="@+id/button_send_otp"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_below="@+id/editText_email_otp"
+                            android:background="@drawable/mysignin_button"
+                            android:text="Submit OTP"
+                            android:textColor="@color/color_yellow"
+                            android:textSize="15dp"
+                            android:textStyle="normal" />
                     </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/button_submit"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/mysignin_button"
-                        android:text="Submit"
-                        android:textColor="@color/color.white"
-                        android:textSize="15dp"
-                        android:textStyle="normal" />
+                </android.support.v7.widget.CardView>
 
-                </LinearLayout>
+            </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/color_yellow_light"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editText_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:hint="new password"
+                                android:textSize="18sp"
+                                android:textColorHint="@color/color.silver"
+                                android:inputType="textPassword"
+                                android:textColor="@color/color.silver" />
+
+                            <ImageButton
+                                android:id="@+id/ic_newShowPassword"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_visibility_24dp"
+                                android:tint="@color/color.silver" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editText_reenter_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:hint="Re-enter new password"
+                                android:textColorHint="@color/color.silver"
+                                android:textSize="18sp"
+                                android:inputType="textPassword"
+                                android:textColor="@color/color.silver" />
+
+                            <ImageButton
+                                android:id="@+id/ic_reEnterShowPassword"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_visibility_24dp"
+                                android:tint="@color/color.silver" />
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/button_submit"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/mysignin_button"
+                            android:text="Submit"
+                            android:textColor="@color/color_yellow"
+                            android:textSize="15dp"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

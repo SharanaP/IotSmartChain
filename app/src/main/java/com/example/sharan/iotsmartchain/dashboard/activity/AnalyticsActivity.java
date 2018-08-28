@@ -213,7 +213,7 @@ public class AnalyticsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        this.finish();
     }
 
     private void setupToolbar() {

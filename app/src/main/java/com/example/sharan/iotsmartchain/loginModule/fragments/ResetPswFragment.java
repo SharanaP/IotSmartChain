@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,12 +31,20 @@ import android.widget.LinearLayout;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -46,7 +53,7 @@ public class ResetPswFragment extends Fragment {
     private Toolbar mToolBar;
     private CardView mCardView_One;
     private CardView mCardView_Two;
-    private EditText mEditEmailMob;
+    private EditText mEditEmail, editText_email_otp;
     private EditText mEditPsw;
     private EditText mEditReEnterPsw;
     private Button mBtnSendReSetLink, mBtnSubmit;
@@ -59,6 +66,7 @@ public class ResetPswFragment extends Fragment {
     private String mUrl;
     private SendResetLinkAync sendResetLinkAync = null;
     private ResetNewPswAync resetNewPswAync = null;
+    private String deviceId, deviceName, deviceToken;
 
     public ResetPswFragment() {
         super();
@@ -72,7 +80,7 @@ public class ResetPswFragment extends Fragment {
         mToolBar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mCardView_One = (CardView) rootView.findViewById(R.id.cardView_one);
         mCardView_Two = (CardView) rootView.findViewById(R.id.cardView_two);
-        mEditEmailMob = (EditText) rootView.findViewById(R.id.editText_email_mob);
+        mEditEmail = (EditText) rootView.findViewById(R.id.editText_email_mob);
         mEditPsw = (EditText) rootView.findViewById(R.id.editText_password);
         mEditReEnterPsw = (EditText) rootView.findViewById(R.id.editText_reenter_password);
         mBtnSendReSetLink = (Button) rootView.findViewById(R.id.button_send_reset_link);
@@ -244,7 +252,7 @@ public class ResetPswFragment extends Fragment {
             showProgress(true);
             //Reset Password
             resetNewPswAync = new ResetNewPswAync(getActivity(),
-                    mEditEmailMob.getText().toString(), tokenId, password);
+                    mEditEmail.getText().toString(), tokenId, password);
             resetNewPswAync.execute((Void) null);
         }
 
@@ -254,16 +262,16 @@ public class ResetPswFragment extends Fragment {
         boolean cancel = false;
         View focusView = null;
 
-        String email = mEditEmailMob.getText().toString();
+        String email = mEditEmail.getText().toString();
         if (TextUtils.isEmpty(email) && !isEmailValid(email)) {
-            mEditEmailMob.setError(getString(R.string.error_field_required));
-            focusView = mEditEmailMob;
+            mEditEmail.setError(getString(R.string.error_field_required));
+            focusView = mEditEmail;
             cancel = true;
         } else {
 
             if (!isEmailValid(email)) {
-                mEditEmailMob.setError(getString(R.string.error_invalid_email));
-                focusView = mEditEmailMob;
+                mEditEmail.setError(getString(R.string.error_invalid_email));
+                focusView = mEditEmail;
                 cancel = true;
             }
         }
@@ -327,6 +335,8 @@ public class ResetPswFragment extends Fragment {
 
         private Context context;
         private String email;
+        private DataModel authResponse =  new DataModel();
+        private boolean retVal = false;
 
         public SendResetLinkAync(Context context, String email) {
             this.context = context;
@@ -335,50 +345,82 @@ public class ResetPswFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            com.squareup.okhttp.OkHttpClient okHttpClient = new com.squareup.okhttp.OkHttpClient();
 
-            com.squareup.okhttp.RequestBody requestBody = new FormEncodingBuilder()
-                    .add("email", email)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(mUrl + "forgetpassword")
-                    .post(requestBody)
-                    .build();
+            deviceId = Utils.getDeviceId(context);
+            deviceName = Utils.getDeviceName();
+            deviceToken = FirebaseInstanceId.getInstance().getToken();
 
-            boolean retVal = false;
+            Log.e(TAG, "deviceId : " + deviceId);
+            Log.e(TAG, "deviceName : " + deviceName);
+            Log.e(TAG, "deviceToken : " + deviceToken);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
             try {
+                jsonObject.put("email", email);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+                jsonObject.put("forgotPassword", "true");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                Response response = okHttpClient.newCall(request).execute();
+            OkHttpClient client = new OkHttpClient();
 
-                if (response.code() != 200) {
-                    retVal = false;
-                } else {
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
 
-                    String authResponseStr = response.body().string();
-                    DataModel authResponse = new GsonBuilder().create().fromJson(authResponseStr, DataModel.class);
-                    String tokenStr = authResponse.getToken();
-                    String emailStr = authResponse.getEmailId();
-                    String status = authResponse.getMessage();
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
 
-                    Log.d(TAG, " tokenStr : " + tokenStr);
-                    Log.d(TAG, " emailStr : " + emailStr);
-                    Log.d(TAG, " status : " + status);
+            Request request = new Request.Builder()
+                    .url(mUrl + "forgot-password")
+                    .post(formBody)
+                    .build();
 
+            Log.d(TAG, "SH : URL " + mUrl+"forgot-password");
+            Log.d(TAG, "SH : email  " + email);
 
-                    if (!tokenStr.isEmpty()) {
-                        retVal = true;
-                        SharedPreferences.Editor
-                                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-                        editor.putString("TOKEN", tokenStr);
-                        editor.putString("AUTH_EMAIL_ID", email);
-                        editor.apply();
-                        App.setLoginId(email);
-                        App.setTokenStr(tokenStr);
-                    } else {
-                        retVal = false;
-                        Log.d(TAG, "Invalid email....!");
-                    }
+            retVal = false;
+            try {
+                Response response = client.newCall(request).execute();
+                String authResponseStr = response.body().string();
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+
+                    Log.e(TAG, "authResponse :: " + TestJson.toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: " + strData.toString());
+
+                    authResponse = new GsonBuilder()
+                            .create()
+                            .fromJson(strData, DataModel.class);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+                String emailStr = authResponse.getEmailId();
+                Log.d(TAG, "emailStr : " + emailStr);
+                String message = authResponse.getMessage();
+                Log.d(TAG, "message : " + message);
+                boolean status = authResponse.isStatus();
+                Log.d(TAG, "Status : " + status);
+                String tokenid = authResponse.getToken();
+                Log.d(TAG, "" + tokenid);
+
+                if(status){
+                    retVal = true;
+                }else{
+                    retVal = false;
+                }
+
             } catch (IOException e) {
                 Log.e("ERROR: ", "Exception at ResetPswFragment SendResetLink: " + e.getMessage());
             } catch (NullPointerException e1) {
@@ -394,12 +436,16 @@ public class ResetPswFragment extends Fragment {
             if (success) {
                 mCardView_Two.setVisibility(View.VISIBLE);
             } else {
-                mCardView_Two.setVisibility(View.INVISIBLE);
 
-                mEditEmailMob.setError(getString(R.string.email_not_in_contactbook));
-                mEditEmailMob.requestFocus();
+                mCardView_Two.setVisibility(View.INVISIBLE);
+                mEditEmail.setError((authResponse.getMessage()));
+                mEditEmail.requestFocus();
+
+//                Snackbar sEvents = Snackbar.make(linearLayoutMain,
+//                        "Unable to reach the server - Try again later!",
+//                        Snackbar.LENGTH_SHORT);
                 Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        "Unable to reach the server - Try again later!",
+                        authResponse.getMessage(),
                         Snackbar.LENGTH_SHORT);
                 sEvents.show();
             }

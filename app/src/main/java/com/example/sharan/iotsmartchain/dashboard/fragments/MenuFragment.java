@@ -2,8 +2,10 @@ package com.example.sharan.iotsmartchain.dashboard.fragments;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,11 +40,16 @@ import com.example.sharan.iotsmartchain.dashboard.activity.SupportMainActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,6 +59,7 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 
 public class MenuFragment extends BaseFragment {
     private static final int REQUEST_CODE = 0x11;
@@ -72,13 +81,16 @@ public class MenuFragment extends BaseFragment {
     private RelativeLayout mRlLogout;
     private RelativeLayout mRlCloseAccount;
     private TextView mTvVersion;
+    private TextView mTextViewPhone;
     private ProgressBar mProgressBar;
     private View mProgressView;
-    private String mUrl, token, loginId;
+    private String mUrl, token, loginId, userName, userPhone;
     private AppLogOutAsync appLogOutAsync = null;
     private CloseAccountAsync closeAccountAsync = null;
     private Uri picUri, mImageCaptureUri;
     private File outPutFile = null;
+
+    private String deviceId, deviceName, deviceTokenId;
 
     public static MenuFragment newInstance() {
         MenuFragment menuFragment = new MenuFragment();
@@ -89,9 +101,17 @@ public class MenuFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Init and get url, login and token
         mUrl = App.getAppComponent().getApiServiceUrl();
         loginId = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
         token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
+        userName = App.getSharedPrefsComponent().getSharedPrefs().getString("NAME", null);
+        userPhone = App.getSharedPrefsComponent().getSharedPrefs().getString("PHONE", null);
+
+        /*init and get device info and token*/
+        deviceId = Utils.getDeviceId(getActivity());
+        deviceName = Utils.getDeviceName();
+        deviceTokenId = FirebaseInstanceId.getInstance().getToken();
 
         //Setup action bar title
         getActivity().setTitle("iSmartLink");
@@ -111,6 +131,7 @@ public class MenuFragment extends BaseFragment {
         img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
         mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
         mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
+        mTextViewPhone = (TextView)rootView.findViewById(R.id.textView_mobile);
         mTvEmail = (TextView) rootView.findViewById(R.id.textView_email);
         mProfileEditIcon = (ImageView) rootView.findViewById(R.id.imageView_update_profile);
         mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView_menu);
@@ -179,6 +200,10 @@ public class MenuFragment extends BaseFragment {
             if (loginId != null || !loginId.isEmpty()) {
                 mTvEmail.setText(loginId);
             }
+
+            if(userPhone != null) mTextViewPhone.setText(userPhone);
+            if(userName != null) mTvLoginName.setText(userName);
+
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
@@ -203,30 +228,18 @@ public class MenuFragment extends BaseFragment {
     //Application close account and clear device INFO
     private void CloseAccount() {
         Utils.showProgress(this.getActivity(), mProgressView, mProgressBar, true);
-        closeAccountAsync = new CloseAccountAsync();
+        closeAccountAsync = new CloseAccountAsync(getActivity(), loginId);
         closeAccountAsync.execute((Void) null);
-
-        //TODO Clear login id and token
-//        SharedPreferences.Editor editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-//        editor.putString("TOKEN", "");
-//        editor.putString("AUTH_EMAIL_ID", "");
-//        editor.apply();
-
     }
 
     //Application clear login id and token
     private void AppLogout() {
         Utils.showProgress(this.getActivity(), mProgressView, mProgressBar, true);
         //App logout async and unregister a device ID and info
-        AppLogOutAsync appLogOutAsync = new AppLogOutAsync();
+        AppLogOutAsync appLogOutAsync = new AppLogOutAsync(getActivity(), loginId);
         appLogOutAsync.execute((Void) null);
 
-        //TODO clear the login token
-//        SharedPreferences.Editor
-//                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-//        editor.putString("TOKEN", "");
-//        editor.putString("AUTH_EMAIL_ID", "");
-//        editor.apply();
+
     }
 
     private void profileUpdate(View v) {
@@ -444,46 +457,87 @@ public class MenuFragment extends BaseFragment {
 
     //Application logout async
     public class AppLogOutAsync extends AsyncTask<Void, String, String> {
-        private String mUrl, loginId, token;
+        private Context context;
+        private String mUrl, email;
+        private String retVal = "false";
+        private String respMessage = "";
 
-        public AppLogOutAsync() {
-            /**read token and login id from shared preferance file**/
-            mUrl = App.getAppComponent().getApiServiceUrl();
-
-            token = App.getSharedPrefsComponent()
-                    .getSharedPrefs()
-                    .getString("TOKEN", "");
-
-            loginId = App.getSharedPrefsComponent()
-                    .getSharedPrefs()
-                    .getString("AUTH_EMAIL_ID", "");
+        public AppLogOutAsync(Context context, String email) {
+            this.context = context;
+            this.email = email;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
-            String retVal = "false";
-            try {
-                OkHttpClient okHttpClient = new OkHttpClient();
-                RequestBody formBody = new FormEncodingBuilder()
-                        .add("device", "android")
-                        .build();
-                Request request = new Request.Builder()
-                        .addHeader("email-id", loginId)
-                        .addHeader("x-access-token", token)
-                        .url(mUrl + "/api/device/applogout")
-                        .post(formBody)
-                        .build();
+            retVal = "false";
 
-                Response response = okHttpClient.newCall(request).execute();
-                if (response.code() != 200) {
-                    retVal = "false";
-                } else {
-                    retVal = "true";
+            mUrl = App.getAppComponent().getApiServiceUrl();
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", email);
+                jsonObject.put("device", "android");
+                jsonObject.put("deviceId", deviceId );
+                jsonObject.put("deviceName", deviceName );
+                jsonObject.put("deviceTokenId", deviceTokenId );
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "logout")
+                    .post(formBody)
+                    .build();
+
+            Log.d(TAG, "SH : URL " + mUrl + "logout");
+            Log.d(TAG, "SH : formBody  " + formBody.toString());
+            Log.d(TAG, "SH : request " + request.getClass().toString());
+
+            try {
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "" + response.toString());
+
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+
+                    Log.e(TAG, "authResponse :: " + TestJson.toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: " + strData.toString());
+
+                    JSONObject respData = new JSONObject(strData);
+                    /*{"message":"Mobile OTP Confirm","status":"true"}*/
+
+                    Log.e(TAG, respData.getString("message"));
+                    Log.e(TAG, respData.getString("status"));
+
+                    retVal = respData.getString("status");
+                    respMessage = respData.getString("message");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             } catch (IOException e) {
-                Log.e("ERROR: ", "Exception at app logout device info: " + e.getMessage());
+                Log.e("ERROR: ", "Exception at Logout " + e.getMessage());
             } catch (NullPointerException e1) {
-                Log.e("ERROR: ", "null pointer Exception at app logout device info : " + e1.getMessage());
+                Log.e("ERROR: ", "null pointer Exception at logout" + e1.getMessage());
             }
             return retVal;
         }
@@ -492,22 +546,45 @@ public class MenuFragment extends BaseFragment {
         protected void onPostExecute(String data) {
             super.onPostExecute(data);
             Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
-
+            appLogOutAsync = null;
             if (data.equalsIgnoreCase("true")) {
                 // showProgress(false);
+                //TODO clear the login token
+                SharedPreferences.Editor
+                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+                editor.putString("TOKEN", "");
+                editor.putString("AUTH_EMAIL_ID", "");
+                editor.putString("PHONE", "");
+                editor.putString("EMAIL", "");
+                editor.apply();
+
                 // Start the login activity
                 Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+                loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginActivityIntent);
                 getActivity().finish();
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
+            appLogOutAsync = null;
+            super.onCancelled();
         }
     }
 
     //Un register or close account
     public class CloseAccountAsync extends AsyncTask<Void, String, String> {
-        private String mUrl, token, loginId;
+        private Context context;
+        private String mUrl, email;
+        private String retVal = "false";
+        private String respMessage = "";
 
-        public CloseAccountAsync() {
+        public CloseAccountAsync(Context context, String email) {
+            this.context = context;
+            this.email = email;
+
             mUrl = App.getAppComponent().getApiServiceUrl();
             token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", "");
             loginId = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", "");
@@ -516,30 +593,76 @@ public class MenuFragment extends BaseFragment {
         @Override
         protected String doInBackground(Void... voids) {
 
-            String retVal = "false";
+            retVal = "false";
+
+            mUrl = App.getAppComponent().getApiServiceUrl();
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
             try {
-                OkHttpClient client = new OkHttpClient();
-                RequestBody formBody = new FormEncodingBuilder()
-                        .add("device", "android")
-                        .build();
-                Request request = new Request.Builder()
-                        .addHeader("email-id", loginId)
-                        .addHeader("x-access-token", token)
-                        .url(mUrl + "/api/device/closeaccount")
-                        .post(formBody)
-                        .build();
-                Response response = client.newCall(request).execute();
-                if (response.code() != 200) {
-                    retVal = "false";
-                } else {
-                    retVal = "true";
-                }
-            } catch (IOException e) {
-                Log.e("ERROR: ", "Exception at close account and device info: " + e.getMessage());
-            } catch (NullPointerException e1) {
-                Log.e("ERROR: ", "null pointer Exception at close account: " + e1.getMessage());
+                jsonObject.put("email", email);
+                jsonObject.put("device", "android");
+                jsonObject.put("deviceId", deviceId );
+                jsonObject.put("deviceName", deviceName );
+                jsonObject.put("deviceTokenId", deviceTokenId );
+                jsonObject.put("isApp", "true");
+                jsonObject.put("signUp", "false");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "close-account")
+                    .post(formBody)
+                    .build();
+
+            Log.d(TAG, "SH : URL " + mUrl + "logout");
+            Log.d(TAG, "SH : formBody  " + formBody.toString());
+            Log.d(TAG, "SH : request " + request.getClass().toString());
+
+            try {
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "" + response.toString());
+
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+
+                    Log.e(TAG, "authResponse :: " + TestJson.toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: " + strData.toString());
+
+                    JSONObject respData = new JSONObject(strData);
+                    /*{"message":"Mobile OTP Confirm","status":"true"}*/
+
+                    Log.e(TAG, respData.getString("message"));
+                    Log.e(TAG, respData.getString("status"));
+
+                    retVal = respData.getString("status");
+                    respMessage = respData.getString("message");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at close account " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at close account" + e1.getMessage());
+            }
             return retVal;
         }
 
@@ -548,11 +671,22 @@ public class MenuFragment extends BaseFragment {
             super.onPostExecute(data);
             Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
 
+            Snackbar.make(mProgressView, respMessage, Snackbar.LENGTH_LONG).show();
+
             if (data.equalsIgnoreCase("true")) {
 
+                SharedPreferences.Editor
+                        editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+                editor.putString("TOKEN", "");
+                editor.putString("AUTH_EMAIL_ID", "");
+                editor.putString("PHONE", "");
+                editor.putString("EMAIL", "");
+                editor.apply();
+
                 //Call login screen
-                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(loginIntent);
+                Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+                loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginActivityIntent);
                 getActivity().finish();
             }
         }

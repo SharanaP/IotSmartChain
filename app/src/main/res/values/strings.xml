@@ -12,6 +12,7 @@
     <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_sign_in_short">Sign In</string>
     <string name="error_invalid_phone_number">This mobile number is invalid</string>
+    <string name="error_unregister_phone_number">Unregister mobile number </string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_confirm_invalid_password">Confirm password doesn\'t match or it is empty</string>

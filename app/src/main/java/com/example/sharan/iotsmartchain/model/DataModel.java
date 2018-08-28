@@ -36,6 +36,20 @@ public class DataModel {
     @SerializedName("isPhoneExisted")
     String phoneIsExisted;
 
+    @SerializedName("name")
+    String mName;
+
+    @SerializedName("phone")
+    String mPhone;
+
+    public String getName() {
+        return mName;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
     public String getEmailId() {
         return mEmailId;
     }

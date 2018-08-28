@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -69,11 +71,15 @@ public class OtpLoginActivity extends BaseActivity {
     View mView;
     @BindView(R.id.button_request_otp)
     Button mRequestOtpButton;
+    @BindView(R.id.textView_TimeDownCounter)
+    TextView mTextViewTimeCountDowner;
 
     private SmsVerifyCatcher smsVerifyCatcher;
     private UserLoginOTPAsync userLoginOTPAsync = null;
     private RequestOtpAsync requestOtpAsync = null;
     private String deviceId, deviceName, deviceToken, mUrl;
+
+    CountDownTimer countDownTimer = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,16 +102,28 @@ public class OtpLoginActivity extends BaseActivity {
         smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
             @Override
             public void onSmsCatch(String message) {
+                Log.e(TAG, "SH : msg :  "+message);
                 String code = parseCode(message);//Parse verification code
+                Log.e(TAG, "SH : otp : "+code);
                 mEditTextOTP.setText(code);//set code in edit text
+
+                //Time down counter cancel and start new timer verification
+                if(countDownTimer != null){
+                    countDownTimer.cancel(); //Time down counter
+                    countDownTimer.onFinish();
+                    mTextViewTimeCountDowner.setText("");
+                }
+
+                countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1).start();
 
                 //then you can send verification code to server
             }
         });
 
         //set phone number filter if needed
-        String str = "Im-Notice";
-        smsVerifyCatcher.setPhoneNumberFilter(("Notice"));
+        String str = "XX-Notice";
+        Log.e(TAG, ""+str.substring(2));
+        smsVerifyCatcher.setPhoneNumberFilter(str.substring(2));
         //smsVerifyCatcher.setFilter("Verification code:");
 
 
@@ -137,10 +155,35 @@ public class OtpLoginActivity extends BaseActivity {
                 // requesting for OTP
                 String mobile = mEditTextMobile.getText().toString();
                 if (!mobile.isEmpty()) {
-                    showProgress(true);
-                    requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobile);
-                    requestOtpAsync.execute((Void) null);
+
+                    if(mobile.length() == 10){
+                        if (isValidMobile(mobile)) {
+                            showProgress(true);
+                            requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobile);
+                            requestOtpAsync.execute((Void) null);
+                        } else {
+                            mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
+                            mEditTextMobile.requestFocus();
+
+                            Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                                    "Please enter registered mobile number...!",
+                                    Snackbar.LENGTH_LONG);
+                            sEvents.show();
+                        }
+                    }else{
+                        mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
+                        mEditTextMobile.requestFocus();
+
+                        Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                                "Please enter 10-digit mobile number...!",
+                                Snackbar.LENGTH_LONG);
+                        sEvents.show();
+                    }
+
                 } else {
+                    mEditTextMobile.setError(getString(R.string.error_field_required));
+                    mEditTextMobile.requestFocus();
+
                     Snackbar sEvents = Snackbar.make(mEditTextMobile,
                             "Please enter registered mobile number...!",
                             Snackbar.LENGTH_LONG);
@@ -155,6 +198,12 @@ public class OtpLoginActivity extends BaseActivity {
                 // submit otp number via mobile
                 String mobileStr = mEditTextMobile.getText().toString();
                 String otpStr = mEditTextOTP.getText().toString();
+
+                if(countDownTimer != null){
+                    countDownTimer.cancel(); //Time down counter
+                    countDownTimer.onFinish();
+                    mTextViewTimeCountDowner.setText("");
+                }
 
                 if (!mobileStr.isEmpty()) {
                     if (isValidMobile(mobileStr)) {
@@ -196,8 +245,7 @@ public class OtpLoginActivity extends BaseActivity {
 
     private void DashBoardScreen() {
         Intent homeIntent = new Intent(OtpLoginActivity.this, DashBoardActivity.class);
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(homeIntent);
         this.finish();
     }
@@ -276,23 +324,6 @@ public class OtpLoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    private boolean isValidMobile(String phone) {
-        if (TextUtils.isEmpty(phone)) return false;
-        else {
-            return android.util.Patterns.PHONE.matcher(phone).matches();
-        }
-    }
-
     /**
      * Parse verification code
      *
@@ -300,13 +331,42 @@ public class OtpLoginActivity extends BaseActivity {
      * @return only four numbers from massage string
      */
     private String parseCode(String message) {
-        Pattern p = Pattern.compile("\\b\\d{6}\\b");
+        Pattern p = Pattern.compile("\\b\\d{4}\\b");
         Matcher m = p.matcher(message);
         String code = "";
         while (m.find()) {
             code = m.group(0);
         }
         return code;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        smsVerifyCatcher.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        smsVerifyCatcher.onStop();
+    }
+
+    /**
+     * need for Android 6 real time permissions
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private boolean isValidMobile(String phone) {
+        if (TextUtils.isEmpty(phone)) return false;
+        else {
+            return android.util.Patterns.PHONE.matcher(phone).matches();
+        }
     }
 
     /* Server API : To request server for login through a mobile OTP*/
@@ -402,6 +462,8 @@ public class OtpLoginActivity extends BaseActivity {
                                     editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
                             editor.putString("TOKEN", tokenid);
                             editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
+                            editor.putString("NAME", authResponse.getName());
+                            editor.putString("PHONE", authResponse.getPhone());
                             editor.apply();
                             App.setLoginId(authResponse.getEmailId());
                             App.setTokenStr(tokenid);
@@ -563,14 +625,36 @@ public class OtpLoginActivity extends BaseActivity {
             requestOtpAsync = null;
             showProgress(false);
             if (success) {
+
+                if(countDownTimer != null){
+                    countDownTimer.cancel(); //Time down counter
+                    countDownTimer.onFinish();
+                    mTextViewTimeCountDowner.setText("");
+                }
+
+                countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1);
+                countDownTimer.start();
+
                 mVerifyOtpButton.setVisibility(View.VISIBLE);
                 mRequestOtpButton.setVisibility(View.INVISIBLE);
                 mEditTextOTP.setVisibility(View.VISIBLE);
                 mResendOtpButton.setVisibility(View.VISIBLE);
+
+                Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                        authResponse.getMessage(),
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
             } else {
                 mVerifyOtpButton.setVisibility(View.INVISIBLE);
                 mRequestOtpButton.setVisibility(View.VISIBLE);
                 mResendOtpButton.setVisibility(View.INVISIBLE);
+
+                mEditTextMobile.setError(getString(R.string.error_unregister_phone_number));
+                mEditTextMobile.requestFocus();
+                Snackbar sEvents = Snackbar.make(mEditTextMobile,
+                        authResponse.getMessage()+" and Please enter registered mobile number",
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
             }
             super.onPostExecute(success);
         }

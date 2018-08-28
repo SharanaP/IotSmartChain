@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
@@ -28,6 +31,9 @@ import com.example.sharan.iotsmartchain.SMS.OnSmsCatchListener;
 import com.example.sharan.iotsmartchain.SMS.SmsVerifyCatcher;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
+import com.example.sharan.iotsmartchain.model.DataModel;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -42,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
+import okhttp3.internal.Util;
 
 public class MobEmailValidationActivity extends BaseActivity {
     private static String TAG = MobEmailValidationActivity.class.getSimpleName();
@@ -73,10 +80,15 @@ public class MobEmailValidationActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.relativeLayout_view)
     View mView;
+    @BindView(R.id.textview_timer)
+    TextView mTextViewTimer;
+    private CountDownTimer countDownTimer = null;
     private SmsVerifyCatcher smsVerifyCatcher;
+    private RegenerateOtpAsync regenerateOtpAsync = null;
     private VerifyAccViaOtpAsync verifyAccViaOtpAsync = null;
-    private String mUrl, deviceId = "";
+    private String mUrl, deviceId = "", deviceName, deviceToken;
     private String mOTP = "";
+    private String email, phone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,18 +101,40 @@ public class MobEmailValidationActivity extends BaseActivity {
         mUrl = App.getAppComponent().getApiServiceUrl();
         deviceId = Utils.getDeviceId(getApplicationContext());
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            email = bundle.getString("email");
+            phone = bundle.getString("phone");
+        }
+
+        /*init and get device info and token*/
+        deviceId = Utils.getDeviceId(getApplicationContext());
+        deviceName = Utils.getDeviceName();
+        deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+        countDownTimer = Utils.showTimeCountDowner(mTextViewTimer, 1).start();
+
         //init SmsVerifyCatcher
         smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
             @Override
             public void onSmsCatch(String message) {
+                Log.e(TAG, "SH : message :  "+message);
                 String code = parseCode(message);//Parse verification code
+                Log.e(TAG, "SH : otp : "+code);
                 mEditSMS.setText(code);//set code in edit text
 
-                //then you can send verification code to server
+                //Timer
+                if(countDownTimer != null){
+                    countDownTimer.cancel(); //Time down counter
+                    countDownTimer.onFinish();
+                    mTextViewTimer.setText("");
+                }
+
+                countDownTimer = Utils.showTimeCountDowner(mTextViewTimer, 1).start();
             }
         });
 
-        //set phone number filter if needed
+        //TODO set phone number filter if needed
         String str = "Notice";
         smsVerifyCatcher.setPhoneNumberFilter(str);
         //smsVerifyCatcher.setFilter("Verification code:");
@@ -142,6 +176,14 @@ public class MobEmailValidationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 /*TODO requesting to server for new or regenerate a OTP via mobile based */
+                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)){
+                    showProgress(true);
+                    regenerateOtpAsync =  new RegenerateOtpAsync(MobEmailValidationActivity.this,
+                            email, phone);
+                    regenerateOtpAsync.execute((Void)null);
+                }else{
+                    Log.d(TAG, "Email and Mobile number is empty");
+                }
             }
         });
 
@@ -150,6 +192,14 @@ public class MobEmailValidationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 /*TODO requesting to server for new OTP via email based*/
+                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)){
+                    showProgress(true);
+                    regenerateOtpAsync =  new RegenerateOtpAsync(MobEmailValidationActivity.this,
+                            email, phone);
+                    regenerateOtpAsync.execute((Void)null);
+                }else{
+                    Log.d(TAG, "Email and Mobile number is empty");
+                }
             }
         });
 
@@ -159,6 +209,7 @@ public class MobEmailValidationActivity extends BaseActivity {
             public void onClick(View v) {
                 /*TODO goto next screen like login */
                 Intent intentLogIn = new Intent(MobEmailValidationActivity.this, LoginActivity.class);
+                if(email != null) intentLogIn.putExtra("email", email);
                 intentLogIn.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentLogIn);
                 finish();
@@ -216,7 +267,7 @@ public class MobEmailValidationActivity extends BaseActivity {
      * @return only four numbers from massage string
      */
     private String parseCode(String message) {
-        Pattern p = Pattern.compile("\\b\\d{6}\\b");
+        Pattern p = Pattern.compile("\\b\\d{4}\\b");
         Matcher m = p.matcher(message);
         String code = "";
         while (m.find()) {
@@ -374,6 +425,9 @@ public class MobEmailValidationActivity extends BaseActivity {
         protected void onPostExecute(String success) {
             super.onPostExecute(success);
 
+            if(countDownTimer != null)
+            countDownTimer.onFinish();
+
             if (success.equalsIgnoreCase("true")) {
                 /*Email based*/
                 if (isEmail) {
@@ -411,5 +465,128 @@ public class MobEmailValidationActivity extends BaseActivity {
             super.onCancelled();
         }
     }
+
+    /*API : This api re-send OTP via email or mobile based request OTP...*/
+    public class RegenerateOtpAsync extends AsyncTask<Void, String, Boolean>{
+        private Context context;
+        private String email;
+        private String phone;
+        private String message = "";
+        private boolean retVal = false;
+
+
+        public RegenerateOtpAsync(Context context, String email, String phone) {
+            this.context = context;
+            this.email = email;
+            this.phone = phone;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", email);
+                jsonObject.put("phone", phone);
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceToken);
+                jsonObject.put("isApp", "true");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "regen-verification-otp")
+                    .post(formBody)
+                    .build();
+
+            Log.d(TAG, "SH : URL " + mUrl + "regen-verification-otp");
+            Log.d(TAG, "SH : formBody  " + formBody.toString());
+            Log.d(TAG, "SH : request " + request.getClass().toString());
+
+            try {
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "" + response.toString());
+
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+
+                    Log.e(TAG, "authResponse :: " + TestJson.toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: " + strData.toString());
+
+                    JSONObject respData = new JSONObject(strData);
+                    /*{"message":"Mobile OTP Confirm","status":"true"}*/
+
+                    Log.e(TAG, respData.getString("message"));
+                    Log.e(TAG, respData.getString("status"));
+
+                    message = respData.getString("message");
+
+                    String status = respData.getString("status");
+                    if(status.equalsIgnoreCase("true")){
+                        retVal = true;
+                    }else{
+                        retVal = false;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at Verify email and mobile number: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at verify email and mobile number: " + e1.getMessage());
+            }
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            showProgress(false);
+            if(success){
+
+                //Restart timer
+                if(countDownTimer != null)countDownTimer.onFinish();
+                countDownTimer = Utils.showTimeCountDowner(mTextViewTimer, 1).start();
+
+                Snackbar snackbar = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
+                snackbar.show();
+            }else{
+                Snackbar snackbar = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
+                snackbar.show();
+            }
+            regenerateOtpAsync = null;
+            super.onPostExecute(success);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            regenerateOtpAsync = null;
+            showProgress(false);
+        }
+    }
+
+
 
 }

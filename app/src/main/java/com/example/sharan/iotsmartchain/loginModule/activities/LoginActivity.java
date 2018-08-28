@@ -164,6 +164,15 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         //Self Check permissions
         insertDummyContactWrapper();
 
+
+        /*get email*/
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            String email = bundle.getString("email");
+            if(email != null)
+            mEmailView.setText(email);
+        }
+
         //Handle a Push notification
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -236,11 +245,14 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             public void onClick(View v) {
 
                 //TODO reset password link and set new password
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                setContentView(R.layout.activity_fragment);
-                Utils.replaceFragment(LoginActivity.this, new ResetPswFragment(),
-                        R.id.fragment_container, false);
+//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                setContentView(R.layout.activity_fragment);
+//                Utils.replaceFragment(LoginActivity.this, new ResetPswFragment(),
+//                        R.id.fragment_container, true);
+
+                Intent intentForgotPsw = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(intentForgotPsw);
             }
         });
 
@@ -569,16 +581,16 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
     private void DashBoardScreen() {
         Intent homeIntent = new Intent(LoginActivity.this, DashBoardActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(homeIntent);
-        finish();
+        LoginActivity.this.finish();
     }
 
     private void RegisterIoTScreen() {
         Intent intent = new Intent(LoginActivity.this, RegisterIoTDeviceActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
-        this.finish();
+        LoginActivity.this.finish();
     }
 
     @Override
@@ -757,6 +769,8 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
                                     editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
                             editor.putString("TOKEN", tokenid);
                             editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
+                            editor.putString("NAME", authResponse.getName());
+                            editor.putString("PHONE", authResponse.getPhone());
                             editor.apply();
                             App.setLoginId(authResponse.getEmailId());
                             App.setTokenStr(tokenid);

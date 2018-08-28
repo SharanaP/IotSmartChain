@@ -8,11 +8,12 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Build;
-import android.provider.Settings;
+import android.os.CountDownTimer;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
@@ -181,6 +183,30 @@ public class Utils {
         String deviceMan = Build.MANUFACTURER;
         Log.d("deviceName : ", deviceMan + " " + deviceName);
         return deviceMan + " " + deviceName;
+    }
+
+    public static CountDownTimer showTimeCountDowner(TextView countDownTextView, int minutes){
+         int milliseconds = minutes * 60 * 1000;
+
+        CountDownTimer countDownTimer = new CountDownTimer(milliseconds, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                countDownTextView.setText(String.format("%02d:%02d:%02d",
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            @Override
+            public void onFinish() {
+                countDownTextView.setText("Time Up!");
+            }
+        };
+
+        return countDownTimer;
     }
 
 }

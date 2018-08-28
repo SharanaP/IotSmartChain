@@ -8,14 +8,12 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
@@ -40,7 +38,6 @@ import com.example.sharan.iotsmartchain.model.DataModel;
 import com.example.sharan.iotsmartchain.model.LoginResultType;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -63,34 +60,88 @@ import butterknife.BindView;
 public class RegisterActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static String TAG = "RegisterActivity";
-
-    @BindView(R.id.view_firstName) EditText viewFirstName;
-    @BindView(R.id.view_lastName) EditText viewLastName;
-    @BindView(R.id.view_email) EditText viewEmailID;
-    @BindView(R.id.view_phone_number) EditText viewPhoneNum;
-    @BindView(R.id.view_password_one) EditText viewFstPsw;
-    @BindView(R.id.view_password_second) EditText viewSecPsw;
-    @BindView(R.id.button_register) Button buttonReg;
-    @BindView(R.id.login_progress_reg) View mProgressView;
-    @BindView(R.id.relativeLayout_view) View mView;
-    @BindView(R.id.login_form_reg) View mLoginFormView;
-    @BindView(R.id.ic_showPassword) ImageView mImagePswShow;
-    @BindView(R.id.ic_reEnter_showPassword) ImageView mImageReEnterPswShow;
-
-
+    private static int TIME_INTERVAL = 2000;//to exit a back application
+    @BindView(R.id.view_firstName)
+    EditText viewFirstName;
+    @BindView(R.id.view_lastName)
+    EditText viewLastName;
+    @BindView(R.id.view_email)
+    EditText viewEmailID;
+    @BindView(R.id.view_phone_number)
+    EditText viewPhoneNum;
+    @BindView(R.id.view_password_one)
+    EditText viewFstPsw;
+    @BindView(R.id.view_password_second)
+    EditText viewSecPsw;
+    @BindView(R.id.button_register)
+    Button buttonReg;
+    @BindView(R.id.login_progress_reg)
+    View mProgressView;
+    @BindView(R.id.relativeLayout_view)
+    View mView;
+    @BindView(R.id.login_form_reg)
+    View mLoginFormView;
+    @BindView(R.id.ic_showPassword)
+    ImageView mImagePswShow;
+    @BindView(R.id.ic_reEnter_showPassword)
+    ImageView mImageReEnterPswShow;
     private String mFName, mLName, mEmailId, mPhoneNum, mPsw1st, mPsw2nd;
     private boolean mStatus = false;
     private String mUrl;
     private UserSignUpAsync mSignUpTask = null;
-
     private long mBackPressed;
-    private static int TIME_INTERVAL = 2000;//to exit a back application
+    private View.OnTouchListener mViewPsw = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
 
+            final boolean isOutsideView = event.getX() < 0 ||
+                    event.getX() > v.getWidth() ||
+                    event.getY() < 0 ||
+                    event.getY() > v.getHeight();
+
+            // change input type will reset cursor position, so we want to save it
+            final int cursor = viewFstPsw.getSelectionStart();
+
+            if (isOutsideView || MotionEvent.ACTION_UP == event.getAction())
+                viewFstPsw.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            else
+                viewFstPsw.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+
+            viewFstPsw.setSelection(cursor);
+
+            return true;
+        }
+    };
+    private View.OnTouchListener mViewReEnterPsw = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            final boolean isOutsideView = event.getX() < 0 ||
+                    event.getX() > v.getWidth() ||
+                    event.getY() < 0 ||
+                    event.getY() > v.getHeight();
+
+            // change input type will reset cursor position, so we want to save it
+            final int cursor = viewSecPsw.getSelectionStart();
+
+            if (isOutsideView || MotionEvent.ACTION_UP == event.getAction())
+                viewSecPsw.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            else
+                viewSecPsw.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+
+            viewSecPsw.setSelection(cursor);
+
+            return true;
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.activity_register);
+        //  setContentView(R.layout.activity_register);
         setContentView(R.layout.activity_signup_screen);
 
         injectViews();
@@ -155,7 +206,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     /*Validate all inputs */
     private void validateInputData() {
 
-        if(mSignUpTask != null){
+        if (mSignUpTask != null) {
             return;
         }
 
@@ -182,75 +233,75 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             cancel = true;
         }
 
-        if(TextUtils.isEmpty(mLName)){
+        if (TextUtils.isEmpty(mLName)) {
             viewLastName.setError(getString(R.string.error_field_required));
             focusView = viewLastName;
             cancel = true;
         }
 
-        if(TextUtils.isEmpty(mEmailId)){
+        if (TextUtils.isEmpty(mEmailId)) {
             viewEmailID.setError(getString(R.string.error_field_required));
             focusView = viewEmailID;
             cancel = true;
         }
 
-        if(!isEmailValid(mEmailId)){
+        if (!isEmailValid(mEmailId)) {
             viewEmailID.setError(getString(R.string.error_invalid_email));
             focusView = viewEmailID;
             cancel = true;
         }
 
-        if(TextUtils.isEmpty(mPhoneNum)){
+        if (TextUtils.isEmpty(mPhoneNum)) {
             viewPhoneNum.setError(getString(R.string.error_field_required));
             focusView = viewPhoneNum;
             cancel = true;
         }
 
-        if(isValidMobile(mPhoneNum)){
-        }else{
+        if (isValidMobile(mPhoneNum)) {
+        } else {
             viewPhoneNum.setError(getString(R.string.error_invalid_phone_number));
             focusView = viewPhoneNum;
             cancel = true;
         }
 
-        if(TextUtils.isEmpty(mPsw1st)){
+        if (TextUtils.isEmpty(mPsw1st)) {
             viewFstPsw.setError(getString(R.string.error_invalid_password));
             focusView = viewFstPsw;
             cancel = true;
         }
 
-        if( !isPasswordValid(mPsw1st)){
+        if (!isPasswordValid(mPsw1st)) {
             viewFstPsw.setError(getString(R.string.error_invalid_password));
             focusView = viewFstPsw;
             cancel = true;
         }
 
-        if(TextUtils.isEmpty(mPsw2nd)){
+        if (TextUtils.isEmpty(mPsw2nd)) {
             viewSecPsw.setError(getString(R.string.error_invalid_password));
             focusView = viewSecPsw;
             cancel = true;
         }
 
-        if(!isPasswordValid(mPsw2nd)){
+        if (!isPasswordValid(mPsw2nd)) {
             viewSecPsw.setError(getString(R.string.error_invalid_password));
             focusView = viewSecPsw;
             cancel = true;
         }
 
-        if(isConfirmPasswordValid(mPsw1st, mPsw2nd));
-        else{
+        if (isConfirmPasswordValid(mPsw1st, mPsw2nd)) ;
+        else {
             viewSecPsw.setError(getString(R.string.error_confirm_invalid_password));
             focusView = viewSecPsw;
             cancel = true;
         }
 
-        if(cancel){
+        if (cancel) {
             focusView.requestFocus();
-        }else{
+        } else {
             //TODO check signup API
             showProgress(true);
             mSignUpTask = new UserSignUpAsync(mFName, mLName, mEmailId, mPhoneNum,
-                            mPsw1st, RegisterActivity.this);
+                    mPsw1st, RegisterActivity.this);
             mSignUpTask.execute((Void) null);
         }
     }
@@ -268,60 +319,11 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     }
 
     private boolean isValidMobile(String phone) {
-        if(TextUtils.isEmpty(phone)) return false;
-        else{
+        if (TextUtils.isEmpty(phone)) return false;
+        else {
             return android.util.Patterns.PHONE.matcher(phone).matches();
         }
     }
-
-    private View.OnTouchListener mViewPsw = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            final boolean isOutsideView = event.getX() < 0 ||
-                    event.getX() > v.getWidth() ||
-                    event.getY() < 0 ||
-                    event.getY() > v.getHeight();
-
-            // change input type will reset cursor position, so we want to save it
-            final int cursor = viewFstPsw.getSelectionStart();
-
-            if (isOutsideView || MotionEvent.ACTION_UP == event.getAction())
-                viewFstPsw.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            else
-                viewFstPsw.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
-            viewFstPsw.setSelection(cursor);
-
-            return true;
-        }
-    };
-
-    private View.OnTouchListener mViewReEnterPsw = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            final boolean isOutsideView = event.getX() < 0 ||
-                    event.getX() > v.getWidth() ||
-                    event.getY() < 0 ||
-                    event.getY() > v.getHeight();
-
-            // change input type will reset cursor position, so we want to save it
-            final int cursor = viewSecPsw.getSelectionStart();
-
-            if (isOutsideView || MotionEvent.ACTION_UP == event.getAction())
-                viewSecPsw.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            else
-                viewSecPsw.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
-            viewSecPsw.setSelection(cursor);
-
-            return true;
-        }
-    };
 
     /**
      * Shows the progress UI and hides the login form.
@@ -394,11 +396,55 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-       //TODO viewEmailID.setAdapter(adapter);
+        //TODO viewEmailID.setAdapter(adapter);
     }
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    /*Next screen for verification user mobile number and email*/
+    private void mobileEmailValidation() {
+        Intent intent = new Intent(RegisterActivity.this, MobEmailValidationActivity.class);
+        if(mEmailId != null)
+        intent.putExtra("email", mEmailId);
+        if(mPhoneNum != null)
+        intent.putExtra("phone", mPhoneNum);
+        startActivity(intent);
+    }
+
+    private void showLoginView() {
+        Snackbar sn = Snackbar.make(findViewById(R.id.button_register),
+                "Registration Success! ", Snackbar.LENGTH_LONG);
+        sn.show();
+        sn.setCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                super.onDismissed(snackbar, event);
+                if (event == DISMISS_EVENT_TIMEOUT) {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+        Toast onBackPressedToast = Toast
+                .makeText(getBaseContext(), "Tap back again to exit", Toast.LENGTH_SHORT);
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis() && count == 0) {
+            super.onBackPressed();
+            onBackPressedToast.cancel();
+            return;
+        } else {
+            onBackPressedToast.show();
+        }
+        getFragmentManager().popBackStack();
+        mBackPressed = System.currentTimeMillis();
     }
 
     private interface ProfileQuery {
@@ -424,6 +470,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         private String deviceName = "";
         private String deviceToken = "";
         private DataModel authResponse = new DataModel();
+        private boolean retVal = false;
 
 
         public UserSignUpAsync(String mFirstName, String mLastName, String mEmail, String mPhoneNum,
@@ -478,68 +525,48 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                     .post(formBody)
                     .build();
 
-            Log.d(TAG, "SH : URL "+mUrl);
-            Log.d(TAG, "SH : formBody  "+formBody.toString());
-            Log.d(TAG, "SH : request "+request.getClass().toString());
+            Log.d(TAG, "SH : URL " + mUrl);
+            Log.d(TAG, "SH : formBody  " + formBody.toString());
+            Log.d(TAG, "SH : request " + request.getClass().toString());
 
 
-            boolean retVal = false;
+            retVal = false;
             try {
                 Response response = client.newCall(request).execute();
-                Log.e(TAG, ""+response.toString());
+                Log.e(TAG, "" + response.toString());
 
                 String authResponseStr = response.body().string();
-                Log.e(TAG, "authResponseStr :: "+authResponseStr);
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
 
                 //Json object
                 try {
                     JSONObject TestJson = new JSONObject(authResponseStr);
-                    Log.e(TAG, "TestJson :: "+TestJson.toString());
-                    Log.e(TAG, "TestJson : body :: "+TestJson.getString("body").toString());
+                    Log.e(TAG, "TestJson :: " + TestJson.toString());
+                    Log.e(TAG, "TestJson : body :: " + TestJson.getString("body").toString());
 
                     String strData = TestJson.getString("body").toString();
-                    Log.e(TAG, "strData :: "+strData.toString());
+                    Log.e(TAG, "strData :: " + strData.toString());
 
-
+                    /*{"message":"User info already avilable",
+                    "isEmailExisted":true,"isPhoneExisted":true,
+                    "email":"sharan.pallada@gmail.com",
+                    "userId":"00a07000-a78a-11e8-982e-71ac2b2937db",
+                    "status":"false"}
+                     */
                     authResponse = new GsonBuilder()
                             .create()
                             .fromJson(strData, DataModel.class);
 
-                    Log.e(TAG, " SH : "+authResponse.toString());
-
+                    Log.e(TAG, " SH : " + authResponse.toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if(response.code() != 200){
-                    mLoginResultType = LoginResultType.LOGIN_FAILED;
-                    retVal = false;
-                } else {
-                    mLoginResultType = LoginResultType.LOGIN_SUCCESS;
-                    retVal = true;
-
-                    String tokenStr = authResponse.getToken();
-
-                    Log.d(TAG, "tokenStr : "+tokenStr);
-                    Log.d(TAG, "email : "+authResponse.getEmailId());
-
-                    if(!tokenStr.isEmpty()){
-                        SharedPreferences.Editor
-                                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-                        editor.putString("TOKEN", tokenStr);
-                        editor.putString("AUTH_EMAIL_ID", authResponse.getEmailId());
-                        editor.apply();
-                        App.setLoginId(authResponse.getEmailId());
-                        App.setTokenStr(tokenStr);
-
-                    }else{
-                        Log.d(TAG, "Invalid emial Id....!");
-                    }
-                }
+                retVal = authResponse.isStatus();
             } catch (IOException e) {
                 Log.e("ERROR: ", "Exception at RegistrationActivity: " + e.getMessage());
-            } catch (NullPointerException e1){
+            } catch (NullPointerException e1) {
                 Log.e("ERROR: ", "null pointer Exception at RegistrationActivity: " + e1.getMessage());
             }
 
@@ -551,8 +578,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             mSignUpTask = null;
             showProgress(false);
             if (success) {
-
-                /*TODO testing time being comment below lines*/
+                /*testing time being comment below lines*/
 //                viewFirstName.setText("");
 //                viewLastName.setText("");
 //                viewEmailID.setText("");
@@ -562,19 +588,11 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
 
                 /*Check email and mobile number validation */
                 mobileEmailValidation();
-
-                //TODO showLoginView();
-
-                //TODO Goto Next screen
-
             } else {
-//                viewEmailID.setError(getString(R.string.email_not_in_contactbook));
-//                viewEmailID.requestFocus();
-
                 Snackbar sEvents = Snackbar.make(mLoginFormView,
-                            "Unable to reach the server - Try again later!",
-                            Snackbar.LENGTH_SHORT);
-                    sEvents.show();
+                        authResponse.getMessage() + " - Try again later!",
+                        Snackbar.LENGTH_LONG);
+                sEvents.show();
             }
         }
 
@@ -584,44 +602,5 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             showProgress(false);
             super.onCancelled();
         }
-    }
-
-    /*Next screen for verification user mobile number and email*/
-    private void mobileEmailValidation(){
-        Intent intent = new Intent(RegisterActivity.this, MobEmailValidationActivity.class);
-        startActivity(intent);
-    }
-
-    private void showLoginView(){
-        Snackbar sn = Snackbar.make(findViewById(R.id.button_register),
-                "Registration Success! ", Snackbar.LENGTH_LONG);
-        sn.show();
-        sn.setCallback(new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar snackbar, int event) {
-                super.onDismissed(snackbar, event);
-                if (event == DISMISS_EVENT_TIMEOUT) {
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
-        Toast onBackPressedToast = Toast
-                .makeText(getBaseContext(), "Tap back again to exit", Toast.LENGTH_SHORT);
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis() && count == 0) {
-            super.onBackPressed();
-            onBackPressedToast.cancel();
-            return;
-        } else {
-            onBackPressedToast.show();
-        }
-        getFragmentManager().popBackStack();
-        mBackPressed = System.currentTimeMillis();
     }
 }

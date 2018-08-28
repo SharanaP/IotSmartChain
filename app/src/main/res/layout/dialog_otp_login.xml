@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_screen_two">
 
+    <!--Toolbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -32,30 +33,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <!--<TextView
-        android:id="@+id/textView_title"
-        android:text="Login through OTP"
+    <TextView
+        android:id="@+id/textView_TimeDownCounter"
+        android:text=""
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/color.PrimaryDark"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toolbar"
+        android:textStyle="bold|italic"
+        android:textSize="20sp"
+        android:gravity="center"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/color.white"/>-->
+        android:textColor="@color/color_orange"/>
 
     <EditText
         android:id="@+id/editText_enter_mobile"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/toolbar"
         android:layout_marginTop="30dp"
         android:hint="enter mobile number ex:9023423423"
-        android:textColorHint="@color/color.silver"
+        android:textColorHint="@color/color.grey.medium"
         android:inputType="number"
         android:textStyle="normal"
         android:maxLength="10"
-        android:textSize="15sp"
+        android:textSize="22sp"
+        android:gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textColor="@color/color.silver"/>
@@ -63,16 +66,17 @@
     <EditText
         android:id="@+id/editText_enter_otp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/editText_enter_mobile"
         android:layout_marginTop="10dp"
         android:visibility="invisible"
         android:hint="enter OTP number"
-        android:textColorHint="@color/color.silver"
+        android:textColorHint="@color/color.grey.medium"
         android:inputType="number"
         android:textStyle="normal"
         android:maxLength="6"
-        android:textSize="15sp"
+        android:textSize="22sp"
+        android:gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textColor="@color/color.silver"/>
