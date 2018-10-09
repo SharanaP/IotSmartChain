@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_screen_two"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_wifi"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_wifi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color.grey.dark">
+
+        <TextView
+            android:id="@+id/textView_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="Off"
+            android:textColor="@color/color.silver"
+            android:textSize="20sp"
+            android:textStyle="normal|bold" />
+
+        <Switch
+            android:id="@+id/switch_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/textView_wifi"
+            android:layout_toRightOf="@+id/textView_wifi" />
+
+        <View
+            android:id="@+id/view_line_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_yellow" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="2dp"
+        android:elevation="2dp"
+        android:layout_marginTop="2dp"/>
+</LinearLayout>

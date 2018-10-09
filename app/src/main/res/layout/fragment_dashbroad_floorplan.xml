@@ -37,7 +37,7 @@
                     android:layout_marginRight="20dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/folder_plus"/>
+                    app:srcCompat="@drawable/folder_plus"/>
 
                 <View
                     android:id="@+id/view_line_new"
@@ -111,7 +111,7 @@
                     android:layout_marginRight="20dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/file_import"/>
+                    app:srcCompat="@drawable/file_import"/>
 
                 <View
                     android:id="@+id/view_line_import"
@@ -183,7 +183,7 @@
                     android:layout_marginRight="20dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/view_list"/>
+                    app:srcCompat="@drawable/view_list"/>
 
                 <View
                     android:id="@+id/view_line_list"

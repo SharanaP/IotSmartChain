@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindFloat;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -37,6 +40,8 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
 //
 //    @BindView(R.id.progressBar_db_webView)
 //    ProgressBar mProgressBar;
+
+    @BindView(R.id.cardview_new)CardView mCardViewNewFloorPlan;
 
     public static final int RC_FILE_PICKER_PERM = 321;
     private static final int CUSTOM_REQUEST_CODE = 532;
@@ -69,6 +74,13 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
         View rootView = inflater.inflate(R.layout.fragment_dashbroad_floorplan, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        mCardViewNewFloorPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO call webView floors plan
+            }
+        });
 
 //        mWebView = (WebView)rootView.findViewById(R.id.webView_db_floorplan);
 //        mProgressBar = (ProgressBar)rootView.findViewById(R.id.progressBar_db_webView);
@@ -170,7 +182,6 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
     }
@@ -189,7 +200,7 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
 //        webSetting.setJavaScriptEnabled(true);
 //        webSetting.setDisplayZoomControls(true);
 //        mWebView.loadUrl("https://floorplanner.com/");
-//    }
+    }
 
     // To handle "Back" key press event for WebView to go back to previous screen.
 //    public boolean canGoBack() {
@@ -225,4 +236,4 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
 //
 //    }
 
-}
+//}

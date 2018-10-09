@@ -16,16 +16,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.fp.FilePickerBuilder;
 import com.example.sharan.iotsmartchain.fp.FilePickerConst;
 import com.example.sharan.iotsmartchain.fp.models.sort.SortingTypes;
 import com.example.sharan.iotsmartchain.fp.utils.Orientation;
-import com.example.sharan.iotsmartchain.R;
-import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
-import com.example.sharan.iotsmartchain.vi.filepicker.MainActivity;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +35,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class FloorPlanActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
+    public static final int RC_FILE_PICKER_PERM = 321;
+    private static final int CUSTOM_REQUEST_CODE = 532;
     private static String TAG = "FloorPlanActivity";
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.button_next)
@@ -51,9 +50,8 @@ public class FloorPlanActivity extends BaseActivity implements EasyPermissions.P
     CardView cardViewImportFile;
     @BindView(R.id.cardview_list)
     CardView cardViewList;
-
-    public static final int RC_FILE_PICKER_PERM = 321;
-    private static final int CUSTOM_REQUEST_CODE = 532;
+    @BindView(R.id.cardview_nonspatial)
+    CardView cardViewNonSpatial;
     private int MAX_ATTACHMENT_COUNT = 1;
     private ArrayList<String> docPaths = new ArrayList<>();
     private ArrayList<String> photoPaths = new ArrayList<>();
@@ -79,7 +77,27 @@ public class FloorPlanActivity extends BaseActivity implements EasyPermissions.P
         cardViewCreateNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(cardViewCreateNew, "No yet design...!!!", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(cardViewCreateNew, "Floor Plan", Snackbar.LENGTH_SHORT).show();
+                // display a floor plan
+//                Fragment fragment = FloorPlanViewFragment.newInstance();
+//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.frame_layout, fragment);
+//                fragmentTransaction.commit();
+
+                //Intent webview
+                Intent webViewIntent = new Intent(FloorPlanActivity.this, WebViewActivity.class);
+                startActivity(webViewIntent);
+            }
+        });
+
+        /*create a non spatial plan */
+        cardViewNonSpatial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(cardViewCreateNew, "Non-Spatail Plan", Snackbar.LENGTH_SHORT).show();
+                //TODO init
+                Intent intent = new Intent(FloorPlanActivity.this, CreateNonSpatialActivity.class);
+                startActivity(intent);
             }
         });
 

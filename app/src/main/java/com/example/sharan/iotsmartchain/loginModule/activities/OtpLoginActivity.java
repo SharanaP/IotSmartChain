@@ -79,7 +79,7 @@ public class OtpLoginActivity extends BaseActivity {
     private RequestOtpAsync requestOtpAsync = null;
     private String deviceId, deviceName, deviceToken, mUrl;
 
-    CountDownTimer countDownTimer = null;
+    private CountDownTimer countDownTimer = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,7 +114,8 @@ public class OtpLoginActivity extends BaseActivity {
                     mTextViewTimeCountDowner.setText("");
                 }
 
-                countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1).start();
+                countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1);
+                countDownTimer.start();
 
                 //then you can send verification code to server
             }
@@ -634,6 +635,9 @@ public class OtpLoginActivity extends BaseActivity {
 
                 countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1);
                 countDownTimer.start();
+
+                //clear otp
+                mEditTextOTP.setText("");
 
                 mVerifyOtpButton.setVisibility(View.VISIBLE);
                 mRequestOtpButton.setVisibility(View.INVISIBLE);

@@ -15,8 +15,8 @@ public class RegisterIoTInfo {
     @SerializedName("topic")
     private String sensorTopic;
 
-    @SerializedName("type")
-    private String sensorType;
+    @SerializedName("deviceType")
+    private String deviceType;
 
     @SerializedName("status")
     private String sensorStatus;
@@ -55,12 +55,12 @@ public class RegisterIoTInfo {
         this.sensorTopic = sensorTopic;
     }
 
-    public String getSensorType() {
-        return sensorType;
+    public String getDeviceType() {
+        return deviceType;
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 
     public String getSensorStatus() {
@@ -86,7 +86,7 @@ public class RegisterIoTInfo {
                 ", sensorName='" + sensorName + '\'' +
                 ", sensorDetails='" + sensorDetails + '\'' +
                 ", sensorTopic='" + sensorTopic + '\'' +
-                ", sensorType='" + sensorType + '\'' +
+                ", deviceType='" + deviceType + '\'' +
                 ", sensorStatus='" + sensorStatus + '\'' +
                 ", timeStamp='" + timeStamp + '\'' +
                 '}';

@@ -28,18 +28,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.Duration;
 
 import butterknife.BindView;
 
 public class FeedBackActivity extends BaseActivity {
     private static String TAG = FeedBackActivity.class.getSimpleName();
 
-    @BindView(R.id.toolbar)Toolbar mToolbar;
-    @BindView(R.id.edittext_email)EditText mEditTextEmail;
-    @BindView(R.id.edittext_feedback)EditText mEditTextFeedBack;
-    @BindView(R.id.button_submit)Button mButtonSubmit;
-    @BindView(R.id.constrainlayout_feedback)ConstraintLayout constraintLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.edittext_email)
+    EditText mEditTextEmail;
+    @BindView(R.id.edittext_feedback)
+    EditText mEditTextFeedBack;
+    @BindView(R.id.button_submit)
+    Button mButtonSubmit;
+    @BindView(R.id.constrainlayout_feedback)
+    ConstraintLayout constraintLayout;
 
     private FeedBackAsync feedBackAsync = null;
     private String feedBack;
@@ -58,16 +62,16 @@ public class FeedBackActivity extends BaseActivity {
         mEmail = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
         mToken = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
 
-        if(mEmail != null ) mEditTextEmail.setText(mEmail);
+        if (mEmail != null) mEditTextEmail.setText(mEmail);
 
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*Send your commits to server */
-                if(!feedBack.isEmpty()){
+                if (!feedBack.isEmpty()) {
                     feedBackAsync = new FeedBackAsync(FeedBackActivity.this, feedBack);
-                    feedBackAsync.execute((Void)null);
-                }else{
+                    feedBackAsync.execute((Void) null);
+                } else {
                     Snackbar.make(constraintLayout,
                             "Write your comments and it should not be a empty!",
                             Snackbar.LENGTH_SHORT).show();
@@ -87,7 +91,7 @@ public class FeedBackActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -123,7 +127,7 @@ public class FeedBackActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public class FeedBackAsync extends AsyncTask<Void, Void, Boolean>{
+    public class FeedBackAsync extends AsyncTask<Void, Void, Boolean> {
 
         private Context context;
         private String feedbackStr;
@@ -159,9 +163,9 @@ public class FeedBackActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(authResponseStr);
 
-                            String respStatus = (String)jsonObject.get("status");
+                            String respStatus = (String) jsonObject.get("status");
 
-                            Log.d(TAG, "SH :: "+respStatus);
+                            Log.d(TAG, "SH :: " + respStatus);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,9 +175,9 @@ public class FeedBackActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
-            } catch (ClassCastException ex){
+            } catch (ClassCastException ex) {
                 ex.printStackTrace();
-            }catch (NullPointerException npex){
+            } catch (NullPointerException npex) {
                 npex.printStackTrace();
             }
 
@@ -183,9 +187,9 @@ public class FeedBackActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if(aBoolean){
+            if (aBoolean) {
 
-            }else{
+            } else {
                 feedBackAsync = null;
             }
         }

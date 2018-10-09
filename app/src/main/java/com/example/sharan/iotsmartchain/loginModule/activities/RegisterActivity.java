@@ -17,7 +17,9 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,11 +88,17 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     ImageView mImagePswShow;
     @BindView(R.id.ic_reEnter_showPassword)
     ImageView mImageReEnterPswShow;
+    @BindView(R.id.checkbox_accept)
+    CheckBox mCheckboxAccept;
+    @BindView(R.id.textView_condition)
+    TextView mTextViewTerms;
+
     private String mFName, mLName, mEmailId, mPhoneNum, mPsw1st, mPsw2nd;
     private boolean mStatus = false;
     private String mUrl;
     private UserSignUpAsync mSignUpTask = null;
     private long mBackPressed;
+
     private View.OnTouchListener mViewPsw = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -114,6 +123,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             return true;
         }
     };
+
     private View.OnTouchListener mViewReEnterPsw = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -146,6 +156,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
 
         injectViews();
 
+        //Get URL
         mUrl = App.getAppComponent().getApiServiceUrl();
 
         viewFirstName.setOnEditorActionListener((v, actionId, event) -> {
@@ -298,11 +309,18 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         if (cancel) {
             focusView.requestFocus();
         } else {
-            //TODO check signup API
-            showProgress(true);
-            mSignUpTask = new UserSignUpAsync(mFName, mLName, mEmailId, mPhoneNum,
-                    mPsw1st, RegisterActivity.this);
-            mSignUpTask.execute((Void) null);
+
+            //check user accepted terms and conditions
+            if(mCheckboxAccept.isChecked()){
+                //check sign-up API
+                showProgress(true);
+                mSignUpTask = new UserSignUpAsync(mFName, mLName, mEmailId, mPhoneNum,
+                        mPsw1st, RegisterActivity.this);
+                mSignUpTask.execute((Void) null);
+            }else {
+                Snackbar.make(mView, "Read the terms and conditions.", Snackbar.LENGTH_LONG).show();
+            }
+
         }
     }
 

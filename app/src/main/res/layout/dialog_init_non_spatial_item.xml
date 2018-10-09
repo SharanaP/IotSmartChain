@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/color.grey.dark">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="Create an Non-Spatial Plan"
+            android:textColor="@color/color.silver"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@+id/relativeLayout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_header"
+            android:orientation="vertical">
+
+            <!--IOT mac serial number -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/color.silver">
+
+                <EditText
+                    android:id="@+id/edittext_iot_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeLayout_header"
+                    android:hint="IoT serial number"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/color.grey.dark"
+                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColorHint="#C0C0C0"
+                    android:textSize="17sp"
+                    android:textStyle="normal" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--Label-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/color.silver">
+
+                <EditText
+                    android:id="@+id/edittext_iot_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edittext_iot_add"
+                    android:hint="Label"
+                    android:inputType="text"
+                    android:maxLength="40"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/color.grey.dark"
+                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColorHint="#C0C0C0"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--Description-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/color.silver">
+
+                <EditText
+                    android:id="@+id/edittext_iot_des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edittext_iot_label"
+                    android:hint="Description device located and information"
+                    android:inputType="text"
+                    android:maxLength="150"
+                    android:singleLine="false"
+                    android:text=""
+                    android:textColor="@color/color.grey.dark"
+                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColorHint="#C0C0C0"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--Latitude-->
+            <RelativeLayout
+                android:id="@+id/relativeLayout_lat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/textview_lat_label"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="Latitude "
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/textview_colon1"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/textview_lat_label"
+                    android:gravity="center|center_vertical"
+                    android:text=":"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textview_lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/textview_colon1"
+                    android:gravity="left|center"
+                    android:text=""
+                    android:textColor="@color/color.grey.medium"
+                    android:textSize="15dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+            <!--Longitude-->
+            <RelativeLayout
+                android:id="@+id/relativeLayout_lng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textview_lng_label"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="Longtitude "
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/textview_colon2"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/textview_lng_label"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textview_lng"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/textview_colon2"
+                    android:gravity="left|center"
+                    android:text=""
+                    android:textColor="@color/color.grey.medium"
+                    android:textSize="15dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+            <!--Address-->
+            <RelativeLayout
+                android:id="@+id/relativeLayout_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/textview_add_label"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="Address "
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/textView_colon3"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/textview_add_label"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textColor="@color/color.grey.dark"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textview_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/textView_colon3"
+                    android:gravity="left|center"
+                    android:text=""
+                    android:textColor="@color/color.grey.medium"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

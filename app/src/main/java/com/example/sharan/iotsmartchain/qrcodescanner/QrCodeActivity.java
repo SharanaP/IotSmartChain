@@ -65,7 +65,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     private boolean mVibrate;
     private boolean mNeedFlashLightOpen = true;
     private ImageView mIvFlashLight;
-    private TextView mTvFlashLightText;
+    private TextView mTvFlashLightText,mIvBackPress;
     private Executor mQrCodeExecutor;
     private Handler mHandler;
 
@@ -116,12 +116,21 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         TextView tvPic = (TextView) findViewById(R.id.qr_code_header_black_pic);
         mIvFlashLight = (ImageView) findViewById(R.id.qr_code_iv_flash_light);
         mTvFlashLightText = (TextView) findViewById(R.id.qr_code_tv_flash_light);
+
+        mIvBackPress= (TextView) findViewById(R.id.imageview_back);
         mQrCodeFinderView = (QrCodeFinderView) findViewById(R.id.qr_code_view_finder);
         mSurfaceView = (SurfaceView) findViewById(R.id.qr_code_preview_view);
         mLlFlashLight = findViewById(R.id.qr_code_ll_flash_light);
         mHasSurface = false;
         mIvFlashLight.setOnClickListener(this);
         tvPic.setOnClickListener(this);
+      //  mIvBackPress.setOnClickListener(this);
+        mIvBackPress.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initData() {
@@ -348,6 +357,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         } else {
             //Got result from scanning QR Code with users camera
             Log.d(LOGTAG,"Got scan result from user loaded image :"+resultString);
+
             Intent data = new Intent();
             data.putExtra(GOT_RESULT,resultString);
             setResult(Activity.RESULT_OK,data);
@@ -412,6 +422,12 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             finish();
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 
     private static class WeakHandler extends Handler {
         private WeakReference<QrCodeActivity> mWeakQrCodeActivity;

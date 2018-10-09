@@ -82,6 +82,7 @@ public class ResetPasswordActivity extends BaseActivity {
     private SendResetLinkAync sendResetLinkAync = null;
     private VerifyEmailViaOtpAsync verifyEmailViaOtpAsync = null;
     private UpdateNewPasswordAsync updateNewPasswordAsync = null;
+
     private View.OnTouchListener mNewPswListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -152,6 +153,8 @@ public class ResetPasswordActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 SendResetPswRequest();
+                //Close  keyboard
+                Utils.CloseKeyboard(ResetPasswordActivity.this);
             }
         });
 
@@ -160,6 +163,8 @@ public class ResetPasswordActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 VerifyViaOtp();
+                //Close  keyboard
+                Utils.CloseKeyboard(ResetPasswordActivity.this);
             }
         });
 
@@ -170,6 +175,8 @@ public class ResetPasswordActivity extends BaseActivity {
                 //disable functionality of send reset link button
                 mBtnSendReSetLink.setEnabled(false);
                 ValidatePassword();
+                //Close  keyboard
+                Utils.CloseKeyboard(ResetPasswordActivity.this);
             }
         });
 
@@ -196,11 +203,21 @@ public class ResetPasswordActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_battery_status, menu);
+        MenuItem menuRefresh = menu.findItem(R.id.menu_refresh);
+        menuRefresh.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

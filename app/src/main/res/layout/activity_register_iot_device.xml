@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_screen_two">
 
+    <!--Toolbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,6 +19,25 @@
         app:titleTextColor="@color/color.white"
         android:visibility="visible"/>
 
+    <!--progress bar and view -->
+    <ProgressBar
+        android:id="@+id/reg_iot_progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:theme="@style/CircularProgress"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_reg_iot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--listview-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,6 +51,7 @@
             android:divider="@null"/>
     </RelativeLayout>
 
+    <!--bottom next and scan qr code-->
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"

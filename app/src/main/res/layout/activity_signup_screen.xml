@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -286,7 +287,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_visibility_24dp"
+                        app:srcCompat="@drawable/ic_visibility_24dp"
                         android:tint="@color/color.silver" />
 
                 </RelativeLayout>
@@ -342,7 +343,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_visibility_24dp"
+                        app:srcCompat="@drawable/ic_visibility_24dp"
                         android:tint="@color/color.silver" />
 
                 </RelativeLayout>
@@ -377,7 +378,7 @@
                         android:gravity="center"
                         android:layout_toRightOf="@+id/checkbox_accept"
                         android:layout_toEndOf="@+id/checkbox_accept"
-                        android:text="I have read and agree to the terms and conditions"
+                        android:text="@string/terms_condition"
                         android:textColor="@color/color_orange"/>
 
                 </RelativeLayout>

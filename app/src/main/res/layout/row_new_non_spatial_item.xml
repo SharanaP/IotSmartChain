@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myanalytics_bg"
+            android:orientation="horizontal">
+
+            <!--Image icon-->
+            <ImageView
+                android:id="@+id/imageview_icon_iot"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/app_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <!--title-->
+                <TextView
+                    android:id="@+id/textView_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:text="IoT End Node device"
+                    android:textColor="@color/color.silver"
+                    android:textSize="14sp"
+                    android:textStyle="bold|italic"
+                    android:typeface="normal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--Serial number -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_sn_label"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Iot Device "
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/tv_colon_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/textView_sn_label"
+                            android:layout_toRightOf="@+id/textView_sn_label"
+                            android:text=":"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/textview_iot_sn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_toEndOf="@+id/tv_colon_1"
+                            android:layout_toRightOf="@+id/tv_colon_1"
+                            android:text="GES0090002"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                    </RelativeLayout>
+
+                    <!--label-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_label"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Label "
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/tv_colon_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/textView_label"
+                            android:layout_toRightOf="@+id/textView_label"
+                            android:text=":"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/textview_label_val"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_toEndOf="@+id/tv_colon_2"
+                            android:layout_toRightOf="@+id/tv_colon_2"
+                            android:text="Home main door"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                    </RelativeLayout>
+
+                    <!--Description-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_des_label"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Description "
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/tv_colon_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/textView_des_label"
+                            android:layout_toRightOf="@+id/textView_des_label"
+                            android:text=":"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/textview_des"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_toEndOf="@+id/tv_colon_3"
+                            android:layout_toRightOf="@+id/tv_colon_3"
+                            android:text="information about location"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                    </RelativeLayout>
+
+                    <!--status-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_status_label"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Status "
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/tv_colon_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/textView_status_label"
+                            android:layout_toRightOf="@+id/textView_status_label"
+                            android:text=":"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                        <TextView
+                            android:id="@+id/textview_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_toEndOf="@+id/tv_colon_4"
+                            android:layout_toRightOf="@+id/tv_colon_4"
+                            android:text="installed"
+                            android:textColor="@color/color.silver"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            android:typeface="normal" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!--Timestamp-->
+                <TextView
+                    android:id="@+id/textView_timeStamp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="right"
+                    android:text="12:35:23 21 may 2018"
+                    android:textColor="@color/color.grey.medium"
+                    android:textSize="11sp"
+                    android:typeface="normal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

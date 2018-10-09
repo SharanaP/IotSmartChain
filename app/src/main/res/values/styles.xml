@@ -140,4 +140,13 @@
         <item name="tabGravity">fill</item>
         <item name="tabMaxWidth">0dp</item>
     </style>
+
+    <!--Custom dialog -->
+    <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/color.Primary</item>
+        <item name="android:textColor">@color/color.silver</item>
+        <item name="colorAccent">@color/color.Accent</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowFrame">@null</item>
+    </style>
 </resources>

@@ -66,6 +66,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
+
             <ImageView
                 android:id="@+id/app_logo"
                 android:layout_width="100dp"
@@ -206,17 +207,17 @@
                         android:textSize="14dp"
                         android:textStyle="normal" />
 
-                   <!-- <CheckBox
-                        android:id="@+id/checkBox_Request_Otp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:buttonTint="@color/color.white"
-                        android:gravity="center"
-                        android:text="Request OTP "
-                        android:textColor="@color/color.white"
-                        android:textStyle="normal"
-                        android:theme="@style/checkBoxStyle" />-->
+                    <!-- <CheckBox
+                         android:id="@+id/checkBox_Request_Otp"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentRight="true"
+                         android:buttonTint="@color/color.white"
+                         android:gravity="center"
+                         android:text="Request OTP "
+                         android:textColor="@color/color.white"
+                         android:textStyle="normal"
+                         android:theme="@style/checkBoxStyle" />-->
 
 
                 </RelativeLayout>

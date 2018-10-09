@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -115,7 +116,7 @@ public class Utils {
         Log.d("Utils", "dateString : "+dateString);
 
         Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy MMM dd, HH:mm aa");
+        Format format = new SimpleDateFormat("yyyy MMM dd, hh:mm aa");
         return format.format(date);
     }
 
@@ -207,6 +208,17 @@ public class Utils {
         };
 
         return countDownTimer;
+    }
+
+
+    /*Close key broad */
+    public static void CloseKeyboard(Activity activity){
+        // Check if no view has focus:
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }

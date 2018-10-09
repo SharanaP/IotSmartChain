@@ -118,7 +118,6 @@ public class SupportMainActivity extends BaseActivity {
             }
         });
 
-
     }
 
     private void setupToolBar() {

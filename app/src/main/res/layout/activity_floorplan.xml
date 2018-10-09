@@ -18,235 +18,315 @@
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@color/color.white" />
-    <!--options-->
-    <LinearLayout
-        android:layout_below="@+id/toolbar"
+    <!--ScrollView-->
+    <ScrollView
+        android:id="@+id/scrollView_floorplan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="top">
-
-        <!--Crate  a new -->
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardview_new"
+        android:layout_below="@+id/toolbar">
+        <!--options-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="top">
 
-            <RelativeLayout
+            <!--Crate  a new -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_new"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
+                android:layout_height="100sp"
+                app:cardBackgroundColor="@color/color_yellow_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
-                <ImageView
-                    android:id="@+id/imageview_new"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:padding="10dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/folder_plus"/>
-
-                <View
-                    android:id="@+id/view_line_new"
-                    android:layout_width="1sp"
-                    android:layout_height="fill_parent"
-                    android:layout_toRightOf="@+id/imageview_new"
-                    android:layout_toEndOf="@+id/imageview_new"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@color/color_orange"
-                    android:background="@color/color_orange"/>
-
-                <TextView
-                    android:id="@+id/textview_new"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Create"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="left"
-                    android:textStyle="bold|italic"
-                    android:textSize="22sp"
-                    android:textColor="@color/color_orange"
-                    android:layout_toRightOf="@+id/view_line_new"
-                    android:layout_toEndOf="@+id/view_line_new"/>
-
-
-                <TextView
-                    android:id="@+id/textview_sub_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Create a new floor plan "
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textStyle="bold|italic"
-                    android:textSize="12sp"
-                    android:textColor="@color/color.silver"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"/>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-        <!--Import-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardview_import"
-            android:layout_width="match_parent"
-            android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
-
-                <ImageView
-                    android:id="@+id/imageview_import"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:padding="10dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/file_import"/>
-
-                <View
-                    android:id="@+id/view_line_import"
-                    android:layout_width="1sp"
                     android:layout_height="match_parent"
-                    android:layout_toRightOf="@+id/imageview_import"
-                    android:layout_toEndOf="@+id/imageview_import"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/color_orange"/>
+                    android:background="@color/color_yellow_light">
 
-                <TextView
-                    android:id="@+id/textview_import"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Import"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="left"
-                    android:textStyle="bold|italic"
-                    android:textSize="22sp"
-                    android:textColor="@color/color_orange"
-                    android:layout_toRightOf="@+id/view_line_import"
-                    android:layout_toEndOf="@+id/view_line_import"/>
+                    <ImageView
+                        android:id="@+id/imageview_new"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="10dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/folder_plus"/>
+
+                    <View
+                        android:id="@+id/view_line_new"
+                        android:layout_width="1sp"
+                        android:layout_height="fill_parent"
+                        android:layout_toRightOf="@+id/imageview_new"
+                        android:layout_toEndOf="@+id/imageview_new"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@color/color_orange"
+                        android:background="@color/color_orange"/>
+
+                    <TextView
+                        android:id="@+id/textview_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Create"
+                        android:layout_marginLeft="80dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left"
+                        android:textStyle="bold|italic"
+                        android:textSize="22sp"
+                        android:textColor="@color/color_orange"
+                        android:layout_toRightOf="@+id/view_line_new"
+                        android:layout_toEndOf="@+id/view_line_new"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="format .dxf / .dwg file"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textStyle="bold|italic"
-                    android:textSize="12sp"
-                    android:textColor="@color/color.silver"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"/>
+                    <TextView
+                        android:id="@+id/textview_sub_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create a new floor plan "
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:textSize="12sp"
+                        android:textColor="@color/color.silver"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
-        <!--view List-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardview_list"
-            android:layout_width="match_parent"
-            android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-
-            <RelativeLayout
+            </android.support.v7.widget.CardView>
+            <!--Import-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_import"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
+                android:layout_height="100sp"
+                app:cardBackgroundColor="@color/color_yellow_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
-                <ImageView
-                    android:id="@+id/imageview_list"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:padding="10dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/view_list"/>
-
-                <View
-                    android:id="@+id/view_line_list"
-                    android:layout_width="1sp"
-                    android:layout_height="match_parent"
-                    android:layout_toRightOf="@+id/imageview_list"
-                    android:layout_toEndOf="@+id/imageview_list"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/color_orange"/>
-
-                <TextView
-                    android:id="@+id/textview_list"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="List"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="left"
-                    android:textStyle="bold|italic"
-                    android:textSize="22sp"
-                    android:textColor="@color/color_orange"
-                    android:layout_toRightOf="@+id/view_line_list"
-                    android:layout_toEndOf="@+id/view_line_list"/>
+                    android:layout_height="match_parent"
+                    android:background="@color/color_yellow_light">
+
+                    <ImageView
+                        android:id="@+id/imageview_import"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="10dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/file_import"/>
+
+                    <View
+                        android:id="@+id/view_line_import"
+                        android:layout_width="1sp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/imageview_import"
+                        android:layout_toEndOf="@+id/imageview_import"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_orange"/>
+
+                    <TextView
+                        android:id="@+id/textview_import"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Import"
+                        android:layout_marginLeft="80dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left"
+                        android:textStyle="bold|italic"
+                        android:textSize="22sp"
+                        android:textColor="@color/color_orange"
+                        android:layout_toRightOf="@+id/view_line_import"
+                        android:layout_toEndOf="@+id/view_line_import"/>
 
 
-                <TextView
-                    android:id="@+id/textview_sub_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="List of FloorPlans "
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textStyle="bold|italic"
-                    android:textSize="12sp"
-                    android:textColor="@color/color.silver"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="format .dxf / .dwg file"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:textSize="12sp"
+                        android:textColor="@color/color.silver"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+            <!--view List-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_list"
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                app:cardBackgroundColor="@color/color_yellow_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_yellow_light">
+
+                    <ImageView
+                        android:id="@+id/imageview_list"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="10dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/view_list"/>
+
+                    <View
+                        android:id="@+id/view_line_list"
+                        android:layout_width="1sp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/imageview_list"
+                        android:layout_toEndOf="@+id/imageview_list"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_orange"/>
+
+                    <TextView
+                        android:id="@+id/textview_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="List"
+                        android:layout_marginLeft="80dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left"
+                        android:textStyle="bold|italic"
+                        android:textSize="22sp"
+                        android:textColor="@color/color_orange"
+                        android:layout_toRightOf="@+id/view_line_list"
+                        android:layout_toEndOf="@+id/view_line_list"/>
+
+
+                    <TextView
+                        android:id="@+id/textview_sub_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="List of FloorPlans "
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:textSize="12sp"
+                        android:textColor="@color/color.silver"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <!--Create Non-Spatial -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_nonspatial"
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                app:cardBackgroundColor="@color/color_yellow_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_yellow_light">
+
+                    <ImageView
+                        android:id="@+id/imageview_ns"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="10dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/database" />
+
+                    <View
+                        android:id="@+id/view_line_ns"
+                        android:layout_width="1sp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/imageview_ns"
+                        android:layout_toEndOf="@+id/imageview_ns"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_orange"/>
+
+                    <TextView
+                        android:id="@+id/textview_ns"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Non-Spatial"
+                        android:layout_marginLeft="80dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left"
+                        android:textStyle="bold|italic"
+                        android:textSize="22sp"
+                        android:textColor="@color/color_orange"
+                        android:layout_toRightOf="@+id/view_line_ns"
+                        android:layout_toEndOf="@+id/view_line_ns"/>
+
+
+                    <TextView
+                        android:id="@+id/textview_sub_ns"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create a Non-Spatial Plan"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:textSize="12sp"
+                        android:textColor="@color/color.silver"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
     <!--progressbar-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -279,5 +359,11 @@
             android:textSize="13dp" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 </RelativeLayout>

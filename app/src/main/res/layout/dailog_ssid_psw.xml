@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/dailog_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Set SSID Password"
+        android:gravity="center"
+        android:textStyle="normal"
+        android:textColor="@color/color.white"
+        android:background="@color/color.Primary"
+        android:textSize="18dp"/>
+
+    <EditText
+        android:id="@+id/edittext_ssid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter SSID "
+        android:textColorHint="@android:color/darker_gray"
+        android:text=""
+        android:inputType="text"
+        android:textSize="15dp"
+        android:textColor="@color/color.Primary"
+        android:gravity="center_horizontal"
+        android:textStyle="normal|italic"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/edittext_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter password "
+        android:textColorHint="@android:color/darker_gray"
+        android:text=""
+        android:inputType="text"
+        android:textSize="15dp"
+        android:textColor="@color/color.Primary"
+        android:gravity="center_horizontal"
+        android:textStyle="normal|italic"
+        android:layout_marginTop="15dp"/>
+
+
+</LinearLayout>

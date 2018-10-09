@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_splash_screen"
+    android:orientation="vertical">
+
+    <!--Toolbar-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_ns"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/color.actionBar"
+        android:titleTextColor="@color/color.white"
+        android:visibility="visible"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/color.white" />
+
+
+    <!--progress bar and view -->
+    <ProgressBar
+        android:id="@+id/reg_iot_progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:theme="@style/CircularProgress"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_reg_iot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--listview-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_below="@+id/toolbar_ns">
+
+
+        <!--ListView to display a non spatial item -->
+        <ListView
+            android:id="@+id/listView_init_nonspatial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null" />
+    </RelativeLayout>
+
+    <!--bottom next and scan qr code-->
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="false"
+        android:background="@android:color/transparent">
+
+        <Button
+            android:id="@+id/button_ns_done"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/mysignin_button"
+            android:gravity="center"
+            android:text="Done"
+            android:visibility="gone"
+            android:textColor="@color/color.white" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_manually"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/color_orange" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fab"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/qrcode_scan"
+            app:backgroundTint="@color/color_orange" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

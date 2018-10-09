@@ -216,17 +216,16 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO normally login through emailId and Psw
+                // normally login through emailId and Psw
                 attemptSignIn();
+                //Close  keyboard
+                Utils.CloseKeyboard(LoginActivity.this);
             }
         });
 
         mOtpLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO call OTP Dialog window
-                //TODO showDialog(ALERT_DIALOG_ID);
-
                 //Call by activity
                 Intent otpIntent = new Intent(LoginActivity.this, OtpLoginActivity.class);
                 startActivity(otpIntent);
@@ -243,14 +242,10 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         mTvForgotPsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Close  keyboard
+                Utils.CloseKeyboard(LoginActivity.this);
 
-                //TODO reset password link and set new password
-//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//                setContentView(R.layout.activity_fragment);
-//                Utils.replaceFragment(LoginActivity.this, new ResetPswFragment(),
-//                        R.id.fragment_container, true);
-
+                //Reset password link and set new password
                 Intent intentForgotPsw = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intentForgotPsw);
             }

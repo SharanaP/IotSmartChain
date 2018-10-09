@@ -5,24 +5,38 @@
     android:versionCode="1"
     android:versionName="V1.0">
 
+    <!-- INTERNET -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <!-- CAMERA -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!-- ALERT -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- READ AND WRITE EXTERNAL SD -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- EMAIL PHONE SMS PROFILE CALL -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!-- WiFi -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- Location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- BLUETOOTH -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <application
         android:name=".App"
@@ -40,7 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".main.activities.MainActivity"
             android:label="IOT main"
@@ -49,9 +62,10 @@
             android:name=".loginModule.activities.LoginActivity"
             android:label="Login"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".loginModule.activities.OtpLoginActivity"
+        <activity
+            android:name=".loginModule.activities.OtpLoginActivity"
             android:label="Login via OTP"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".loginModule.activities.RegisterActivity"
             android:label="Register"
@@ -63,7 +77,7 @@
         <activity
             android:name=".loginModule.activities.ResetPasswordActivity"
             android:label="Reset/Update new Password"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".NormalFlow.activities.HomeActivity"
             android:label="IOT Smart"
@@ -84,6 +98,14 @@
             android:name=".qrcodescanner.QrCodeActivity"
             android:label="QrCode Scanner"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".IotDeviceConfigure.WiFiActivity"
+            android:label="Wifi"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".IotDeviceConfigure.WifiSecondDemo"
+            android:label="WIFI"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".NormalFlow.activities.InstalConfigureIoTActivity"
             android:label="IoT Installation"
@@ -137,43 +159,44 @@
             android:label="Support"
             android:windowSoftInputMode="adjustPan" />
 
-        <!--<activity android:name=".vi.filepicker.MainActivity"/>-->
+        <!-- <activity android:name=".vi.filepicker.MainActivity"/> -->
 
-        <activity android:name=".vi.filepicker.FragmentActivity"
+        <activity
+            android:name=".vi.filepicker.FragmentActivity"
             android:label="File Picker"
-            android:windowSoftInputMode="adjustPan"/>
-
-        <!--<provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="vi.filepicker"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"></meta-data>
-        </provider>-->
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".fp.FilePickerActivity"
+            android:configChanges="orientation|screenSize"
             android:label="File Picker"
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="orientation|screenSize"/>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".fp.MediaDetailsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="FilePicker"
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="orientation|screenSize" />
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".WifiNetwork.MainWifiBleActivity"
+            android:label="Wi-Fi"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BlueTooth.DeviceControlActivity"
+            android:label="BLE"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".NormalFlow.activities.CreateNonSpatialActivity"
+            android:label="Non-Spatial Plan"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".NormalFlow.activities.WebViewActivity"
+            android:label="FloorPlan"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".NormalFlow.activities.NonSpatialDetailActivity"
+            android:label="Non-Spatial Plan Details"
+            android:windowSoftInputMode="adjustResize"/>
 
-        <!-- <provider
-            android:name=".fp.utils.FilePickerProvider"
-            android:authorities="${applicationId}.fp.filepicker.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>-->
+        <service
+            android:name=".BlueTooth.BluetoothLeService"
+            android:enabled="true" />
 
         <!-- Firebase Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">
@@ -181,7 +204,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".Services.MyFireBaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />

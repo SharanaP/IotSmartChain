@@ -238,8 +238,6 @@ public class MenuFragment extends BaseFragment {
         //App logout async and unregister a device ID and info
         AppLogOutAsync appLogOutAsync = new AppLogOutAsync(getActivity(), loginId);
         appLogOutAsync.execute((Void) null);
-
-
     }
 
     private void profileUpdate(View v) {

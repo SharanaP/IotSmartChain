@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,9 +60,9 @@ public class AdapterRegisterIoTDevices extends ArrayAdapter<RegisterIoTInfo> {
                 convertView = layoutInflater.inflate(R.layout.row_reg_iot, parent, false);
 
                 viewHolder.imageViewDeviceIcon = (ImageView) convertView.findViewById(R.id.icon_iot);
-                viewHolder.tvDeviceName = (TextView) convertView.findViewById(R.id.textView_name);
+                viewHolder.tvIotDeviceSN = (TextView) convertView.findViewById(R.id.textView_uid);
                 viewHolder.tvDeviceType = (TextView) convertView.findViewById(R.id.textView_type);
-                viewHolder.tvRegStatus  = (TextView) convertView.findViewById(R.id.textView_iot_status);
+                viewHolder.tvRegStatus = (TextView) convertView.findViewById(R.id.textView_iot_status);
                 viewHolder.tvDetails = (TextView) convertView.findViewById(R.id.textView_details);
                 viewHolder.tvDeviceTimeStamp = (TextView) convertView.findViewById(R.id.textView_timeStamp);
 
@@ -78,38 +77,30 @@ public class AdapterRegisterIoTDevices extends ArrayAdapter<RegisterIoTInfo> {
         }
 
         viewHolder.registerIoTInfo = getItem(position);
-        Log.d("SHARAN ", ""+viewHolder.registerIoTInfo.toString());
+        Log.d("SHARAN ", "" + viewHolder.registerIoTInfo.toString());
 
-        if(viewHolder.registerIoTInfo != null){
-            if(viewHolder.registerIoTInfo.getSensorName() != null)
-                viewHolder.tvDeviceName.setText(""+viewHolder.registerIoTInfo.getSensorName().trim());
-            if(viewHolder.registerIoTInfo.getSensorType() != null)
-                viewHolder.tvDeviceType.setText("Type : "+viewHolder.registerIoTInfo.getSensorType().trim());
-            if(viewHolder.registerIoTInfo.getSensorStatus() != null)
-
-                if(viewHolder.registerIoTInfo.getSensorStatus().trim().equalsIgnoreCase("active")){
-                    viewHolder.tvRegStatus.setText("Status : "+viewHolder.registerIoTInfo.getSensorStatus().trim());
-                }else if(viewHolder.registerIoTInfo.getSensorStatus().trim().equalsIgnoreCase("inactive")){
-                    viewHolder.tvRegStatus.setText("Status : "+viewHolder.registerIoTInfo.getSensorStatus().trim());
-                }
-            if(viewHolder.registerIoTInfo.getTimeStamp() != null )
-                viewHolder.tvDeviceTimeStamp.setText(viewHolder.registerIoTInfo.getTimeStamp().trim());
-            if(viewHolder.registerIoTInfo.getSensorDetails()!= null ){
-                viewHolder.tvDetails.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO display a dialog
-                        if(getItem(position).getSensorDetails() != null)
-                        showDialog(getItem(position).getSensorDetails().toString());
-                    }
-                });
+        if (viewHolder.registerIoTInfo != null) {
+            /*device type like END or GATEWAY */
+            if (viewHolder.registerIoTInfo.getDeviceType() != null)
+                viewHolder.tvIotDeviceSN.setText("IoT Device ID : " + viewHolder.registerIoTInfo.getSensorName().toString().trim());
+            /*Iot device ID */
+            if (viewHolder.registerIoTInfo.getSensorName() != null)
+                viewHolder.tvDeviceType.setText(viewHolder.registerIoTInfo.getDeviceType().toString());
+            /*Status*/
+            if (viewHolder.registerIoTInfo.getSensorStatus().equalsIgnoreCase("true")) {
+                viewHolder.tvRegStatus.setText("Status : Registered");
+            } else {
+                viewHolder.tvRegStatus.setText("Status : UnRegistered");
             }
+            /*Time Stamp*/
+            if (viewHolder.registerIoTInfo.getTimeStamp() != null)
+                viewHolder.tvDeviceTimeStamp.setText(viewHolder.registerIoTInfo.getTimeStamp().trim());
         }
 
         return convertView;
     }
 
-    private void showDialog(String details){
+    private void showDialog(String details) {
         // Build an AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
@@ -123,7 +114,7 @@ public class AdapterRegisterIoTDevices extends ArrayAdapter<RegisterIoTInfo> {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         // User clicked the Yes button
                         builder.setMessage("");
@@ -142,8 +133,8 @@ public class AdapterRegisterIoTDevices extends ArrayAdapter<RegisterIoTInfo> {
 
     static class ViewHolder {
         ImageView imageViewDeviceIcon;
-        TextView tvDeviceName;
         TextView tvDeviceType;
+        TextView tvIotDeviceSN;
         TextView tvRegStatus;
         TextView tvDetails;
         TextView tvDeviceTimeStamp;

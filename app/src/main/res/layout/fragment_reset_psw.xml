@@ -12,10 +12,10 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
         android:background="@color/color.actionBar"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color.silver"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color.silver" />
 
 
     <ProgressBar
