@@ -35,13 +35,11 @@ import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.AboutInfoActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.FaqActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.FeedBackActivity;
-import com.example.sharan.iotsmartchain.dashboard.activity.SupportChatActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.SupportMainActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -59,7 +57,6 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 
 public class MenuFragment extends BaseFragment {
     private static final int REQUEST_CODE = 0x11;
@@ -131,7 +128,7 @@ public class MenuFragment extends BaseFragment {
         img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
         mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
         mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
-        mTextViewPhone = (TextView)rootView.findViewById(R.id.textView_mobile);
+        mTextViewPhone = (TextView) rootView.findViewById(R.id.textView_mobile);
         mTvEmail = (TextView) rootView.findViewById(R.id.textView_email);
         mProfileEditIcon = (ImageView) rootView.findViewById(R.id.imageView_update_profile);
         mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView_menu);
@@ -201,8 +198,8 @@ public class MenuFragment extends BaseFragment {
                 mTvEmail.setText(loginId);
             }
 
-            if(userPhone != null) mTextViewPhone.setText(userPhone);
-            if(userName != null) mTvLoginName.setText(userName);
+            if (userPhone != null) mTextViewPhone.setText(userPhone);
+            if (userName != null) mTvLoginName.setText(userName);
 
         } catch (NullPointerException ex) {
             ex.printStackTrace();
@@ -453,6 +450,17 @@ public class MenuFragment extends BaseFragment {
 
     }
 
+    private void clearSharedPref() {
+        SharedPreferences.Editor
+                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+        editor.putString("TOKEN", "");
+        editor.putString("AUTH_EMAIL_ID", "");
+        editor.putString("PHONE", "");
+        editor.putString("EMAIL", "");
+        editor.apply();
+        editor.commit();
+    }
+
     //Application logout async
     public class AppLogOutAsync extends AsyncTask<Void, String, String> {
         private Context context;
@@ -475,10 +483,11 @@ public class MenuFragment extends BaseFragment {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("email", email);
+                jsonObject.put("userId", token);
                 jsonObject.put("device", "android");
-                jsonObject.put("deviceId", deviceId );
-                jsonObject.put("deviceName", deviceName );
-                jsonObject.put("deviceTokenId", deviceTokenId );
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceTokenId);
                 jsonObject.put("isApp", "true");
                 jsonObject.put("signUp", "false");
 
@@ -545,23 +554,25 @@ public class MenuFragment extends BaseFragment {
             super.onPostExecute(data);
             Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
             appLogOutAsync = null;
-            if (data.equalsIgnoreCase("true")) {
-                // showProgress(false);
-                //TODO clear the login token
-                SharedPreferences.Editor
-                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-                editor.putString("TOKEN", "");
-                editor.putString("AUTH_EMAIL_ID", "");
-                editor.putString("PHONE", "");
-                editor.putString("EMAIL", "");
-                editor.apply();
+            // if (data.equalsIgnoreCase("true")) {
+            // showProgress(false);
+            //Clear the login token
+            clearSharedPref();
+//                SharedPreferences.Editor
+//                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+//                editor.putString("TOKEN", "");
+//                editor.putString("AUTH_EMAIL_ID", "");
+//                editor.putString("PHONE", "");
+//                editor.putString("EMAIL", "");
+//                editor.apply();
+//                editor.commit();
 
-                // Start the login activity
-                Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
-                loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(loginActivityIntent);
-                getActivity().finish();
-            }
+            // Start the login activity
+            Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+            loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginActivityIntent);
+            getActivity().finish();
+            //}
         }
 
         @Override
@@ -599,12 +610,14 @@ public class MenuFragment extends BaseFragment {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("email", email);
+                jsonObject.put("userId", token);
                 jsonObject.put("device", "android");
-                jsonObject.put("deviceId", deviceId );
-                jsonObject.put("deviceName", deviceName );
-                jsonObject.put("deviceTokenId", deviceTokenId );
+                jsonObject.put("deviceId", deviceId);
+                jsonObject.put("deviceName", deviceName);
+                jsonObject.put("deviceTokenId", deviceTokenId);
                 jsonObject.put("isApp", "true");
                 jsonObject.put("signUp", "false");
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -671,22 +684,25 @@ public class MenuFragment extends BaseFragment {
 
             Snackbar.make(mProgressView, respMessage, Snackbar.LENGTH_LONG).show();
 
-            if (data.equalsIgnoreCase("true")) {
+            clearSharedPref();
 
-                SharedPreferences.Editor
-                        editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-                editor.putString("TOKEN", "");
-                editor.putString("AUTH_EMAIL_ID", "");
-                editor.putString("PHONE", "");
-                editor.putString("EMAIL", "");
-                editor.apply();
+            //if (data.equalsIgnoreCase("true")) {
 
-                //Call login screen
-                Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
-                loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(loginActivityIntent);
-                getActivity().finish();
-            }
+//                SharedPreferences.Editor
+//                        editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
+//                editor.putString("TOKEN", "");
+//                editor.putString("AUTH_EMAIL_ID", "");
+//                editor.putString("PHONE", "");
+//                editor.putString("EMAIL", "");
+//                editor.apply();
+//                editor.commit();
+
+            //Call login screen
+            Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+            loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginActivityIntent);
+            getActivity().finish();
+            //}
         }
     }
 

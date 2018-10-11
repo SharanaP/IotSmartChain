@@ -16,12 +16,13 @@ import com.example.sharan.iotsmartchain.qrcodescanner.utils.ScreenUtils;
 
 
 /**
+ * QrCodeFinderView class
  * This view is overlaid on top of the camera preview. It adds the viewfinder rectangle and partial transparency outside
  * it, as well as the laser scanner animation and result points.
  */
 public final class QrCodeFinderView extends RelativeLayout {
 
-    private static final int[] SCANNER_ALPHA = { 0, 64, 128, 192, 255, 192, 128, 64 };
+    private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
     private static final long ANIMATION_DELAY = 100L;
     private static final int OPAQUE = 0xFF;
 
@@ -162,7 +163,6 @@ public final class QrCodeFinderView extends RelativeLayout {
         float fontTotalHeight = fontMetrics.bottom - fontMetrics.top;
         float offY = fontTotalHeight / 2 - fontMetrics.bottom;
         float newY = rect.bottom + margin + offY;
-
 
 
         float screenScale = mContext.getResources().getDisplayMetrics().density;

@@ -21,6 +21,12 @@ public class RegisterIoTInfo {
     @SerializedName("status")
     private String sensorStatus;
 
+    @SerializedName("is_registered")
+    private boolean isRegistered;
+
+    @SerializedName("is_installed")
+    private boolean isInstalled;
+
     private String timeStamp;
 
     public String getSensorUID() {
@@ -79,6 +85,22 @@ public class RegisterIoTInfo {
         this.timeStamp = timeStamp;
     }
 
+    public boolean isRegistered() {
+        return isRegistered;
+    }
+
+    public void setRegistered(boolean registered) {
+        isRegistered = registered;
+    }
+
+    public boolean isInstalled() {
+        return isInstalled;
+    }
+
+    public void setInstalled(boolean installed) {
+        isInstalled = installed;
+    }
+
     @Override
     public String toString() {
         return "RegisterIoTInfo{" +
@@ -88,6 +110,8 @@ public class RegisterIoTInfo {
                 ", sensorTopic='" + sensorTopic + '\'' +
                 ", deviceType='" + deviceType + '\'' +
                 ", sensorStatus='" + sensorStatus + '\'' +
+                ", isRegistered=" + isRegistered +
+                ", isInstalled=" + isInstalled +
                 ", timeStamp='" + timeStamp + '\'' +
                 '}';
     }

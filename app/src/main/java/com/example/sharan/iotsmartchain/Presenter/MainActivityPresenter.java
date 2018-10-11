@@ -1,6 +1,7 @@
 package com.example.sharan.iotsmartchain.Presenter;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
@@ -20,7 +21,7 @@ import javax.inject.Inject;
  */
 
 public class MainActivityPresenter implements ActivityPresenterBase {
-
+    private static String TAG = MainActivityPresenter.class.getSimpleName();
     MainActivity mMainActivity;
 
     @Inject
@@ -31,17 +32,17 @@ public class MainActivityPresenter implements ActivityPresenterBase {
 
     @Override
     public void pause() {
-
+        Log.e(TAG, "Pause");
     }
 
     @Override
     public void resume() {
-
+        Log.e(TAG, "resume");
     }
 
     @Override
     public void destroy() {
-
+        Log.e(TAG, "destroy");
     }
 
     public void onApiDataLoadedEvent() {
@@ -50,7 +51,7 @@ public class MainActivityPresenter implements ActivityPresenterBase {
 
     public void launchFlowView() {
         /*Launch home screen */
-        Intent homeActivityIntent = new Intent(mMainActivity.getApplicationContext(), HomeActivity.class);
+        Intent homeActivityIntent = new Intent(this.mMainActivity, HomeActivity.class);
         homeActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mMainActivity.startActivity(homeActivityIntent);
         mMainActivity.finish();
@@ -67,7 +68,7 @@ public class MainActivityPresenter implements ActivityPresenterBase {
 
     public void launchRegisterIotActivity(){
         //Launch RegIoTDeviceActivity
-        Intent regIotActivityIntent = new Intent(mMainActivity.getApplicationContext(),
+        Intent regIotActivityIntent = new Intent(this.mMainActivity,
                 RegisterIoTDeviceActivity.class);
         regIotActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mMainActivity.startActivity(regIotActivityIntent);

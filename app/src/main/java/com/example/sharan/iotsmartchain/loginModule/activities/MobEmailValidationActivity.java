@@ -257,7 +257,7 @@ public class MobEmailValidationActivity extends BaseActivity {
     private void setUpToolBar() {
         setSupportActionBar(mToolbar);
         setTitle("Validation and Verification");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     /**

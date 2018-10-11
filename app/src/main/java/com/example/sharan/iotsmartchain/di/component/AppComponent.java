@@ -6,6 +6,7 @@ import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.di.module.ApiServiceModule;
 import com.example.sharan.iotsmartchain.di.module.AppModule;
 import com.example.sharan.iotsmartchain.di.module.DataModelModule;
+import com.squareup.otto.Bus;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -23,4 +24,5 @@ public interface AppComponent {
 
     Application getApplication();
     @Named("ApiServiceUrl") String getApiServiceUrl();
+    Bus getBus();
 }

@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,8 +23,8 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.R;
 
-public class BleConnectionManager extends AppCompatActivity {
 
+public class BleConnectionManager extends AppCompatActivity {
     private static final String TAG = BleConnectionManager.class.getSimpleName();
     private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int REQUEST_BLUETOOTH_ENABLE = 2;
@@ -32,15 +34,14 @@ public class BleConnectionManager extends AppCompatActivity {
     private Context context;
     private Activity activity;
     private String mSSID, mPassword;
+    private String mService, mCharacteristic;
     private BluetoothAdapter bluetoothAdapter;
     private Handler handler;
     private boolean isLocationPermissionGranted;
     private boolean isBluetoothEnabled;
     private boolean isScanning;
 
-
-    private BluetoothAdapter.LeScanCallback bleScanCallback
-            = new BluetoothAdapter.LeScanCallback() {
+    private BluetoothAdapter.LeScanCallback bleScanCallback= new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
@@ -54,8 +55,6 @@ public class BleConnectionManager extends AppCompatActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                                 bluetoothAdapter.stopLeScan(bleScanCallback);
                             }
-
-
                             //TODO Show BLE Device Control activity
                             Intent intent = new Intent(context,
                                     DeviceControlActivity.class);
@@ -64,8 +63,14 @@ public class BleConnectionManager extends AppCompatActivity {
                             intent.putExtra("SSID", mSSID);
                             intent.putExtra("PASSWORD", mPassword);
                             context.startActivity(intent);
-                        }
-                    } else {
+                        } /*else if(device.getName().contains("IoT-DK-SFL")){
+                            Log.e(TAG, "IOT Device found...\n IOT device name is : "
+                                    +device.getName()+"\nIoT Device SN : "+device.getAddress());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                bluetoothAdapter.stopLeScan(bleScanCallback);
+                            }
+                        }*/
+                    }  else{
                         Log.e(TAG, "BLE :: name : " + device.getName() + " add : " + device.getAddress());
                     }
                 }
@@ -78,6 +83,13 @@ public class BleConnectionManager extends AppCompatActivity {
         this.mSSID = ssid;
         this.mPassword = psw;
         activity = (Activity) context;
+    }
+
+    public BleConnectionManager(Context context, String bleName, String service, String characteristic){
+        this.context = context;
+        this.mService = service;
+        this.mCharacteristic = characteristic;
+        activity = (Activity)context;
     }
 
     public BleConnectionManager(Context context) {

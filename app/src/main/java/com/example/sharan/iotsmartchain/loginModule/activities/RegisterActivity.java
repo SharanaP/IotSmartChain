@@ -430,6 +430,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         if(mPhoneNum != null)
         intent.putExtra("phone", mPhoneNum);
         startActivity(intent);
+        RegisterActivity.this.finish();
     }
 
     private void showLoginView() {

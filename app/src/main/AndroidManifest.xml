@@ -46,7 +46,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
         <activity android:name=".main.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +58,7 @@
         <activity
             android:name=".main.activities.MainActivity"
             android:label="IOT main"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".loginModule.activities.LoginActivity"
             android:label="Login"
@@ -93,6 +94,8 @@
         <activity
             android:name=".NormalFlow.activities.RegisterIoTDeviceActivity"
             android:label="Register IoT Devices"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".qrcodescanner.QrCodeActivity"

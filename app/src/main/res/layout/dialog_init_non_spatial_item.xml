@@ -53,9 +53,6 @@
                     android:layout_below="@+id/relativeLayout_header"
                     android:hint="IoT serial number"
                     android:inputType="text"
-                    android:maxLength="30"
-                    android:maxLines="1"
-                    android:singleLine="true"
                     android:textColor="@color/color.grey.dark"
                     android:textColorHighlight="@color/color.grey.dark"
                     android:textColorHint="#C0C0C0"
@@ -63,6 +60,27 @@
                     android:textStyle="normal" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinner_iot_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout_header"
+                android:hint="IoT serial number"
+                android:inputType="text"
+                android:maxLength="40"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/color.grey.dark"
+                android:textColorHighlight="@color/color.grey.dark"
+                android:textColorHint="#C0C0C0"
+                android:textSize="17sp"
+                android:textStyle="normal" />
 
             <!--Label-->
             <android.support.design.widget.TextInputLayout

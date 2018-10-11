@@ -13,7 +13,6 @@ import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
-
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -56,7 +55,7 @@ public class QrUtils {
      * RGB TO YUV420sp
      *
      * @param yuv420sp inputWidth * inputHeight * 3 / 2
-     * @param argb inputWidth * inputHeight
+     * @param argb     inputWidth * inputHeight
      * @param width
      * @param height
      */

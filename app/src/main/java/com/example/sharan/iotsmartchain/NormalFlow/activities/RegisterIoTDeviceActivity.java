@@ -48,10 +48,9 @@ import java.util.LinkedHashMap;
 import butterknife.BindView;
 
 public class RegisterIoTDeviceActivity extends BaseActivity {
-
-    private static final int REQUEST_CODE_QR_SCAN = 101;
+    private static final int REQUEST_CODE_QR_SCAN = 1111;
     public static int DIALOG_ADD_IOT = 1;
-    private static String TAG = "RegisterIoTDeviceActivity";
+    private static String TAG = RegisterIoTDeviceActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.listRegisterIoTs)
@@ -78,6 +77,8 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     private RegisterIoTDeviceAsync registerIoTDeviceAsync = null;
     private GetListOfRegDevicesAsync getListOfRegDevicesAsync = null;
 
+    //private Bus mBus;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +87,10 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         injectViews();
 
         setupToolbar();
+
+        //Bus
+//        mBus = App.getAppComponent().getBus();
+//        mBus.register(this);
 
         mUrl = App.getAppComponent().getApiServiceUrl();
         loginId = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
@@ -98,7 +103,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         //TODO call API to get a list of IOT device sensors
         Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
         getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(loginId, token, this);
-        getListOfRegDevicesAsync.execute((Void)null);
+        getListOfRegDevicesAsync.execute((Void) null);
 
         //Floating button
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +117,13 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         mFabCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO call QR code reader Intent
                 //Start the qr scan activity
-                Intent i = new Intent(RegisterIoTDeviceActivity.this, QrCodeActivity.class);
-                startActivityForResult(i, REQUEST_CODE_QR_SCAN);
-
+                try {
+                    Intent intentQrCode = new Intent(RegisterIoTDeviceActivity.this, QrCodeActivity.class);
+                    startActivityForResult(intentQrCode, REQUEST_CODE_QR_SCAN);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -130,29 +137,19 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         });
     }
 
-    private void testMessage() {
-        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-        whatsappIntent.setType("text/plain");
-        whatsappIntent.setPackage("com.whatsapp");
-        whatsappIntent.putExtra("jid", "918290819246" + "@s.whatsapp.net"); //phone number without "+" prefix
-        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
-        try {
-            startActivity(whatsappIntent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            //   ToastHelper.MakeShortText("Whatsapp have not been installed.");
-            Log.d(TAG, "Whatsapp have not been installed.");
-        }
-    }
+//    @Subscribe
+//    public void getQrCodeScannedResult(QrCodeResult qrCodeResult){
+//        RegisterIoTDeviceActivity.this.runOnUiThread(()->displayData(qrCodeResult));
+//    }
+//
+//    private void displayData(QrCodeResult qrCodeResult) {
+//        Log.e(TAG, qrCodeResult.toString());
+//    }
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
         setTitle("Register IoT Devices");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -163,7 +160,6 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case android.R.id.home:
                 this.finish();
@@ -222,6 +218,9 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == REQUEST_CODE_QR_SCAN && resultCode == RESULT_OK && data != null) {
+            Log.e(TAG, " HELLO " + data.toString());
+        }
         if (resultCode != Activity.RESULT_OK) {
             Log.d("BT", "COULD NOT GET A GOOD RESULT.");
             if (data == null)
@@ -244,7 +243,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
 
         }
         if (requestCode == REQUEST_CODE_QR_SCAN) {
-            if (data == null)return;
+            if (data == null) return;
             //Getting the passed result
             String result = data.getStringExtra("com.example.sharan.iotsmartchain.qrcodescanner.got_qr_scan_relult");
             Log.d("BT", "Have scan result in your app activity :" + result);
@@ -406,7 +405,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         private String message;
 
         private RegisterIoTInfo registerIoTInfo = new RegisterIoTInfo();
-       // private ArrayList<RegisterIoTInfo> regDevicesList = new ArrayList<>();
+        // private ArrayList<RegisterIoTInfo> regDevicesList = new ArrayList<>();
         private HashMap<String, RegisterIoTInfo> registerHashMap = new LinkedHashMap<>();
 
 
@@ -473,7 +472,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
 
                     Log.e(TAG, " SH : status : " + respData.getBoolean("status"));
                     Log.e(TAG, " SH : message : " + respData.getString("message"));
-                    Log.e(TAG, " SH : array list : "+jsonArray.toString());
+                    Log.e(TAG, " SH : array list : " + jsonArray.toString());
 
                     mList = new ArrayList<>();
                     registerHashMap = new HashMap<>();
@@ -481,23 +480,29 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                         JSONObject object = jsonArray.getJSONObject(i);
                         registerIoTInfo = new RegisterIoTInfo();
 
+
+                        boolean isRegistered = object.getBoolean("is_registered");
+                        boolean isInstalled = object.getBoolean("is_installed");
+
                         registerIoTInfo.setSensorName(object.getString("iot_device_sn"));
                         registerIoTInfo.setTimeStamp(Utils.convertTime(object.getLong("reg_time")));
                         registerIoTInfo.setSensorStatus("true");
                         registerIoTInfo.setDeviceType(object.getString("device_type"));
+                        registerIoTInfo.setRegistered(isRegistered);
+                        registerIoTInfo.setInstalled(isInstalled);
 
                         //add register item into hash map
                         registerHashMap.put(registerIoTInfo.getSensorName().toString(), registerIoTInfo);
                     }
 
-                    Log.e(TAG, "SH : reg registerHashMap : "+registerHashMap.toString());
+                    Log.e(TAG, "SH : reg registerHashMap : " + registerHashMap.toString());
 
 
-                    for(RegisterIoTInfo reg : registerHashMap.values()){
+                    for (RegisterIoTInfo reg : registerHashMap.values()) {
                         mList.add(reg);
                     }
 
-                    Log.e(TAG, "SH : reg iot list : "+mList.toString());
+                    Log.e(TAG, "SH : reg iot list : " + mList.toString());
 
 
                 } catch (JSONException e) {
@@ -517,18 +522,18 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
             super.onPostExecute(aBoolean);
             registerIoTDeviceAsync = null;
             Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, false);
-            if(aBoolean){
+            if (aBoolean) {
                 adapterRegisterIoTDevices.clear();
                 //adapterRegisterIoTDevices.addAll(regDevicesList);
                 adapterRegisterIoTDevices = new AdapterRegisterIoTDevices(mContext, mList);
                 mLvRegIoTDevice.setAdapter(adapterRegisterIoTDevices);
                 //adapterRegisterIoTDevices.notifyDataSetChanged();
 
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG );
+                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
                 sb.show();
 
-            }else{
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG );
+            } else {
+                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
                 sb.show();
             }
         }

@@ -1,17 +1,10 @@
 package com.example.sharan.iotsmartchain.main.activities;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
-import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
 import com.example.sharan.iotsmartchain.Presenter.MainActivityPresenter;
 import com.example.sharan.iotsmartchain.R;
 
