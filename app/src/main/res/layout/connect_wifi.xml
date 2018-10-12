@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color.grey.dark">
+    android:background="@color/color_grey_dark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textSSID1"
             android:hint="Enter password"
-            android:textColorHint="@color/color.silver"
-            android:textColor="@color/color.silver"
+            android:textColorHint="@color/color_silver"
+            android:textColor="@color/color_silver"
             android:gravity="center"
             android:textStyle="normal|italic"
             android:textSize="18sp"

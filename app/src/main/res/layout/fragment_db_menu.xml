@@ -67,7 +67,7 @@
             android:src="@drawable/ic_menu_camera"
             android:layout_alignParentLeft="true"
             app:civ_border_width="1dp"
-            app:civ_circle_background_color="@color/color.grey.medium"
+            app:civ_circle_background_color="@color/color_grey_medium"
             app:civ_border_color="@color/color_orange"/>
 
         <LinearLayout
@@ -108,7 +108,7 @@
                 android:text="Mobile # "
                 android:gravity="center"
                 android:textSize="16dp"
-                android:textColor="@color/color.silver"
+                android:textColor="@color/color_silver"
                 android:layout_toRightOf="@+id/profile_photo"
                 android:layout_below="@+id/textView_email"/>
 
@@ -186,7 +186,7 @@
                         android:layout_toRightOf="@+id/imageView_setting"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:textColor="@color/color.silver"/>
+                        android:textColor="@color/color_silver"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -222,7 +222,7 @@
                         android:layout_toRightOf="@+id/imageView_feedback"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:textColor="@color/color.silver"/>
+                        android:textColor="@color/color_silver"/>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -259,7 +259,7 @@
                     android:layout_toRightOf="@+id/imageView_about"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:textColor="@color/color.silver"/>
+                    android:textColor="@color/color_silver"/>
 
             </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -296,7 +296,7 @@
                     android:layout_toRightOf="@+id/imageView_faq"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:textColor="@color/color.silver"/>
+                    android:textColor="@color/color_silver"/>
 
             </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -333,7 +333,7 @@
                     android:layout_toRightOf="@+id/imageView_support"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:textColor="@color/color.silver"/>
+                    android:textColor="@color/color_silver"/>
 
             </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -370,7 +370,7 @@
                     android:layout_toRightOf="@+id/imageView_logout"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:textColor="@color/color.silver"/>
+                    android:textColor="@color/color_silver"/>
 
             </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -408,7 +408,7 @@
                     android:layout_toRightOf="@+id/imageView_close_account"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:textColor="@color/color.silver"/>
+                    android:textColor="@color/color_silver"/>
 
             </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -449,7 +449,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/imageview_app_title"
                         android:layout_toEndOf="@+id/imageview_app_title"
-                        android:textColor="@color/color.silver"/>
+                        android:textColor="@color/color_silver"/>
 
                 </RelativeLayout>
 

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +43,7 @@
                     android:layout_marginLeft="5dp"
                     android:gravity="center"
                     android:text="IoT End Node device"
-                    android:textColor="@color/color.silver"
+                    android:textColor="@color/color_silver"
                     android:textSize="14sp"
                     android:textStyle="bold|italic"
                     android:typeface="normal" />
@@ -65,7 +64,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="Iot Device "
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -77,7 +76,7 @@
                             android:layout_toEndOf="@+id/textView_sn_label"
                             android:layout_toRightOf="@+id/textView_sn_label"
                             android:text=":"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -91,7 +90,7 @@
                             android:layout_toEndOf="@+id/tv_colon_1"
                             android:layout_toRightOf="@+id/tv_colon_1"
                             android:text="GES0090002"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -109,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="Label "
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -121,7 +120,7 @@
                             android:layout_toEndOf="@+id/textView_label"
                             android:layout_toRightOf="@+id/textView_label"
                             android:text=":"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -135,7 +134,7 @@
                             android:layout_toEndOf="@+id/tv_colon_2"
                             android:layout_toRightOf="@+id/tv_colon_2"
                             android:text="Home main door"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -153,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="Description "
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -165,7 +164,7 @@
                             android:layout_toEndOf="@+id/textView_des_label"
                             android:layout_toRightOf="@+id/textView_des_label"
                             android:text=":"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -179,7 +178,7 @@
                             android:layout_toEndOf="@+id/tv_colon_3"
                             android:layout_toRightOf="@+id/tv_colon_3"
                             android:text="information about location"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -197,7 +196,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="Status "
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -209,7 +208,7 @@
                             android:layout_toEndOf="@+id/textView_status_label"
                             android:layout_toRightOf="@+id/textView_status_label"
                             android:text=":"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -223,7 +222,7 @@
                             android:layout_toEndOf="@+id/tv_colon_4"
                             android:layout_toRightOf="@+id/tv_colon_4"
                             android:text="installed"
-                            android:textColor="@color/color.silver"
+                            android:textColor="@color/color_silver"
                             android:textSize="13dp"
                             android:textStyle="normal"
                             android:typeface="normal" />
@@ -243,7 +242,7 @@
                     android:layout_marginBottom="2dp"
                     android:gravity="right"
                     android:text="12:35:23 21 may 2018"
-                    android:textColor="@color/color.grey.medium"
+                    android:textColor="@color/color_grey_medium"
                     android:textSize="11sp"
                     android:typeface="normal" />
 

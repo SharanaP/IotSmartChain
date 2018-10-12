@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color.background.light.grey">
+    android:background="@color/color_background_light_grey">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
@@ -27,7 +27,7 @@
         android:text="Profile Name..."
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
-        android:textColor="@color/color.grey.dark"
+        android:textColor="@color/color_grey_dark"
         android:typeface="normal"/>
 
 </RelativeLayout>

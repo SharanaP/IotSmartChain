@@ -280,16 +280,16 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
         if (isSuccess) {
             Snackbar sb = Snackbar.make(mViewMessage, message, Snackbar.LENGTH_LONG);
             View view1 = sb.getView();
-            view1.setBackgroundColor(Color.BLACK);
+            view1.setBackgroundColor(context.getResources().getColor(R.color.color_grey_light));
             TextView tv = (TextView) view1.findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(Color.GREEN);
+            tv.setTextColor(context.getResources().getColor(R.color.color_text));
             sb.show();
         } else {
             Snackbar sb = Snackbar.make(mViewMessage, message, Snackbar.LENGTH_LONG);
             View view1 = sb.getView();
-            view1.setBackgroundColor(Color.BLACK);
+            view1.setBackgroundColor(context.getResources().getColor(R.color.color_grey_light));
             TextView tv = (TextView) view1.findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(Color.RED);
+            tv.setTextColor(context.getResources().getColor(R.color.color_red));
             sb.show();
         }
     }

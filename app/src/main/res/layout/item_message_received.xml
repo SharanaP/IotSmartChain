@@ -50,7 +50,7 @@
         android:textSize="10sp"
         app:layout_constraintLeft_toRightOf="@+id/text_message_body"
         android:layout_marginLeft="4dp"
-        android:textColor="@color/color.silver"
+        android:textColor="@color/color_silver"
         app:layout_constraintBottom_toBottomOf="@+id/text_message_body" />
 
 </android.support.constraint.ConstraintLayout>

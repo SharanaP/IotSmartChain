@@ -17,7 +17,7 @@
             android:gravity="center|top"
             android:text="Module name "
             android:textStyle="bold|italic"
-            android:textColor="@color/color.silver"
+            android:textColor="@color/color_silver"
             android:textSize="17sp" />
 
         <LinearLayout
@@ -47,7 +47,7 @@
                         android:gravity="center|left"
                         android:maxLength="20"
                         android:text="Mac"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:textSize="15dp" />
 
                     <TextView
@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="15dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toEndOf="@+id/textView_mac_label"
                         android:layout_toRightOf="@+id/textView_mac_label"
                         android:gravity="center"
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toRightOf="@+id/textView_colon"
                         android:gravity="center"
                         android:maxLength="30"
@@ -97,7 +97,7 @@
                         android:gravity="center|left"
                         android:maxLength="20"
                         android:text="Details"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:textSize="15dp" />
 
                     <TextView
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="15dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toEndOf="@+id/textView_detail_label"
                         android:layout_toRightOf="@+id/textView_detail_label"
                         android:gravity="center"
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toRightOf="@+id/textView_colon_two"
                         android:gravity="left"
                         android:text="Sample "
@@ -148,7 +148,7 @@
                         android:gravity="center|left"
                         android:maxLength="20"
                         android:text="Status"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:textSize="15dp" />
 
                     <TextView
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="15dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toEndOf="@+id/textview_statusLabel"
                         android:layout_toRightOf="@+id/textview_statusLabel"
                         android:gravity="center"
@@ -171,7 +171,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_toRightOf="@+id/textView_colon3"
                         android:gravity="left"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:text="Active"
                         android:textSize="13sp" />
 
@@ -198,7 +198,7 @@
                         android:gravity="center|left"
                         android:maxLength="20"
                         android:text="Registered on"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:textSize="15dp" />
 
                     <TextView
@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="15dp"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_toEndOf="@+id/textview_regLabel"
                         android:layout_toRightOf="@+id/textview_regLabel"
                         android:gravity="center"
@@ -220,7 +220,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_toEndOf="@+id/textView_colon4"
                         android:layout_toRightOf="@+id/textView_colon4"
-                        android:textColor="@color/color.silver"
+                        android:textColor="@color/color_silver"
                         android:layout_centerVertical="true"
                         android:gravity="left"
                         android:text="dd/MMM/yyyy hh:mm a"

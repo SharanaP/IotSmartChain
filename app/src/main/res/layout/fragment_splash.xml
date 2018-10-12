@@ -40,13 +40,13 @@
         android:visibility="visible"
         android:typeface="monospace"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color_white"
         android:textSize="55sp"/>-->
 
     <!--<View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/color.silver"
+        android:background="@color/color_silver"
         android:layout_above="@+id/poweredBy"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Powered by GeoKno India."
-        android:textColor="@color/color.silver"
+        android:textColor="@color/color_silver"
         android:textSize="10sp"
         android:typeface="normal"
         android:textStyle="bold"

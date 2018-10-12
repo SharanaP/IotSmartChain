@@ -10,11 +10,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/color.actionBar"
+        android:background="@color/color_actionBar"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white"
+        app:titleTextColor="@color/color_white"
         android:visibility="visible"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:textSize="20dp"
         android:padding="20dp"
-        android:textColor="@color/color.grey"
+        android:textColor="@color/color_grey"
         android:gravity="center"/>
 
     <RelativeLayout
@@ -41,7 +41,7 @@
             android:id="@+id/button_WIFI"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:background="@drawable/mysignin_button"
             android:text="Wi-Fi" />
 
@@ -62,7 +62,7 @@
             android:layout_height="40dp"
             android:layout_below="@+id/button_WIFI"
             android:layout_marginTop="40dp"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:layout_marginBottom="10dp"
             android:background="@drawable/mysignin_button"
             android:text="GSM" />
@@ -86,7 +86,7 @@
         android:layout_height="100dp"
         android:textSize="13dp"
         android:padding="20dp"
-        android:textColor="@color/color.grey.medium"
+        android:textColor="@color/color_grey_medium"
         android:text="Status : "/>
 
     <LinearLayout
@@ -100,7 +100,7 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:text="Next"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="13dp"
             android:background="@drawable/mysignin_button"
             android:layout_marginBottom="20dp"/>

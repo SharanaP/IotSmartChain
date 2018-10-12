@@ -8,7 +8,7 @@
         android:id="@+id/relativeLayout_header"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/color.grey.dark">
+        android:background="@color/color_grey_dark">
 
         <TextView
             android:id="@+id/dialog_title"
@@ -18,16 +18,16 @@
             android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
             android:text="Create an Non-Spatial Plan"
-            android:textColor="@color/color.silver"
+            android:textColor="@color/color_silver"
             android:textSize="18sp"
             android:textStyle="bold|italic" />
 
     </RelativeLayout>
 
     <ScrollView
-        android:layout_below="@+id/relativeLayout_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout_header">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/transparent"
-                android:textColor="@color/color.silver">
+                android:textColor="@color/color_silver">
 
                 <EditText
                     android:id="@+id/edittext_iot_add"
@@ -53,8 +53,8 @@
                     android:layout_below="@+id/relativeLayout_header"
                     android:hint="IoT serial number"
                     android:inputType="text"
-                    android:textColor="@color/color.grey.dark"
-                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
+                    android:textColorHighlight="@color/color_grey_dark"
                     android:textColorHint="#C0C0C0"
                     android:textSize="17sp"
                     android:textStyle="normal" />
@@ -66,18 +66,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relativeLayout_header"
-                android:hint="IoT serial number"
-                android:inputType="text"
-                android:maxLength="40"
-                android:maxLines="1"
-                android:singleLine="true"
                 android:layout_gravity="right"
-                android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginBottom="3dp"
-                android:textColor="@color/color.grey.dark"
-                android:textColorHighlight="@color/color.grey.dark"
+                android:hint="IoT serial number"
+                android:textColor="@color/color_grey_dark"
+                android:textColorHighlight="@color/color_grey_dark"
                 android:textColorHint="#C0C0C0"
                 android:textSize="17sp"
                 android:textStyle="normal" />
@@ -91,7 +87,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/transparent"
-                android:textColor="@color/color.silver">
+                android:textColor="@color/color_silver">
 
                 <EditText
                     android:id="@+id/edittext_iot_label"
@@ -103,8 +99,8 @@
                     android:maxLength="40"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/color.grey.dark"
-                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
+                    android:textColorHighlight="@color/color_grey_dark"
                     android:textColorHint="#C0C0C0"
                     android:textSize="16sp" />
 
@@ -119,7 +115,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/transparent"
-                android:textColor="@color/color.silver">
+                android:textColor="@color/color_silver">
 
                 <EditText
                     android:id="@+id/edittext_iot_des"
@@ -131,8 +127,8 @@
                     android:maxLength="150"
                     android:singleLine="false"
                     android:text=""
-                    android:textColor="@color/color.grey.dark"
-                    android:textColorHighlight="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
+                    android:textColorHighlight="@color/color_grey_dark"
                     android:textColorHint="#C0C0C0"
                     android:textSize="15sp"
                     android:textStyle="normal" />
@@ -153,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:text="Latitude "
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="16dp"
                     android:textStyle="normal" />
 
@@ -164,7 +160,7 @@
                     android:layout_toRightOf="@+id/textview_lat_label"
                     android:gravity="center|center_vertical"
                     android:text=":"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -176,7 +172,7 @@
                     android:layout_toRightOf="@+id/textview_colon1"
                     android:gravity="left|center"
                     android:text=""
-                    android:textColor="@color/color.grey.medium"
+                    android:textColor="@color/color_grey_medium"
                     android:textSize="15dp"
                     android:textStyle="normal" />
             </RelativeLayout>
@@ -197,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:text="Longtitude "
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="16dp"
                     android:textStyle="normal" />
 
@@ -208,7 +204,7 @@
                     android:layout_toRightOf="@+id/textview_lng_label"
                     android:gravity="center"
                     android:text=":"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -220,7 +216,7 @@
                     android:layout_toRightOf="@+id/textview_colon2"
                     android:gravity="left|center"
                     android:text=""
-                    android:textColor="@color/color.grey.medium"
+                    android:textColor="@color/color_grey_medium"
                     android:textSize="15dp"
                     android:textStyle="normal" />
             </RelativeLayout>
@@ -240,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:text="Address "
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="16dp"
                     android:textStyle="normal" />
 
@@ -251,7 +247,7 @@
                     android:layout_toRightOf="@+id/textview_add_label"
                     android:gravity="center"
                     android:text=":"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -263,7 +259,7 @@
                     android:layout_toRightOf="@+id/textView_colon3"
                     android:gravity="left|center"
                     android:text=""
-                    android:textColor="@color/color.grey.medium"
+                    android:textColor="@color/color_grey_medium"
                     android:textSize="14dp"
                     android:textStyle="normal" />
             </RelativeLayout>

@@ -34,7 +34,7 @@
                     android:gravity="center"
                     android:text="3"
                     android:onClick="modulesInUseView"
-                    android:textColor="@color/color.green"
+                    android:textColor="@color/color_green"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:typeface="monospace" />
@@ -45,7 +45,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Modules in use"
-                    android:textColor="@color/color.green"
+                    android:textColor="@color/color_green"
                     android:textSize="15dp"
                     android:textStyle="normal"
                     android:typeface="monospace" />
@@ -58,7 +58,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/color.grey.light" />
+                android:background="@color/color_grey_light" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -76,7 +76,7 @@
                     android:gravity="center"
                     android:text="4"
                     android:onClick="modulesNotInUse"
-                    android:textColor="@color/color.red"
+                    android:textColor="@color/color_red"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Modules not in use"
-                    android:textColor="@color/color.red"
+                    android:textColor="@color/color_red"
                     android:textSize="15dp"
                     android:textStyle="normal"
                     android:typeface="monospace" />
@@ -135,7 +135,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/color.grey.light" />
+                android:background="@color/color_grey_light" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_battery"
@@ -185,7 +185,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color_grey_light" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout_masterLock"
@@ -223,7 +223,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/color.grey.light" />
+                android:background="@color/color_grey_light" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -239,7 +239,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:background="@color/color.grey.light" />
+                    android:background="@color/color_grey_light" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout_listOfModules"

@@ -17,7 +17,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/title"
-        android:textColor="@color/color.white"
+        android:textColor="@color/color_white"
         android:textSize="25sp"
         android:textStyle="bold"
         android:typeface="monospace" />
@@ -72,15 +72,15 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/color.white"
-                android:textColorHint="@color/color.white">
+                android:backgroundTint="@color/color_white"
+                android:textColorHint="@color/color_white">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@android:color/transparent"
-                    android:backgroundTint="@color/color.white"
+                    android:backgroundTint="@color/color_white"
                     android:drawableLeft="@drawable/ic_email_black_24dp"
                     android:gravity="center_vertical"
                     android:hint="Email"
@@ -88,15 +88,15 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/color.white"
-                    android:textColorHint="@color/color.white" />
+                    android:textColor="@color/color_white"
+                    android:textColorHint="@color/color_white" />
             </android.support.design.widget.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_centerHorizontal="true"
-                android:background="@color/color.white" />
+                android:background="@color/color_white" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/ic_showPassword"
                     android:orientation="vertical"
-                    android:textColorHint="@color/color.white"
+                    android:textColorHint="@color/color_white"
                     android:textStyle="normal">
 
                     <EditText
@@ -117,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@android:color/transparent"
-                        android:backgroundTint="@color/color.white"
+                        android:backgroundTint="@color/color_white"
                         android:drawableLeft="@drawable/ic_lock_black_24dp"
                         android:fontFamily="sans-serif"
                         android:gravity="center_vertical"
@@ -127,7 +127,7 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textColor="@color/color.white" />
+                        android:textColor="@color/color_white" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -136,7 +136,7 @@
                     android:layout_height="2dp"
                     android:layout_below="@+id/tl2"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/color.white" />
+                    android:background="@color/color_white" />
 
                 <ImageButton
                     android:id="@+id/ic_showPassword"
@@ -147,7 +147,7 @@
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_visibility_24dp"
-                    android:tint="@color/color.white" />
+                    android:tint="@color/color_white" />
 
             </RelativeLayout>
 
@@ -155,8 +155,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center|right"
                 android:orientation="horizontal">
 
@@ -166,7 +166,7 @@
                     android:layout_height="30dp"
                     android:gravity="center"
                     android:text="Forgot password? "
-                    android:textColor="@color/color.white"
+                    android:textColor="@color/color_white"
                     android:textSize="13dp"
                     android:textStyle="normal" />
 
@@ -178,7 +178,7 @@
                      android:text="@string/label_click_here"
                      android:textSize="13dp"
                      android:gravity="right|center"
-                     android:textColor="@color/color.white"
+                     android:textColor="@color/color_white"
                      android:textStyle="bold"/>-->
             </LinearLayout>
 
@@ -189,7 +189,7 @@
          android:layout_marginTop="5dp"
          android:layout_width="match_parent"
          android:layout_height="1dp"
-         android:background="@color/color.white"/>-->
+         android:background="@color/color_white"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -203,9 +203,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:buttonTint="@color/color.white"
+            android:buttonTint="@color/color_white"
             android:text="Request OTP "
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textStyle="normal"
             android:theme="@style/checkBoxStyle" />
 
@@ -218,7 +218,7 @@
             android:layout_toRightOf="@+id/checkBox_Request_Otp"
             android:background="@drawable/mysignin_button"
             android:text="Sign in"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -228,7 +228,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/color.white" />
+        android:background="@color/color_white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -240,11 +240,11 @@
             android:id="@+id/tv_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="Don't have an account? "
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="14sp"
             android:textStyle="normal"
             android:visibility="visible" />
@@ -260,7 +260,7 @@
             android:layout_toRightOf="@+id/tv_signup"
             android:background="@drawable/mysignup_button"
             android:text="sign up"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="13sp"
             android:textStyle="bold"
             android:visibility="visible" />

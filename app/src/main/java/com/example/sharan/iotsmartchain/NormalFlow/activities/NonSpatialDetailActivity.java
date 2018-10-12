@@ -84,8 +84,8 @@ public class NonSpatialDetailActivity extends BaseActivity {
                 mEditTextLatitude.setText("" + nonSpatialModel.getLatitude());
                 mEditTextLongitude.setText("" + nonSpatialModel.getLongitude());
                 mEditTextAddress.setText(nonSpatialModel.getAddress());
-                mEditTextService.setText(nonSpatialModel.getService());
-                mEditTextCharacteristic.setText(nonSpatialModel.getCharacteristic());
+                mEditTextService.setText(nonSpatialModel.getService().toString());
+                mEditTextCharacteristic.setText(nonSpatialModel.getCharacteristic().toString());
                 mEditTextTimeStamp.setText(nonSpatialModel.getTimeStamp());
             }
         }

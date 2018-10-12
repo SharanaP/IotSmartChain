@@ -267,17 +267,21 @@ public class CreateNonSpatialActivity extends BaseActivity {
 
         builder.setView(rootView);
 
-        if (!TextUtils.isEmpty(iotSerialNum) && !iotSerialNum.isEmpty()) {
-            editTextIotAdd.setText(iotSerialNum);
-            editTextIotAdd.setEnabled(false);
-            spinnerIotAdd.setVisibility(View.GONE);
-        }
-
-        Log.e(TAG, "array list :: " + mList);
+        Log.e(TAG, "SH : dialog : reg list : " + mList);
         arrayAdapter = new ArrayAdapter(CreateNonSpatialActivity.this,
                 android.R.layout.simple_spinner_item, mList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIotAdd.setAdapter(arrayAdapter);
+
+        if (!TextUtils.isEmpty(iotSerialNum) && !iotSerialNum.isEmpty()) {
+            editTextIotAdd.setText(iotSerialNum);
+            editTextIotAdd.setEnabled(false);
+            spinnerIotAdd.setVisibility(View.GONE);
+        }else{
+            editTextIotAdd.setText(iotSerialNum);
+            editTextIotAdd.setEnabled(false);
+            spinnerIotAdd.setVisibility(View.VISIBLE);
+        }
 
         NonSpatialModel nonSpatialModel = new NonSpatialModel();
         latitude = locationManagerUtils.getLatitude();
@@ -570,7 +574,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
                     nonSpatialModel.setTimeStamp("" + timeStamp);
 
                     if (retVal) {
-                        mList = new ArrayList<>();
+                        arrayList = new ArrayList<>();
                         modelHashMap = new HashMap<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);

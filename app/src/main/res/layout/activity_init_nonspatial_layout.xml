@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:background="@color/color.actionBar"
-        android:titleTextColor="@color/color.white"
+        android:background="@color/color_actionBar"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
 
     <!--progress bar and view -->
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:text="Done"
             android:visibility="gone"
-            android:textColor="@color/color.white" />
+            android:textColor="@color/color_white" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_manually"

@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:background="@color/color.actionBar"
-        android:titleTextColor="@color/color.silver"
+        android:background="@color/color_actionBar"
+        android:titleTextColor="@color/color_silver"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.silver" />
+        app:titleTextColor="@color/color_silver" />
 
 
     <ProgressBar
@@ -90,9 +90,9 @@
                             android:inputType="text"
                             android:textSize="18sp"
                             android:gravity="center"
-                            android:textColorHint="@color/color.silver"
+                            android:textColorHint="@color/color_silver"
                             android:layout_below="@+id/image_app_icon"
-                            android:textColor="@color/color.silver" />
+                            android:textColor="@color/color_silver" />
 
                         <EditText
                             android:id="@+id/editText_email_otp"
@@ -105,9 +105,9 @@
                             android:gravity="center"
                             android:maxLength="4"
                             android:textSize="18sp"
-                            android:textColorHint="@color/color.silver"
+                            android:textColorHint="@color/color_silver"
                             android:layout_below="@+id/editText_email_mob"
-                            android:textColor="@color/color.silver" />
+                            android:textColor="@color/color_silver" />
 
                         <Button
                             android:id="@+id/button_send_reset_link"
@@ -177,9 +177,9 @@
                                 android:layout_marginTop="20dp"
                                 android:hint="new password"
                                 android:textSize="18sp"
-                                android:textColorHint="@color/color.silver"
+                                android:textColorHint="@color/color_silver"
                                 android:inputType="textPassword"
-                                android:textColor="@color/color.silver" />
+                                android:textColor="@color/color_silver" />
 
                             <ImageButton
                                 android:id="@+id/ic_newShowPassword"
@@ -190,7 +190,7 @@
                                 android:layout_centerVertical="true"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/ic_visibility_24dp"
-                                android:tint="@color/color.silver" />
+                                android:tint="@color/color_silver" />
 
                         </RelativeLayout>
 
@@ -205,10 +205,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
                                 android:hint="Re-enter new password"
-                                android:textColorHint="@color/color.silver"
+                                android:textColorHint="@color/color_silver"
                                 android:textSize="18sp"
                                 android:inputType="textPassword"
-                                android:textColor="@color/color.silver" />
+                                android:textColor="@color/color_silver" />
 
                             <ImageButton
                                 android:id="@+id/ic_reEnterShowPassword"
@@ -219,7 +219,7 @@
                                 android:layout_centerVertical="true"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/ic_visibility_24dp"
-                                android:tint="@color/color.silver" />
+                                android:tint="@color/color_silver" />
 
                         </RelativeLayout>
 

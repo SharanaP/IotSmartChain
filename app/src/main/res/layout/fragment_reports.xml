@@ -4,7 +4,7 @@
     android:id="@+id/global_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color.grey">
+    android:background="@color/color_grey">
 
     <!--Tool bar -->
     <android.support.v7.widget.Toolbar
@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:background="@color/color.actionBar"
-        android:titleTextColor="@color/color.white"
+        android:background="@color/color_actionBar"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="9dp"
                     android:text="Temperature"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="18 C"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -131,7 +131,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Compass"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
 
                 <TextView
@@ -142,7 +142,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="216 SW"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold" />
 
@@ -224,7 +224,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Humidity"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
 
                 <TextView
@@ -235,7 +235,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="13%"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -279,7 +279,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Gyroscope"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
             </RelativeLayout>
 
@@ -326,7 +326,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Pressure"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
 
                 <TextView
@@ -337,7 +337,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="98430 Pa"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold" />
 
@@ -373,7 +373,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Accelerometer"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="14dp" />
 
                 <TextView
@@ -384,7 +384,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="1231"
-                    android:textColor="@color/color.grey.dark"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold" />
 

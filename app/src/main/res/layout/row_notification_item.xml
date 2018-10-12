@@ -82,7 +82,7 @@
             android:layout_marginRight="5dp"
             android:gravity="right|bottom"
             android:text="12:35:23 21 may 2018"
-            android:textColor="@color/color.grey.medium"
+            android:textColor="@color/color_grey_medium"
             android:textSize="11dp"
             android:typeface="normal" />
 

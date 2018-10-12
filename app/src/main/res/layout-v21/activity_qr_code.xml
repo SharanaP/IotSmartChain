@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/qr_code_header_bar"
@@ -17,7 +17,7 @@
             android:text=""
             android:textSize="20dp"
             android:drawableLeft="@drawable/ic_action_back_icon"
-            android:textColor="@color/color.silver"
+            android:textColor="@color/color_silver"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"/>
 
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/qr_code_select_picture"
-            android:textColor="@android:color/white"
+            android:textColor="@color/color_white"
             android:textSize="15sp"/>
 
     </RelativeLayout>
@@ -67,8 +67,7 @@
         android:background="@color/qr_code_flashlight_bg"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/qr_code_iv_flash_light"

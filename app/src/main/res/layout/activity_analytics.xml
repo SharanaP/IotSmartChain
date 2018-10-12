@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <ExpandableListView
         android:id="@+id/expandableListView"
@@ -22,7 +22,7 @@
         android:childDivider="@null"
         android:divider="@null"
         android:dividerHeight="2dp"
-        android:groupIndicator="@color/color.silver"
+        android:groupIndicator="@color/color_silver"
         android:layout_height="match_parent"></ExpandableListView>
 
 </LinearLayout>

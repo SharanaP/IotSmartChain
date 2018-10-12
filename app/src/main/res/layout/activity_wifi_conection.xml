@@ -13,22 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
-        android:background="@color/color.PrimaryDark"
+        android:background="@color/color_PrimaryDark"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/color.Primary">
+        android:background="@color/color_Primary">
 
         <TextView
             android:id="@+id/textview_wifi_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="16dp"
             android:text=""
             android:textStyle="normal"
@@ -59,7 +59,7 @@
         android:layout_height="match_parent"
         android:text="To see available networks, turn Wi-Fi on..."
         android:textSize="16dp"
-        android:textColor="@color/color.Primary"
+        android:textColor="@color/color_Primary"
         android:gravity="center"
         android:layout_gravity="center_horizontal|center_vertical" />
 

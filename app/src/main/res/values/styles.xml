@@ -3,20 +3,20 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here.\ -->
-        <item name="colorPrimary">@color/color.Primary</item>
-        <item name="colorPrimaryDark">@color/color.PrimaryDark</item>
-        <item name="colorAccent">@color/color.Accent</item>
-        <item name="android:actionModeBackground">@color/color.actionBar</item>
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="colorAccent">@color/color_Accent</item>
+        <item name="android:actionModeBackground">@color/color_actionBar</item>
         <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
-        <item name="actionModeStyle">@style/Widget.ActionMode</item>
-        <item name="panelBackground">@color/color.Accent</item>
+        <item name="actionModeStyle">@style/Widget_ActionMode</item>
+        <item name="panelBackground">@color/color_Accent</item>
         <item name="searchViewStyle">@style/SearchViewMy</item>
     </style>
 
     <!--Action mode -->
-    <style name="Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
-        <item name="android:background">@color/color.actionBar</item>
-        <item name="background">@color/color.actionBar</item>
+    <style name="Widget_ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/color_actionBar</item>
+        <item name="background">@color/color_actionBar</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="android:shadowRadius">0</item>
@@ -26,33 +26,33 @@
     <style name="SearchViewMy" parent="Widget.AppCompat.Light.SearchView">
         <item name="android:maxWidth">10000dp</item>
         <item name="android:icon">@null</item>
-        <item name="android:textColorHint">@color/color.grey.medium</item>
+        <item name="android:textColorHint">@color/color_grey_medium</item>
     </style>
-    >
+
 
     <!--Toolbar-->
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
-        <item name="colorPrimary">@color/color.Primary</item>
-        <item name="colorPrimaryDark">@color/color.PrimaryDark</item>
-        <item name="colorAccent">@color/color.Accent</item>
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="colorAccent">@color/color_Accent</item>
         <item name="android:navigationBarColor" tools:targetApi="21">
-            @color/color.Primary
+            @color/color_Primary
         </item>
         <item name="android:textColorPrimary">@android:color/black</item>
-        <item name="android:textColorSecondary">@color/color.white</item>
-        <item name="android:textColorHint">@color/color.white</item>
+        <item name="android:textColorSecondary">@color/color_white</item>
+        <item name="android:textColorHint">@color/color_white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
     <!--Checkbox-->
     <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
-        <item name="colorAccent">@color/color.white</item>
-        <item name="android:textColorSecondary">@color/color.white</item>
+        <item name="colorAccent">@color/color_white</item>
+        <item name="android:textColorSecondary">@color/color_white</item>
     </style>  //
 
     <style name="checkBoxColorStyle" parent="Base.Theme.AppCompat">
-        <item name="colorAccent">@color/color.random.green</item>
-        <item name="android:textColorSecondary">@color/color.random.green</item>
+        <item name="colorAccent">@color/color_random_green</item>
+        <item name="android:textColorSecondary">@color/color_random_green</item>
     </style>  //26A69A
 
 
@@ -60,7 +60,7 @@
     <style name="MyCardViewStyle" parent="Theme.AppCompat.Light">
         <item name="cardCornerRadius">1dp</item>
         <item name="cardElevation">8dp</item>
-        <item name="cardBackgroundColor">@color/color.grey.medium</item>
+        <item name="cardBackgroundColor">@color/color_grey_medium</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -73,18 +73,18 @@
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/color.white</item>
-        <item name="android:background">@color/color.background</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/color.white</item>
-        <item name="android:background">@color/color.background</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <!--theme for progressbar-->
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/color.Accent</item>
+        <item name="colorAccent">@color/color_Accent</item>
     </style>
 
 
@@ -94,26 +94,26 @@
 
     <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
         <!-- Floating label appearance here -->
-        <item name="android:textColor">@color/color.grey.light</item>
+        <item name="android:textColor">@color/color_grey_light</item>
         <item name="android:textSize">12sp</item>
 
-        <item name="colorPrimary">@color/color.grey.medium</item>
-        <item name="colorPrimaryDark">@color/color.grey.light</item>
-        <item name="colorAccent">@color/color.grey.light.hight</item>
+        <item name="colorPrimary">@color/color_grey_medium</item>
+        <item name="colorPrimaryDark">@color/color_grey_light</item>
+        <item name="colorAccent">@color/color_grey_light_high</item>
     </style>
 
     <style name="SwitchCompatStyle" parent="Theme.AppCompat.Light">
         <item name="android:thumb">@drawable/thumb_image</item>
         <item name="trackTint">@color/switch_color</item>
-        <item name="android:colorForeground">@color/color.grey.medium</item>
+        <item name="android:colorForeground">@color/color_grey_medium</item>
     </style>
 
     <!-- Base application theme. -->
     <style name="LibAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color.Primary</item>
-        <item name="colorPrimaryDark">@color/color.PrimaryDark</item>
-        <item name="colorAccent">@color/color.Accent</item>
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="colorAccent">@color/color_Accent</item>
         <item name="android:colorBackground">@android:color/background_light</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
@@ -128,14 +128,14 @@
 
     <style name="FilePickerTheme" parent="LibAppTheme">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color.Primary</item>
-        <item name="colorPrimaryDark">@color/color.PrimaryDark</item>
-        <item name="colorAccent">@color/color.Accent</item>
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="colorAccent">@color/color_Accent</item>
     </style>
 
     <style name="PickerTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabBackground">@color/color_yellow_light</item>
-        <item name="android:actionBarTabTextStyle">@color/color.silver</item>
+        <item name="android:actionBarTabTextStyle">@color/color_silver</item>
         <item name="tabSelectedTextColor">@color/color_yellow</item>
         <item name="tabGravity">fill</item>
         <item name="tabMaxWidth">0dp</item>
@@ -143,9 +143,9 @@
 
     <!--Custom dialog -->
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/color.Primary</item>
-        <item name="android:textColor">@color/color.silver</item>
-        <item name="colorAccent">@color/color.Accent</item>
+        <item name="android:background">@color/color_Primary</item>
+        <item name="android:textColor">@color/color_silver</item>
+        <item name="colorAccent">@color/color_Accent</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowFrame">@null</item>
     </style>

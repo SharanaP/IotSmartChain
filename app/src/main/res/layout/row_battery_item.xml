@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:orientation="horizontal"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -22,48 +22,48 @@
                 android:id="@+id/textView_label"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
-                android:textSize="15dp"
+                android:layout_marginLeft="50dp"
                 android:gravity="center|left"
                 android:maxLength="20"
-                android:textColor="@color/color.silver"
-                android:layout_marginLeft="50dp"
-                android:text="Home/Office"/>
+                android:text="Home/Office"
+                android:textColor="@color/color_silver"
+                android:textSize="15dp" />
 
             <View
                 android:id="@+id/view_line"
                 android:layout_width="12dp"
                 android:layout_height="1dp"
-                android:layout_toRightOf="@+id/textView_label"
-                android:layout_toEndOf="@+id/textView_label"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/color.silver"/>
+                android:layout_toEndOf="@+id/textView_label"
+                android:layout_toRightOf="@+id/textView_label"
+                android:background="@color/color_silver"
+                android:gravity="center" />
 
             <ImageView
                 android:id="@+id/imageView_battery"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:padding="1dp"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/view_line"
-                android:layout_toEndOf="@+id/view_line"
                 android:layout_marginRight="4dp"
+                android:layout_toEndOf="@+id/view_line"
+                android:layout_toRightOf="@+id/view_line"
+                android:padding="1dp"
                 android:src="@drawable/battery_1_full" />
 
             <TextView
                 android:id="@+id/textView_batteryValue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="30dp"
+                android:layout_toRightOf="@+id/imageView_battery"
+                android:gravity="center"
+                android:text="89%"
+                android:textColor="@color/color_silver"
                 android:textSize="14dp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginRight="30dp"
-                android:typeface="monospace"
-                android:text="89%"
-                android:textColor="@color/color.silver"
-                android:layout_toRightOf="@+id/imageView_battery"/>
+                android:typeface="monospace" />
 
         </RelativeLayout>
 

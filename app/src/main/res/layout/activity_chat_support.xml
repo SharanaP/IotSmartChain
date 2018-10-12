@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_open_chat_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_screen_two"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <LinearLayout
         android:id="@+id/layout_open_chat_chatbox"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:minHeight="48dp">
+        android:layout_alignParentBottom="true"
+        android:minHeight="48dp"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/button_open_channel_chat_upload"
-            app:srcCompat="@drawable/ic_add_white_24dp"
-            android:background="?attr/selectableItemBackground"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
+            android:background="?attr/selectableItemBackground"
             android:contentDescription="Upload file"
+            app:srcCompat="@drawable/ic_add_white_24dp"
             tools:ignore="VectorDrawableCompat" />
 
         <EditText
             android:id="@+id/edittext_chat_message"
-            android:hint="Enter message"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:textColor="@color/color.silver"
-            android:textColorHint="@color/color.grey.medium"
-            android:layout_height="wrap_content"
-            android:maxLines="6"/>
+            android:background="@android:color/transparent"
+            android:hint="Enter message"
+            android:maxLines="6"
+            android:textColor="@color/color_silver"
+            android:textColorHint="@color/color_grey_medium" />
 
         <Button
             android:id="@+id/button_open_channel_chat_send"
-            android:text="SEND"
-            android:textSize="14dp"
-            android:textColor="@drawable/selector_btn_send"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:layout_width="64dp"
             android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:gravity="center"
-            android:layout_gravity="bottom" />
+            android:text="SEND"
+            android:textColor="@drawable/selector_btn_send"
+            android:textSize="14dp" />
     </LinearLayout>
 
     <View
-        android:layout_above="@id/layout_open_chat_chatbox"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/color_yellow"/>
+        android:layout_above="@id/layout_open_chat_chatbox"
+        android:background="@color/color_yellow" />
 
     <LinearLayout
-        android:layout_above="@id/layout_open_chat_chatbox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/layout_open_chat_chatbox"
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
@@ -82,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingBottom="4dp"
             android:clipToPadding="false"
+            android:paddingBottom="4dp"
             android:scrollbars="vertical">
 
         </android.support.v7.widget.RecyclerView>
@@ -98,17 +97,13 @@
 
             <TextView
                 android:id="@+id/text_open_chat_current_event"
-                android:text="Terry and Harry are typing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:text="Terry and Harry are typing" />
 
         </LinearLayout>
 
     </LinearLayout>
 
 </RelativeLayout>
-
-
-
-

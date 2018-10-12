@@ -16,11 +16,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/color.actionBar"
+            android:background="@color/color_actionBar"
             android:layout_gravity="center_horizontal"
-            android:titleTextColor="@color/color.white"
+            android:titleTextColor="@color/color_white"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextColor="@color/color.white"
+            app:titleTextColor="@color/color_white"
             android:visibility="visible"/>
 
 

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="5dp">
+    android:layout_marginTop="5dp"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
             android:id="@+id/textview_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Module name"
-            android:textColor="@color/color.silver"
             android:layout_marginLeft="10dp"
-            android:textSize="16dp"/>
+            android:text="Module name"
+            android:textColor="@color/color_silver"
+            android:textSize="16dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,24 +30,24 @@
                 android:id="@+id/tetxview_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="dd/mm/yyyy hh:mm:ss"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:textColor="@color/color.grey.medium"
-                android:layout_alignParentLeft="true"
-                android:textSize="12dp"/>
+                android:text="dd/mm/yyyy hh:mm:ss"
+                android:textColor="@color/color_grey_medium"
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/textview_readmore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Read More"
-                android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/color.silver"
                 android:layout_toLeftOf="@+id/imageview_indicator"
-                android:textSize="13dp"/>
+                android:gravity="center"
+                android:text="Read More"
+                android:textColor="@color/color_silver"
+                android:textSize="13dp" />
 
             <ImageView
                 android:id="@+id/imageview_indicator"
@@ -56,7 +56,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
         </RelativeLayout>
 

@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <ListView
         android:id="@+id/listview_all_notification"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="No Notifications"
-            android:textColor="@color/color.silver"
+            android:textColor="@color/color_silver"
             android:textSize="25sp"
             android:textStyle="normal|italic"
             android:typeface="monospace" />

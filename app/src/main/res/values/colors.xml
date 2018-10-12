@@ -9,39 +9,40 @@
     <!--<color name="color.Accent">#65bddf</color>-->
     <!--<color name="navigation_bar_background">#347ab8</color>-->
 
-    <color name="color.Primary">#212121</color>
-    <color name="color.PrimaryDark">#181818</color>
-    <color name="color.Accent">#E3A506</color>  //#ffd700
+    <color name="color_Primary">#212121</color>
+    <color name="color_PrimaryDark">#181818</color>
+    <color name="color_Accent">#E3A506</color>
+    //#ffd700
     <color name="navigation_bar_background">#2e2d2d</color>
 
     <!--<color name="color.background">#2175bb</color>-->
     <!--<color name="color.actionBar">#2d86cf</color>-->
 
-    <color name="color.background">#686868</color>
-    <color name="color.actionBar">#FF000000</color>
-    <color name="color.background.light.grey">#f3f3f3</color>
-    <color name="color.background.screen">#ccede2</color>
-    <color name="color.text">#009687</color>
+    <color name="color_background">#686868</color>
+    <color name="color_actionBar">#FF000000</color>
+    <color name="color_background_light_grey">#f3f3f3</color>
+    <color name="color_background_screen">#ccede2</color>
+    <color name="color_text">#009687</color>
 
-    <color name="color.brand.primary">#28292C</color>
-    <color name="color.brand.primary_dark">#28292C</color>
-    <color name="color.brand.secondary">#077d6a</color>
-    <color name="color.brand.accent">#ff441a</color>
+    <color name="color_brand_primary">#28292C</color>
+    <color name="color_brand_primary_dark">#28292C</color>
+    <color name="color_brand_secondary">#077d6a</color>
+    <color name="color_brand_accent">#ff441a</color>
 
-    <color name="color.garnet">#3B0000</color>
+    <color name="color_garnet">#3B0000</color>
 
-    <color name="white">@color/color.white</color>
-    <color name="color.white">#FFFFFF</color>
-    <color name="color.grey.light.hight">#e8e8e8</color>
-    <color name="color.grey.light">#bcbcbc</color>
-    <color name="color.green.light">#32CD32</color>
-    <color name="color.grey.medium">#ff808080</color>
-    <color name="color.grey.dark">#ff2c2c2c</color>
-    <color name="color.black_dark">#202020</color>
+    <color name="white">@color/color_white</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_grey_light_high">#e8e8e8</color>
+    <color name="color_grey_light">#bcbcbc</color>
+    <color name="color_green_light">#32CD32</color>
+    <color name="color_grey_medium">#ff808080</color>
+    <color name="color_grey_dark">#ff2c2c2c</color>
+    <color name="color_black_dark">#202020</color>
     <color name="my_theme_edit_text">#FFFFFF</color>
-    <color name="color.grey">#f3f3f3</color>
+    <color name="color_grey">#f3f3f3</color>
 
-    <color name="color.floating.action.button">#e71e62</color>
+    <color name="color_floating_action_button">#e71e62</color>
 
     <color name="qr_code_white">#FFFFFFFF</color>
     <color name="qr_code_flashlight_bg">#66000000</color>
@@ -52,11 +53,11 @@
 
     <color name="progress_bar">#aa96def9</color>
 
-    <color name="color.green">#2CCC44</color>
-    <color name="color.red">#CC2C2C</color>
+    <color name="color_green">#2CCC44</color>
+    <color name="color_red">#CC2C2C</color>
 
-    <color name="color.silver">#C0C0C0</color>
-    <color name ="color.random.green">#26A69A</color>
+    <color name="color_silver">#C0C0C0</color>
+    <color name="color_random_green">#26A69A</color>
 
     <color name="color_battery_full">#00f04c</color>
     <color name="color_battery_avg">#b2c731</color>

@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color.white"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerview_message_list"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:minHeight="48dp"
-        android:background="@color/color.grey.dark"
+        android:background="@color/color_grey_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
@@ -59,8 +59,8 @@
             android:layout_marginRight="16dp"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textColor="@color/color.silver"
-            android:textColorHint="@color/color.grey.medium"
+            android:textColor="@color/color_silver"
+            android:textColorHint="@color/color_grey_medium"
             android:layout_height="wrap_content"
             android:maxLines="6"/>
 
@@ -79,7 +79,7 @@
             android:layout_height="48dp"
             android:gravity="center"
             android:layout_marginRight="5dp"
-            android:textColor="@color/color.silver"
+            android:textColor="@color/color_silver"
             android:layout_gravity="bottom" />
 
     </LinearLayout>

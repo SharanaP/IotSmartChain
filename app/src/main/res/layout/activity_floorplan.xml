@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_screen_two"
@@ -13,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
-        android:background="@color/color.actionBar"
-        android:titleTextColor="@color/color.white"
+        android:background="@color/color_actionBar"
+        android:titleTextColor="@color/color_white"
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color.white" />
+        app:titleTextColor="@color/color_white" />
     <!--ScrollView-->
     <ScrollView
         android:id="@+id/scrollView_floorplan"
@@ -28,18 +27,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="top">
+            android:gravity="top"
+            android:orientation="vertical">
 
             <!--Crate  a new -->
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview_new"
                 android:layout_width="match_parent"
                 android:layout_height="100sp"
-                app:cardBackgroundColor="@color/color_yellow_light"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -50,57 +49,57 @@
                         android:id="@+id/imageview_new"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:padding="10dp"
-                        android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/folder_plus"/>
+                        app:srcCompat="@drawable/folder_plus" />
 
                     <View
                         android:id="@+id/view_line_new"
                         android:layout_width="1sp"
                         android:layout_height="fill_parent"
-                        android:layout_toRightOf="@+id/imageview_new"
-                        android:layout_toEndOf="@+id/imageview_new"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
-                        android:src="@color/color_orange"
-                        android:background="@color/color_orange"/>
+                        android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@+id/imageview_new"
+                        android:layout_toRightOf="@+id/imageview_new"
+                        android:background="@color/color_orange"
+                        android:src="@color/color_orange" />
 
                     <TextView
                         android:id="@+id/textview_new"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Create"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="80dp"
                         android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="left"
-                        android:textStyle="bold|italic"
-                        android:textSize="22sp"
-                        android:textColor="@color/color_orange"
+                        android:layout_toEndOf="@+id/view_line_new"
                         android:layout_toRightOf="@+id/view_line_new"
-                        android:layout_toEndOf="@+id/view_line_new"/>
+                        android:gravity="left"
+                        android:text="Create"
+                        android:textColor="@color/color_orange"
+                        android:textSize="22sp"
+                        android:textStyle="bold|italic" />
 
 
                     <TextView
                         android:id="@+id/textview_sub_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Create a new floor plan "
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:textStyle="bold|italic"
+                        android:text="Create a new floor plan "
+                        android:textColor="@color/color_silver"
                         android:textSize="12sp"
-                        android:textColor="@color/color.silver"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"/>
+                        android:textStyle="bold|italic" />
 
                 </RelativeLayout>
 
@@ -110,10 +109,10 @@
                 android:id="@+id/cardview_import"
                 android:layout_width="match_parent"
                 android:layout_height="100sp"
-                app:cardBackgroundColor="@color/color_yellow_light"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -124,55 +123,55 @@
                         android:id="@+id/imageview_import"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:padding="10dp"
-                        android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/file_import"/>
+                        app:srcCompat="@drawable/file_import" />
 
                     <View
                         android:id="@+id/view_line_import"
                         android:layout_width="1sp"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@+id/imageview_import"
-                        android:layout_toEndOf="@+id/imageview_import"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@color/color_orange"/>
+                        android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@+id/imageview_import"
+                        android:layout_toRightOf="@+id/imageview_import"
+                        android:background="@color/color_orange" />
 
                     <TextView
                         android:id="@+id/textview_import"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Import"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="80dp"
                         android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="left"
-                        android:textStyle="bold|italic"
-                        android:textSize="22sp"
-                        android:textColor="@color/color_orange"
+                        android:layout_toEndOf="@+id/view_line_import"
                         android:layout_toRightOf="@+id/view_line_import"
-                        android:layout_toEndOf="@+id/view_line_import"/>
+                        android:gravity="left"
+                        android:text="Import"
+                        android:textColor="@color/color_orange"
+                        android:textSize="22sp"
+                        android:textStyle="bold|italic" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="format .dxf / .dwg file"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:textStyle="bold|italic"
+                        android:text="format .dxf / .dwg file"
+                        android:textColor="@color/color_silver"
                         android:textSize="12sp"
-                        android:textColor="@color/color.silver"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"/>
+                        android:textStyle="bold|italic" />
 
                 </RelativeLayout>
 
@@ -182,10 +181,10 @@
                 android:id="@+id/cardview_list"
                 android:layout_width="match_parent"
                 android:layout_height="100sp"
-                app:cardBackgroundColor="@color/color_yellow_light"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -196,56 +195,56 @@
                         android:id="@+id/imageview_list"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:padding="10dp"
-                        android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/view_list"/>
+                        app:srcCompat="@drawable/view_list" />
 
                     <View
                         android:id="@+id/view_line_list"
                         android:layout_width="1sp"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@+id/imageview_list"
-                        android:layout_toEndOf="@+id/imageview_list"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@color/color_orange"/>
+                        android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@+id/imageview_list"
+                        android:layout_toRightOf="@+id/imageview_list"
+                        android:background="@color/color_orange" />
 
                     <TextView
                         android:id="@+id/textview_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="List"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="80dp"
                         android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="left"
-                        android:textStyle="bold|italic"
-                        android:textSize="22sp"
-                        android:textColor="@color/color_orange"
+                        android:layout_toEndOf="@+id/view_line_list"
                         android:layout_toRightOf="@+id/view_line_list"
-                        android:layout_toEndOf="@+id/view_line_list"/>
+                        android:gravity="left"
+                        android:text="List"
+                        android:textColor="@color/color_orange"
+                        android:textSize="22sp"
+                        android:textStyle="bold|italic" />
 
 
                     <TextView
                         android:id="@+id/textview_sub_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="List of FloorPlans "
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:textStyle="bold|italic"
+                        android:text="List of FloorPlans "
+                        android:textColor="@color/color_silver"
                         android:textSize="12sp"
-                        android:textColor="@color/color.silver"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"/>
+                        android:textStyle="bold|italic" />
 
                 </RelativeLayout>
 
@@ -255,10 +254,10 @@
                 android:id="@+id/cardview_nonspatial"
                 android:layout_width="match_parent"
                 android:layout_height="100sp"
-                app:cardBackgroundColor="@color/color_yellow_light"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                app:cardBackgroundColor="@color/color_yellow_light">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -269,56 +268,56 @@
                         android:id="@+id/imageview_ns"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:padding="10dp"
-                        android:layout_centerVertical="true"
                         app:srcCompat="@drawable/database" />
 
                     <View
                         android:id="@+id/view_line_ns"
                         android:layout_width="1sp"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@+id/imageview_ns"
-                        android:layout_toEndOf="@+id/imageview_ns"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@color/color_orange"/>
+                        android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@+id/imageview_ns"
+                        android:layout_toRightOf="@+id/imageview_ns"
+                        android:background="@color/color_orange" />
 
                     <TextView
                         android:id="@+id/textview_ns"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Non-Spatial"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="80dp"
                         android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="left"
-                        android:textStyle="bold|italic"
-                        android:textSize="22sp"
-                        android:textColor="@color/color_orange"
+                        android:layout_toEndOf="@+id/view_line_ns"
                         android:layout_toRightOf="@+id/view_line_ns"
-                        android:layout_toEndOf="@+id/view_line_ns"/>
+                        android:gravity="left"
+                        android:text="Non-Spatial"
+                        android:textColor="@color/color_orange"
+                        android:textSize="22sp"
+                        android:textStyle="bold|italic" />
 
 
                     <TextView
                         android:id="@+id/textview_sub_ns"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Create a Non-Spatial Plan"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:textStyle="bold|italic"
+                        android:text="Create a Non-Spatial Plan"
+                        android:textColor="@color/color_silver"
                         android:textSize="12sp"
-                        android:textColor="@color/color.silver"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"/>
+                        android:textStyle="bold|italic" />
 
                 </RelativeLayout>
 
@@ -338,7 +337,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
     <!--Next-->
@@ -355,7 +354,7 @@
             android:layout_height="40dp"
             android:background="@drawable/mysignin_button"
             android:text="Done"
-            android:textColor="@color/color.white"
+            android:textColor="@color/color_white"
             android:textSize="13dp" />
 
     </LinearLayout>
@@ -363,7 +362,6 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

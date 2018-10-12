@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="150dp"
     android:layout_width="match_parent"
-    android:background="@color/color.background"
+    android:background="@color/color_background"
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true">
 
@@ -12,11 +12,11 @@
         android:text="Register IoT device Dialog"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color.actionBar"
+        android:background="@color/color_actionBar"
         android:gravity="center|center_horizontal"
         android:textStyle="bold|italic"
         android:textSize="19sp"
-        android:textColor="@color/color.silver"/>
+        android:textColor="@color/color_silver"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout_iot_uid"
@@ -36,11 +36,11 @@
             android:hint="enter UID number"
             android:inputType="text"
             android:gravity="center"
-            android:textColorHint="@color/color.silver"
+            android:textColorHint="@color/color_silver"
             android:textStyle="normal"
             android:maxLength="20"
             android:textSize="17sp"
-            android:textColor="@color/color.silver"/>
+            android:textColor="@color/color_silver"/>
 
     </RelativeLayout>
 

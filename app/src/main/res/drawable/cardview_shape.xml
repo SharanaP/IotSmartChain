@@ -5,7 +5,11 @@
         <shape>
             <corners android:radius="@dimen/_1sdp"></corners>
             <solid android:color="#10CCCCCC" />
-            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
         </shape>
     </item>
 
@@ -13,7 +17,11 @@
         <shape>
             <corners android:radius="@dimen/_1sdp"></corners>
             <solid android:color="#20CCCCCC" />
-            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
         </shape>
     </item>
 
@@ -21,7 +29,11 @@
         <shape>
             <corners android:radius="@dimen/_1sdp"></corners>
             <solid android:color="#40CCCCCC" />
-            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
         </shape>
     </item>
 
@@ -29,7 +41,11 @@
         <shape>
             <corners android:radius="@dimen/_1sdp"></corners>
             <solid android:color="#50CCCCCC" />
-            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
         </shape>
     </item>
 
@@ -37,7 +53,11 @@
         <shape>
             <corners android:radius="@dimen/_1sdp"></corners>
             <solid android:color="#60CCCCCC" />
-            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
         </shape>
     </item>
 
