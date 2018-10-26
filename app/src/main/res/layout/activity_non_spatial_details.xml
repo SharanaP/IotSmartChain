@@ -338,18 +338,21 @@
 
                 <EditText
                     android:id="@+id/edittext_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:backgroundTint="@color/color_silver"
                     android:hint="Address"
-                    android:inputType="text"
                     android:singleLine="false"
-                    android:text=""
                     android:textColor="@color/color_silver"
                     android:textColorHighlight="@color/color_silver"
                     android:textColorHint="@color/color_silver"
                     android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:layout_width ="match_parent"
+                    android:layout_height ="wrap_content"
+                    android:layout_weight ="1"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines ="4"
+                    android:maxLength ="2000"
+                    android:scrollHorizontally="false" />
             </android.support.design.widget.TextInputLayout>
             <!--Location map is possible -->
 

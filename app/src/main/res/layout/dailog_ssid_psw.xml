@@ -48,5 +48,4 @@
         android:textStyle="normal|italic"
         android:layout_marginTop="15dp"/>
 
-
 </LinearLayout>

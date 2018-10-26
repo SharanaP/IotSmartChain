@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.WifiNetwork.ConnectionManager;
-import com.example.sharan.iotsmartchain.WifiNetwork.MainWifiBleActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,7 +45,6 @@ public class DeviceControlActivity extends Activity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     private final static String TAG = DeviceControlActivity.class.getSimpleName();
-
     private static int ENTER_SSID_PSW_DIALOG = 110;
     private static boolean isShowDialog = false;
     private final String LIST_NAME = "NAME";
@@ -106,8 +104,8 @@ public class DeviceControlActivity extends Activity {
                 Log.e(TAG, "Connected");
                 mTextView.setText("BLE Connected");
                 Snackbar.make(mView, "BLE Connected", Snackbar.LENGTH_LONG).show();
-                if(progressDialog != null){
-                    if(progressDialog.isShowing())progressDialog.setMessage("BLE Connected");
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) progressDialog.setMessage("BLE Connected");
                 }
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 mConnected = false;
@@ -115,8 +113,8 @@ public class DeviceControlActivity extends Activity {
                 mTextView.setText("BLE Disconnected");
                 Snackbar.make(mView, "BLE is disconnected adn try again", Snackbar.LENGTH_LONG).show();
 
-                if(progressDialog != null){
-                    if(progressDialog.isShowing()){
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                         finish();
                     }
@@ -147,22 +145,22 @@ public class DeviceControlActivity extends Activity {
                                             UUID.fromString(TargetGattAttributes.TARGET_BLE_CHARACTERISTIC));
                             charaProp = characteristic.getProperties();
 
-    //                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
-    //                            // If there is an active notification on a characteristic, clear
-    //                            // it first so it doesn't update the data field on the user interface.
-    //                            if (mNotifyCharacteristic != null) {
-    //                                mBluetoothLeService.setCharacteristicNotification(
-    //                                        mNotifyCharacteristic, false);
-    //                                mNotifyCharacteristic = null;
-    //                            }
-    //                            mBluetoothLeService.readCharacteristic(characteristic);
-    //                        }
+                            //                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+                            //                            // If there is an active notification on a characteristic, clear
+                            //                            // it first so it doesn't update the data field on the user interface.
+                            //                            if (mNotifyCharacteristic != null) {
+                            //                                mBluetoothLeService.setCharacteristicNotification(
+                            //                                        mNotifyCharacteristic, false);
+                            //                                mNotifyCharacteristic = null;
+                            //                            }
+                            //                            mBluetoothLeService.readCharacteristic(characteristic);
+                            //                        }
 
-    //                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-    //                            mNotifyCharacteristic = characteristic;
-    //                            mBluetoothLeService.setCharacteristicNotification(
-    //                                    characteristic, true);
-    //                        }
+                            //                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+                            //                            mNotifyCharacteristic = characteristic;
+                            //                            mBluetoothLeService.setCharacteristicNotification(
+                            //                                    characteristic, true);
+                            //                        }
 
                             isShowDialog = true;
 
@@ -174,8 +172,9 @@ public class DeviceControlActivity extends Activity {
                 //TODO show dialog box : enter SSID nad PSW
                 if (isShowDialog) {
                     //  showDialog(ENTER_SSID_PSW_DIALOG);
-                    if(progressDialog != null){
-                        if(progressDialog.isShowing()) progressDialog.setMessage("writing to BLE and wait few seconds...");
+                    if (progressDialog != null) {
+                        if (progressDialog.isShowing())
+                            progressDialog.setMessage("writing to BLE and wait few seconds...");
                     }
                     writeOnBleCharacteristic(mSsidName, mPassword);
                 }
@@ -462,6 +461,5 @@ public class DeviceControlActivity extends Activity {
 
         builder.create().show();
     }
-
 
 }

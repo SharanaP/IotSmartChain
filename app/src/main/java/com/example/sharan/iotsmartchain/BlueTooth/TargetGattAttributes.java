@@ -24,4 +24,8 @@ public class TargetGattAttributes {
     public static String TARGET_BLE_SERVICE = "0000180d-0000-1000-8000-00805f9b34fb";
     public static String TARGET_BLE_CHARACTERISTIC = "00002a37-0000-1000-8000-00805f9b34fb";
     public static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
+
+    public static String TEST_BLE_SERVICE ="edfec62e-9910-0bac-5241-d8bda6932b00";
+    public static String TEST_BLE_CHARACTERISTIC = "edfec62e-9910-0bac-5241-d8bda6932b01";
+
 }

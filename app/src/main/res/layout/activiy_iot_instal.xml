@@ -52,7 +52,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/button_WIFI"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_check_green_24dp"
+            app:srcCompat="@drawable/ic_check_green_24dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp" />
 
@@ -74,7 +74,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/button_GSM"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_check_green_24dp"
+            app:srcCompat="@drawable/ic_check_green_24dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp" />
 

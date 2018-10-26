@@ -196,6 +196,9 @@
         <activity android:name=".NormalFlow.activities.NonSpatialDetailActivity"
             android:label="Non-Spatial Plan Details"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".BlueTooth.BleTestActivity"
+            android:label="Ble Test"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <service
             android:name=".BlueTooth.BluetoothLeService"

@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.model.QrCodeResult;
 import com.example.sharan.iotsmartchain.qrcodescanner.camera.CameraManager;
@@ -38,7 +37,6 @@ import com.example.sharan.iotsmartchain.qrcodescanner.decode.DecodeManager;
 import com.example.sharan.iotsmartchain.qrcodescanner.decode.InactivityTimer;
 import com.example.sharan.iotsmartchain.qrcodescanner.view.QrCodeFinderView;
 import com.google.zxing.Result;
-import com.squareup.otto.Bus;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -54,11 +52,11 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     private static final int REQUEST_PICTURE = 1;
     private static final float BEEP_VOLUME = 0.10f;
     private static final long VIBRATE_DURATION = 200L;
+    private static final String LOGTAG = QrCodeActivity.class.getSimpleName();//"QRScannerQRCodeActivity"
     private static String qrCodeData = "";
     private final DecodeManager mDecodeManager = new DecodeManager();
     private final String GOT_RESULT = "com.example.sharan.iotsmartchain.qrcodescanner.got_qr_scan_relult";
     private final String ERROR_DECODING_IMAGE = "com.example.sharan.iotsmartchain.qrcodescanner.error_decoding_image";
-    private static final String LOGTAG = QrCodeActivity.class.getSimpleName();//"QRScannerQRCodeActivity"
     /**
      * When the beep has finished playing, rewind to queue up another one.
      */
@@ -83,7 +81,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     private Executor mQrCodeExecutor;
     private Context mApplicationContext;
     private Handler mHandler;
-   // private Bus mBus;
+    // private Bus mBus;
 
     private DecodeImageCallback mDecodeImageCallback = new DecodeImageCallback() {
         @Override
@@ -214,11 +212,11 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         CameraManager.get().closeDriver();
     }
 
-    private void ReturnScannedResult(String qrCode, boolean isStatus){
+    private void ReturnScannedResult(String qrCode, boolean isStatus) {
         QrCodeResult qrCodeResult = new QrCodeResult();
         qrCodeResult.setScanned(isStatus);
         qrCodeResult.setScannedResult(qrCode);
-       // mBus.post(qrCodeResult);
+        // mBus.post(qrCodeResult);
     }
 
     @Override
@@ -383,7 +381,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     }
 
     private void handleResult(String resultString) {
-        Log.e(LOGTAG, "handleResult :: "+resultString);
+        Log.e(LOGTAG, "handleResult :: " + resultString);
         if (TextUtils.isEmpty(resultString)) {
             mDecodeManager.showCouldNotReadQrCodeFromScanner(this, new DecodeManager.OnRefreshCameraListener() {
                 @Override
@@ -394,7 +392,6 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         } else {
             //Got result from scanning QR Code with users camera
             Log.e(LOGTAG, "Got scan result from user loaded image :" + resultString);
-
             qrCodeData = resultString;
             Intent data = new Intent();
             data.putExtra(GOT_RESULT, resultString);
@@ -406,9 +403,9 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     @Override
     public void finish() {
         Log.e(LOGTAG, "finish");
-        Intent data = new Intent();
-        data.putExtra(GOT_RESULT, qrCodeData);
-        QrCodeActivity.this.setResult(Activity.RESULT_OK, data);
+//        Intent data = new Intent();
+//        data.putExtra(GOT_RESULT, qrCodeData);
+//        QrCodeActivity.this.setResult(Activity.RESULT_OK, data);
         super.finish();
     }
 

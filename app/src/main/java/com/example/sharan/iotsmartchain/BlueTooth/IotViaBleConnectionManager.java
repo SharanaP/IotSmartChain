@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -53,15 +52,31 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (device.getName() != null) {
-                        if (device.getName().contains("IoT-DK-SFL")) {
+//                        if (device.getName().contains("IoT-DK-SFL")) {
+//                            Log.e(TAG, "IOT Device found...\n IOT device name is : "
+//                                    + device.getName() + "\nIoT Device SN : " + device.getAddress());
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//                                bluetoothAdapter.stopLeScan(bleScanCallback);
+//                            }
+//                            showMessage("IOT Device found", true);
+//                            //TODO Show BLE TEST :: Ble Test activity
+//                            Intent intent = new Intent(context, BleTestActivity.class);
+//                            context.startActivity(intent);
+//
+//                        }
+
+                        if (device.getName().contains("MyESP32")) {
                             Log.e(TAG, "IOT Device found...\n IOT device name is : "
                                     + device.getName() + "\nIoT Device SN : " + device.getAddress());
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                                 bluetoothAdapter.stopLeScan(bleScanCallback);
                             }
-
                             showMessage("IOT Device found", true);
-                            //TODO Show BLE TEST Device Control activity
+                            //TODO Show BLE TEST :: Ble Test activity
+                            Intent intent = new Intent(context, BleTestActivity.class);
+                            intent.putExtra("DEVICE_NAME", device.getName());
+                            intent.putExtra("DEVICE_ADDRESS", device.getAddress());
+                            context.startActivity(intent);
 
                         }
                     } else {

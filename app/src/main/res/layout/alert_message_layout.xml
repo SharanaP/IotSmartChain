@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="16dp">
+
+    <TextView
+        android:id="@+id/alert_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/color_actionBar"
+        android:gravity="center"
+        android:text="Alert Message"
+        android:textColor="@color/color_white"
+        android:textSize="18dp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/imageview_alert_icon"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/alert_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        app:srcCompat="@drawable/ic_check_green_24dp" />
+
+    <TextView
+        android:id="@+id/alert_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageview_alert_icon"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:maxLines="4"
+        android:scrollHorizontally="false"
+        android:textColor="@color/color_yellow"
+        android:textStyle="normal|italic" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_test_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alert_message">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/color_background_light_grey">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--Example for check view -->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:checkMark="@drawable/ic_check_green_24dp"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="EX: Suppose if the door is closed?.\n (please click yes for test is checked)"
+                    android:textColor="@color/color_black_dark"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+                <!--Close door and open-->
+                <ImageView
+                    android:id="@+id/imageview_door"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/checkedtextview_condition"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="20dp"
+                    app:srcCompat="@drawable/ic_door_closed" />
+
+                <!--Show progress bar-->
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_below="@+id/imageview_door">
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_card_test"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="50dp"
+                        android:max="50"
+                        android:progress="25"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/textview_card_progressbar_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="right"
+                        android:text="."
+                        android:textColor="@color/color_Accent"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                </RelativeLayout>
+                <!--Test door status-->
+                <TextView
+                    android:id="@+id/textview_card_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeLayout_progressbar"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/status"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+                <!--say yes to click above test-->
+                <TextView
+                    android:id="@+id/button_card_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textview_card_status"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@color/white"
+                    android:text="@string/say_yes"
+                    android:textColor="@color/color_yellow"
+                    android:textStyle="normal" />
+                <!--check test case one-->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_test_one"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkedtextview_condition"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/myanalytics_bg"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="1st Test" />
+                <!--check test case two-->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_test_two"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkedtextview_test_one"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/myanalytics_bg"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="2nd Test" />
+                <!--check test case three-->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_test_three"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkedtextview_test_two"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/myanalytics_bg"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="3rd Test" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

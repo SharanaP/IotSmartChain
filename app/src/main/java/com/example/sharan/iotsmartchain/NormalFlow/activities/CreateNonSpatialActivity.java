@@ -105,6 +105,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
     private HashMap<String, NonSpatialModel> modelHashMap = new LinkedHashMap<>();
     private GetListOfRegDevicesAsync getListOfRegDevicesAsync = null;
 
+    //dialog related
+    private Spinner spinnerIotAdd;
+    private EditText editTextIotAdd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,20 +130,16 @@ public class CreateNonSpatialActivity extends BaseActivity {
         locationManagerUtils.initLocationManager();
         boolean isCheck = locationManagerUtils.checkPermissionLM();
 
-        //get a list of registered device
-        getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(mEmail, token,
-                CreateNonSpatialActivity.this);
-        getListOfRegDevicesAsync.execute((Void) null);
-
         //Creating the ArrayAdapter instance having the country list
         arrayAdapter = new ArrayAdapter(CreateNonSpatialActivity.this,
                 android.R.layout.simple_spinner_item, mList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        //get a list of registered device
+        getRegisterIotDevices();
 
         //get list of installed iot devices API
-        getListOfNonSpatialAsync = new GetListOfNonSpatialAsync(CreateNonSpatialActivity.this);
-        getListOfNonSpatialAsync.execute((Void) null);
+        getListOfInstalledDevices();
 
         //list view on item click and check local test
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -177,6 +176,30 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 startActivityForResult(qrIntent, REQUEST_CODE_QR_SCAN);
             }
         });
+    }
+
+    private void getRegisterIotDevices() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //get a list of registered device
+                getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(mEmail, token,
+                        CreateNonSpatialActivity.this);
+                getListOfRegDevicesAsync.execute((Void) null);
+            }
+        });
+        thread.run();
+    }
+
+    private void getListOfInstalledDevices() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //get list of installed iot devices API
+                getListOfNonSpatialAsync = new GetListOfNonSpatialAsync(CreateNonSpatialActivity.this);
+                getListOfNonSpatialAsync.execute((Void) null);
+            }
+        }).run();
     }
 
     private void setupToolbar() {
@@ -227,6 +250,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "location enabled requestCode : " + requestCode);
+//        Log.e(TAG, "data : " + data.toString());
         if (requestCode == 222) {
             locationManagerUtils.checkPermissionLM();
         }
@@ -253,8 +277,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
         builder = new AlertDialog.Builder(CreateNonSpatialActivity.this);
         LayoutInflater layoutInflater = CreateNonSpatialActivity.this.getLayoutInflater();
         View rootView = layoutInflater.inflate(R.layout.dialog_init_non_spatial_item, null);
-        Spinner spinnerIotAdd = (Spinner) rootView.findViewById(R.id.spinner_iot_add);
-        EditText editTextIotAdd = (EditText) rootView.findViewById(R.id.edittext_iot_add);
+        spinnerIotAdd = (Spinner) rootView.findViewById(R.id.spinner_iot_add);
+        editTextIotAdd = (EditText) rootView.findViewById(R.id.edittext_iot_add);
         EditText editTextIotLabel = (EditText) rootView.findViewById(R.id.edittext_iot_label);
         EditText editTextIotDes = (EditText) rootView.findViewById(R.id.edittext_iot_des);
         RelativeLayout relativeLayoutLat = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_lat);
@@ -277,9 +301,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
             editTextIotAdd.setText(iotSerialNum);
             editTextIotAdd.setEnabled(false);
             spinnerIotAdd.setVisibility(View.GONE);
-        }else{
+        } else {
             editTextIotAdd.setText(iotSerialNum);
-            editTextIotAdd.setEnabled(false);
+            editTextIotAdd.setEnabled(true);
             spinnerIotAdd.setVisibility(View.VISIBLE);
         }
 
@@ -291,9 +315,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
         spinnerIotAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String strSerialNum = (String) parent.getSelectedItem();
-                String strIotSn = (String) parent.getAdapter().getItem(position);
-                editTextIotAdd.setText(strIotSn);
+                String strSerialNum = parent.getItemAtPosition(position).toString();
+                Log.e(TAG, "Dialog item selection : strIotSn " + strSerialNum);
+                editTextIotAdd.setText(strSerialNum);
             }
 
             @Override
@@ -301,6 +325,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 String strSerialNum = (String) parent.getSelectedItem();
                 editTextIotAdd.setText(strSerialNum);
             }
+
         });
 
         if (latitude != -1) {
@@ -331,6 +356,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 String deviceAdd = spinnerIotAdd.getSelectedItem().toString();
                 String label = editTextIotLabel.getText().toString();
                 String description = editTextIotDes.getText().toString();
+                deviceAdd = editTextIotAdd.getText().toString();
 
                 Log.e(TAG, "deviceAdd iot serial num : " + deviceAdd);
                 nonSpatialModel.setIotDeviceSerialNum(deviceAdd);

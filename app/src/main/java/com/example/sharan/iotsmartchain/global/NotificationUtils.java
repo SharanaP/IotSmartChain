@@ -2,6 +2,7 @@ package com.example.sharan.iotsmartchain.global;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
@@ -46,11 +48,14 @@ public class NotificationUtils {
     }
 
     public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
+        Log.e(TAG, "showNotificationMessage : image url is null");
         showNotificationMessage(title, message, timeStamp, intent, null);
     }
 
     public void showNotificationMessage(final String title, final String message,
                                         final String timeStamp, Intent intent, String imageUrl) {
+        Log.e(TAG, "showNotificationMessage : image url is not null");
+
         // Check for empty push message
         if (TextUtils.isEmpty(message))
             return;
@@ -67,6 +72,7 @@ public class NotificationUtils {
                         PendingIntent.FLAG_CANCEL_CURRENT
                 );
 
+
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 mContext);
 
@@ -80,12 +86,15 @@ public class NotificationUtils {
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
 
                 if (bitmap != null) {
+                    Log.e(TAG, "before  showBigNotification ");
                     showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
                 } else {
+                    Log.e(TAG, "before showSmallNotification ");
                     showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
                 }
             }
         } else {
+            Log.e(TAG, "before showSmallNotification ");
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
             playNotificationSound();
         }
@@ -99,6 +108,17 @@ public class NotificationUtils {
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
         inboxStyle.addLine(message);
+        //TODO add channel ID
+        // Sets an ID for the notification, so it can be updated.
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
 
         Notification notification;
         notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
@@ -112,13 +132,29 @@ public class NotificationUtils {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
+                .setChannelId(CHANNEL_ID)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        }
         notificationManager.notify(Config.NOTIFICATION_ID, notification);
     }
 
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+
+        //TODO add channel ID
+        // Sets an ID for the notification, so it can be updated.
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
@@ -135,9 +171,13 @@ public class NotificationUtils {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
+                .setChannelId(CHANNEL_ID)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        }
         notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
     }
 

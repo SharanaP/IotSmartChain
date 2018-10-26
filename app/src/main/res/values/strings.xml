@@ -182,4 +182,18 @@
 
     <!--alert message-->
     <string name="alert_donot_click">Please do not click on referesh or back button...</string>
+    <string name="connect">Connect</string>
+    <string name="read">Read</string>
+    <string name="write">Write</string>
+    <string name="status">Status</string>
+    <string name="ble_sensor_report">BLE Sensor Report</string>
+    <string name="ble_test_note">NOTE:\n1. BLE sensor should be in Power ON mode condition\n2. Before Sensor test, Please Check the BLE connection and status</string>
+    <string name="test">Test</string>
+    <string name="final_test_conf">Final Test for conformation </string>
+    <string name="final_test">Final Test</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="say_yes">Say yes to click above test</string>
+    <string name="did_u_moved_sensor">Did you moved the sensor, Then say "YES" by clicking "YES" button</string>
+    <string name="rotate_r_move_sensor">Rotate or Move the sensor device</string>
 </resources>
