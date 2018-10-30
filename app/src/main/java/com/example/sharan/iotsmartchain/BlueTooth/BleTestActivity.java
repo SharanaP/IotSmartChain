@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.GyroscopeModel;
@@ -59,25 +60,16 @@ import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
-
-import static com.example.sharan.iotsmartchain.global.ALERTCONSTANT.INFO;
-
 public class BleTestActivity extends BaseActivity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     private static String TAG = BleTestActivity.class.getSimpleName();
-    //number of test case
-    private static int NUM_OF_TEST_CASE = 0;
-
-    private static int ENTER_SSID_PSW_DIALOG = 110;
     private static boolean isShowDialog = false;
     private static int numOfLoop = 0;
     private static Float accX = 0.0f;
     private static Float gyroX = 0.0f;
     private static Float gyroY = 0.0f;
     private static Float gyroZ = 0.0f;
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.view_message)
@@ -110,7 +102,6 @@ public class BleTestActivity extends BaseActivity {
     Button buttonConform;
     @BindView(R.id.imageview_conform_status)
     ImageView imageViewConform;
-
     /*Test cases for device sensor*/
     private TextView textViewTitle;
     private TextView dialogTextMessage;
@@ -126,16 +117,6 @@ public class BleTestActivity extends BaseActivity {
     private RelativeLayout relativeLayoutProgressBar;
     private ProgressBar progressBarInDialog;
     private TextView tvProgressBarValueDialog;
-    /*Conform  dialog related */
-    private RelativeLayout relativeLayoutTestConform;
-    private CheckedTextView checkedTextViewConformTitle;
-    private ImageView imageViewConformDoorIcon;
-    private ProgressBar progressBarConformTest;
-    private TextView textViewProgressBarConfVal;
-    private TextView textViewConfStatus;
-    private TextView textViewHintConf;
-    private CheckedTextView checkedTextViewConform;
-
     /*progress bar */
     private int progressStatus = 0;
     private Handler handler = new Handler();
@@ -145,7 +126,6 @@ public class BleTestActivity extends BaseActivity {
     private Handler mGyroZHandler = new Handler();
     private Handler mBleReadHandler = new Handler();
     private Handler mCheckSensorMovedHandler = new Handler();
-    private Handler mConformSensorMovedHandler = new Handler();
     private List<Line> lines = null;
     private List<PointValue> pointValuesGyroX = new ArrayList<>();
     private List<PointValue> pointValuesGyroY = new ArrayList<>();
@@ -175,7 +155,6 @@ public class BleTestActivity extends BaseActivity {
     private int numberOfLines = 3;
     private int maxNumberOfLines = 4;//4
     private int numberOfPoints = 12;
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
     private boolean hasAxes = true;
     private boolean hasAxesNames = true;
     private boolean hasLines = true;
@@ -250,21 +229,15 @@ public class BleTestActivity extends BaseActivity {
                         finish();
                     }
                 }
-
             } else if (BluetoothLeService.EXTRA_DATA.equals(action)) {
                 Log.e(TAG, "EXTRA_DATA" + intent.getStringExtra("EXTRA_DATA"));
-
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 Log.d(TAG, " loop value " + numOfLoop++);
                 boolean isDataFormat = false;
-
                 /*Bundle[{com.example.bluetooth.le.EXTRA_DATA={:9.80:3.92:113.96:1.12:-3.43:-1.89:25.25:50:}
                 74 65 6D 70 3A 32 37 2E 33 34 2C 20 70 72 65 73 3A 39 34 37 2E 38 33 2C 68 75 6D 3A 34 39 2E 32 31 }]*/
-
                 String bleData = intent.getExtras().getString("com.example.bluetooth.le.EXTRA_DATA");
                 textViewStatus.setText("Read BLE data Successfully");
-
-
                 //Ble data pack checking format
                 if (bleData.contains("{") && bleData.contains("}")) {
                     bleData = bleData.replace("{:", "");
@@ -505,7 +478,6 @@ public class BleTestActivity extends BaseActivity {
                         if (result) btnConnect.setText("Disconnected");
                         else btnConnect.setText("connect");
                     }
-
                 } else {
                     if (mBluetoothLeService != null) {
                         mBluetoothLeService.disconnect();
@@ -537,7 +509,6 @@ public class BleTestActivity extends BaseActivity {
                 } else {
                     textViewStatus.setText("Ble fail to read ");
                 }
-
                 if (!progressDialog.isShowing()) progressDialog.dismiss();
             }
         });
@@ -576,13 +547,9 @@ public class BleTestActivity extends BaseActivity {
         buttonConform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(viewMessage, "Start Conformation Test on Iot Sensor", Snackbar.LENGTH_LONG).show();
-                boolean isConfTest = false;
-                if(gyroscopeModel != null){
-                  //  testGyroscopeSensor(gyroscopeModel);
-                    //show conformation dialog
-                    sensorTestConformDialog("Sensor Test for Conformation", INFO, true);
-                }
+                Snackbar.make(viewMessage, "Conformation Local Sensor Test is Done ", Snackbar.LENGTH_LONG).show();
+                Intent intentDashBroad = new Intent(BleTestActivity.this, DashBoardActivity.class);
+                startActivity(intentDashBroad);
             }
         });
 
@@ -632,7 +599,6 @@ public class BleTestActivity extends BaseActivity {
         mGyroYHandler.removeCallbacks(mRunnableGyroY);
         mGyroZHandler.removeCallbacks(mRunnableGyroZ);
         mCheckSensorMovedHandler.removeCallbacks(mRunnableCheckSensorMoved);
-        mConformSensorMovedHandler.removeCallbacks(mRunnableConformCheck);
     }
     /*Start all runnable */
     private void StartAllRunnableCallBacks(){
@@ -641,7 +607,6 @@ public class BleTestActivity extends BaseActivity {
         mRunnableGyroY.run();
         mRunnableGyroZ.run();
         mRunnableCheckSensorMoved.run();
-        mRunnableConformCheck.run();
     }
 
     private void showMessage(View view, String message) {
@@ -675,7 +640,7 @@ public class BleTestActivity extends BaseActivity {
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
     }
-
+    /*Display snack bar*/
     private void displayData(String data) {
         if (data != null) {
             Log.e("DATA", data);
@@ -704,35 +669,20 @@ public class BleTestActivity extends BaseActivity {
         tvProgressBarValueDialog = (TextView)rootView.findViewById(R.id.textview_card_progressbar_value);
         relativeLayoutProgressBar = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_progressbar);
 
-        /*Conform card view related*/
-        relativeLayoutTestConform = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_test_conform);
-        checkedTextViewConformTitle = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_conform_title);
-        imageViewConformDoorIcon  = (ImageView)rootView.findViewById(R.id.imageview_door_conform);
-        progressBarConformTest = (ProgressBar)rootView.findViewById(R.id.progressbar_card_conform);
-        textViewProgressBarConfVal = (TextView)rootView.findViewById(R.id.textview_card_conf_progressbar_value);
-        textViewConfStatus = (TextView)rootView.findViewById(R.id.textview_card_conf_status);
-        textViewHintConf = (TextView)rootView.findViewById(R.id.test_hint_card_conf_test);
-        checkedTextViewConform = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_conform);
-
         buttonCardTest.setBackgroundColor(getResources().getColor(R.color.white));
         checkedTextViewOne.setChecked(false);
         checkedTextViewTwo.setChecked(false);
         checkedTextViewThree.setChecked(false);
-        checkedTextViewConform.setChecked(false);
-
         //default invisible all test status
         checkedTextViewOne.setVisibility(View.GONE);
         checkedTextViewTwo.setVisibility(View.GONE);
         checkedTextViewThree.setVisibility(View.GONE);
-        checkedTextViewConform.setVisibility(View.GONE);
-
-
         /*Check device testing or conformation testing*/
         if(isDeviceTestUI){
-            relativeLayoutTestConform.setVisibility(View.GONE);//card view conform is GONE
+            //relativeLayoutTestConform.setVisibility(View.GONE);//card view conform is GONE
             relativeLayoutCard.setVisibility(View.VISIBLE); //card view test is Visible
         }else{
-            relativeLayoutTestConform.setVisibility(View.VISIBLE);
+           // relativeLayoutTestConform.setVisibility(View.VISIBLE);
             relativeLayoutCard.setVisibility(View.GONE);
         }
     }
@@ -855,68 +805,6 @@ public class BleTestActivity extends BaseActivity {
                 imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_none_purple_24dp));
                 break;
         }
-    }
-    /*Show dialog for conformation test */
-    private void sensorTestConformDialog(String message, ALERTCONSTANT alertConstant, boolean showTestCase) {
-        //Show dialog
-        initAlertDialog(false);
-        textViewTitle.setText("Sensor Test Conform Message");
-        dialogTextMessage.setText(message);
-        checkedTextViewConform.setVisibility(View.GONE);
-        displayDialogAlertIcon(alertConstant, imageViewIcon);
-        //door check
-        checkedTextViewConformTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(checkedTextViewConformTitle.isChecked()){
-                    checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
-                    checkedTextViewConformTitle.setChecked(false);
-                    imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
-                    textViewConfStatus.setText("Door opened");
-                }else{
-                    checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
-                    checkedTextViewConformTitle.setChecked(true);
-                    imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
-                    textViewConfStatus.setText("Door closed");
-                }
-            }
-        });
-
-        checkedTextViewConform.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Conformation test
-                textViewConfStatus.setText("Sensor Conformation Test");
-                checkedTextViewConform.setChecked(true);
-                checkedTextViewConform.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
-                flagMessageOnce = false;
-                mRunnableConformCheck.run();
-                showProgressBar(progressBarConformTest, textViewProgressBarConfVal, buttonTest);
-            }
-        });
-
-        builder.setView(rootView);
-        builder.setCancelable(false);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                  //reset all test case
-                checkedTextViewConform.setChecked(false);
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                checkedTextViewConform.setChecked(false);
-                dialog.dismiss();
-            }
-        });
-
-        if(showTestCase)
-            mCheckSensorMovedHandler.postDelayed(mRunnableConformCheck, 30);
-        builder.create().show();
     }
     /*Show conform button based on test check*/
     private void isConformButton(){
@@ -1074,14 +962,6 @@ public class BleTestActivity extends BaseActivity {
             mCheckSensorMovedHandler.postDelayed(this, 30);
         }
     };
-    /*Conform check for IotSensor moved or not*/
-    Runnable mRunnableConformCheck = new Runnable() {
-        @Override
-        public void run() {
-            CheckDeviceMovedForConform(dialogTextMessage, imageViewIcon, checkedTextViewConform);
-            mConformSensorMovedHandler.postDelayed(this, 30);
-        }
-    };
     /*Test gyroscope sensor...*/
     private boolean testGyroscopeSensor(GyroscopeModel currentGyroData) {
         boolean isTest = false;
@@ -1207,39 +1087,6 @@ public class BleTestActivity extends BaseActivity {
             }
         }
     }
-    /*Check device moved or not for conformation */
-    private void CheckDeviceMovedForConform(TextView dialogTextMessage, ImageView imageViewIcon,
-                                            CheckedTextView checkedTextView){
-        boolean isMoved = false;
-        flagMessageOnce = false;
-        if (gyroscopeModel != null) {
-            isMoved = testGyroscopeSensor(gyroscopeModel);
-            Log.e(TAG, "SH : isMoved : "+isMoved);
-            if(isMoved) flagMessageOnce = true; //set flag dialog message
-            if(isMoved){
-                dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-
-                isSensorMovedConfCheck(isMoved);//check door open or closed
-                mConformSensorMovedHandler.removeCallbacksAndMessages(mRunnableConformCheck);
-
-                if(!checkedTextView.isChecked()){
-                    checkedTextView.setVisibility(View.GONE);
-                    checkedTextView.setVisibility(View.VISIBLE);
-                    textViewHintConf.setText("Did you received notification Iot alert");
-                }
-            }else{
-                if(!flagMessageOnce){
-                    //show message and status
-                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                    dialogTextMessage.setText(R.string.rotate_r_move_sensor);
-                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
-                }
-            }
-        }
-    }
-
     /*Device is moved then call door open or close*/
     private void isSensorMoved(boolean isMoved){
         if(isMoved ){
@@ -1264,32 +1111,6 @@ public class BleTestActivity extends BaseActivity {
             dialogTextMessage.setText(R.string.rotate_r_move_sensor);
             dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
             imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-        }
-    }
-    /*Device is moved or not for conformation */
-    private void isSensorMovedConfCheck(boolean isMoved){
-        if(isMoved ){
-            if(checkedTextViewConformTitle.isChecked()){
-                checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
-                checkedTextViewConformTitle.setChecked(false);
-                imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
-                textViewConfStatus.setText("Door opened");
-                dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-            }else{
-                checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
-                checkedTextViewConformTitle.setChecked(true);
-                imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
-                textViewConfStatus.setText("Door closed");
-                dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-            }
-        }else{
-            dialogTextMessage.setText(R.string.rotate_r_move_sensor);
-            dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
-            imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
         }
     }
 }

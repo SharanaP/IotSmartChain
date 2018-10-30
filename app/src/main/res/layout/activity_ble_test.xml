@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout_ble_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_splash_screen">
@@ -277,7 +278,7 @@
                         android:background="@drawable/mysignin_button"
                         android:text="@string/test"
                         android:textColor="@color/color_silver"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="italic|normal"
                         android:visibility="invisible" />
 
@@ -325,7 +326,7 @@
 
                     <Button
                         android:id="@+id/button_conform"
-                        android:layout_width="130dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_below="@+id/textview_conform_title"
                         android:layout_gravity="left"
@@ -333,10 +334,11 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="2dp"
+                        android:drawableLeft="@drawable/ic_check_green_24dp"
                         android:background="@drawable/mysignin_button"
                         android:text="@string/conform"
                         android:textColor="@color/color_silver"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="italic|normal" />
 
                     <ImageView
@@ -368,8 +370,6 @@
     <View
         android:id="@+id/view_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scrollView_sensor_result"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="wrap_content" />
 
 </android.support.design.widget.CoordinatorLayout>

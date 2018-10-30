@@ -189,9 +189,9 @@
     <string name="ble_sensor_report">BLE Sensor Report</string>
     <string name="ble_test_note">NOTE:\n1. BLE sensor should be in Power ON mode condition\n2. Before Sensor test, Please Check the BLE connection and status</string>
     <string name="test">Test</string>
-    <string name="final_test_conf">Final Test for conformation </string>
+    <string name="final_test_conf">Finally Sensor Test conformation from user </string>
     <string name="final_test">Final Test</string>
-    <string name="conform">Conform Test</string>
+    <string name="conform">Conform Sensor Test is Done </string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="say_yes">Say yes to click above test</string>
