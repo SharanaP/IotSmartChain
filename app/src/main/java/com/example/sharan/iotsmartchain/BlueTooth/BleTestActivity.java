@@ -60,6 +60,8 @@ import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
 
+import static com.example.sharan.iotsmartchain.global.ALERTCONSTANT.INFO;
+
 public class BleTestActivity extends BaseActivity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
@@ -109,6 +111,7 @@ public class BleTestActivity extends BaseActivity {
     @BindView(R.id.imageview_conform_status)
     ImageView imageViewConform;
 
+    /*Test cases for device sensor*/
     private TextView textViewTitle;
     private TextView dialogTextMessage;
     private ImageView imageViewIcon;
@@ -123,6 +126,15 @@ public class BleTestActivity extends BaseActivity {
     private RelativeLayout relativeLayoutProgressBar;
     private ProgressBar progressBarInDialog;
     private TextView tvProgressBarValueDialog;
+    /*Conform  dialog related */
+    private RelativeLayout relativeLayoutTestConform;
+    private CheckedTextView checkedTextViewConformTitle;
+    private ImageView imageViewConformDoorIcon;
+    private ProgressBar progressBarConformTest;
+    private TextView textViewProgressBarConfVal;
+    private TextView textViewConfStatus;
+    private TextView textViewHintConf;
+    private CheckedTextView checkedTextViewConform;
 
     /*progress bar */
     private int progressStatus = 0;
@@ -133,6 +145,7 @@ public class BleTestActivity extends BaseActivity {
     private Handler mGyroZHandler = new Handler();
     private Handler mBleReadHandler = new Handler();
     private Handler mCheckSensorMovedHandler = new Handler();
+    private Handler mConformSensorMovedHandler = new Handler();
     private List<Line> lines = null;
     private List<PointValue> pointValuesGyroX = new ArrayList<>();
     private List<PointValue> pointValuesGyroY = new ArrayList<>();
@@ -140,6 +153,7 @@ public class BleTestActivity extends BaseActivity {
     private ArrayList<GyroscopeModel> gyroDataList = new ArrayList<>();
     private GyroscopeModel gyroscopeModel = new GyroscopeModel();
     private int maxNumberOfPoints = 100;
+    private int numOfLatestGyroList = 20;
     private String mDeviceName;
     private String mDeviceAddress;
 
@@ -175,7 +189,7 @@ public class BleTestActivity extends BaseActivity {
     private boolean hasGradientToTransparent = false;
 
     //init once only for showing door option
-    private int INIT_ONCE = 1;
+    private boolean flagMessageOnce = false;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -230,7 +244,6 @@ public class BleTestActivity extends BaseActivity {
                 Log.d(TAG, "Disconnected");
                 textViewStatus.setText("BLE Disconnected");
                 Snackbar.make(viewMessage, "BLE is disconnected adn try again", Snackbar.LENGTH_LONG).show();
-
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
@@ -276,10 +289,6 @@ public class BleTestActivity extends BaseActivity {
                         gyroscopeModel.setGyro_z(gyroZ);
                         gyroDataList.add(gyroscopeModel);
                         Log.e(TAG, " gyroDataList : " + gyroDataList.toString());
-//                        if (gyroDataList.size() > 10) {
-//                            List<GyroscopeModel> tail = gyroDataList.subList(Math.max(gyroDataList.size() - 10, 0), gyroDataList.size());
-//                            Log.e(TAG, "Finally a last ten values tail : " + tail.toString());
-//                        }
                     }
                 } catch (RuntimeException ex) {
                     ex.printStackTrace();
@@ -298,7 +307,6 @@ public class BleTestActivity extends BaseActivity {
                 } catch (RuntimeException rte) {
                     rte.printStackTrace();
                 }
-
                 textViewBleData.setText("");
                 if (isDataFormat)
                     textViewBleData.setText(sensorValue);
@@ -457,7 +465,7 @@ public class BleTestActivity extends BaseActivity {
         injectViews();
         setupToolBar();
 
-        initAlertDialog();//init
+        initAlertDialog(true);//init show local device test UI
 
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
@@ -556,37 +564,33 @@ public class BleTestActivity extends BaseActivity {
                 if (gyroscopeModel != null){
                     testGyroscopeSensor(gyroscopeModel);
                     //show dialog message
-                    showBleGatewayDialog("Start test on Ble sensor\nNOTE: Rotate or Move the sensor device", ALERTCONSTANT.NONE,
+                    showBleGatewayDialog("Start test on Ble sensor\nNOTE: Rotate or Move the sensor device",
+                            ALERTCONSTANT.NONE,
                             true);
                     Snackbar.make(viewMessage, "Start test on Ble sensor", Snackbar.LENGTH_LONG).show();
-                    imageViewStatus.setVisibility(View.VISIBLE);
-
-//                    if(isTested){
-//                        //show dialog message
-//                        showBleGatewayDialog("Tested Successfully...", ALERTCONSTANT.SUCCESS,
-//                                true);
-//                        Snackbar.make(viewMessage, "Tested Successfully", Snackbar.LENGTH_LONG).show();
-//                        imageViewStatus.setVisibility(View.VISIBLE);
-//
-//                        //clear last values form array and show progresses bar
-//                        gyroDataList.clear();
-//                        showProgressBar(progressBarTest, tvProgressBarValue, buttonTest);
-//
-//                    }else{
-//                        //show dialog message
-//                        showBleGatewayDialog("Rotate or Move the sensor device and try to test again",
-//                                ALERTCONSTANT.WARNING, true);
-//                    }
                 }
             }
         });
 
+        /*Conformation button */
+        buttonConform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(viewMessage, "Start Conformation Test on Iot Sensor", Snackbar.LENGTH_LONG).show();
+                boolean isConfTest = false;
+                if(gyroscopeModel != null){
+                  //  testGyroscopeSensor(gyroscopeModel);
+                    //show conformation dialog
+                    sensorTestConformDialog("Sensor Test for Conformation", INFO, true);
+                }
+            }
+        });
 
     }
 
     private void setupToolBar() {
         setSupportActionBar(toolbar);
-        setTitle("Ble Test");
+        setTitle("Iot Sensor Test Via Ble");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -602,8 +606,12 @@ public class BleTestActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
                 showMessage(viewMessage, "Refresh");
+                ClearAllRunnableCallBacks();
+                StartAllRunnableCallBacks();
                 break;
             case android.R.id.home:
+                mBluetoothLeService.disconnect();//BLE Disconnect
+                ClearAllRunnableCallBacks();
                 finish();
                 break;
         }
@@ -613,7 +621,27 @@ public class BleTestActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mBluetoothLeService.disconnect();//BLE Disconnect
+        ClearAllRunnableCallBacks();
         finish();
+    }
+    /*Clear all runnable call backs*/
+    private void ClearAllRunnableCallBacks(){
+        mBleReadHandler.removeCallbacks(mBleRunnable);
+        mGyroXHandler.removeCallbacks(mRunnableGyroX);
+        mGyroYHandler.removeCallbacks(mRunnableGyroY);
+        mGyroZHandler.removeCallbacks(mRunnableGyroZ);
+        mCheckSensorMovedHandler.removeCallbacks(mRunnableCheckSensorMoved);
+        mConformSensorMovedHandler.removeCallbacks(mRunnableConformCheck);
+    }
+    /*Start all runnable */
+    private void StartAllRunnableCallBacks(){
+        mBleRunnable.run();
+        mRunnableGyroX.run();
+        mRunnableGyroY.run();
+        mRunnableGyroZ.run();
+        mRunnableCheckSensorMoved.run();
+        mRunnableConformCheck.run();
     }
 
     private void showMessage(View view, String message) {
@@ -643,6 +671,7 @@ public class BleTestActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mBluetoothLeService.disconnect();
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
     }
@@ -652,9 +681,8 @@ public class BleTestActivity extends BaseActivity {
             Log.e("DATA", data);
         }
     }
-
     //init all UI elements for ALERT DIALOG FOR TEST SENSOR
-    private void initAlertDialog(){
+    private void initAlertDialog(boolean isDeviceTestUI){
         builder = new AlertDialog.Builder(BleTestActivity.this);
         inflater = BleTestActivity.this.getLayoutInflater();
         rootView = inflater.inflate(R.layout.alert_message_layout, null);
@@ -662,6 +690,8 @@ public class BleTestActivity extends BaseActivity {
         textViewTitle = (TextView) rootView.findViewById(R.id.alert_title);
         dialogTextMessage = (TextView) rootView.findViewById(R.id.alert_message);
         imageViewIcon = (ImageView)rootView.findViewById(R.id.imageview_alert_icon);
+
+        /*Device Test cases related */
         relativeLayoutCard = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_test_card);
         checkedTextViewDoor = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_condition);
         imageViewDoor = (ImageView)rootView.findViewById(R.id.imageview_door);
@@ -674,110 +704,88 @@ public class BleTestActivity extends BaseActivity {
         tvProgressBarValueDialog = (TextView)rootView.findViewById(R.id.textview_card_progressbar_value);
         relativeLayoutProgressBar = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_progressbar);
 
-        buttonCardTest.setBackgroundColor(getResources().getColor(R.color.white));
+        /*Conform card view related*/
+        relativeLayoutTestConform = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_test_conform);
+        checkedTextViewConformTitle = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_conform_title);
+        imageViewConformDoorIcon  = (ImageView)rootView.findViewById(R.id.imageview_door_conform);
+        progressBarConformTest = (ProgressBar)rootView.findViewById(R.id.progressbar_card_conform);
+        textViewProgressBarConfVal = (TextView)rootView.findViewById(R.id.textview_card_conf_progressbar_value);
+        textViewConfStatus = (TextView)rootView.findViewById(R.id.textview_card_conf_status);
+        textViewHintConf = (TextView)rootView.findViewById(R.id.test_hint_card_conf_test);
+        checkedTextViewConform = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_conform);
 
+        buttonCardTest.setBackgroundColor(getResources().getColor(R.color.white));
         checkedTextViewOne.setChecked(false);
         checkedTextViewTwo.setChecked(false);
         checkedTextViewThree.setChecked(false);
+        checkedTextViewConform.setChecked(false);
 
         //default invisible all test status
         checkedTextViewOne.setVisibility(View.GONE);
         checkedTextViewTwo.setVisibility(View.GONE);
         checkedTextViewThree.setVisibility(View.GONE);
-    }
+        checkedTextViewConform.setVisibility(View.GONE);
 
+
+        /*Check device testing or conformation testing*/
+        if(isDeviceTestUI){
+            relativeLayoutTestConform.setVisibility(View.GONE);//card view conform is GONE
+            relativeLayoutCard.setVisibility(View.VISIBLE); //card view test is Visible
+        }else{
+            relativeLayoutTestConform.setVisibility(View.VISIBLE);
+            relativeLayoutCard.setVisibility(View.GONE);
+        }
+    }
     /*Show alert constant*/
     private void showBleGatewayDialog(String message, ALERTCONSTANT alertConstant, boolean showTestCase) {
         //Show dialog
-//        builder = new AlertDialog.Builder(BleTestActivity.this);
-//        inflater = BleTestActivity.this.getLayoutInflater();
-//        rootView = inflater.inflate(R.layout.alert_message_layout, null);
-//
-//        textViewTitle = (TextView) rootView.findViewById(R.id.alert_title);
-//        dialogTextMessage = (TextView) rootView.findViewById(R.id.alert_message);
-//        imageViewIcon = (ImageView)rootView.findViewById(R.id.imageview_alert_icon);
-//        relativeLayoutCard = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_test_card);
-//        checkedTextViewDoor = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_condition);
-//        imageViewDoor = (ImageView)rootView.findViewById(R.id.imageview_door);
-//        checkedTextViewOne = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_one);
-//        checkedTextViewTwo = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_two);
-//        checkedTextViewThree = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_three);
-//        buttonCardTest = (Button)rootView.findViewById(R.id.button_card_test);
-//        textViewTestStatus = (TextView)rootView.findViewById(R.id.textview_card_status);
-
-        initAlertDialog();
-
+        initAlertDialog(true);
         textViewTitle.setText("Sensor Message");
         dialogTextMessage.setText(message);
-
         //default invisible all test status
         checkedTextViewOne.setVisibility(View.GONE);
         checkedTextViewTwo.setVisibility(View.GONE);
         checkedTextViewThree.setVisibility(View.GONE);
-
         checkedTextViewOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewTestStatus.setText("Sensor 1st test case done");
                 checkedTextViewOne.setChecked(true);
                 checkedTextViewOne.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
+                flagMessageOnce = false;
                 mRunnableCheckSensorMoved.run();
                 showProgressBar(progressBarInDialog, tvProgressBarValueDialog, buttonTest);
             }
         });
-
         checkedTextViewTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewTestStatus.setText("Sensor 2nd test case done");
                 checkedTextViewTwo.setChecked(true);
                 checkedTextViewTwo.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
-                dialogTextMessage.setText("2nd Test Case done");
+                flagMessageOnce = false;
                 mRunnableCheckSensorMoved.run();
                 showProgressBar(progressBarInDialog, tvProgressBarValueDialog, buttonTest);
             }
         });
-
         checkedTextViewThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewTestStatus.setText("Sensor 3rd test case done");
                 checkedTextViewThree.setChecked(true);
                 checkedTextViewThree.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
-                dialogTextMessage.setText("3rd Test Case done");
+                flagMessageOnce = false;
                 mRunnableCheckSensorMoved.run();
                 showProgressBar(progressBarInDialog, tvProgressBarValueDialog, buttonTest);
             }
         });
-
         //check show test card option
         if(showTestCase){
             relativeLayoutCard.setVisibility(View.VISIBLE);
         }else{
             relativeLayoutCard.setVisibility(View.GONE);
         }
-
-        switch (alertConstant){
-            case INFO:
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_info_purple_17a2b8_24dp));
-                break;
-            case ERROR:
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_error_red_cc0000_24dp));
-                break;
-            case SUCCESS:
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-                break;
-            case WARNING:
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                break;
-            case NONE:
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_none_purple_24dp));
-                break;
-                default:
-                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_none_purple_24dp));
-                    break;
-        }
-
+        displayDialogAlertIcon(alertConstant, imageViewIcon);
         //door check
         checkedTextViewDoor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -800,9 +808,100 @@ public class BleTestActivity extends BaseActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                isConformButton();
+                //reset all test case
                 checkedTextViewOne.setChecked(false);
                 checkedTextViewTwo.setChecked(false);
                 checkedTextViewThree.setChecked(false);
+           //     mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);//clear
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isConformButton();
+                checkedTextViewOne.setChecked(false);
+                checkedTextViewTwo.setChecked(false);
+                checkedTextViewThree.setChecked(false);
+               // mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
+                dialog.dismiss();
+            }
+        });
+
+        if(showTestCase)
+        mCheckSensorMovedHandler.postDelayed(mRunnableCheckSensorMoved, 30);
+        builder.create().show();
+    }
+    /*Show alert constant*/
+    private void displayDialogAlertIcon(ALERTCONSTANT alertConstant, ImageView imageView){
+        switch (alertConstant){
+            case INFO:
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_info_purple_17a2b8_24dp));
+                break;
+            case ERROR:
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_error_red_cc0000_24dp));
+                break;
+            case SUCCESS:
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+                break;
+            case WARNING:
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+                break;
+            case NONE:
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_none_purple_24dp));
+                break;
+            default:
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_none_purple_24dp));
+                break;
+        }
+    }
+    /*Show dialog for conformation test */
+    private void sensorTestConformDialog(String message, ALERTCONSTANT alertConstant, boolean showTestCase) {
+        //Show dialog
+        initAlertDialog(false);
+        textViewTitle.setText("Sensor Test Conform Message");
+        dialogTextMessage.setText(message);
+        checkedTextViewConform.setVisibility(View.GONE);
+        displayDialogAlertIcon(alertConstant, imageViewIcon);
+        //door check
+        checkedTextViewConformTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkedTextViewConformTitle.isChecked()){
+                    checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
+                    checkedTextViewConformTitle.setChecked(false);
+                    imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
+                    textViewConfStatus.setText("Door opened");
+                }else{
+                    checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
+                    checkedTextViewConformTitle.setChecked(true);
+                    imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
+                    textViewConfStatus.setText("Door closed");
+                }
+            }
+        });
+
+        checkedTextViewConform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Conformation test
+                textViewConfStatus.setText("Sensor Conformation Test");
+                checkedTextViewConform.setChecked(true);
+                checkedTextViewConform.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
+                flagMessageOnce = false;
+                mRunnableConformCheck.run();
+                showProgressBar(progressBarConformTest, textViewProgressBarConfVal, buttonTest);
+            }
+        });
+
+        builder.setView(rootView);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                  //reset all test case
+                checkedTextViewConform.setChecked(false);
                 dialog.dismiss();
             }
         });
@@ -810,22 +909,34 @@ public class BleTestActivity extends BaseActivity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                checkedTextViewOne.setChecked(false);
-                checkedTextViewTwo.setChecked(false);
-                checkedTextViewThree.setChecked(false);
+                checkedTextViewConform.setChecked(false);
                 dialog.dismiss();
             }
         });
 
         if(showTestCase)
-        mCheckSensorMovedHandler.postDelayed(mRunnableCheckSensorMoved, 10);
+            mCheckSensorMovedHandler.postDelayed(mRunnableConformCheck, 30);
         builder.create().show();
     }
-
+    /*Show conform button based on test check*/
+    private void isConformButton(){
+        //show status and conform button based check on main UI
+        if(checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked()
+                && checkedTextViewThree.isChecked()){
+            relativeLayoutConform.setVisibility(View.VISIBLE);
+            imageViewStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+            buttonConform.setVisibility(View.VISIBLE);
+        }else{
+            relativeLayoutConform.setVisibility(View.INVISIBLE);
+            imageViewStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+            buttonConform.setVisibility(View.GONE);
+        }
+    }
     /*line chart draw Gyro  */
     private void showGyroData() {
         lineChartView.setInteractive(true);
-        lineChartView.setZoomType(ZoomType.VERTICAL);
+        lineChartView.setMaxZoom(1000.0f);
+        lineChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
         lineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
 
         lines = new ArrayList<>();
@@ -856,11 +967,11 @@ public class BleTestActivity extends BaseActivity {
 
         drawGraphGyroZ();
     }
-
+    /*Line chart draw for gyro X*/
     private void drawGraphGyroX() {
-        mGyroXHandler.postDelayed(mRunnableGyroX, 25);
+        mGyroXHandler.postDelayed(mRunnableGyroX, 50);
     }
-
+    /*Set line chart graph gyro X */
     private void setViewportGyroX() {
         int size = pointValuesGyroX.size();
         if (size > maxNumberOfPoints) {
@@ -870,12 +981,11 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
-
     /*line chart draw Gyro Y */
     private void drawGraphGyroY() {
-        mGyroYHandler.postDelayed(mRunnableGyroY, 25);
+        mGyroYHandler.postDelayed(mRunnableGyroY, 50);
     }
-
+    /*Set line chart graph gyro Y */
     private void setViewportGyroY() {
         int size = pointValuesGyroY.size();
         if (size > maxNumberOfPoints) {
@@ -885,12 +995,11 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
-
     /*Line chart draw for gyro Z*/
     private void drawGraphGyroZ() {
-        mGyroZHandler.postDelayed(mRunnableGyroZ, 25);
+        mGyroZHandler.postDelayed(mRunnableGyroZ, 50);
     }
-
+    /*Set line chart graph gyro Z */
     private void setViewportGyroZ() {
         int size = pointValuesGyroZ.size();
         if (size > maxNumberOfPoints) {
@@ -900,12 +1009,11 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
-
     /*Ble read data */
     private void readBleData() {
-        mBleReadHandler.postDelayed(mBleRunnable, 25);
+        mBleReadHandler.postDelayed(mBleRunnable, 50);
     }
-
+    /*This runnable thread for reading Iot Sensor data*/
     Runnable mBleRunnable = new Runnable() {
         int i = 0;
 
@@ -915,7 +1023,7 @@ public class BleTestActivity extends BaseActivity {
             mBleReadHandler.postDelayed(this, 50);
         }
     };
-
+    /*Read gyro x-axis */
     Runnable mRunnableGyroX = new Runnable() {
         private int i = 0;
 
@@ -929,7 +1037,7 @@ public class BleTestActivity extends BaseActivity {
             mGyroXHandler.postDelayed(this, 50);
         }
     };
-
+    /*Read gyro y-axis*/
     Runnable mRunnableGyroY = new Runnable() {
         private int i = 0;
 
@@ -943,7 +1051,7 @@ public class BleTestActivity extends BaseActivity {
             mGyroYHandler.postDelayed(this, 50);
         }
     };
-
+    /*Read gyro z-axis*/
     Runnable mRunnableGyroZ = new Runnable() {
         private int i = 0;
 
@@ -957,17 +1065,23 @@ public class BleTestActivity extends BaseActivity {
             mGyroZHandler.postDelayed(this, 50);
         }
     };
-
+    /*Check Iot Sensor moved or not */
     Runnable mRunnableCheckSensorMoved = new Runnable() {
         @Override
         public void run() {
             checkDeviceMoved(dialogTextMessage, imageViewIcon, checkedTextViewOne, checkedTextViewTwo,
                     checkedTextViewThree);
-            mCheckSensorMovedHandler.postDelayed(this, 10);
-
+            mCheckSensorMovedHandler.postDelayed(this, 30);
         }
     };
-
+    /*Conform check for IotSensor moved or not*/
+    Runnable mRunnableConformCheck = new Runnable() {
+        @Override
+        public void run() {
+            CheckDeviceMovedForConform(dialogTextMessage, imageViewIcon, checkedTextViewConform);
+            mConformSensorMovedHandler.postDelayed(this, 30);
+        }
+    };
     /*Test gyroscope sensor...*/
     private boolean testGyroscopeSensor(GyroscopeModel currentGyroData) {
         boolean isTest = false;
@@ -976,18 +1090,18 @@ public class BleTestActivity extends BaseActivity {
         float gyroX = 0, gyroY = 0, gyroZ = 0;
         float avgGyroX = 0, avgGyroY = 0, avgGyroZ = 0;
 
-        if (gyroDataList.size() > 50) {
-            tail = gyroDataList.subList(Math.max(gyroDataList.size() - 50, 0), gyroDataList.size());
+        if (gyroDataList.size() > numOfLatestGyroList) {
+            tail = gyroDataList.subList(Math.max(gyroDataList.size() - numOfLatestGyroList, 0), gyroDataList.size());
             Log.w(TAG, "Finally a last 50 values tail : " + tail.toString());
             isTest = true;
         } else {
-          //  Snackbar.make(viewMessage, "Wait few seconds to read data", Snackbar.LENGTH_SHORT).show();
+            // Snackbar.make(viewMessage, "Wait few seconds to read data", Snackbar.LENGTH_SHORT).show();
             return isTest;
         }
 
         if (tail != null && isTest) {
 
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < numOfLatestGyroList; i++) {
                 GyroscopeModel tempGyroData = new GyroscopeModel();
                 tempGyroData = tail.get(i);
                 gyroX += tempGyroData.getGyro_x();
@@ -995,9 +1109,9 @@ public class BleTestActivity extends BaseActivity {
                 gyroZ += tempGyroData.getGyro_z();
             }
 
-            avgGyroX = (gyroX / 50);
-            avgGyroY = (gyroY / 50);
-            avgGyroZ = (gyroZ / 50);
+            avgGyroX = (gyroX / numOfLatestGyroList);
+            avgGyroY = (gyroY / numOfLatestGyroList);
+            avgGyroZ = (gyroZ / numOfLatestGyroList);
         }
 
         //set min fraction
@@ -1007,17 +1121,13 @@ public class BleTestActivity extends BaseActivity {
         avgGyroY = Float.parseFloat(df.format(avgGyroY));
         avgGyroZ = Float.parseFloat(df.format(avgGyroZ));
 
-        Log.w(TAG, "AVG X : " + avgGyroX);
-        Log.w(TAG, "AVG Y : " + avgGyroY);
-        Log.w(TAG, "AVG Z : " + avgGyroZ);
-        Log.w(TAG, "CUR X : " + currentGyroData.getGyro_x());
-        Log.w(TAG, "CUR Y : " + currentGyroData.getGyro_y());
-        Log.w(TAG, "CUR Z : " + currentGyroData.getGyro_z());
+        Log.w(TAG, "AVG X : " + avgGyroX);Log.w(TAG, "AVG Y : " + avgGyroY);
+        Log.w(TAG, "AVG Z : " + avgGyroZ);Log.w(TAG, "CUR X : " + currentGyroData.getGyro_x());
+        Log.w(TAG, "CUR Y : " + currentGyroData.getGyro_y());Log.w(TAG, "CUR Z : " + currentGyroData.getGyro_z());
 
         if ((currentGyroData.getGyro_x() > (avgGyroX+threshold) || currentGyroData.getGyro_x() < (avgGyroX-threshold)) ||
                 (currentGyroData.getGyro_y() > (avgGyroY+threshold) || currentGyroData.getGyro_y() < (avgGyroY-threshold)) ||
                 (currentGyroData.getGyro_z() > (avgGyroZ+threshold) || currentGyroData.getGyro_z() < (avgGyroZ-threshold))) {
-
             // check is required
             avgGyroX = 0.0f;
             avgGyroY = 0.0f;
@@ -1029,17 +1139,15 @@ public class BleTestActivity extends BaseActivity {
         }
         return isTest;
     }
-
     /*Show progress bar*/
     private void showProgressBar(ProgressBar progressBar, TextView textViewStatus, Button buttonForTest){
         progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(0);
         progressStatus = gyroDataList.size();
         // Start the lengthy operation in a background thread
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(gyroDataList.size() < 50){
+                while(gyroDataList.size() < numOfLatestGyroList){
                     // Try to sleep the thread for 20 milliseconds
                     try{
                         Thread.sleep(50);
@@ -1054,7 +1162,7 @@ public class BleTestActivity extends BaseActivity {
                             progressBar.setProgress(gyroDataList.size());
                             // Show the progress on TextView
                             textViewStatus.setText(gyroDataList.size()+"");
-                            if(gyroDataList.size() >= 50) {
+                            if(gyroDataList.size() >= numOfLatestGyroList) {
                                 //test button visible
                                 buttonForTest.setVisibility(View.VISIBLE);
                             }
@@ -1064,50 +1172,75 @@ public class BleTestActivity extends BaseActivity {
             }
         }).start(); // Start the operation
     }
-
     /*Check device moved or not */
     private void checkDeviceMoved(TextView dialogTextMessage, ImageView imageViewIcon,
                                   CheckedTextView checkedTextViewOne, CheckedTextView checkedTextViewTwo,
                                   CheckedTextView checkedTextViewThree){
         boolean isMoved = false;
-
+        //flagMessageOnce = false;
         if (gyroscopeModel != null) {
             isMoved = testGyroscopeSensor(gyroscopeModel);
-
+            if(isMoved) flagMessageOnce = true; //set flag dialog message
             if(isMoved){
-                isSensorMoved(isMoved);//check door open or closed
-                mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
-
                 dialogTextMessage.setText(R.string.did_u_moved_sensor);
                 dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
                 imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
 
+                isSensorMoved(isMoved);//check door open or closed
+                mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
+
                 if(!checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
                     checkedTextViewOne.setVisibility(View.VISIBLE);
-                    dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
                 }else if(checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
                     checkedTextViewTwo.setVisibility(View.VISIBLE);
-                    dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
                 }else if(checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
                     checkedTextViewThree.setVisibility(View.VISIBLE);
-                    dialogTextMessage.setText(R.string.did_u_moved_sensor);
-                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+                }
+
+            }else{
+                if(!flagMessageOnce){
+                    //show message and status
+                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+                    dialogTextMessage.setText(R.string.rotate_r_move_sensor);
+                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
+                }
+            }
+        }
+    }
+    /*Check device moved or not for conformation */
+    private void CheckDeviceMovedForConform(TextView dialogTextMessage, ImageView imageViewIcon,
+                                            CheckedTextView checkedTextView){
+        boolean isMoved = false;
+        flagMessageOnce = false;
+        if (gyroscopeModel != null) {
+            isMoved = testGyroscopeSensor(gyroscopeModel);
+            Log.e(TAG, "SH : isMoved : "+isMoved);
+            if(isMoved) flagMessageOnce = true; //set flag dialog message
+            if(isMoved){
+                dialogTextMessage.setText(R.string.did_u_moved_sensor);
+                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+
+                isSensorMovedConfCheck(isMoved);//check door open or closed
+                mConformSensorMovedHandler.removeCallbacksAndMessages(mRunnableConformCheck);
+
+                if(!checkedTextView.isChecked()){
+                    checkedTextView.setVisibility(View.GONE);
+                    checkedTextView.setVisibility(View.VISIBLE);
+                    textViewHintConf.setText("Did you received notification Iot alert");
                 }
             }else{
-                //show message and status
-                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
-                dialogTextMessage.setText(R.string.rotate_r_move_sensor);
-                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
+                if(!flagMessageOnce){
+                    //show message and status
+                    imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+                    dialogTextMessage.setText(R.string.rotate_r_move_sensor);
+                    dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
+                }
             }
         }
     }
 
-    //Device is moved then call door open or close
+    /*Device is moved then call door open or close*/
     private void isSensorMoved(boolean isMoved){
         if(isMoved ){
             if(checkedTextViewDoor.isChecked()){
@@ -1116,22 +1249,50 @@ public class BleTestActivity extends BaseActivity {
                 imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
                 textViewTestStatus.setText("Door opened");
                 dialogTextMessage.setText(R.string.did_u_moved_sensor);
+                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
             }else{
                 checkedTextViewDoor.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
                 checkedTextViewDoor.setChecked(true);
                 imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
                 textViewTestStatus.setText("Door closed");
                 dialogTextMessage.setText(R.string.did_u_moved_sensor);
+                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
             }
-
-            dialogTextMessage.setText(R.string.did_u_moved_sensor);
-            dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
-            imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-
         }else{
             dialogTextMessage.setText(R.string.rotate_r_move_sensor);
             dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
             imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
         }
     }
+    /*Device is moved or not for conformation */
+    private void isSensorMovedConfCheck(boolean isMoved){
+        if(isMoved ){
+            if(checkedTextViewConformTitle.isChecked()){
+                checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
+                checkedTextViewConformTitle.setChecked(false);
+                imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
+                textViewConfStatus.setText("Door opened");
+                dialogTextMessage.setText(R.string.did_u_moved_sensor);
+                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+            }else{
+                checkedTextViewConformTitle.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
+                checkedTextViewConformTitle.setChecked(true);
+                imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
+                textViewConfStatus.setText("Door closed");
+                dialogTextMessage.setText(R.string.did_u_moved_sensor);
+                dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
+                imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
+            }
+        }else{
+            dialogTextMessage.setText(R.string.rotate_r_move_sensor);
+            dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
+            imageViewConformDoorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+        }
+    }
 }
+
+
+

@@ -1,368 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_splash_screen">
+    android:layout_height="match_parent">
 
-    <!--Toolbar-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/color_actionBar"
-        android:titleTextColor="@color/color_white"
-        android:visibility="visible"
-        app:subtitleTextColor="@color/color_white"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color_white" />
+        android:layout_height="match_parent"
+        android:background="@drawable/background_splash_screen">
+
+        <!--Toolbar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_actionBar"
+            android:titleTextColor="@color/color_white"
+            android:visibility="visible"
+            app:subtitleTextColor="@color/color_white"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="@color/color_white" />
+
+        <!--Ble Connection-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_connection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar">
+
+            <Button
+                android:id="@+id/button_connect"
+                android:layout_width="130sp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/mysignin_button"
+                android:text="@string/connect"
+                android:textColor="@color/color_Accent"
+                android:textSize="14sp"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/textview_status"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/status"
+                android:textColor="@color/color_grey_medium"
+                android:textSize="15sp"
+                android:textStyle="italic|bold" />
+
+        </RelativeLayout>
+        <!--Scrollview sensor test result-->
+        <ScrollView
+            android:id="@+id/scrollView_sensor_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_connection">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--Ble read and write-->
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeLayout_connection"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textinputlayout_in"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/color_silver">
+
+                        <EditText
+                            android:id="@+id/edittext_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/edittext_iot_add"
+                            android:hint="BLE input"
+                            android:inputType="text"
+                            android:maxLength="40"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/color_silver"
+                            android:textColorHighlight="@color/color_silver"
+                            android:textColorHint="#C0C0C0"
+                            android:textSize="16sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/button_read"
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/textinputlayout_in"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/mysignin_button"
+                        android:text="@string/read"
+                        android:textColor="@color/color_Accent"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                    <Button
+                        android:id="@+id/button_write"
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/textinputlayout_in"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/mysignin_button"
+                        android:text="@string/write"
+                        android:textColor="@color/color_Accent"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+                <!--Ble Sensor data-->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeLayout_input"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/transparent_black"
+                    app:cardBackgroundColor="@color/color_yellow_light">
+
+                    <TextView
+                        android:id="@+id/textview_ble_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Ble Data"
+                        android:textColor="@color/color_silver"
+                        android:textSize="13sp"
+                        android:textStyle="normal|italic" />
+
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+                <!--Title Ble sensor report -->
+                <TextView
+                    android:id="@+id/textview_test_conformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="center"
+                    android:text="@string/ble_sensor_report"
+                    android:textColor="@color/color_Accent"
+                    android:textSize="15sp"
+                    android:textStyle="normal|italic" />
+                <!--BLE sensor report-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp">
+
+                    <lecho.lib.hellocharts.view.LineChartView
+                        android:id="@+id/linechartview_ble_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@color/color_yellow_light"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+                <!--NOTE-->
+                <TextView
+                    android:id="@+id/textview_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/ble_test_note"
+                    android:textColor="@color/color_orange"
+                    android:textSize="12sp"
+                    android:textStyle="normal|italic" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+                <!--Test-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_test"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="50dp"
+                        android:max="20"
+                        android:progress="5"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/textview_progressbar_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="15dp"
+                        android:gravity="right"
+                        android:text="."
+                        android:textColor="@color/color_Accent"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                    <Button
+                        android:id="@+id/button_test"
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/progress_bar_test"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/mysignin_button"
+                        android:text="@string/test"
+                        android:textColor="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="italic|normal"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/imageview_status"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/progress_bar_test"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+
+                <!--Conform final test -->
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_conform"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/textview_conform_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp"
+                        android:gravity="center"
+                        android:text="@string/final_test_conf"
+                        android:textColor="@color/color_yellow"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                    <Button
+                        android:id="@+id/button_conform"
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/textview_conform_title"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/mysignin_button"
+                        android:text="@string/conform"
+                        android:textColor="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="italic|normal" />
+
+                    <ImageView
+                        android:id="@+id/imageview_conform_status"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/textview_conform_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/color_Accent" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
     <!--Snack bar message-->
     <View
         android:id="@+id/view_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <!--Ble Connection-->
-    <RelativeLayout
-        android:id="@+id/relativeLayout_connection"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/scrollView_sensor_result"
+        android:layout_alignParentBottom="true" />
 
-        <Button
-            android:id="@+id/button_connect"
-            android:layout_width="130sp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/mysignin_button"
-            android:text="@string/connect"
-            android:textColor="@color/color_Accent"
-            android:textSize="14sp"
-            android:textStyle="normal|italic" />
-
-        <TextView
-            android:id="@+id/textview_status"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/status"
-            android:textColor="@color/color_grey_medium"
-            android:textSize="15sp"
-            android:textStyle="italic|bold" />
-
-    </RelativeLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout_connection">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!--Ble read and write-->
-            <RelativeLayout
-                android:id="@+id/relativeLayout_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeLayout_connection"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp">
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textinputlayout_in"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/color_silver">
-
-                    <EditText
-                        android:id="@+id/edittext_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/edittext_iot_add"
-                        android:hint="BLE input"
-                        android:inputType="text"
-                        android:maxLength="40"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/color_silver"
-                        android:textColorHighlight="@color/color_silver"
-                        android:textColorHint="#C0C0C0"
-                        android:textSize="16sp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-                <Button
-                    android:id="@+id/button_read"
-                    android:layout_width="130dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/textinputlayout_in"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/mysignin_button"
-                    android:text="@string/read"
-                    android:textColor="@color/color_Accent"
-                    android:textSize="14sp"
-                    android:textStyle="normal|italic" />
-
-                <Button
-                    android:id="@+id/button_write"
-                    android:layout_width="130dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/textinputlayout_in"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/mysignin_button"
-                    android:text="@string/write"
-                    android:textColor="@color/color_Accent"
-                    android:textSize="14sp"
-                    android:textStyle="normal|italic" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/color_Accent" />
-            <!--Ble Sensor data-->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeLayout_input"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/transparent_black"
-                app:cardBackgroundColor="@color/color_yellow_light">
-
-                <TextView
-                    android:id="@+id/textview_ble_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="Ble Data"
-                    android:textColor="@color/color_silver"
-                    android:textSize="13sp"
-                    android:textStyle="normal|italic" />
-
-            </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/color_Accent" />
-            <!--Title Ble sensor report -->
-            <TextView
-                android:id="@+id/textview_test_conformation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:gravity="center"
-                android:text="@string/ble_sensor_report"
-                android:textColor="@color/color_Accent"
-                android:textSize="15sp"
-                android:textStyle="normal|italic" />
-            <!--BLE sensor report-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:padding="10dp">
-
-                <lecho.lib.hellocharts.view.LineChartView
-                    android:id="@+id/linechartview_ble_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/color_yellow_light"
-                    android:visibility="gone" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/color_Accent" />
-            <!--NOTE-->
-            <TextView
-                android:id="@+id/textview_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/ble_test_note"
-                android:textColor="@color/color_orange"
-                android:textSize="12sp"
-                android:textStyle="normal|italic" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/color_Accent" />
-            <!--Test-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp">
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_test"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="50dp"
-                    android:max="50"
-                    android:progress="25"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/textview_progressbar_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="15dp"
-                    android:gravity="right"
-                    android:text="."
-                    android:textColor="@color/color_Accent"
-                    android:textSize="14sp"
-                    android:textStyle="normal|italic" />
-
-                <Button
-                    android:id="@+id/button_test"
-                    android:layout_width="130dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/progress_bar_test"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="@drawable/mysignin_button"
-                    android:text="@string/test"
-                    android:textColor="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="italic|normal"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/imageview_status"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/progress_bar_test"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="2dp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/ic_check_green_24dp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/color_Accent" />
-
-            <!--Conform final test -->
-            <RelativeLayout
-                android:id="@+id/relativeLayout_conform"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:visibility="invisible">
-
-                <TextView
-                    android:id="@+id/textview_conform_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="2dp"
-                    android:gravity="center"
-                    android:text="@string/final_test_conf"
-                    android:textColor="@color/color_yellow"
-                    android:textSize="14sp"
-                    android:textStyle="normal|italic" />
-
-                <Button
-                    android:id="@+id/button_conform"
-                    android:layout_width="130dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/textview_conform_title"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="@drawable/mysignin_button"
-                    android:text="@string/final_test"
-                    android:textColor="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="italic|normal" />
-
-                <ImageView
-                    android:id="@+id/imageview_conform_status"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/textview_conform_title"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="2dp"
-                    app:srcCompat="@drawable/ic_check_green_24dp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/color_Accent" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

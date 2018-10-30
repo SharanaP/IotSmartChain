@@ -44,7 +44,7 @@
         android:scrollHorizontally="false"
         android:textColor="@color/color_yellow"
         android:textStyle="normal|italic" />
-
+    <!--Device Sensor Test Cases -->
     <RelativeLayout
         android:id="@+id/relativeLayout_test_card"
         android:layout_width="match_parent"
@@ -88,7 +88,6 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="20dp"
                     app:srcCompat="@drawable/ic_door_closed" />
-
                 <!--Show progress bar-->
                 <RelativeLayout
                     android:id="@+id/relativeLayout_progressbar"
@@ -105,8 +104,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="50dp"
-                        android:max="50"
-                        android:progress="25"
+                        android:max="20"
+                        android:progress="5"
                         android:visibility="gone" />
 
                     <TextView
@@ -195,6 +194,129 @@
 
             </RelativeLayout>
 
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <!--Device Test Conformation -->
+    <RelativeLayout
+        android:id="@+id/relativeLayout_test_conform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout_test_card">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/color_background_light_grey">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--Conformation test-->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_conform_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:checkMark="@drawable/ic_check_green_24dp"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="EX: Suppose if the door is closed?.\n (please click yes for test is checked)"
+                    android:textColor="@color/color_black_dark"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+                <!--Close door and open-->
+                <ImageView
+                    android:id="@+id/imageview_door_conform"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/checkedtextview_conform_title"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="20dp"
+                    app:srcCompat="@drawable/ic_door_closed" />
+
+                <!--Show progress bar-->
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_conf_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_below="@+id/imageview_door_conform">
+
+                    <ProgressBar
+                        android:id="@+id/progressbar_card_conform"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="50dp"
+                        android:max="20"
+                        android:progress="5"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/textview_card_conf_progressbar_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="right"
+                        android:text="."
+                        android:textColor="@color/color_Accent"
+                        android:textSize="14sp"
+                        android:textStyle="normal|italic" />
+
+                </RelativeLayout>
+                <!--Test door status-->
+                <TextView
+                    android:id="@+id/textview_card_conf_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeLayout_conf_progressbar"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/status"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+                <!--say yes to click above test-->
+                <TextView
+                    android:id="@+id/test_hint_card_conf_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textview_card_conf_status"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@color/white"
+                    android:text="@string/say_yes"
+                    android:textColor="@color/color_yellow"
+                    android:textStyle="normal" />
+                <!--check test case one-->
+                <CheckedTextView
+                    android:id="@+id/checkedtextview_conform"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/checkedtextview_conform_title"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/myanalytics_bg"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="Conform Test" />
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
 
     </RelativeLayout>
