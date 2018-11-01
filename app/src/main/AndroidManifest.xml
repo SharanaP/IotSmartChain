@@ -41,13 +41,13 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_iot_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_iot_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
+        android:theme="@style/AppTheme">
         <activity android:name=".main.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,11 +58,11 @@
         <activity
             android:name=".main.activities.MainActivity"
             android:label="IOT main"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".loginModule.activities.LoginActivity"
             android:label="Login"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".loginModule.activities.OtpLoginActivity"
             android:label="Login via OTP"
@@ -70,7 +70,7 @@
         <activity
             android:name=".loginModule.activities.RegisterActivity"
             android:label="Register"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".loginModule.activities.MobEmailValidationActivity"
             android:label="Validation"
@@ -93,8 +93,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".NormalFlow.activities.RegisterIoTDeviceActivity"
-            android:label="Register IoT Devices"
             android:configChanges="orientation|screenSize"
+            android:label="Register IoT Devices"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -110,7 +110,7 @@
             android:label="WIFI"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".NormalFlow.activities.InstalConfigureIoTActivity"
+            android:name=".NormalFlow.activities.InstallConfigureIoTActivity"
             android:label="IoT Installation"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -161,9 +161,7 @@
             android:name=".dashboard.activity.SupportMainActivity"
             android:label="Support"
             android:windowSoftInputMode="adjustPan" />
-
         <!-- <activity android:name=".vi.filepicker.MainActivity"/> -->
-
         <activity
             android:name=".vi.filepicker.FragmentActivity"
             android:label="File Picker"
@@ -190,21 +188,24 @@
             android:name=".NormalFlow.activities.CreateNonSpatialActivity"
             android:label="Non-Spatial Plan"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".NormalFlow.activities.WebViewActivity"
+        <activity
+            android:name=".NormalFlow.activities.WebViewActivity"
             android:label="FloorPlan"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".NormalFlow.activities.NonSpatialDetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".NormalFlow.activities.NonSpatialDetailActivity"
             android:label="Non-Spatial Plan Details"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".BlueTooth.BleTestActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".BlueTooth.SensorViaBleTestActivity"
             android:label="Ble Test"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <service
             android:name=".BlueTooth.BluetoothLeService"
             android:enabled="true" />
 
-        <!-- Firebase Notifications -->
+        <!-- Fire base Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

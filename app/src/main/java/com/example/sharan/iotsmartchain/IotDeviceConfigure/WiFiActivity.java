@@ -46,7 +46,6 @@ public class WiFiActivity extends BaseActivity {
     @BindView(R.id.switch_wifi)Switch mSwitchWifi;
     @BindView(R.id.listview_wifi)ListView lv;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +71,6 @@ public class WiFiActivity extends BaseActivity {
             {
                 results = wifi.getScanResults();
                 size = results.size();
-
                 Log.e(TAG, "results : "+results.toString());
                 Log.e(TAG, "size : "+size);
             }

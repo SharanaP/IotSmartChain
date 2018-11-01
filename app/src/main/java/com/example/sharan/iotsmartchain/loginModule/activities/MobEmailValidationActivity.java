@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -29,11 +29,10 @@ import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.SMS.OnSmsCatchListener;
 import com.example.sharan.iotsmartchain.SMS.SmsVerifyCatcher;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
-import com.example.sharan.iotsmartchain.model.DataModel;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -48,7 +47,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
-import okhttp3.internal.Util;
 
 public class MobEmailValidationActivity extends BaseActivity {
     private static String TAG = MobEmailValidationActivity.class.getSimpleName();
@@ -80,6 +78,8 @@ public class MobEmailValidationActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.relativeLayout_view)
     View mView;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.textview_timer)
     TextView mTextViewTimer;
     private CountDownTimer countDownTimer = null;
@@ -102,7 +102,7 @@ public class MobEmailValidationActivity extends BaseActivity {
         deviceId = Utils.getDeviceId(getApplicationContext());
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             email = bundle.getString("email");
             phone = bundle.getString("phone");
         }
@@ -118,13 +118,13 @@ public class MobEmailValidationActivity extends BaseActivity {
         smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
             @Override
             public void onSmsCatch(String message) {
-                Log.e(TAG, "SH : message :  "+message);
+                Log.e(TAG, "SH : message :  " + message);
                 String code = parseCode(message);//Parse verification code
-                Log.e(TAG, "SH : otp : "+code);
+                Log.e(TAG, "SH : otp : " + code);
                 mEditSMS.setText(code);//set code in edit text
 
                 //Timer
-                if(countDownTimer != null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel(); //Time down counter
                     countDownTimer.onFinish();
                     mTextViewTimer.setText("");
@@ -176,12 +176,12 @@ public class MobEmailValidationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 /*TODO requesting to server for new or regenerate a OTP via mobile based */
-                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)){
+                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)) {
                     showProgress(true);
-                    regenerateOtpAsync =  new RegenerateOtpAsync(MobEmailValidationActivity.this,
+                    regenerateOtpAsync = new RegenerateOtpAsync(MobEmailValidationActivity.this,
                             email, phone);
-                    regenerateOtpAsync.execute((Void)null);
-                }else{
+                    regenerateOtpAsync.execute((Void) null);
+                } else {
                     Log.d(TAG, "Email and Mobile number is empty");
                 }
             }
@@ -192,12 +192,12 @@ public class MobEmailValidationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 /*TODO requesting to server for new OTP via email based*/
-                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)){
+                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(phone)) {
                     showProgress(true);
-                    regenerateOtpAsync =  new RegenerateOtpAsync(MobEmailValidationActivity.this,
+                    regenerateOtpAsync = new RegenerateOtpAsync(MobEmailValidationActivity.this,
                             email, phone);
-                    regenerateOtpAsync.execute((Void)null);
-                }else{
+                    regenerateOtpAsync.execute((Void) null);
+                } else {
                     Log.d(TAG, "Email and Mobile number is empty");
                 }
             }
@@ -209,7 +209,7 @@ public class MobEmailValidationActivity extends BaseActivity {
             public void onClick(View v) {
                 /*TODO goto next screen like login */
                 Intent intentLogIn = new Intent(MobEmailValidationActivity.this, LoginActivity.class);
-                if(email != null) intentLogIn.putExtra("email", email);
+                if (email != null) intentLogIn.putExtra("email", email);
                 intentLogIn.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentLogIn);
                 finish();
@@ -425,8 +425,8 @@ public class MobEmailValidationActivity extends BaseActivity {
         protected void onPostExecute(String success) {
             super.onPostExecute(success);
 
-            if(countDownTimer != null)
-            countDownTimer.onFinish();
+            if (countDownTimer != null)
+                countDownTimer.onFinish();
 
             if (success.equalsIgnoreCase("true")) {
                 /*Email based*/
@@ -446,14 +446,11 @@ public class MobEmailValidationActivity extends BaseActivity {
                     mImageViewSmsStatus.setVisibility(View.VISIBLE);
                     mCardViewEmail.setVisibility(View.VISIBLE);
                 }
-
-                Snackbar snackbar = Snackbar.make(mView, respMessage+" Valid information & Thank you", Snackbar.LENGTH_LONG);
-                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
-                snackbar.show();
+                Utils.SnackBarView(MobEmailValidationActivity.this,
+                        coordinatorLayout, "Valid information & Thank you", ALERTCONSTANT.SUCCESS);
             } else {
-                Snackbar snackbar = Snackbar.make(mView, "Not valid information ", Snackbar.LENGTH_LONG);
-                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
-                snackbar.show();
+                Utils.SnackBarView(MobEmailValidationActivity.this,
+                        coordinatorLayout, "Not valid information ", ALERTCONSTANT.WARNING);
             }
             showProgress(false);
         }
@@ -467,7 +464,7 @@ public class MobEmailValidationActivity extends BaseActivity {
     }
 
     /*API : This api re-send OTP via email or mobile based request OTP...*/
-    public class RegenerateOtpAsync extends AsyncTask<Void, String, Boolean>{
+    public class RegenerateOtpAsync extends AsyncTask<Void, String, Boolean> {
         private Context context;
         private String email;
         private String phone;
@@ -541,9 +538,9 @@ public class MobEmailValidationActivity extends BaseActivity {
                     message = respData.getString("message");
 
                     String status = respData.getString("status");
-                    if(status.equalsIgnoreCase("true")){
+                    if (status.equalsIgnoreCase("true")) {
                         retVal = true;
-                    }else{
+                    } else {
                         retVal = false;
                     }
 
@@ -561,19 +558,16 @@ public class MobEmailValidationActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             showProgress(false);
-            if(success){
+            if (success) {
 
                 //Restart timer
-                if(countDownTimer != null)countDownTimer.onFinish();
+                if (countDownTimer != null) countDownTimer.onFinish();
                 countDownTimer = Utils.showTimeCountDowner(mTextViewTimer, 1).start();
-
-                Snackbar snackbar = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
-                snackbar.show();
-            }else{
-                Snackbar snackbar = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                snackbar.setActionTextColor(getResources().getColor(R.color.color_yellow));
-                snackbar.show();
+                Utils.SnackBarView(MobEmailValidationActivity.this,
+                        coordinatorLayout, message, ALERTCONSTANT.SUCCESS);
+            } else {
+                Utils.SnackBarView(MobEmailValidationActivity.this,
+                        coordinatorLayout, message, ALERTCONSTANT.WARNING);
             }
             regenerateOtpAsync = null;
             super.onPostExecute(success);
@@ -586,7 +580,6 @@ public class MobEmailValidationActivity extends BaseActivity {
             showProgress(false);
         }
     }
-
 
 
 }

@@ -3,7 +3,6 @@ package com.example.sharan.iotsmartchain.loginModule.activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,11 +22,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +34,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -54,9 +51,9 @@ import com.example.sharan.iotsmartchain.Presenter.LoginActivityPresenter;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.Services.RegistrationIntentService;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.NetworkUtil;
 import com.example.sharan.iotsmartchain.global.Utils;
-import com.example.sharan.iotsmartchain.loginModule.fragments.ResetPswFragment;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
 import com.example.sharan.iotsmartchain.model.LoginResultType;
@@ -116,12 +113,15 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     TextView mTvForSignUp;
     @BindView(R.id.email_sign_up_button)
     Button mSingUpButton;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
     private String mUrl, loginId, token;
     private UserLoginAsync mAuthTask = null;
     private LoginActivityPresenter mPresenter;
     private String registrationId;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private long mBackPressed;
+
     private View.OnTouchListener mPasswordVisibleTouchListener = new View.OnTouchListener() {
 
         @Override
@@ -154,75 +154,77 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         setContentView(R.layout.activity_login_screen);
 
         injectViews();
-
         App.inject(this);
-
         Log.d(TAG, "" + NetworkUtil.getConnectivityStatusString(this));
-
         Log.d(TAG, "" + NetworkUtil.getConnectivityStatus(this));
-
         //Self Check permissions
         insertDummyContactWrapper();
-
-
         /*get email*/
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             String email = bundle.getString("email");
-            if(email != null)
-            mEmailView.setText(email);
+            if (email != null)
+                mEmailView.setText(email);
         }
+
+        mEmailView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // Utils.EnableSoftKeyBoard(LoginActivity.this, v);
+            }
+        });
+
+        mPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // Utils.EnableSoftKeyBoard(LoginActivity.this, v);
+            }
+        });
 
         //Handle a Push notification
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 Log.d(TAG, "" + intent.getAction().toString());
                 // checking for type intent filter
                 if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
-
                     String message = intent.getStringExtra("message");
                     Log.d(TAG, "" + message);
-
                     Toast.makeText(getApplicationContext(), "Push notification: " + message,
                             Toast.LENGTH_LONG).show();
-
                 }
             }
         };
 
-        //TODO check
+        //Firebase check
         registrationId = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "registrationId : " + registrationId);
 
         mPresenter = App.getLoginActivityComponent().getLoginActivityPresenter();
         mUrl = App.getAppComponent().getApiServiceUrl();
-        //   populateAutoComplete();
-
         //TODO check permission
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 100);
         } else {
             //TODO
-            startRegisterService(); //TODO
+            startRegisterService();
         }
 
+        /*Password visibility */
         mPasswordVisibility.setOnTouchListener(mPasswordVisibleTouchListener);
-
+        /*Sign In button*/
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // normally login through emailId and Psw
                 attemptSignIn();
                 //Close  keyboard
-                Utils.CloseKeyboard(LoginActivity.this);
+                Utils.DisableSoftKeyBoard(LoginActivity.this);
             }
         });
-
+        /*OTP login*/
         mOtpLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,20 +233,19 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
                 startActivity(otpIntent);
             }
         });
-
+        /*SignUp option */
         mSingUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerEmailSignUp();
             }
         });
-
+        /*Forgot password option*/
         mTvForgotPsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Close  keyboard
-                Utils.CloseKeyboard(LoginActivity.this);
-
+                Utils.DisableSoftKeyBoard(LoginActivity.this);
                 //Reset password link and set new password
                 Intent intentForgotPsw = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intentForgotPsw);
@@ -296,43 +297,24 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
     private void startRegisterService() {
         Intent intent = new Intent(LoginActivity.this, RegistrationIntentService.class);
-//        Log.d(TAG, "DEVICE_ID : "+getDeviceId());
-//        Log.d(TAG, "DEVICE_NAME : "+getDeviceName());
-        intent.putExtra("DEVICE_ID", getDeviceId());
-        intent.putExtra("DEVICE_NAME", getDeviceName());
+        intent.putExtra("DEVICE_ID", Utils.getDeviceId(LoginActivity.this));
+        intent.putExtra("DEVICE_NAME", Utils.getDeviceName());
         startService(intent);
     }
 
-    @SuppressLint("MissingPermission")
-    private String getDeviceId() {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        Log.d(TAG, telephonyManager.getDeviceId());
-        return telephonyManager.getDeviceId();
-    }
-
-    private String getDeviceName() {
-        String deviceName = Build.MODEL;
-        String deviceMan = Build.MANUFACTURER;
-        Log.d(TAG, deviceMan + " " + deviceName);
-        return deviceMan + " " + deviceName;
-    }
-
+    /*Login option */
     private void attemptSignIn() {
-
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
         boolean cancel = false;
         View focusView = null;
-
         // Check for a valid password, if the user entered mBtnOne.
         if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
-
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -343,7 +325,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             focusView = mEmailView;
             cancel = true;
         }
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -351,11 +332,15 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            //TODO showProgress(true);
-            showProgress(true);
-            mAuthTask = new UserLoginAsync(this, email, password, registrationId);
-            mAuthTask.execute((Void) null);
-
+            //TODO check internet
+            int isNetwork = NetworkUtil.getConnectivityStatus(LoginActivity.this);
+            if (isNetwork == 0) {
+                Utils.ShowAlertDialog(LoginActivity.this, getResources().getString(R.string.no_internet), getResources().getString(R.string.close));
+            } else {
+                showProgress(true);
+                mAuthTask = new UserLoginAsync(this, email, password, registrationId);
+                mAuthTask.execute((Void) null);
+            }
         }
     }
 
@@ -398,7 +383,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
-
         addEmailsToAutoComplete(emails);
     }
 
@@ -421,14 +405,11 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
         Button mRegenerateOTP;
         Button mSubmitOTP;
         TextView mStatus;
-
         Dialog dialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         // Get the layout inflater
         LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-
         View rootView = inflater.inflate(R.layout.dialog_otp_login, null);
-
         mEditTextOTP = (EditText) rootView.findViewById(R.id.editText_enter_otp);
         mRegenerateOTP = (Button) rootView.findViewById(R.id.button_RegenerateOTP);
         mSubmitOTP = (Button) rootView.findViewById(R.id.button_submitOTP);
@@ -448,8 +429,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             @Override
             public void onClick(View v) {
                 String otpStr = mEditTextOTP.getText().toString();
-                Toast.makeText(getApplicationContext(), "----" + otpStr, Toast.LENGTH_SHORT).show();
-                //TODO
                 Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(homeIntent);
                 finish();
@@ -484,7 +463,7 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
                 // Need Rationale
                 String message = "You need to grant access to " + permissionsNeeded.get(0);
                 for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message = message + ", " + permissionsNeeded.get(i);
+                    message = message + ", \n"+i+", " + permissionsNeeded.get(i);
                 showMessageOKCancel(message,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -503,8 +482,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             }
             return;
         }
-
-
         insertDummyContact();
     }
 
@@ -561,12 +538,10 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
                     insertDummyContact();
                 } else {
                     // Permission Denied
-                    Toast.makeText(LoginActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
-                            .show();
+                    Utils.SnackBarView(LoginActivity.this,
+                            mCoordinatorLayout, "Some Permission is Denied", ALERTCONSTANT.WARNING);
                 }
-
                 //TODO check play services
-
             }
             break;
             default:
@@ -698,53 +673,38 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             OkHttpClient client = new OkHttpClient();
-
             MediaType JSON
                     = MediaType.parse("application/json; charset=utf-8");
-
             RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
             Request request = new Request.Builder()
                     .url(mUrl + "register")
                     .post(formBody)
                     .build();
-
             Log.d(TAG, "SH : URL " + mUrl);
             Log.d(TAG, "SH : email  " + mEmail);
             Log.d(TAG, "SH : password " + mPassword);
-
             boolean retVal = false;
             try {
-
                 Response response = client.newCall(request).execute();
-
                 if (response.code() != 200) {
                     mLoginResultType = LoginResultType.LOGIN_FAILED;
                     retVal = false;
                 } else {
-
                     String authResponseStr = response.body().string();
-
                     //Json object
                     try {
                         JSONObject TestJson = new JSONObject(authResponseStr);
-
                         Log.e(TAG, "authResponse :: " + TestJson.toString());
                         Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
-
                         String strData = TestJson.getString("body").toString();
                         Log.e(TAG, "strData :: " + strData.toString());
-
                         authResponse = new GsonBuilder()
                                 .create()
                                 .fromJson(strData, DataModel.class);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                     String emailStr = authResponse.getEmailId();
                     Log.d(TAG, "emailStr : " + emailStr);
@@ -792,27 +752,27 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             mAuthTask = null;
             showProgress(false);
             if (success) {
-
                 //TODO first Time Login goto Register Iot devices Screen
                 RegisterIoTScreen();
-
                 //TODO goto DASH BROAD / HOME SCREEN
                 //   DashBoardScreen();
-
             } else {
-
                 if (authResponse.getMessage().toString().equalsIgnoreCase("Invalid Password")) {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
+                    Utils.SnackBarView(LoginActivity.this,
+                            mCoordinatorLayout, "Invalid Password", ALERTCONSTANT.WARNING);
                 } else {
                     mEmailView.setError(getString(R.string.error_invalid_email));
                     mEmailView.requestFocus();
+                    Utils.SnackBarView(LoginActivity.this,
+                            mCoordinatorLayout, "This email address is invalid", ALERTCONSTANT.ERROR);
                 }
-
-                Snackbar sEvents = Snackbar.make(mLoginFormView,
-                        authResponse.getMessage() + " and User is unable login - Try again later!",
-                        Snackbar.LENGTH_LONG);
-                sEvents.show();
+                String msg = authResponse.getMessage();
+                if (msg.isEmpty()) msg = "User is unable login - Try again later!";
+                else if (!TextUtils.isEmpty(authResponse.getMessage()))
+                    msg = authResponse.getMessage() + "User is unable login - Try again later!";
+                Utils.SnackBarView(LoginActivity.this, mCoordinatorLayout, msg, ALERTCONSTANT.NONE);
             }
         }
 

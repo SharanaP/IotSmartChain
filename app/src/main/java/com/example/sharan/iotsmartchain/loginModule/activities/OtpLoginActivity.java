@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.SMS.OnSmsCatchListener;
 import com.example.sharan.iotsmartchain.SMS.SmsVerifyCatcher;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
@@ -73,6 +75,8 @@ public class OtpLoginActivity extends BaseActivity {
     Button mRequestOtpButton;
     @BindView(R.id.textView_TimeDownCounter)
     TextView mTextViewTimeCountDowner;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private SmsVerifyCatcher smsVerifyCatcher;
     private UserLoginOTPAsync userLoginOTPAsync = null;
@@ -97,18 +101,17 @@ public class OtpLoginActivity extends BaseActivity {
         mEditTextOTP.setVisibility(View.INVISIBLE);
         mResendOtpButton.setVisibility(View.INVISIBLE);
 
-
         //init SmsVerifyCatcher
         smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
             @Override
             public void onSmsCatch(String message) {
-                Log.e(TAG, "SH : msg :  "+message);
+                Log.e(TAG, "SH : msg :  " + message);
                 String code = parseCode(message);//Parse verification code
-                Log.e(TAG, "SH : otp : "+code);
+                Log.e(TAG, "SH : otp : " + code);
                 mEditTextOTP.setText(code);//set code in edit text
 
                 //Time down counter cancel and start new timer verification
-                if(countDownTimer != null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel(); //Time down counter
                     countDownTimer.onFinish();
                     mTextViewTimeCountDowner.setText("");
@@ -123,17 +126,15 @@ public class OtpLoginActivity extends BaseActivity {
 
         //set phone number filter if needed
         String str = "XX-Notice";
-        Log.e(TAG, ""+str.substring(2));
+        Log.e(TAG, "" + str.substring(2));
         smsVerifyCatcher.setPhoneNumberFilter(str.substring(2));
         //smsVerifyCatcher.setFilter("Verification code:");
-
 
         mResendOtpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Regenerate OTP number
                 String mobileStr = mEditTextMobile.getText().toString();
-
                 if (!mobileStr.isEmpty()) {
                     showProgress(true);
                     requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobileStr);
@@ -141,11 +142,9 @@ public class OtpLoginActivity extends BaseActivity {
                 } else {
                     mEditTextMobile.setError(getString(R.string.error_field_required));
                     mEditTextMobile.requestFocus();
-
-                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                            "Please enter registered mobile number...!",
-                            Snackbar.LENGTH_LONG);
-                    sEvents.show();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, "Please enter registered mobile number...",
+                            ALERTCONSTANT.ERROR);
                 }
             }
         });
@@ -157,7 +156,7 @@ public class OtpLoginActivity extends BaseActivity {
                 String mobile = mEditTextMobile.getText().toString();
                 if (!mobile.isEmpty()) {
 
-                    if(mobile.length() == 10){
+                    if (mobile.length() == 10) {
                         if (isValidMobile(mobile)) {
                             showProgress(true);
                             requestOtpAsync = new RequestOtpAsync(OtpLoginActivity.this, mobile);
@@ -165,30 +164,24 @@ public class OtpLoginActivity extends BaseActivity {
                         } else {
                             mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
                             mEditTextMobile.requestFocus();
-
-                            Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                                    "Please enter registered mobile number...!",
-                                    Snackbar.LENGTH_LONG);
-                            sEvents.show();
+                            Utils.SnackBarView(OtpLoginActivity.this,
+                                    mCoordinatorLayout, "Please enter registered mobile number...",
+                                    ALERTCONSTANT.WARNING);
                         }
-                    }else{
+                    } else {
                         mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
                         mEditTextMobile.requestFocus();
-
-                        Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                                "Please enter 10-digit mobile number...!",
-                                Snackbar.LENGTH_LONG);
-                        sEvents.show();
+                        Utils.SnackBarView(OtpLoginActivity.this,
+                                mCoordinatorLayout, "Please enter 10-digit mobile number...!",
+                                ALERTCONSTANT.WARNING);
                     }
 
                 } else {
                     mEditTextMobile.setError(getString(R.string.error_field_required));
                     mEditTextMobile.requestFocus();
-
-                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                            "Please enter registered mobile number...!",
-                            Snackbar.LENGTH_LONG);
-                    sEvents.show();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, "Please enter registered mobile number...",
+                            ALERTCONSTANT.ERROR);
                 }
             }
         });
@@ -200,7 +193,7 @@ public class OtpLoginActivity extends BaseActivity {
                 String mobileStr = mEditTextMobile.getText().toString();
                 String otpStr = mEditTextOTP.getText().toString();
 
-                if(countDownTimer != null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel(); //Time down counter
                     countDownTimer.onFinish();
                     mTextViewTimeCountDowner.setText("");
@@ -216,29 +209,25 @@ public class OtpLoginActivity extends BaseActivity {
                         } else {
                             mEditTextOTP.setError(getString(R.string.error_field_required));
                             mEditTextOTP.requestFocus();
-
-                            Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                                    "Enter OTP number...!",
-                                    Snackbar.LENGTH_LONG);
-                            sEvents.show();
+                            Utils.SnackBarView(OtpLoginActivity.this,
+                                    mCoordinatorLayout, "Enter OTP number...!",
+                                    ALERTCONSTANT.WARNING);
                         }
 
                     } else {
                         mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
                         mEditTextMobile.requestFocus();
 
-                        Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                                "Please enter registered mobile number...!",
-                                Snackbar.LENGTH_LONG);
-                        sEvents.show();
+                        Utils.SnackBarView(OtpLoginActivity.this,
+                                mCoordinatorLayout, "Please enter registered mobile number...!",
+                                ALERTCONSTANT.WARNING);
                     }
                 } else {
                     mEditTextMobile.setError(getString(R.string.error_field_required));
                     mEditTextMobile.requestFocus();
-                    Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                            "Enter mobile number it should not be empty!",
-                            Snackbar.LENGTH_LONG);
-                    sEvents.show();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, "Enter mobile number it should not be empty!",
+                            ALERTCONSTANT.WARNING);
                 }
             }
         });
@@ -387,7 +376,6 @@ public class OtpLoginActivity extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("phone", mobile);
@@ -403,12 +391,9 @@ public class OtpLoginActivity extends BaseActivity {
             }
 
             OkHttpClient client = new OkHttpClient();
-
             MediaType JSON
                     = MediaType.parse("application/json; charset=utf-8");
-
             RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
             Request request = new Request.Builder()
                     .url(mUrl + "register")
                     .post(formBody)
@@ -416,36 +401,26 @@ public class OtpLoginActivity extends BaseActivity {
             Log.d(TAG, "SH : URL " + mUrl);
             Log.d(TAG, "SH : mobile  " + mobile);
             Log.d(TAG, "SH : otp " + otp);
-
             retVal = false;
             try {
-
                 Response response = client.newCall(request).execute();
-
                 if (response.code() != 200) {
                     retVal = false;
                 } else {
-
                     String authResponseStr = response.body().string();
-
                     //Json object
                     try {
                         JSONObject TestJson = new JSONObject(authResponseStr);
-
                         Log.e(TAG, "authResponse :: " + TestJson.toString());
                         Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
-
                         String strData = TestJson.getString("body").toString();
                         Log.e(TAG, "strData :: " + strData.toString());
-
                         authResponse = new GsonBuilder()
                                 .create()
                                 .fromJson(strData, DataModel.class);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     String emailStr = authResponse.getEmailId();
                     Log.d(TAG, "emailStr : " + emailStr);
                     String message = authResponse.getMessage();
@@ -454,10 +429,8 @@ public class OtpLoginActivity extends BaseActivity {
                     Log.d(TAG, "Status : " + status);
                     String tokenid = authResponse.getToken();
                     Log.d(TAG, "" + tokenid);
-
                     if (authResponse.isStatus()) {
                         retVal = true;
-
                         if (!tokenid.isEmpty()) {
                             SharedPreferences.Editor
                                     editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
@@ -487,34 +460,40 @@ public class OtpLoginActivity extends BaseActivity {
             userLoginOTPAsync = null;
             showProgress(false);
             if (success) {
-
                 //TODO first Time Login goto Register Iot devices Screen
                 // RegisterIoTScreen();
-
                 //TODO goto DASH BROAD / HOME SCREEN
                 DashBoardScreen();
-
                 Snackbar sEvents = Snackbar.make(mEditTextMobile,
                         authResponse.getMessage(),
                         Snackbar.LENGTH_LONG);
                 sEvents.show();
-
+                Utils.SnackBarView(OtpLoginActivity.this,
+                        mCoordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.SUCCESS);
             } else {
                 if (authResponse.getMessage().toString().equalsIgnoreCase("Invalid Password")) {
                     mEditTextOTP.setError(getString(R.string.error_otp_not_match));
                     mEditTextOTP.requestFocus();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, getString(R.string.error_otp_not_match),
+                            ALERTCONSTANT.ERROR);
                 } else if (authResponse.getMessage().toString().equalsIgnoreCase("OTP not match")) {
                     mEditTextOTP.setError(getString(R.string.error_otp_not_match));
                     mEditTextOTP.requestFocus();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, getString(R.string.error_otp_not_match),
+                            ALERTCONSTANT.ERROR);
                 } else {
                     mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
                     mEditTextMobile.requestFocus();
+                    Utils.SnackBarView(OtpLoginActivity.this,
+                            mCoordinatorLayout, getString(R.string.error_invalid_phone_number),
+                            ALERTCONSTANT.WARNING);
                 }
-
-                Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                        authResponse.getMessage() + " and User is unable login - Try again later!",
-                        Snackbar.LENGTH_LONG);
-                sEvents.show();
+                Utils.SnackBarView(OtpLoginActivity.this,
+                        mCoordinatorLayout, authResponse.getMessage() + " and User is unable login - Try again later!",
+                        ALERTCONSTANT.WARNING);
             }
         }
 
@@ -554,48 +533,35 @@ public class OtpLoginActivity extends BaseActivity {
             }
 
             OkHttpClient client = new OkHttpClient();
-
             MediaType JSON
                     = MediaType.parse("application/json; charset=utf-8");
-
             RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
             Request request = new Request.Builder()
                     .url(mUrl + "generate-login-otp")
                     .post(formBody)
                     .build();
             Log.d(TAG, "SH : URL " + mUrl);
             Log.d(TAG, "SH : mobile  " + mobile);
-
             retVal = false;
             try {
-
                 Response response = client.newCall(request).execute();
-
                 if (response.code() != 200) {
                     retVal = false;
                 } else {
-
                     String authResponseStr = response.body().string();
-
                     //Json object
                     try {
                         JSONObject TestJson = new JSONObject(authResponseStr);
-
                         Log.e(TAG, "authResponse :: " + TestJson.toString());
                         Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
-
                         String strData = TestJson.getString("body").toString();
                         Log.e(TAG, "strData :: " + strData.toString());
-
                         authResponse = new GsonBuilder()
                                 .create()
                                 .fromJson(strData, DataModel.class);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                     String emailStr = authResponse.getEmailId();
                     Log.d(TAG, "emailStr : " + emailStr);
@@ -626,8 +592,7 @@ public class OtpLoginActivity extends BaseActivity {
             requestOtpAsync = null;
             showProgress(false);
             if (success) {
-
-                if(countDownTimer != null){
+                if (countDownTimer != null) {
                     countDownTimer.cancel(); //Time down counter
                     countDownTimer.onFinish();
                     mTextViewTimeCountDowner.setText("");
@@ -635,30 +600,24 @@ public class OtpLoginActivity extends BaseActivity {
 
                 countDownTimer = Utils.showTimeCountDowner(mTextViewTimeCountDowner, 1);
                 countDownTimer.start();
-
                 //clear otp
                 mEditTextOTP.setText("");
-
                 mVerifyOtpButton.setVisibility(View.VISIBLE);
                 mRequestOtpButton.setVisibility(View.INVISIBLE);
                 mEditTextOTP.setVisibility(View.VISIBLE);
                 mResendOtpButton.setVisibility(View.VISIBLE);
-
-                Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_LONG);
-                sEvents.show();
+                Utils.SnackBarView(OtpLoginActivity.this,
+                        mCoordinatorLayout, authResponse.getMessage(), ALERTCONSTANT.SUCCESS);
             } else {
                 mVerifyOtpButton.setVisibility(View.INVISIBLE);
                 mRequestOtpButton.setVisibility(View.VISIBLE);
                 mResendOtpButton.setVisibility(View.INVISIBLE);
-
                 mEditTextMobile.setError(getString(R.string.error_unregister_phone_number));
                 mEditTextMobile.requestFocus();
-                Snackbar sEvents = Snackbar.make(mEditTextMobile,
-                        authResponse.getMessage()+" and Please enter registered mobile number",
-                        Snackbar.LENGTH_LONG);
-                sEvents.show();
+                Utils.SnackBarView(OtpLoginActivity.this,
+                        mCoordinatorLayout,
+                        authResponse.getMessage() + " and Please enter registered mobile number",
+                        ALERTCONSTANT.WARNING);
             }
             super.onPostExecute(success);
         }
@@ -672,5 +631,3 @@ public class OtpLoginActivity extends BaseActivity {
     }
 
 }
-
-

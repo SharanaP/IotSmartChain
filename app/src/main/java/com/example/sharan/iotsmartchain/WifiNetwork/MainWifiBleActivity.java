@@ -15,7 +15,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -31,11 +31,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.BlueTooth.BleConnectionManager;
-import com.example.sharan.iotsmartchain.NormalFlow.activities.InstalConfigureIoTActivity;
+import com.example.sharan.iotsmartchain.NormalFlow.activities.InstallConfigureIoTActivity;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 
 import java.util.HashMap;
@@ -51,6 +52,7 @@ public class MainWifiBleActivity extends BaseActivity {
     private Switch mSwitchWifi;
     private ListView mListView;
     private View mViewWIFI;
+    private CoordinatorLayout mCoordinatorLayout;
     private WifiManager wifiManager;
     private WifiConfiguration wifiConfig;
     private List<ScanResult> scanResultList = new LinkedList<>();
@@ -70,10 +72,10 @@ public class MainWifiBleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_wifi_ble);
-
         setContentView(R.layout.activity_wifi_conection);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         mViewWIFI = (View) findViewById(R.id.view_wifi);
         mTvWifiStatus = (TextView) findViewById(R.id.textview_wifi_on_off);
         mTvWifiResult = (TextView) findViewById(R.id.textview_wifi_result);
@@ -82,7 +84,6 @@ public class MainWifiBleActivity extends BaseActivity {
 
         //setUp toolbar
         setupToolbar();
-
         //manually check enable a location and bluetooth device
         checkLocationPermissions();
 
@@ -183,46 +184,54 @@ public class MainWifiBleActivity extends BaseActivity {
     }
 
     private void setWiFiPsw(String ssidStr, String pswStr) {
-
+        String message = "";
         if (ssidStr != null && !ssidStr.isEmpty() && !TextUtils.isEmpty(ssidStr)) {
             if (pswStr != null && !pswStr.isEmpty() && !TextUtils.isEmpty(pswStr)) {
                 int retVal = connectionManager.requestWIFIConnection(ssidStr, pswStr);
 
                 switch (retVal) {
                     case -1:
-                        Snackbar.make(mViewWIFI, "Scan WIFI SSID name " + ssidStr +
-                                " Not Found and Enter Proper WIFI SSID name!!!", Snackbar.LENGTH_LONG).show();
+                        message = "Scan WIFI SSID name " + ssidStr +
+                                " Not Found and Enter Proper WIFI SSID name!!!";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.ERROR);
                         break;
                     case -2:
                         //COULDNOT_ADD_NETWORK
-                        Snackbar.make(mViewWIFI, "Couldn't add network due to" +
-                                " incorrect password", Snackbar.LENGTH_LONG).show();
+                        message = "Couldn't add network due to incorrect password";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.WARNING);
                         break;
                     case 100:
-                        Snackbar.make(mViewWIFI, "Current WIFI network already connected ",
-                                Snackbar.LENGTH_LONG).show();
+                        message = "Current WIFI network already connected ";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.SUCCESS);
                         break;
                     case 300:
-
-                        Snackbar.make(mViewWIFI, "WIFI network connection requested",
-                                Snackbar.LENGTH_LONG).show();
+                        message = "WIFI network connection requested";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.INFO);
                         break;
                     case 500:
-                        Snackbar.make(mViewWIFI, "Unable to find Security type " +
-                                "for current WIFI try again...!!!", Snackbar.LENGTH_LONG).show();
+                        message = "Unable to find Security type for current WIFI try again...!!!";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.WARNING);
                         break;
                     default:
-                        Snackbar.make(mViewWIFI, "Failed to Connect WIFI and " +
-                                "enter proper SSID and PSw...!!!", Snackbar.LENGTH_LONG).show();
+                        message = "Failed to Connect WFII and enter proper SSID and PSw...!!!";
+                        Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                                message, ALERTCONSTANT.ERROR);
                         break;
                 }
             } else {
-                Snackbar.make(mViewWIFI, "Password should not be empty and " +
-                        "enter proper SSID and PSw...!!!", Snackbar.LENGTH_LONG).show();
+                message = "Password should not be empty and enter proper SSID and PSw...!!!";
+                Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.ERROR);
             }
         } else {
-            Snackbar.make(mViewWIFI, "WIFI Network SSID name should not be empty and " +
-                    "enter proper SSID and PSw...!!!", Snackbar.LENGTH_LONG).show();
+            message = "WIFI Network SSID name should not be empty and enter proper SSID and PSw...!!!";
+            Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                    message, ALERTCONSTANT.ERROR);
         }
     }
 
@@ -281,9 +290,9 @@ public class MainWifiBleActivity extends BaseActivity {
 
                 } else {
                     // Permission Denied
-                    Toast.makeText(MainWifiBleActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
-                            .show();
                     Log.e(TAG, "Permission Denied");
+                    Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                            "Some Permission is Denied", ALERTCONSTANT.ERROR);
                 }
 
                 //TODO check play services
@@ -368,7 +377,8 @@ public class MainWifiBleActivity extends BaseActivity {
             mTvWifiResult.setVisibility(View.INVISIBLE);
             mListView.setVisibility(View.VISIBLE);
 
-            Snackbar.make(mViewWIFI, "WIFI Turned On", Snackbar.LENGTH_LONG).show();
+            Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                    "WIFI Turned On", ALERTCONSTANT.INFO);
             mTvWifiStatus.setText("On");
             mSwitchWifi.setChecked(true);
 
@@ -393,7 +403,9 @@ public class MainWifiBleActivity extends BaseActivity {
             scannedWiFiAdapter.clear();
             scannedWiFiAdapter.notifyDataSetChanged();
 
-            Snackbar.make(mViewWIFI, "WIFI Turned Off", Snackbar.LENGTH_LONG).show();
+            Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                    "WIFI Turned Off", ALERTCONSTANT.INFO);
+
             mTvWifiStatus.setText("Off");
             mSwitchWifi.setChecked(false);
 
@@ -407,7 +419,7 @@ public class MainWifiBleActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(MainWifiBleActivity.this, InstalConfigureIoTActivity.class);
+        Intent intent = new Intent(MainWifiBleActivity.this, InstallConfigureIoTActivity.class);
         startActivity(intent);
         this.finish();
     }
@@ -424,14 +436,14 @@ public class MainWifiBleActivity extends BaseActivity {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                Intent intent = new Intent(MainWifiBleActivity.this, InstalConfigureIoTActivity.class);
+                Intent intent = new Intent(MainWifiBleActivity.this, InstallConfigureIoTActivity.class);
                 startActivity(intent);
                 this.finish();
                 break;
             case R.id.menu_refresh:
                 //updates wifi network
                 boolean isCheck = UpdateWifiNetworks(GPSStatus());
-                Log.e(TAG, "Refresh isCheck : "+isCheck);
+                Log.e(TAG, "Refresh isCheck : " + isCheck);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

@@ -35,120 +35,18 @@ public class SensorReportActivity extends BaseActivity {
 
     @BindView(R.id.viewLiveData)
     TextView mSensorViewLabel;
-
     @BindView(R.id.SensorChartView)
     LineChartView mLineChartView;
-
     @BindView(R.id.previewsLabel)
     TextView mPreviewsLabel;
-
     @BindView(R.id.PreviewsChartView)
+
     LineChartView mPreviewsChartView;
-
-    private String mSensorType, mSensorResult;
-    private LineChartData data;
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
-
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
-
-    private boolean hasAxes = true;
-    private boolean hasAxesNames = true;
-    private boolean hasLines = true;
-    private boolean hasPoints = true;
-    private ValueShape shape = ValueShape.CIRCLE;
-    private boolean isFilled = false;
-    private boolean hasLabels = false;
-    private boolean isCubic = false;
-    private boolean hasLabelForSelected = false;
-    private boolean pointsHaveDifferentColor;
-    private boolean hasGradientToTransparent = false;
-
     List<PointValue> pointValues = new ArrayList<>();
     int maxNumberOfPoints = 50;
     Handler mHandler = new Handler();
-
     List<PointValue> mPrePointValues = new ArrayList<>();
     Handler mPreHandler = new Handler();
-
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensor_result);
-
-        injectViews();
-
-        Bundle bundle  = getIntent().getExtras();
-        if (bundle != null) {
-            mSensorType = bundle.getString("SENSOR");
-            mSensorResult = bundle.getString("RESULT");
-        }
-
-        //Set values current sensor data and chart
-        setCurrentSensorData();
-
-        //set previews / yesterday sensor data and chart
-        setPreviewsSensorData();
-    }
-
-    private void setPreviewsSensorData() {
-        mPreviewsLabel.setText("One day Preview "+mSensorType + mSensorResult);
-
-        mPreviewsChartView.setInteractive(true);
-        mPreviewsChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-        mPreviewsChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
-
-        List<Line> lines = new ArrayList<>();
-        Line line = new Line();
-        line.setHasLines(true);
-        line.setHasPoints(false);
-        line.setFilled(true);
-        line.setColor(Color.parseColor("#bcbcbc"));
-        lines.add(line);
-        LineChartData data = new LineChartData(lines);
-
-        Axis axisX = new Axis().setName("Time in Sec");
-        Axis axisY = new Axis().setHasLines(true).setName("Temperature in "+"\u2103");
-        data.setAxisXBottom(axisX);
-        data.setAxisYLeft(axisY);
-        data.setBaseValue(Float.NEGATIVE_INFINITY);
-        mPreviewsChartView.setLineChartData(data);
-
-        drawPreviewGraph();
-    }
-
-    private void setCurrentSensorData() {
-        mSensorViewLabel.setText("Current "+mSensorType + mSensorResult);
-
-        mLineChartView.setInteractive(true);
-        mLineChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-        mLineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
-
-        List<Line> lines = new ArrayList<>();
-        Line line = new Line();
-        line.setHasLines(true);
-        line.setHasPoints(true);
-        line.setColor(Color.GRAY);
-        lines.add(line);
-        LineChartData data = new LineChartData(lines);
-
-        Axis axisX = new Axis().setName("Time in Sec");
-        Axis axisY = new Axis().setHasLines(true).setName("Temperature in "+"\u2103");
-        data.setAxisXBottom(axisX);
-        data.setAxisYLeft(axisY);
-        data.setBaseValue(Float.NEGATIVE_INFINITY);
-        mLineChartView.animate();
-        mLineChartView.setLineChartData(data);
-
-        drawGraph();
-    }
-
-    private void drawGraph() {
-        mHandler.postDelayed(mRunnable, 25);
-    }
-
     Runnable mRunnable = new Runnable() {
         private int i = 0;
 
@@ -165,14 +63,9 @@ public class SensorReportActivity extends BaseActivity {
             }
         }
     };
-
-
-    private void drawPreviewGraph(){
-        mPreHandler.postDelayed(mPreviewRunnable, 25);
-    }
-
-    Runnable mPreviewRunnable = new Runnable(){
+    Runnable mPreviewRunnable = new Runnable() {
         private int i = 0;
+
         @Override
         public void run() {
             float yValue = (float) (Math.random() * 100);
@@ -186,6 +79,103 @@ public class SensorReportActivity extends BaseActivity {
             }
         }
     };
+    private String mSensorType, mSensorResult;
+    private LineChartData data;
+    private int numberOfLines = 1;
+    private int maxNumberOfLines = 4;
+    private int numberOfPoints = 12;
+    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = true;
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private ValueShape shape = ValueShape.CIRCLE;
+    private boolean isFilled = false;
+    private boolean hasLabels = false;
+    private boolean isCubic = false;
+    private boolean hasLabelForSelected = false;
+    private boolean pointsHaveDifferentColor;
+    private boolean hasGradientToTransparent = false;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sensor_result);
+
+        injectViews();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mSensorType = bundle.getString("SENSOR");
+            mSensorResult = bundle.getString("RESULT");
+        }
+
+        //Set values current sensor data and chart
+        setCurrentSensorData();
+
+        //set previews / yesterday sensor data and chart
+        setPreviewsSensorData();
+    }
+
+    private void setPreviewsSensorData() {
+        mPreviewsLabel.setText("One day Preview " + mSensorType + mSensorResult);
+
+        mPreviewsChartView.setInteractive(true);
+        mPreviewsChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+        mPreviewsChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+
+        List<Line> lines = new ArrayList<>();
+        Line line = new Line();
+        line.setHasLines(true);
+        line.setHasPoints(false);
+        line.setFilled(true);
+        line.setColor(Color.parseColor("#bcbcbc"));
+        lines.add(line);
+        LineChartData data = new LineChartData(lines);
+
+        Axis axisX = new Axis().setName("Time in Sec");
+        Axis axisY = new Axis().setHasLines(true).setName("Temperature in " + "\u2103");
+        data.setAxisXBottom(axisX);
+        data.setAxisYLeft(axisY);
+        data.setBaseValue(Float.NEGATIVE_INFINITY);
+        mPreviewsChartView.setLineChartData(data);
+
+        drawPreviewGraph();
+    }
+
+    private void setCurrentSensorData() {
+        mSensorViewLabel.setText("Current " + mSensorType + mSensorResult);
+
+        mLineChartView.setInteractive(true);
+        mLineChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+        mLineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+
+        List<Line> lines = new ArrayList<>();
+        Line line = new Line();
+        line.setHasLines(true);
+        line.setHasPoints(true);
+        line.setColor(Color.GRAY);
+        lines.add(line);
+        LineChartData data = new LineChartData(lines);
+
+        Axis axisX = new Axis().setName("Time in Sec");
+        Axis axisY = new Axis().setHasLines(true).setName("Temperature in " + "\u2103");
+        data.setAxisXBottom(axisX);
+        data.setAxisYLeft(axisY);
+        data.setBaseValue(Float.NEGATIVE_INFINITY);
+        mLineChartView.animate();
+        mLineChartView.setLineChartData(data);
+
+        drawGraph();
+    }
+
+    private void drawGraph() {
+        mHandler.postDelayed(mRunnable, 25);
+    }
+
+    private void drawPreviewGraph() {
+        mPreHandler.postDelayed(mPreviewRunnable, 25);
+    }
 
     private void setViewport() {
         int size = pointValues.size();
@@ -210,7 +200,7 @@ public class SensorReportActivity extends BaseActivity {
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j+0.5f, randomNumbersTab[i][j]));
+                values.add(new PointValue(j + 0.5f, randomNumbersTab[i][j]));
             }
 
             Line line = new Line(values);
@@ -225,7 +215,7 @@ public class SensorReportActivity extends BaseActivity {
 
             //line.setHasGradientToTransparent(hasGradientToTransparent);
 
-            if (pointsHaveDifferentColor){
+            if (pointsHaveDifferentColor) {
                 line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
             }
             lines.add(line);
@@ -238,7 +228,7 @@ public class SensorReportActivity extends BaseActivity {
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
                 axisX.setName("Time in Sec");
-                axisY.setName("Temperature in "+"\u2103");
+                axisY.setName("Temperature in " + "\u2103");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

@@ -1,363 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_splash_screen">
 
-    <!--ToolBar-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/color_actionBar"
-        android:theme="@style/ToolbarColoredBackArrow"
-        android:visibility="visible"
-        app:subtitleTextColor="@color/color_white"
-        app:titleTextColor="@color/color_white" />
-    <!--local test-->
-    <android.support.v7.widget.CardView
-        android:id="@+id/relativeLayout_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/transparent_black"
-        app:cardBackgroundColor="@color/color_yellow_light">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <!--ToolBar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_actionBar"
+            android:theme="@style/ToolbarColoredBackArrow"
+            android:visibility="visible"
+            app:subtitleTextColor="@color/color_white"
+            app:titleTextColor="@color/color_white" />
+
+        <!--local test-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/relativeLayout_test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent_black">
+            android:layout_below="@+id/toolbar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/transparent_black"
+            app:cardBackgroundColor="@color/color_yellow_light">
 
-            <Button
-                android:id="@+id/button_test_iot"
-                style="?android:textAppearanceSmall"
-                android:layout_width="180dp"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/mysignin_button"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="Local Test"
-                android:textColor="@color/color_yellow"
-                android:drawableLeft="@drawable/ic_touch_icon"
-                android:textSize="18sp"
-                android:textStyle="normal"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/textview_status"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/button_test_iot"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:text="status"
-                android:textColor="@color/color_silver"
-                android:textSize="13sp"
-                android:textStyle="normal|italic"
-                android:visibility="visible" />
+                android:background="@color/transparent_black">
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/button_test_iot"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="180dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/mysignin_button"
+                    android:drawableLeft="@drawable/ic_touch_icon"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Local Test"
+                    android:textColor="@color/color_yellow"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:typeface="monospace" />
 
-    </android.support.v7.widget.CardView>
-    <!--line-->
-    <View
-        android:id="@+id/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/relativeLayout_test"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:background="@color/color_silver" />
-    <!--snack bar message-->
-    <View
-        android:id="@+id/view_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent_black" />
-    <!--details-->
-    <ScrollView
-        android:id="@+id/scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_line"
-        android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/textview_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button_test_iot"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:text="status"
+                    android:textColor="@color/color_silver"
+                    android:textSize="13sp"
+                    android:textStyle="normal|italic"
+                    android:visibility="invisible" />
 
-        <LinearLayout
-            android:id="@+id/linear_layout_one"
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+        <!--line-->
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/relativeLayout_test"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/color_silver" />
+        <!--snack bar message-->
+        <View
+            android:id="@+id/view_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent_black" />
+        <!--details-->
+        <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_line"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
+            android:layout_marginTop="5dp">
 
-            <!--serial number -->
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:id="@+id/linear_layout_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                android:layout_below="@+id/view_line"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/edittext_serial_num"
+                <!--serial number -->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Serial Number"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:focusable="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--Service-->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_service"
+                    <EditText
+                        android:id="@+id/edittext_serial_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:backgroundTint="@color/color_silver"
+                        android:focusable="true"
+                        android:hint="Serial Number"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Service-->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Service"
-                    android:inputType="text"
-                    android:maxLength="60"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--Characteristic-->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_characteristic"
+                    <EditText
+                        android:id="@+id/edittext_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Service"
+                        android:inputType="text"
+                        android:maxLength="60"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Characteristic-->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Characteristic"
-                    android:inputType="text"
-                    android:maxLength="60"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--Label -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_label"
+                    <EditText
+                        android:id="@+id/edittext_characteristic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Characteristic"
+                        android:inputType="text"
+                        android:maxLength="60"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Label -->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Label"
-                    android:inputType="text"
-                    android:maxLength="30"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--description-->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_description"
+                    <EditText
+                        android:id="@+id/edittext_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Label"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--description-->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Description"
-                    android:inputType="text"
-                    android:singleLine="false"
-                    android:text=""
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--on installed timestamp -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_timestamp"
+                    <EditText
+                        android:id="@+id/edittext_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Description"
+                        android:inputType="text"
+                        android:singleLine="false"
+                        android:text=""
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--on installed timestamp -->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="On Installed TimeStamp"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--latitude-->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_latitude"
+                    <EditText
+                        android:id="@+id/edittext_timestamp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="On Installed TimeStamp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--latitude-->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Latitude"
-                    android:maxLength="30"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHighlight="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--longitude-->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_longitude"
+                    <EditText
+                        android:id="@+id/edittext_latitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Latitude"
+                        android:maxLength="30"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHighlight="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--longitude-->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Longitude"
-                    android:inputType="text"
-                    android:maxLength="30"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textAlignment="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHighlight="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
-            <!--Address -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/transparent_black"
-                android:textColor="@color/color_silver"
-                android:textColorHint="@color/color_silver">
+                    android:textColorHint="@color/color_silver">
 
-                <EditText
-                    android:id="@+id/edittext_address"
-                    android:backgroundTint="@color/color_silver"
-                    android:hint="Address"
-                    android:singleLine="false"
+                    <EditText
+                        android:id="@+id/edittext_longitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Longitude"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/color_silver"
+                        android:textColorHighlight="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Address -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent_black"
                     android:textColor="@color/color_silver"
-                    android:textColorHighlight="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    android:layout_width ="match_parent"
-                    android:layout_height ="wrap_content"
-                    android:layout_weight ="1"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines ="4"
-                    android:maxLength ="2000"
-                    android:scrollHorizontally="false" />
-            </android.support.design.widget.TextInputLayout>
-            <!--Location map is possible -->
+                    android:textColorHint="@color/color_silver">
 
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/edittext_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/color_silver"
+                        android:hint="Address"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLength="2000"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:singleLine="false"
+                        android:textColor="@color/color_silver"
+                        android:textColorHighlight="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Location map is possible -->
 
-    </ScrollView>
+            </LinearLayout>
 
-</RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

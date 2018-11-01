@@ -1,4 +1,3 @@
-
 package com.example.sharan.iotsmartchain.main.activities;
 
 import android.content.Intent;
@@ -16,28 +15,22 @@ import com.squareup.otto.Subscribe;
 /**
  * Created by Sharan on 19-03-2018.
  */
-
 public class SplashActivity extends BaseActivity {
-
-    private boolean exitEventReceived;
     private static String TAG = "SplashActivity";
+    private boolean exitEventReceived;
 
     @Nullable
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "OnCreate()");
-
         injectViews();
-
         /*Splash Fragment */
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_fragment);
         Utils.replaceFragment(this, new SplashFragment(), R.id.fragment_container, false);
-
         BusProvider.getInstance().register(this);
-
     }
 
     @Override

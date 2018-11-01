@@ -15,11 +15,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -35,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
@@ -59,9 +59,7 @@ import butterknife.BindView;
 /**
  * Created by Sharan on 02-04-2018.
  */
-
 public class RegisterActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
     private static String TAG = "RegisterActivity";
     private static int TIME_INTERVAL = 2000;//to exit a back application
     @BindView(R.id.view_firstName)
@@ -92,6 +90,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     CheckBox mCheckboxAccept;
     @BindView(R.id.textView_condition)
     TextView mTextViewTerms;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private String mFName, mLName, mEmailId, mPhoneNum, mPsw1st, mPsw2nd;
     private boolean mStatus = false;
@@ -155,8 +155,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         setContentView(R.layout.activity_signup_screen);
 
         injectViews();
-
-        //Get URL
         mUrl = App.getAppComponent().getApiServiceUrl();
 
         viewFirstName.setOnEditorActionListener((v, actionId, event) -> {
@@ -164,6 +162,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key  enable
+          //  Utils.EnableSoftKeyBoard(RegisterActivity.this, viewFirstName);
             return false;
         });
 
@@ -172,6 +172,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key enable
+          //  Utils.EnableSoftKeyBoard(RegisterActivity.this, viewLastName);
             return false;
         });
 
@@ -180,6 +182,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key enable
+           // Utils.EnableSoftKeyBoard(RegisterActivity.this, viewEmailID);
             return false;
         });
 
@@ -188,6 +192,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key enable
+          //  Utils.EnableSoftKeyBoard(RegisterActivity.this, viewPhoneNum);
             return false;
         });
 
@@ -196,6 +202,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key enable
+           // Utils.EnableSoftKeyBoard(RegisterActivity.this, viewFstPsw);
             return false;
         });
 
@@ -206,6 +214,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 validateInputData();
                 return true;
             }
+            //soft key enable
+          //  Utils.EnableSoftKeyBoard(RegisterActivity.this, viewSecPsw);
             return false;
         });
 
@@ -216,6 +226,9 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
 
     /*Validate all inputs */
     private void validateInputData() {
+
+        //Close  keyboard
+        Utils.DisableSoftKeyBoard(RegisterActivity.this);
 
         if (mSignUpTask != null) {
             return;
@@ -309,16 +322,17 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         if (cancel) {
             focusView.requestFocus();
         } else {
-
             //check user accepted terms and conditions
-            if(mCheckboxAccept.isChecked()){
+            if (mCheckboxAccept.isChecked()) {
                 //check sign-up API
                 showProgress(true);
                 mSignUpTask = new UserSignUpAsync(mFName, mLName, mEmailId, mPhoneNum,
                         mPsw1st, RegisterActivity.this);
                 mSignUpTask.execute((Void) null);
-            }else {
-                Snackbar.make(mView, "Read the terms and conditions.", Snackbar.LENGTH_LONG).show();
+            } else {
+                Utils.SnackBarView(RegisterActivity.this,
+                        mCoordinatorLayout, "Read the terms and conditions.",
+                        ALERTCONSTANT.WARNING);
             }
 
         }
@@ -425,17 +439,18 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     /*Next screen for verification user mobile number and email*/
     private void mobileEmailValidation() {
         Intent intent = new Intent(RegisterActivity.this, MobEmailValidationActivity.class);
-        if(mEmailId != null)
-        intent.putExtra("email", mEmailId);
-        if(mPhoneNum != null)
-        intent.putExtra("phone", mPhoneNum);
+        if (mEmailId != null)
+            intent.putExtra("email", mEmailId);
+        if (mPhoneNum != null)
+            intent.putExtra("phone", mPhoneNum);
         startActivity(intent);
         RegisterActivity.this.finish();
     }
 
     private void showLoginView() {
-        Snackbar sn = Snackbar.make(findViewById(R.id.button_register),
-                "Registration Success! ", Snackbar.LENGTH_LONG);
+        Snackbar sn = Utils.SnackBarView(RegisterActivity.this,
+                mCoordinatorLayout, "Registration Success!",
+                ALERTCONSTANT.SUCCESS);
         sn.show();
         sn.setCallback(new Snackbar.Callback() {
             @Override
@@ -455,12 +470,16 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         int count = getFragmentManager().getBackStackEntryCount();
         Toast onBackPressedToast = Toast
                 .makeText(getBaseContext(), "Tap back again to exit", Toast.LENGTH_SHORT);
+        Snackbar sb = Utils.SnackBarView(RegisterActivity.this,
+                mCoordinatorLayout, "Tap back again to exit", ALERTCONSTANT.INFO);
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis() && count == 0) {
             super.onBackPressed();
             onBackPressedToast.cancel();
+            sb.dismiss();
             return;
         } else {
             onBackPressedToast.show();
+            sb.show();
         }
         getFragmentManager().popBackStack();
         mBackPressed = System.currentTimeMillis();
@@ -509,11 +528,9 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             deviceId = Utils.getDeviceId(getApplicationContext());
             deviceName = Utils.getDeviceName();
             deviceToken = FirebaseInstanceId.getInstance().getToken();
-
             Log.e(TAG, "deviceId : " + deviceId);
             Log.e(TAG, "deviceName : " + deviceName);
             Log.e(TAG, "deviceToken : " + deviceToken);
-
             // create your json here
             JSONObject jsonObject = new JSONObject();
             try {
@@ -527,18 +544,13 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 jsonObject.put("deviceTokenId", deviceToken);
                 jsonObject.put("isApp", "true");
                 jsonObject.put("signUp", "true");
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             OkHttpClient client = new OkHttpClient();
-
             MediaType JSON
                     = MediaType.parse("application/json; charset=utf-8");
-
             RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
             Request request = new Request.Builder()
                     .url(mUrl + "register")
                     .post(formBody)
@@ -547,25 +559,19 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             Log.d(TAG, "SH : URL " + mUrl);
             Log.d(TAG, "SH : formBody  " + formBody.toString());
             Log.d(TAG, "SH : request " + request.getClass().toString());
-
-
             retVal = false;
             try {
                 Response response = client.newCall(request).execute();
                 Log.e(TAG, "" + response.toString());
-
                 String authResponseStr = response.body().string();
                 Log.e(TAG, "authResponseStr :: " + authResponseStr);
-
                 //Json object
                 try {
                     JSONObject TestJson = new JSONObject(authResponseStr);
                     Log.e(TAG, "TestJson :: " + TestJson.toString());
                     Log.e(TAG, "TestJson : body :: " + TestJson.getString("body").toString());
-
                     String strData = TestJson.getString("body").toString();
                     Log.e(TAG, "strData :: " + strData.toString());
-
                     /*{"message":"User info already avilable",
                     "isEmailExisted":true,"isPhoneExisted":true,
                     "email":"sharan.pallada@gmail.com",
@@ -575,13 +581,10 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                     authResponse = new GsonBuilder()
                             .create()
                             .fromJson(strData, DataModel.class);
-
                     Log.e(TAG, " SH : " + authResponse.toString());
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 retVal = authResponse.isStatus();
             } catch (IOException e) {
                 Log.e("ERROR: ", "Exception at RegistrationActivity: " + e.getMessage());
@@ -597,6 +600,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             mSignUpTask = null;
             showProgress(false);
             if (success) {
+                Utils.SnackBarView(RegisterActivity.this,
+                        mCoordinatorLayout, authResponse.getMessage(), ALERTCONSTANT.WARNING);
                 /*testing time being comment below lines*/
 //                viewFirstName.setText("");
 //                viewLastName.setText("");
@@ -608,10 +613,9 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 /*Check email and mobile number validation */
                 mobileEmailValidation();
             } else {
-                Snackbar sEvents = Snackbar.make(mLoginFormView,
-                        authResponse.getMessage() + " - Try again later!",
-                        Snackbar.LENGTH_LONG);
-                sEvents.show();
+                Utils.SnackBarView(RegisterActivity.this,
+                        mCoordinatorLayout, authResponse.getMessage() + " - Try again later!",
+                        ALERTCONSTANT.WARNING);
             }
         }
 

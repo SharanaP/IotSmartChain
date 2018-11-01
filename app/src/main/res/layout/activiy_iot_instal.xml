@@ -87,7 +87,7 @@
         android:textSize="13dp"
         android:padding="20dp"
         android:textColor="@color/color_grey_medium"
-        android:text="Status : "/>
+        android:text=""/>
 
     <LinearLayout
         android:layout_width="match_parent"

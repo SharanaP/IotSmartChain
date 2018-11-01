@@ -12,8 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,7 +34,9 @@ import android.widget.TextView;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.NormalFlow.adapter.AdapterNonSpatialPlan;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.LocationManagerUtils;
+import com.example.sharan.iotsmartchain.global.NetworkUtil;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.NonSpatialModel;
@@ -65,6 +67,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
     private static int REQUEST_CODE_QR_SCAN = 101;
     @BindView(R.id.toolbar_ns)
     Toolbar toolbar;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.reg_iot_progress)
     ProgressBar mProgressBar;
     @BindView(R.id.relativeLayout_reg_iot)
@@ -130,7 +134,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
         locationManagerUtils.initLocationManager();
         boolean isCheck = locationManagerUtils.checkPermissionLM();
 
-        //Creating the ArrayAdapter instance having the country list
+        //Creating the ArrayAdapter having a list of registered iot devices
         arrayAdapter = new ArrayAdapter(CreateNonSpatialActivity.this,
                 android.R.layout.simple_spinner_item, mList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -156,7 +160,6 @@ public class CreateNonSpatialActivity extends BaseActivity {
         mFabManually.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Snackbar.make(mView, "Manually", Snackbar.LENGTH_LONG).show();
                 locationManagerUtils.getLocationLatLng();
                 if (dialog != null) {
                     if (dialog.isShowing()) dialog.dismiss();
@@ -171,33 +174,50 @@ public class CreateNonSpatialActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //check both location and camera permission
-                Snackbar.make(mView, "Qr code scanner", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        "Qr code scanner", ALERTCONSTANT.INFO);
                 Intent qrIntent = new Intent(CreateNonSpatialActivity.this, QrCodeActivity.class);
                 startActivityForResult(qrIntent, REQUEST_CODE_QR_SCAN);
             }
         });
     }
 
+    //Get a list of registered device
     private void getRegisterIotDevices() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                //get a list of registered device
-                getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(mEmail, token,
-                        CreateNonSpatialActivity.this);
-                getListOfRegDevicesAsync.execute((Void) null);
+                int isNetwork = NetworkUtil.getConnectivityStatus(CreateNonSpatialActivity.this);
+                if (isNetwork == 0) {
+                    Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                            getString(R.string.no_internet), ALERTCONSTANT.ERROR);
+                } else {
+                    Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
+                    //get a list of registered device
+                    getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(mEmail, token,
+                            CreateNonSpatialActivity.this);
+                    getListOfRegDevicesAsync.execute((Void) null);
+                }
             }
         });
         thread.run();
     }
 
+    //Get a list of installed devices
     private void getListOfInstalledDevices() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //get list of installed iot devices API
-                getListOfNonSpatialAsync = new GetListOfNonSpatialAsync(CreateNonSpatialActivity.this);
-                getListOfNonSpatialAsync.execute((Void) null);
+                int isNetwork = NetworkUtil.getConnectivityStatus(CreateNonSpatialActivity.this);
+                if (isNetwork == 0) {
+                    Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                            getString(R.string.no_internet), ALERTCONSTANT.ERROR);
+                } else {
+                    Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
+                    //get list of installed iot devices API
+                    getListOfNonSpatialAsync = new GetListOfNonSpatialAsync(CreateNonSpatialActivity.this);
+                    getListOfNonSpatialAsync.execute((Void) null);
+                }
             }
         }).run();
     }
@@ -229,7 +249,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.menu_refresh:
-                Snackbar.make(mView, "Refresh", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout, "Refresh",
+                        ALERTCONSTANT.INFO);
                 break;
             default:
                 break;
@@ -257,14 +278,16 @@ public class CreateNonSpatialActivity extends BaseActivity {
 
         if (requestCode == REQUEST_CODE_QR_SCAN) {
             if (data == null) return;
-            Snackbar.make(mView, "QR-Code successfully Scanned... ", Snackbar.LENGTH_SHORT).show();
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "QR-Code successfully Scanned... ", ALERTCONSTANT.WARNING);
             //Getting the passed result
             String result = data.getStringExtra("com.example.sharan.iotsmartchain.qrcodescanner.got_qr_scan_relult");
             //Display a dialog for create a Non-spatial plan
             Log.e(TAG, "Result :: " + result);
             if (result != null) DialogManuallyDataInit(result);
             else {
-                Snackbar.make(mView, "Try again...", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        "Try again...", ALERTCONSTANT.WARNING);
             }
             Log.d(TAG, "Have scan result in your app activity :" + result);
 
@@ -363,11 +386,19 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 nonSpatialModel.setLabel(label);
                 nonSpatialModel.setDescription(description);
 
-                createNonSpatialAsync = new CreateNonSpatialAsync(CreateNonSpatialActivity.this, nonSpatialModel);
-                createNonSpatialAsync.execute((Void) null);
+                //Create new Floor plan
+                int isNetwork = NetworkUtil.getConnectivityStatus(CreateNonSpatialActivity.this);
+                if(isNetwork == 0){
+                    Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                            getString(R.string.no_internet), ALERTCONSTANT.ERROR);
+                }else{
+                    Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
+                    createNonSpatialAsync = new CreateNonSpatialAsync(CreateNonSpatialActivity.this, nonSpatialModel);
+                    createNonSpatialAsync.execute((Void) null);
+                    Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                            "Done \n" + spinnerIotAdd.getSelectedItem().toString(), ALERTCONSTANT.SUCCESS);
 
-                Snackbar.make(mView, "Done \n" + spinnerIotAdd.getSelectedItem().toString(),
-                        Snackbar.LENGTH_LONG).show();
+                }
 
                 //TODO IOT details and information send to server
                 //show result in list view
@@ -379,7 +410,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Snackbar.make(mView, "Cancel", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        "Cancel", ALERTCONSTANT.WARNING);
                 dialog.dismiss();
             }
         });
@@ -511,11 +543,13 @@ public class CreateNonSpatialActivity extends BaseActivity {
             super.onPostExecute(isSuccess);
             Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, false);
             if (isSuccess) {
-                Snackbar.make(mView, message, Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.SUCCESS);
                 arrayList.add(nonSpatialModel);
                 adapterNonSpatialPlan.notifyDataSetChanged();
             } else {
-                Snackbar.make(mView, message, Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.WARNING);
             }
             createNonSpatialAsync = null;
         }
@@ -647,12 +681,14 @@ public class CreateNonSpatialActivity extends BaseActivity {
             super.onPostExecute(isSuccess);
             Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, false);
             if (isSuccess) {
-                Snackbar.make(mView, message, Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.SUCCESS);
                 adapterNonSpatialPlan = new AdapterNonSpatialPlan(CreateNonSpatialActivity.this, arrayList);
                 mListView.setAdapter(adapterNonSpatialPlan);
                 adapterNonSpatialPlan.notifyDataSetChanged();
             } else {
-                Snackbar.make(mView, message, Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.WARNING);
             }
             getListOfNonSpatialAsync = null;
         }
@@ -783,11 +819,11 @@ public class CreateNonSpatialActivity extends BaseActivity {
             getListOfRegDevicesAsync = null;
             Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, false);
             if (aBoolean) {
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                sb.show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.SUCCESS);
             } else {
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                sb.show();
+                Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.WARNING);
             }
         }
 

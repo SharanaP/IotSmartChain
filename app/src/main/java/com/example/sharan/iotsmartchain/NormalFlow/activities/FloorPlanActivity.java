@@ -94,13 +94,12 @@ public class FloorPlanActivity extends BaseActivity implements EasyPermissions.P
         cardViewNonSpatial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(cardViewCreateNew, "Non-Spatail Plan", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(cardViewCreateNew, "Non-Spatial Plan", Snackbar.LENGTH_SHORT).show();
                 //TODO init
                 Intent intent = new Intent(FloorPlanActivity.this, CreateNonSpatialActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 
     private void setupToolbar() {

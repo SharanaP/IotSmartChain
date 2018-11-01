@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
@@ -254,9 +253,9 @@ public class LocationManagerUtils extends BaseActivity implements LocationListen
 
             if (location != null)
                 onLocationChanged(location);
-            else
-                Toast.makeText(context, "No Location Provider Found Check Your Code",
-                        Toast.LENGTH_SHORT).show();
+            else {
+                Log.e(TAG, "No Location Provider Found Check Your Code");
+            }
 
             if (locationManager != null) {
                 if (ActivityCompat.checkSelfPermission(context,

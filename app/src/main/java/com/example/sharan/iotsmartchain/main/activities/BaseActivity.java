@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.NetworkUtil;
+import com.example.sharan.iotsmartchain.global.Utils;
+import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 
 import butterknife.ButterKnife;
 
@@ -34,6 +37,9 @@ public class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.color_Primary));
         }
+
+        //check internet
+        checkInternetConnection();
     }
 
     @Override
@@ -44,6 +50,15 @@ public class BaseActivity extends AppCompatActivity {
     protected void injectViews() {
         ButterKnife.bind(this);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /*check internet*/
+    private void checkInternetConnection(){
+        int isNetwork = NetworkUtil.getConnectivityStatus(BaseActivity.this);
+        if(isNetwork == 0){
+            //Show dialog :: no internet
+            Utils.ShowAlertDialog(BaseActivity.this, getResources().getString(R.string.no_internet), getResources().getString(R.string.close));
+        }
     }
 
 }

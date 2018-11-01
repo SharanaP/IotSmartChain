@@ -1,417 +1,425 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_splash_screen">
 
-    <!-- <LinearLayout
-         android:id="@+id/linearLayout1"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="vertical">
- 
-         &lt;!&ndash;<ImageView
-             android:layout_width="100dp"
-             android:layout_height="100dp"
-             android:layout_gravity="center"
-             android:layout_marginBottom="10dp"
-             android:layout_marginTop="20dp"
-             android:background="@mipmap/ic_launcher" />
- 
-         <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_splash_screen">
+
+        <!-- <LinearLayout
+             android:id="@+id/linearLayout1"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:gravity="center"
-             android:text="IoT Smart Chain"
-             android:typeface="serif"
-             android:textColor="@color/color_grey"
-             android:textSize="35sp" />&ndash;&gt;
-     </LinearLayout>-->
+             android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/login_progress_reg"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:theme="@style/CircularProgress"
-        android:visibility="gone" />
+             &lt;!&ndash;<ImageView
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 android:layout_gravity="center"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="20dp"
+                 android:background="@mipmap/ic_launcher" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 android:text="IoT Smart Chain"
+                 android:typeface="serif"
+                 android:textColor="@color/color_grey"
+                 android:textSize="35sp" />&ndash;&gt;
+         </LinearLayout>-->
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_form_reg"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/linearLayout1">
+        <ProgressBar
+            android:id="@+id/login_progress_reg"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/relativeLayout_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/login_form_reg"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_vertical">
+            android:layout_below="@+id/linearLayout1">
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical">
 
-                <ImageView
-                    android:id="@+id/image_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/app_icon" />
-
-                <TextView
-                    android:id="@+id/TextView_title"
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
                     android:gravity="center"
-                    android:text="iSmartLink"
-                    android:textColor="@color/color_yellow"
-                    android:textSize="35sp"
-                    android:typeface="serif" />
+                    android:orientation="vertical">
 
-                <!--First name -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:backgroundTint="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:theme="@style/Widget.Design.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/view_firstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/color_white"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
-                        android:gravity="center_vertical"
-                        android:hint="First Name"
-                        android:imeActionId="@+id/fname"
-                        android:imeActionLabel="@string/error_field_required"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:textSize="16sp"
-                        tools:ignore="InvalidImeActionId" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--Last name -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:backgroundTint="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:theme="@style/Widget.Design.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/view_lastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/color_white"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
-                        android:gravity="center_vertical"
-                        android:hint="Last Name"
-                        android:imeActionId="@+id/lname"
-                        android:imeActionLabel="@string/error_field_required"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:textSize="16sp"
-                        tools:ignore="InvalidImeActionId" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--Email-->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:backgroundTint="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:theme="@style/Widget.Design.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/view_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/color_white"
-                        android:drawableLeft="@drawable/ic_email_black_24dp"
-                        android:gravity="center_vertical"
-                        android:hint="Email"
-                        android:imeActionId="@+id/email"
-                        android:imeActionLabel="@string/error_field_required"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/color_white"
-                        android:textColorHighlight="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:textSize="16sp"
-                        tools:ignore="InvalidImeActionId" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--Mobile number-->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:backgroundTint="@color/color_silver"
-                    android:textColorHint="@color/color_silver"
-                    android:theme="@style/Widget.Design.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/view_phone_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/color_white"
-                        android:drawableLeft="@drawable/ic_contact_phone_black_24dp"
-                        android:gravity="center_vertical"
-                        android:hint="Phone Number"
-                        android:imeActionId="@+id/phonenumber"
-                        android:imeActionLabel="@string/error_field_required"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:textSize="16sp"
-                        tools:ignore="InvalidImeActionId" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--Password-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:theme="@style/Widget.Design.TextInputLayout">
-
-                        <EditText
-                            android:id="@+id/view_password_one"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:backgroundTint="@color/color_silver"
-                            android:drawableLeft="@drawable/ic_lock_black_24dp"
-                            android:fontFamily="sans-serif"
-                            android:gravity="center_vertical"
-                            android:hint="Password"
-                            android:imeActionId="@+id/psw1"
-                            android:imeActionLabel="@string/error_field_required"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
-                            android:textSize="16sp"
-                            tools:ignore="InvalidImeActionId" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ImageButton
-                        android:id="@+id/ic_showPassword"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:background="@android:color/transparent"
-                        android:tint="@color/color_silver"
-                        app:srcCompat="@drawable/ic_visibility_24dp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--Re-enter password-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
-                        android:theme="@style/Widget.Design.TextInputLayout">
-
-                        <EditText
-                            android:id="@+id/view_password_second"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:backgroundTint="@color/color_silver"
-                            android:drawableLeft="@drawable/ic_lock_black_24dp"
-                            android:fontFamily="sans-serif"
-                            android:gravity="center_vertical"
-                            android:hint="Re-Enter Password"
-                            android:imeActionId="@+id/psw2"
-                            android:imeActionLabel="@string/error_field_required"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
-                            android:textSize="16sp"
-                            tools:ignore="InvalidImeActionId" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ImageButton
-                        android:id="@+id/ic_reEnter_showPassword"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:background="@android:color/transparent"
-                        android:tint="@color/color_silver"
-                        app:srcCompat="@drawable/ic_visibility_24dp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_silver" />
-
-                <!--check -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_accept"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/color_random_green"
-                        android:textColor="@color/color_silver"
-                        android:textStyle="normal"
-                        android:theme="@style/checkBoxColorStyle" />
+                    <ImageView
+                        android:id="@+id/image_icon"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/app_icon" />
 
                     <TextView
-                        android:id="@+id/textView_condition"
+                        android:id="@+id/TextView_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/checkbox_accept"
-                        android:layout_toRightOf="@+id/checkbox_accept"
+                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="@string/terms_condition"
-                        android:textColor="@color/color_orange"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-                <!--Button SignUp-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="2dp"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/button_register"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="180dp"
-                        android:layout_height="35dp"
-                        android:background="@drawable/mysignin_button"
-                        android:fontFamily="sans-serif"
-                        android:gravity="center"
-                        android:text="Register"
+                        android:text="iSmartLink"
                         android:textColor="@color/color_yellow"
-                        android:textSize="20sp"
-                        android:textStyle="normal"
-                        android:typeface="monospace" />
+                        android:textSize="35sp"
+                        android:typeface="serif" />
 
-                </RelativeLayout>
+                    <!--First name -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:backgroundTint="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:theme="@style/Widget.Design.TextInputLayout">
+
+                        <EditText
+                            android:id="@+id/view_firstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@color/color_white"
+                            android:drawableLeft="@drawable/ic_person_black_24dp"
+                            android:gravity="center_vertical"
+                            android:hint="First Name"
+                            android:imeActionId="@+id/fname"
+                            android:imeActionLabel="@string/error_field_required"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:textSize="16sp"
+                            tools:ignore="InvalidImeActionId" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--Last name -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:backgroundTint="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:theme="@style/Widget.Design.TextInputLayout">
+
+                        <EditText
+                            android:id="@+id/view_lastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@color/color_white"
+                            android:drawableLeft="@drawable/ic_person_black_24dp"
+                            android:gravity="center_vertical"
+                            android:hint="Last Name"
+                            android:imeActionId="@+id/lname"
+                            android:imeActionLabel="@string/error_field_required"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:textSize="16sp"
+                            tools:ignore="InvalidImeActionId" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--Email-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:backgroundTint="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:theme="@style/Widget.Design.TextInputLayout">
+
+                        <EditText
+                            android:id="@+id/view_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@color/color_white"
+                            android:drawableLeft="@drawable/ic_email_black_24dp"
+                            android:gravity="center_vertical"
+                            android:hint="Email"
+                            android:imeActionId="@+id/email"
+                            android:imeActionLabel="@string/error_field_required"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/color_white"
+                            android:textColorHighlight="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:textSize="16sp"
+                            tools:ignore="InvalidImeActionId" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--Mobile number-->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:backgroundTint="@color/color_silver"
+                        android:textColorHint="@color/color_silver"
+                        android:theme="@style/Widget.Design.TextInputLayout">
+
+                        <EditText
+                            android:id="@+id/view_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@color/color_white"
+                            android:drawableLeft="@drawable/ic_contact_phone_black_24dp"
+                            android:gravity="center_vertical"
+                            android:hint="Phone Number"
+                            android:imeActionId="@+id/phonenumber"
+                            android:imeActionLabel="@string/error_field_required"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:textSize="16sp"
+                            tools:ignore="InvalidImeActionId" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--Password-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:theme="@style/Widget.Design.TextInputLayout">
+
+                            <EditText
+                                android:id="@+id/view_password_one"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/color_silver"
+                                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center_vertical"
+                                android:hint="Password"
+                                android:imeActionId="@+id/psw1"
+                                android:imeActionLabel="@string/error_field_required"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/color_silver"
+                                android:textColorHint="@color/color_silver"
+                                android:textSize="16sp"
+                                tools:ignore="InvalidImeActionId" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageButton
+                            android:id="@+id/ic_showPassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/color_silver"
+                            app:srcCompat="@drawable/ic_visibility_24dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--Re-enter password-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/color_silver"
+                            android:textColorHint="@color/color_silver"
+                            android:theme="@style/Widget.Design.TextInputLayout">
+
+                            <EditText
+                                android:id="@+id/view_password_second"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/color_silver"
+                                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center_vertical"
+                                android:hint="Re-Enter Password"
+                                android:imeActionId="@+id/psw2"
+                                android:imeActionLabel="@string/error_field_required"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/color_silver"
+                                android:textColorHint="@color/color_silver"
+                                android:textSize="16sp"
+                                tools:ignore="InvalidImeActionId" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageButton
+                            android:id="@+id/ic_reEnter_showPassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/color_silver"
+                            app:srcCompat="@drawable/ic_visibility_24dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_silver" />
+
+                    <!--check -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_accept"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/color_random_green"
+                            android:textColor="@color/color_silver"
+                            android:textStyle="normal"
+                            android:theme="@style/checkBoxColorStyle" />
+
+                        <TextView
+                            android:id="@+id/textView_condition"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/checkbox_accept"
+                            android:layout_toRightOf="@+id/checkbox_accept"
+                            android:gravity="center"
+                            android:text="@string/terms_condition"
+                            android:textColor="@color/color_orange"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <!--Button SignUp-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="2dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/button_register"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="180dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/mysignin_button"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:text="Register"
+                            android:textColor="@color/color_yellow"
+                            android:textSize="20sp"
+                            android:textStyle="normal"
+                            android:typeface="monospace" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </RelativeLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

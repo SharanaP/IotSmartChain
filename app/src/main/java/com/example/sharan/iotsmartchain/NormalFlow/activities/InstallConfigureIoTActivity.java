@@ -1,9 +1,7 @@
 package com.example.sharan.iotsmartchain.NormalFlow.activities;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,33 +11,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sharan.iotsmartchain.IotDeviceConfigure.WifiSecondDemo;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.WifiNetwork.MainWifiBleActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 
 import butterknife.BindView;
 
-public class InstalConfigureIoTActivity extends BaseActivity {
-
+public class InstallConfigureIoTActivity extends BaseActivity {
+    private static String TAG = InstallConfigureIoTActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.button_WIFI)
     Button mBtnWiFi;
-
     @BindView(R.id.button_GSM)
     Button mBtnGSM;
-
     @BindView(R.id.textView_status)
     TextView mTextStatus;
-
     @BindView(R.id.image_wifi_check)
     ImageView mImageWifiCheck;
-
     @BindView(R.id.image_gsm_check)
     ImageView mImageGsmCheck;
-
     @BindView(R.id.button_next)
     Button mBtnNext;
 
@@ -47,15 +38,13 @@ public class InstalConfigureIoTActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiy_iot_instal);
-
         injectViews();
-
         setupToolBar();
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new  Intent(InstalConfigureIoTActivity.this,
+                Intent intent = new Intent(InstallConfigureIoTActivity.this,
                         FloorPlanActivity.class);
                 startActivity(intent);
             }
@@ -71,8 +60,7 @@ public class InstalConfigureIoTActivity extends BaseActivity {
 //                intent.setComponent(cn);
 //                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 //                startActivity(intent);
-
-                Intent intentWifi = new Intent(InstalConfigureIoTActivity.this,
+                Intent intentWifi = new Intent(InstallConfigureIoTActivity.this,
                         MainWifiBleActivity.class);
                 startActivity(intentWifi);
             }
@@ -89,7 +77,7 @@ public class InstalConfigureIoTActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(InstalConfigureIoTActivity.this, RegisterIoTDeviceActivity.class);
+        Intent intent = new Intent(InstallConfigureIoTActivity.this, RegisterIoTDeviceActivity.class);
         startActivity(intent);
         this.finish();
     }
@@ -105,7 +93,7 @@ public class InstalConfigureIoTActivity extends BaseActivity {
 
         switch (id) {
             case android.R.id.home:
-                Intent intent = new Intent(InstalConfigureIoTActivity.this, RegisterIoTDeviceActivity.class);
+                Intent intent = new Intent(InstallConfigureIoTActivity.this, RegisterIoTDeviceActivity.class);
                 startActivity(intent);
                 this.finish();
                 return true;

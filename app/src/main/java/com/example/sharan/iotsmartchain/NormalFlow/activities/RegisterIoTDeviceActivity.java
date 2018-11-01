@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.NormalFlow.adapter.AdapterRegisterIoTDevices;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.NetworkUtil;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.RegisterIoTInfo;
@@ -65,6 +67,8 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     ProgressBar mProgressBar;
     @BindView(R.id.relativeLayout_reg_iot)
     View mView;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private EditText mEditTextUID;
     private Dialog dialog;
@@ -85,7 +89,6 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         setContentView(R.layout.activity_register_iot_device);
 
         injectViews();
-
         setupToolbar();
 
         //Bus
@@ -100,10 +103,18 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         adapterRegisterIoTDevices = new AdapterRegisterIoTDevices(RegisterIoTDeviceActivity.this, mList);
         mLvRegIoTDevice.setAdapter(adapterRegisterIoTDevices);
 
-        //TODO call API to get a list of IOT device sensors
-        Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
-        getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(loginId, token, this);
-        getListOfRegDevicesAsync.execute((Void) null);
+        //check internet
+        int isNetwork = NetworkUtil.getConnectivityStatus(RegisterIoTDeviceActivity.this);
+        if (isNetwork == 0) {
+            Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                    mCoordinatorLayout, getString(R.string.no_internet), ALERTCONSTANT.WARNING);
+        } else {
+            //TO call API to get a list of IOT device sensors
+            Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
+            getListOfRegDevicesAsync = new GetListOfRegDevicesAsync(loginId, token, this);
+            getListOfRegDevicesAsync.execute((Void) null);
+        }
+
 
         //Floating button
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +141,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterIoTDeviceActivity.this, InstalConfigureIoTActivity.class);
+                Intent intent = new Intent(RegisterIoTDeviceActivity.this, InstallConfigureIoTActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -194,17 +205,23 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 String mIotDeviceId = mEditTextUID.getText().toString().trim();
                 if (loginId != null && !loginId.isEmpty()) {
                     if (!TextUtils.isEmpty(mIotDeviceId)) {
-                        //API : Registering IOT device
-                        Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
-                        registerIoTDeviceAsync = new RegisterIoTDeviceAsync(RegisterIoTDeviceActivity.this,
-                                loginId, mIotDeviceId);
-                        registerIoTDeviceAsync.execute((Void) null);
+                        int isNetwork = NetworkUtil.getConnectivityStatus(RegisterIoTDeviceActivity.this);
+                        if (isNetwork == 0) {
+                            Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                                    mCoordinatorLayout, getString(R.string.no_internet), ALERTCONSTANT.WARNING);
+                        } else {
+                            //API : Registering IOT device
+                            Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
+                            registerIoTDeviceAsync = new RegisterIoTDeviceAsync(RegisterIoTDeviceActivity.this,
+                                    loginId, mIotDeviceId);
+                            registerIoTDeviceAsync.execute((Void) null);
+                        }
+
                     } else {
-                        Snackbar.make(mView, "Enter the IOT device Id and it should not be empty!!!",
-                                Snackbar.LENGTH_LONG).show();
+                        Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                                mCoordinatorLayout, "Enter the IOT device Id and it should not be empty!!!", ALERTCONSTANT.WARNING);
                     }
                 }
-
                 //clear data
                 mEditTextUID.setText("");
             }
@@ -217,12 +234,11 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == REQUEST_CODE_QR_SCAN && resultCode == RESULT_OK && data != null) {
             Log.e(TAG, " HELLO " + data.toString());
         }
         if (resultCode != Activity.RESULT_OK) {
-            Log.d("BT", "COULD NOT GET A GOOD RESULT.");
+            Log.d(TAG, "COULD NOT GET A GOOD RESULT.");
             if (data == null)
                 return;
             //Getting the passed result
@@ -240,32 +256,26 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 alertDialog.show();
             }
             return;
-
         }
         if (requestCode == REQUEST_CODE_QR_SCAN) {
             if (data == null) return;
             //Getting the passed result
             String result = data.getStringExtra("com.example.sharan.iotsmartchain.qrcodescanner.got_qr_scan_relult");
-            Log.d("BT", "Have scan result in your app activity :" + result);
-//            AlertDialog alertDialog = new AlertDialog.Builder(RegisterIoTDeviceActivity.this).create();
-//            alertDialog.setTitle("Scan result");
-//            alertDialog.setMessage(result);
-//            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//            alertDialog.show();
+            Log.d(TAG, "Have scan result in your app activity :" + result);
+            Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                    mCoordinatorLayout, "Successfully scan device ID...", ALERTCONSTANT.SUCCESS);
 
-            Snackbar sb = Snackbar.make(mView, "Successfully scan device ID...", Snackbar.LENGTH_LONG);
-            sb.show();
-
-            // Registering device via AWS server.
-            Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
-            registerIoTDeviceAsync = new RegisterIoTDeviceAsync(RegisterIoTDeviceActivity.this,
-                    loginId, result);
-            registerIoTDeviceAsync.execute((Void) null);
+            int isNetwork = NetworkUtil.getConnectivityStatus(RegisterIoTDeviceActivity.this);
+            if (isNetwork == 0) {
+                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                        mCoordinatorLayout, getString(R.string.no_internet), ALERTCONSTANT.WARNING);
+            } else {
+                // Registering device via AWS server.
+                Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, true);
+                registerIoTDeviceAsync = new RegisterIoTDeviceAsync(RegisterIoTDeviceActivity.this,
+                        loginId, result);
+                registerIoTDeviceAsync.execute((Void) null);
+            }
         }
     }
 
@@ -321,7 +331,6 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
             Log.d(TAG, "SH : formBody  " + formBody.toString());
             Log.d(TAG, "SH : request " + request.getClass().toString());
 
-
             retVal = false;
             try {
                 Response response = client.newCall(request).execute();
@@ -374,15 +383,13 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
 
                 mList.add(registerIoTInfo);
                 adapterRegisterIoTDevices.notifyDataSetChanged();
-
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                sb.show();
-
+                //Show snack bar
+                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
             } else {
-                Snackbar sb = Snackbar.make(mView, message + " Try again...", Snackbar.LENGTH_LONG);
-                sb.show();
+                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                        mCoordinatorLayout, message, ALERTCONSTANT.WARNING);
             }
-
         }
 
         @Override
@@ -390,7 +397,6 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
             super.onCancelled();
             registerIoTDeviceAsync = null;
             Utils.showProgress(RegisterIoTDeviceActivity.this, mView, mProgressBar, false);
-
         }
     }
 
@@ -528,13 +534,12 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 adapterRegisterIoTDevices = new AdapterRegisterIoTDevices(mContext, mList);
                 mLvRegIoTDevice.setAdapter(adapterRegisterIoTDevices);
                 //adapterRegisterIoTDevices.notifyDataSetChanged();
-
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                sb.show();
+                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
 
             } else {
-                Snackbar sb = Snackbar.make(mView, message, Snackbar.LENGTH_LONG);
-                sb.show();
+                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
             }
         }
 

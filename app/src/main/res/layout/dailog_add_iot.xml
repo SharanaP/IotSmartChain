@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="150dp"
+    android:layout_height="200dp"
     android:layout_width="match_parent"
-    android:background="@color/color_background"
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true">
 
@@ -33,24 +32,17 @@
             android:id="@+id/editText_UID"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:hint="enter UID number"
+            android:hint="Enter Iot Serial number"
             android:inputType="text"
             android:gravity="center"
             android:textColorHint="@color/color_silver"
             android:textStyle="normal"
             android:maxLength="20"
             android:textSize="17sp"
+            android:backgroundTint="@color/color_yellow"
             android:textColor="@color/color_silver"/>
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_yellow"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/relativeLayout_iot_uid"/>
 
 
 </RelativeLayout>

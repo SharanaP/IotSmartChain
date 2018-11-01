@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
@@ -77,6 +79,8 @@ public class ResetPasswordActivity extends BaseActivity {
     ImageView mImageNewPswView;
     @BindView(R.id.ic_reEnterShowPassword)
     ImageView mImageReEnterPswView;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     private String mUrl, deviceId, deviceName, deviceToken;
     private SendResetLinkAync sendResetLinkAync = null;
@@ -106,6 +110,7 @@ public class ResetPasswordActivity extends BaseActivity {
             return true;
         }
     };
+
     private View.OnTouchListener mReEnterPswListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -148,13 +153,45 @@ public class ResetPasswordActivity extends BaseActivity {
         mEditOTP.setVisibility(View.INVISIBLE);
         mSendOtpButton.setVisibility(View.INVISIBLE);
 
+        /*Email entering*/
+        mEditEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Utils.EnableSoftKeyBoard(ResetPasswordActivity.this, mEditEmail);
+            }
+        });
+
+        /*enter OTP*/
+        mEditOTP.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Utils.EnableSoftKeyBoard(ResetPasswordActivity.this, mEditOTP);
+            }
+        });
+
+        /*Enter password */
+        mEditPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Utils.EnableSoftKeyBoard(ResetPasswordActivity.this, mEditPsw);
+            }
+        });
+
+        /*Re-enter password*/
+        mEditReEnterPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Utils.EnableSoftKeyBoard(ResetPasswordActivity.this, mEditReEnterPsw);
+            }
+        });
+
         //button Send reset link listener
         mBtnSendReSetLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SendResetPswRequest();
                 //Close  keyboard
-                Utils.CloseKeyboard(ResetPasswordActivity.this);
+                Utils.DisableSoftKeyBoard(ResetPasswordActivity.this);
             }
         });
 
@@ -164,7 +201,7 @@ public class ResetPasswordActivity extends BaseActivity {
             public void onClick(View v) {
                 VerifyViaOtp();
                 //Close  keyboard
-                Utils.CloseKeyboard(ResetPasswordActivity.this);
+                Utils.DisableSoftKeyBoard(ResetPasswordActivity.this);
             }
         });
 
@@ -176,7 +213,7 @@ public class ResetPasswordActivity extends BaseActivity {
                 mBtnSendReSetLink.setEnabled(false);
                 ValidatePassword();
                 //Close  keyboard
-                Utils.CloseKeyboard(ResetPasswordActivity.this);
+                Utils.DisableSoftKeyBoard(ResetPasswordActivity.this);
             }
         });
 
@@ -296,7 +333,7 @@ public class ResetPasswordActivity extends BaseActivity {
     }
 
     /*Send email and otp to server for validation */
-    private void VerifyViaOtp(){
+    private void VerifyViaOtp() {
         boolean cancel = false;
         View focusView = null;
 
@@ -319,19 +356,19 @@ public class ResetPasswordActivity extends BaseActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-           String otp = mEditOTP.getText().toString();
+            String otp = mEditOTP.getText().toString();
 
-           if(TextUtils.isEmpty(otp)){
-               mEditOTP.setError(getString(R.string.error_field_required));
-               focusView = mEditOTP;
-               mEditOTP.requestFocus();
-           }else{
-               //Send to server
-               showProgress(true);
-               verifyEmailViaOtpAsync = new VerifyEmailViaOtpAsync(ResetPasswordActivity.this,
-                       email, otp);
-               verifyEmailViaOtpAsync.execute((Void)null);
-           }
+            if (TextUtils.isEmpty(otp)) {
+                mEditOTP.setError(getString(R.string.error_field_required));
+                focusView = mEditOTP;
+                mEditOTP.requestFocus();
+            } else {
+                //Send to server
+                showProgress(true);
+                verifyEmailViaOtpAsync = new VerifyEmailViaOtpAsync(ResetPasswordActivity.this,
+                        email, otp);
+                verifyEmailViaOtpAsync.execute((Void) null);
+            }
         }
     }
 
@@ -380,9 +417,9 @@ public class ResetPasswordActivity extends BaseActivity {
     }
 
     private void showLoginView() {
-        Snackbar sn = Snackbar.make(mLayoutProgress,
-                "Updated new password...", Snackbar.LENGTH_LONG);
-        sn.show();
+        Snackbar sn = Utils.SnackBarView(ResetPasswordActivity.this,
+                coordinatorLayout, "Updated new password...",
+                ALERTCONSTANT.WARNING);
         sn.setCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
@@ -427,41 +464,30 @@ public class ResetPasswordActivity extends BaseActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             OkHttpClient client = new OkHttpClient();
-
             MediaType JSON
                     = MediaType.parse("application/json; charset=utf-8");
-
             RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
-
             Request request = new Request.Builder()
                     .url(mUrl + "forgot-password")
                     .post(formBody)
                     .build();
-
             Log.d(TAG, "SH : URL " + mUrl + "forgot-password");
             Log.d(TAG, "SH : email  " + email);
-
             retVal = false;
             try {
                 Response response = client.newCall(request).execute();
                 String authResponseStr = response.body().string();
-
                 //Json object
                 try {
                     JSONObject TestJson = new JSONObject(authResponseStr);
-
                     Log.e(TAG, "authResponse :: " + TestJson.toString());
                     Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
-
                     String strData = TestJson.getString("body").toString();
                     Log.e(TAG, "strData :: " + strData.toString());
-
                     authResponse = new GsonBuilder()
                             .create()
                             .fromJson(strData, DataModel.class);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -495,26 +521,19 @@ public class ResetPasswordActivity extends BaseActivity {
             showProgress(false);
             if (success) {
                 // mCardView_Two.setVisibility(View.VISIBLE);
-
                 mSendOtpButton.setVisibility(View.VISIBLE);
                 mEditOTP.setVisibility(View.VISIBLE);
                 mBtnSendReSetLink.setVisibility(View.INVISIBLE);
-
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
-
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.SUCCESS);
             } else {
-
                 mCardView_Two.setVisibility(View.INVISIBLE);
                 mEditEmail.setError((authResponse.getMessage()));
                 mEditEmail.requestFocus();
-
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.WARNING);
             }
         }
 
@@ -633,17 +652,14 @@ public class ResetPasswordActivity extends BaseActivity {
                 mEditOTP.setVisibility(View.VISIBLE);
                 mBtnSendReSetLink.setVisibility(View.INVISIBLE);
                 mCardView_Two.setVisibility(View.VISIBLE);
-
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.SUCCESS);
 
             } else {
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.WARNING);
             }
         }
 
@@ -758,11 +774,10 @@ public class ResetPasswordActivity extends BaseActivity {
             updateNewPasswordAsync = null;
             showProgress(false);
             if (success) {
-              //  showLoginView();
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
+                //  showLoginView();
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.SUCCESS);
 
                 //Call login activity
                 Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
@@ -771,10 +786,9 @@ public class ResetPasswordActivity extends BaseActivity {
                 finish();
 
             } else {
-                Snackbar sEvents = Snackbar.make(linearLayoutMain,
-                        authResponse.getMessage(),
-                        Snackbar.LENGTH_SHORT);
-                sEvents.show();
+                Utils.SnackBarView(ResetPasswordActivity.this,
+                        coordinatorLayout, authResponse.getMessage(),
+                        ALERTCONSTANT.WARNING);
             }
         }
 

@@ -39,6 +39,7 @@ import com.example.sharan.iotsmartchain.dashboard.activity.SupportMainActivity;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
+import com.example.sharan.iotsmartchain.main.activities.MainActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -554,25 +555,18 @@ public class MenuFragment extends BaseFragment {
             super.onPostExecute(data);
             Utils.showProgress(getActivity(), mProgressView, mProgressBar, false);
             appLogOutAsync = null;
-            // if (data.equalsIgnoreCase("true")) {
-            // showProgress(false);
+
             //Clear the login token
             clearSharedPref();
-//                SharedPreferences.Editor
-//                editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-//                editor.putString("TOKEN", "");
-//                editor.putString("AUTH_EMAIL_ID", "");
-//                editor.putString("PHONE", "");
-//                editor.putString("EMAIL", "");
-//                editor.apply();
-//                editor.commit();
 
-            // Start the login activity
-            Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+            //clear data
+            Utils.clearApplicationData(getActivity());
+
+            //Start main Activity
+            Intent loginActivityIntent = new Intent(getActivity(), MainActivity.class);
             loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginActivityIntent);
             getActivity().finish();
-            //}
         }
 
         @Override
@@ -684,21 +678,14 @@ public class MenuFragment extends BaseFragment {
 
             Snackbar.make(mProgressView, respMessage, Snackbar.LENGTH_LONG).show();
 
+            /*Clear shared pref*/
             clearSharedPref();
 
-            //if (data.equalsIgnoreCase("true")) {
-
-//                SharedPreferences.Editor
-//                        editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
-//                editor.putString("TOKEN", "");
-//                editor.putString("AUTH_EMAIL_ID", "");
-//                editor.putString("PHONE", "");
-//                editor.putString("EMAIL", "");
-//                editor.apply();
-//                editor.commit();
+            //clear data
+            Utils.clearApplicationData(getActivity());
 
             //Call login screen
-            Intent loginActivityIntent = new Intent(getActivity(), LoginActivity.class);
+            Intent loginActivityIntent = new Intent(getActivity(), MainActivity.class);
             loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginActivityIntent);
             getActivity().finish();

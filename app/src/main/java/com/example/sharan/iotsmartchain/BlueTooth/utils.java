@@ -104,6 +104,7 @@ public class utils {
 
         return result;
     }
+
     /**
      * Convert major or minor to hex byte[]. This is used to create a {@link android.bluetooth.le.ScanFilter}.
      *
@@ -141,7 +142,5 @@ public class utils {
 
         return ret;
     }
-
-
 
 }

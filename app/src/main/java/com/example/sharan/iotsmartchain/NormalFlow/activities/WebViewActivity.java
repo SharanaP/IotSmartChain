@@ -2,6 +2,7 @@ package com.example.sharan.iotsmartchain.NormalFlow.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,8 @@ import android.widget.FrameLayout;
 
 import com.example.sharan.iotsmartchain.NormalFlow.fragment.FloorPlanViewFragment;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 
 import butterknife.BindView;
@@ -20,9 +23,10 @@ import butterknife.BindView;
 
 public class WebViewActivity extends BaseActivity {
     private static String TAG = WebViewActivity.class.getSimpleName();
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
     @BindView(R.id.view_message)
@@ -71,7 +75,7 @@ public class WebViewActivity extends BaseActivity {
                 this.finish();
                 break;
             case R.id.menu_refresh:
-                Snackbar.make(mView, "Refresh", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(WebViewActivity.this, mCoordinatorLayout, "Refresh", ALERTCONSTANT.INFO);
                 break;
             default:
                 break;

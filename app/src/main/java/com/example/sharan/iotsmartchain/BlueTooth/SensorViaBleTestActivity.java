@@ -18,9 +18,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +37,7 @@ import android.widget.TextView;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.GyroscopeModel;
 
@@ -60,10 +60,11 @@ import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
-public class BleTestActivity extends BaseActivity {
+
+public class SensorViaBleTestActivity extends BaseActivity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    private static String TAG = BleTestActivity.class.getSimpleName();
+    private static String TAG = SensorViaBleTestActivity.class.getSimpleName();
     private static boolean isShowDialog = false;
     private static int numOfLoop = 0;
     private static Float accX = 0.0f;
@@ -102,6 +103,8 @@ public class BleTestActivity extends BaseActivity {
     Button buttonConform;
     @BindView(R.id.imageview_conform_status)
     ImageView imageViewConform;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
     /*Test cases for device sensor*/
     private TextView textViewTitle;
     private TextView dialogTextMessage;
@@ -117,15 +120,20 @@ public class BleTestActivity extends BaseActivity {
     private RelativeLayout relativeLayoutProgressBar;
     private ProgressBar progressBarInDialog;
     private TextView tvProgressBarValueDialog;
+
     /*progress bar */
     private int progressStatus = 0;
     private Handler handler = new Handler();
-
     private Handler mGyroXHandler = new Handler();
     private Handler mGyroYHandler = new Handler();
     private Handler mGyroZHandler = new Handler();
     private Handler mBleReadHandler = new Handler();
     private Handler mCheckSensorMovedHandler = new Handler();
+    private boolean isDataRunning = false;
+    private boolean isGyroXRunning = false;
+    private boolean isGyroYRunning = false;
+    private boolean isGyroZRunning = false;
+    private boolean isMovedRunning = false;
     private List<Line> lines = null;
     private List<PointValue> pointValuesGyroX = new ArrayList<>();
     private List<PointValue> pointValuesGyroY = new ArrayList<>();
@@ -136,40 +144,7 @@ public class BleTestActivity extends BaseActivity {
     private int numOfLatestGyroList = 20;
     private String mDeviceName;
     private String mDeviceAddress;
-
     private BluetoothLeService mBluetoothLeService;
-    private boolean mConnected = false;
-    private BluetoothGattCharacteristic mNotifyCharacteristic;
-    private BluetoothGattCharacteristic characteristic = null;
-    private int charaProp = -1;
-
-    /*Show dialog*/
-    private Dialog dialog;
-    private AlertDialog.Builder builder;
-    private LayoutInflater inflater;
-    private View rootView;
-    private ProgressDialog progressDialog;
-
-    //line chart view
-    private LineChartData data;
-    private int numberOfLines = 3;
-    private int maxNumberOfLines = 4;//4
-    private int numberOfPoints = 12;
-    private boolean hasAxes = true;
-    private boolean hasAxesNames = true;
-    private boolean hasLines = true;
-    private boolean hasPoints = true;
-    private ValueShape shape = ValueShape.CIRCLE; //shape of chart
-    private boolean isFilled = false;
-    private boolean hasLabels = false;
-    private boolean isCubic = false;
-    private boolean hasLabelForSelected = false;
-    private boolean pointsHaveDifferentColor;
-    private boolean hasGradientToTransparent = false;
-
-    //init once only for showing door option
-    private boolean flagMessageOnce = false;
-
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -196,7 +171,34 @@ public class BleTestActivity extends BaseActivity {
             mBluetoothLeService = null;
         }
     };
-
+    private boolean mConnected = false;
+    private BluetoothGattCharacteristic mNotifyCharacteristic;
+    private BluetoothGattCharacteristic characteristic = null;
+    private int charaProp = -1;
+    /*Show dialog*/
+    private Dialog dialog;
+    private AlertDialog.Builder builder;
+    private LayoutInflater inflater;
+    private View rootView;
+    private ProgressDialog progressDialog;
+    //line chart view
+    private LineChartData data;
+    private int numberOfLines = 3;
+    private int maxNumberOfLines = 4;//4
+    private int numberOfPoints = 12;
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = true;
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private ValueShape shape = ValueShape.CIRCLE; //shape of chart
+    private boolean isFilled = false;
+    private boolean hasLabels = false;
+    private boolean isCubic = false;
+    private boolean hasLabelForSelected = false;
+    private boolean pointsHaveDifferentColor;
+    private boolean hasGradientToTransparent = false;
+    //init once only for showing door option
+    private boolean flagMessageOnce = false;
     // Handles various events fired by the Service.
     // ACTION_GATT_CONNECTED: connected to a GATT server.
     // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
@@ -213,7 +215,8 @@ public class BleTestActivity extends BaseActivity {
                 mConnected = true;
                 Log.e(TAG, "Connected");
                 textViewStatus.setText("BLE Connected");
-                Snackbar.make(viewMessage, "BLE Connected", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        "BLE Connected", ALERTCONSTANT.SUCCESS);
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) progressDialog.setMessage("BLE Connected");
                     progressDialog.dismiss();
@@ -222,7 +225,8 @@ public class BleTestActivity extends BaseActivity {
                 mConnected = false;
                 Log.d(TAG, "Disconnected");
                 textViewStatus.setText("BLE Disconnected");
-                Snackbar.make(viewMessage, "BLE is disconnected adn try again", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        "BLE is disconnected and try gain for connection", ALERTCONSTANT.SUCCESS);
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
@@ -305,7 +309,6 @@ public class BleTestActivity extends BaseActivity {
                         if (bService.getUuid().toString()
                                 .equals(TargetGattAttributes.TEST_BLE_SERVICE)) {
                             Log.e("HRS SERVICE", bService.toString());
-
                             characteristic =
                                     bService.getCharacteristic(
                                             UUID.fromString(TargetGattAttributes.TEST_BLE_CHARACTERISTIC));
@@ -318,14 +321,99 @@ public class BleTestActivity extends BaseActivity {
                             } else {
                                 isShowDialog = false;
                             }
-
                             break; /* Once Service found, no need to rendering */
                         }
                     }
                 }
-
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+            }
+        }
+    };
+    /*Read gyro x-axis */
+    Runnable mRunnableGyroX = new Runnable() {
+        private int i = 0;
+        @Override
+        public void run() {
+            try{
+                isGyroXRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroX.add(new PointValue(i++, gyroX));
+                data.getLines().get(0).setValues(new ArrayList<>(pointValuesGyroX));
+                lineChartView.setLineChartData(data);
+                setViewportGyroX();
+                mGyroXHandler.postDelayed(this, 50);
+            }catch (Exception e){
+                e.printStackTrace();
+                isGyroXRunning = false;
+            }
+        }
+    };
+    /*Read gyro y-axis*/
+    Runnable mRunnableGyroY = new Runnable() {
+        private int i = 0;
+        @Override
+        public void run() {
+            try {
+                isGyroYRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroY.add(new PointValue(i++, gyroY));
+                data.getLines().get(1).setValues(new ArrayList<>(pointValuesGyroY));
+                lineChartView.setLineChartData(data);
+                setViewportGyroY();
+                mGyroYHandler.postDelayed(this, 50);
+            }catch (Exception e){
+                e.printStackTrace();
+                isGyroYRunning = false;
+            }
+        }
+    };
+    /*Read gyro z-axis*/
+    Runnable mRunnableGyroZ = new Runnable() {
+        private int i = 0;
+        @Override
+        public void run() {
+            try{
+                isGyroZRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroZ.add(new PointValue(i++, gyroZ));
+                data.getLines().get(2).setValues(new ArrayList<>(pointValuesGyroZ));
+                lineChartView.setLineChartData(data);
+                setViewportGyroZ();
+                mGyroZHandler.postDelayed(this, 50);
+            }catch (Exception e){
+                e.printStackTrace();
+                isGyroZRunning = false;
+            }
+        }
+    };
+    /*This runnable thread for reading Iot Sensor data*/
+    Runnable mBleRunnable = new Runnable() {
+        int i = 0;
+        @Override
+        public void run() {
+            try{
+                isDataRunning = true;
+                showReadCharacteristic();
+                mBleReadHandler.postDelayed(this, 50);
+            }catch (Exception ex){
+                isDataRunning = false;
+            }
+        }
+
+    };
+    /*Check Iot Sensor moved or not */
+    Runnable mRunnableCheckSensorMoved = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                isMovedRunning = true;
+                checkDeviceMoved(dialogTextMessage, imageViewIcon, checkedTextViewOne, checkedTextViewTwo,
+                        checkedTextViewThree);
+                mCheckSensorMovedHandler.postDelayed(this, 30);
+            }catch (Exception e){
+                e.printStackTrace();
+                isMovedRunning = false;
             }
         }
     };
@@ -390,15 +478,15 @@ public class BleTestActivity extends BaseActivity {
                     if (value != null) {
                         boolean isWrite = mBluetoothLeService.writeCharacteristic(characteristic, value);
                         if (isWrite) {
-                            Snackbar.make(viewMessage, "write Successfully ",
-                                    Snackbar.LENGTH_LONG).show();
+                            Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                                    "BLE Write Successfully", ALERTCONSTANT.SUCCESS);
                             //show alert dialog message
                             showBleGatewayDialog("Successfully write to BLE ", ALERTCONSTANT.SUCCESS, false);
                             progressDialog.setMessage("Successfully write to BLE ");
 
                         } else {
-                            Snackbar.make(viewMessage, "Failed to write input message",
-                                    Snackbar.LENGTH_LONG).show();
+                            Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                                    "Fail to write input message", ALERTCONSTANT.WARNING);
                             //show alert dialog message
                             showBleGatewayDialog("Failed to set input message and try again!!!", ALERTCONSTANT.ERROR, false);
                             progressDialog.setMessage("Failed to set input message and try again!!!");
@@ -418,8 +506,9 @@ public class BleTestActivity extends BaseActivity {
             }
 
         } else {
-            Snackbar.make(viewMessage, "Enter input in text and it should not be empty!!!",
-                    Snackbar.LENGTH_LONG).show();
+            Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                    "Enter input in text and it should not be empty!!!",
+                    ALERTCONSTANT.WARNING);
             //Dismiss progress dialog
             if (progressDialog.isShowing()) {
                 progressDialog.cancel();
@@ -427,8 +516,6 @@ public class BleTestActivity extends BaseActivity {
                 Log.d(TAG, "progress dialog is dismiss");
             }
         }
-
-
     }
 
     @Override
@@ -532,13 +619,14 @@ public class BleTestActivity extends BaseActivity {
             public void onClick(View v) {
                 //call ble sensor test
                 boolean isTested = false;
-                if (gyroscopeModel != null){
+                if (gyroscopeModel != null) {
                     testGyroscopeSensor(gyroscopeModel);
                     //show dialog message
                     showBleGatewayDialog("Start test on Ble sensor\nNOTE: Rotate or Move the sensor device",
                             ALERTCONSTANT.NONE,
                             true);
-                    Snackbar.make(viewMessage, "Start test on Ble sensor", Snackbar.LENGTH_LONG).show();
+                    Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                            "Start test on Ble sensor", ALERTCONSTANT.INFO);
                 }
             }
         });
@@ -547,8 +635,9 @@ public class BleTestActivity extends BaseActivity {
         buttonConform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(viewMessage, "Conformation Local Sensor Test is Done ", Snackbar.LENGTH_LONG).show();
-                Intent intentDashBroad = new Intent(BleTestActivity.this, DashBoardActivity.class);
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        "Conformation Local Sensor Test is Done", ALERTCONSTANT.SUCCESS);
+                Intent intentDashBroad = new Intent(SensorViaBleTestActivity.this, DashBoardActivity.class);
                 startActivity(intentDashBroad);
             }
         });
@@ -572,7 +661,8 @@ public class BleTestActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-                showMessage(viewMessage, "Refresh");
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        "Refresh", ALERTCONSTANT.INFO);
                 ClearAllRunnableCallBacks();
                 StartAllRunnableCallBacks();
                 break;
@@ -592,26 +682,64 @@ public class BleTestActivity extends BaseActivity {
         ClearAllRunnableCallBacks();
         finish();
     }
+
     /*Clear all runnable call backs*/
-    private void ClearAllRunnableCallBacks(){
-        mBleReadHandler.removeCallbacks(mBleRunnable);
-        mGyroXHandler.removeCallbacks(mRunnableGyroX);
-        mGyroYHandler.removeCallbacks(mRunnableGyroY);
-        mGyroZHandler.removeCallbacks(mRunnableGyroZ);
-        mCheckSensorMovedHandler.removeCallbacks(mRunnableCheckSensorMoved);
-    }
-    /*Start all runnable */
-    private void StartAllRunnableCallBacks(){
-        mBleRunnable.run();
-        mRunnableGyroX.run();
-        mRunnableGyroY.run();
-        mRunnableGyroZ.run();
-        mRunnableCheckSensorMoved.run();
+    private void ClearAllRunnableCallBacks() {
+        if(isDataRunning){
+            isDataRunning = false;
+            Log.d(TAG, "isDataRunning : "+isDataRunning);
+            mBleReadHandler.removeCallbacks(mBleRunnable);
+        }
+        if(isGyroXRunning){
+            isGyroXRunning = false;
+            Log.d(TAG, "isGyroXRunning : "+isGyroXRunning);
+            mGyroXHandler.removeCallbacks(mRunnableGyroX);
+        }
+        if(isGyroYRunning){
+            isGyroYRunning = false;
+            Log.d(TAG, "isGyroYRunning : "+isGyroYRunning);
+            mGyroYHandler.removeCallbacks(mRunnableGyroY);
+        }
+        if(isGyroZRunning){
+            Log.d(TAG, "isGyroZRunning : "+isGyroZRunning);
+            isGyroZRunning = false;
+            mGyroZHandler.removeCallbacks(mRunnableGyroZ);
+        }
+        if(isMovedRunning){
+            Log.d(TAG, "isMovedRunning : "+isMovedRunning);
+            isMovedRunning = false;
+            mCheckSensorMovedHandler.removeCallbacks(mRunnableCheckSensorMoved);
+        }
     }
 
-    private void showMessage(View view, String message) {
-        Snackbar sb = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-        sb.show();
+    /*Start all runnable */
+    private void StartAllRunnableCallBacks() {
+        //TODO IndexOutOfBoundsException
+        try {
+            if(!isDataRunning){
+                Log.d(TAG, "start : isDataRunning : "+isDataRunning);
+                mBleRunnable.run();
+            }
+            if(!isGyroXRunning){
+                Log.d(TAG, "start : isGyroXRunning : "+isGyroXRunning);
+                mRunnableGyroX.run();
+            }
+            if(!isGyroYRunning){
+                Log.d(TAG, "start : isGyroYRunning : "+isGyroYRunning);
+                mRunnableGyroY.run();
+            }
+            if(!isGyroZRunning){
+                Log.d(TAG, "start : isGyroZRunning : "+isGyroZRunning);
+                mRunnableGyroZ.run();
+            }
+            if(!isMovedRunning){
+                Log.d(TAG, "start : isMovedRunning : "+isMovedRunning);
+                mRunnableCheckSensorMoved.run();
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            ex.printStackTrace();
+            onRestart();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -640,34 +768,36 @@ public class BleTestActivity extends BaseActivity {
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
     }
+
     /*Display snack bar*/
     private void displayData(String data) {
         if (data != null) {
             Log.e("DATA", data);
         }
     }
+
     //init all UI elements for ALERT DIALOG FOR TEST SENSOR
-    private void initAlertDialog(boolean isDeviceTestUI){
-        builder = new AlertDialog.Builder(BleTestActivity.this);
-        inflater = BleTestActivity.this.getLayoutInflater();
+    private void initAlertDialog(boolean isDeviceTestUI) {
+        builder = new AlertDialog.Builder(SensorViaBleTestActivity.this);
+        inflater = SensorViaBleTestActivity.this.getLayoutInflater();
         rootView = inflater.inflate(R.layout.alert_message_layout, null);
 
         textViewTitle = (TextView) rootView.findViewById(R.id.alert_title);
         dialogTextMessage = (TextView) rootView.findViewById(R.id.alert_message);
-        imageViewIcon = (ImageView)rootView.findViewById(R.id.imageview_alert_icon);
+        imageViewIcon = (ImageView) rootView.findViewById(R.id.imageview_alert_icon);
 
         /*Device Test cases related */
-        relativeLayoutCard = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_test_card);
-        checkedTextViewDoor = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_condition);
-        imageViewDoor = (ImageView)rootView.findViewById(R.id.imageview_door);
-        checkedTextViewOne = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_one);
-        checkedTextViewTwo = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_two);
-        checkedTextViewThree = (CheckedTextView)rootView.findViewById(R.id.checkedtextview_test_three);
-        buttonCardTest = (TextView)rootView.findViewById(R.id.button_card_test);
-        textViewTestStatus = (TextView)rootView.findViewById(R.id.textview_card_status);
-        progressBarInDialog = (ProgressBar)rootView.findViewById(R.id.progressbar_card_test);
-        tvProgressBarValueDialog = (TextView)rootView.findViewById(R.id.textview_card_progressbar_value);
-        relativeLayoutProgressBar = (RelativeLayout)rootView.findViewById(R.id.relativeLayout_progressbar);
+        relativeLayoutCard = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_test_card);
+        checkedTextViewDoor = (CheckedTextView) rootView.findViewById(R.id.checkedtextview_condition);
+        imageViewDoor = (ImageView) rootView.findViewById(R.id.imageview_door);
+        checkedTextViewOne = (CheckedTextView) rootView.findViewById(R.id.checkedtextview_test_one);
+        checkedTextViewTwo = (CheckedTextView) rootView.findViewById(R.id.checkedtextview_test_two);
+        checkedTextViewThree = (CheckedTextView) rootView.findViewById(R.id.checkedtextview_test_three);
+        buttonCardTest = (TextView) rootView.findViewById(R.id.button_card_test);
+        textViewTestStatus = (TextView) rootView.findViewById(R.id.textview_card_status);
+        progressBarInDialog = (ProgressBar) rootView.findViewById(R.id.progressbar_card_test);
+        tvProgressBarValueDialog = (TextView) rootView.findViewById(R.id.textview_card_progressbar_value);
+        relativeLayoutProgressBar = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_progressbar);
 
         buttonCardTest.setBackgroundColor(getResources().getColor(R.color.white));
         checkedTextViewOne.setChecked(false);
@@ -678,14 +808,15 @@ public class BleTestActivity extends BaseActivity {
         checkedTextViewTwo.setVisibility(View.GONE);
         checkedTextViewThree.setVisibility(View.GONE);
         /*Check device testing or conformation testing*/
-        if(isDeviceTestUI){
+        if (isDeviceTestUI) {
             //relativeLayoutTestConform.setVisibility(View.GONE);//card view conform is GONE
             relativeLayoutCard.setVisibility(View.VISIBLE); //card view test is Visible
-        }else{
-           // relativeLayoutTestConform.setVisibility(View.VISIBLE);
+        } else {
+            // relativeLayoutTestConform.setVisibility(View.VISIBLE);
             relativeLayoutCard.setVisibility(View.GONE);
         }
     }
+
     /*Show alert constant*/
     private void showBleGatewayDialog(String message, ALERTCONSTANT alertConstant, boolean showTestCase) {
         //Show dialog
@@ -730,9 +861,9 @@ public class BleTestActivity extends BaseActivity {
             }
         });
         //check show test card option
-        if(showTestCase){
+        if (showTestCase) {
             relativeLayoutCard.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             relativeLayoutCard.setVisibility(View.GONE);
         }
         displayDialogAlertIcon(alertConstant, imageViewIcon);
@@ -740,12 +871,12 @@ public class BleTestActivity extends BaseActivity {
         checkedTextViewDoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkedTextViewDoor.isChecked()){
+                if (checkedTextViewDoor.isChecked()) {
                     checkedTextViewDoor.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
                     checkedTextViewDoor.setChecked(false);
                     imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
                     textViewTestStatus.setText("Door opened");
-                }else{
+                } else {
                     checkedTextViewDoor.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
                     checkedTextViewDoor.setChecked(true);
                     imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
@@ -763,7 +894,7 @@ public class BleTestActivity extends BaseActivity {
                 checkedTextViewOne.setChecked(false);
                 checkedTextViewTwo.setChecked(false);
                 checkedTextViewThree.setChecked(false);
-           //     mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);//clear
+                //     mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);//clear
                 dialog.dismiss();
             }
         });
@@ -774,18 +905,19 @@ public class BleTestActivity extends BaseActivity {
                 checkedTextViewOne.setChecked(false);
                 checkedTextViewTwo.setChecked(false);
                 checkedTextViewThree.setChecked(false);
-               // mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
+                // mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
                 dialog.dismiss();
             }
         });
 
-        if(showTestCase)
-        mCheckSensorMovedHandler.postDelayed(mRunnableCheckSensorMoved, 30);
+        if (showTestCase)
+            mCheckSensorMovedHandler.postDelayed(mRunnableCheckSensorMoved, 30);
         builder.create().show();
     }
+
     /*Show alert constant*/
-    private void displayDialogAlertIcon(ALERTCONSTANT alertConstant, ImageView imageView){
-        switch (alertConstant){
+    private void displayDialogAlertIcon(ALERTCONSTANT alertConstant, ImageView imageView) {
+        switch (alertConstant) {
             case INFO:
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_info_purple_17a2b8_24dp));
                 break;
@@ -806,20 +938,22 @@ public class BleTestActivity extends BaseActivity {
                 break;
         }
     }
+
     /*Show conform button based on test check*/
-    private void isConformButton(){
+    private void isConformButton() {
         //show status and conform button based check on main UI
-        if(checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked()
-                && checkedTextViewThree.isChecked()){
+        if (checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked()
+                && checkedTextViewThree.isChecked()) {
             relativeLayoutConform.setVisibility(View.VISIBLE);
             imageViewStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
             buttonConform.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             relativeLayoutConform.setVisibility(View.INVISIBLE);
             imageViewStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
             buttonConform.setVisibility(View.GONE);
         }
     }
+
     /*line chart draw Gyro  */
     private void showGyroData() {
         lineChartView.setInteractive(true);
@@ -842,7 +976,7 @@ public class BleTestActivity extends BaseActivity {
         data = new LineChartData(lines);
 
         Axis axisX = new Axis().setName("Time in Sec");
-        Axis axisY = new Axis().setHasLines(true).setName("Gyroscope in " + "\u00B0 /S");
+        Axis axisY = new Axis().setHasLines(true).setName("Gyroscope in " + "\u00B0/S");
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(axisY);
         data.setBaseValue(Float.NEGATIVE_INFINITY);
@@ -855,10 +989,12 @@ public class BleTestActivity extends BaseActivity {
 
         drawGraphGyroZ();
     }
+
     /*Line chart draw for gyro X*/
     private void drawGraphGyroX() {
         mGyroXHandler.postDelayed(mRunnableGyroX, 50);
     }
+
     /*Set line chart graph gyro X */
     private void setViewportGyroX() {
         int size = pointValuesGyroX.size();
@@ -869,10 +1005,12 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
+
     /*line chart draw Gyro Y */
     private void drawGraphGyroY() {
         mGyroYHandler.postDelayed(mRunnableGyroY, 50);
     }
+
     /*Set line chart graph gyro Y */
     private void setViewportGyroY() {
         int size = pointValuesGyroY.size();
@@ -883,10 +1021,12 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
+
     /*Line chart draw for gyro Z*/
     private void drawGraphGyroZ() {
         mGyroZHandler.postDelayed(mRunnableGyroZ, 50);
     }
+
     /*Set line chart graph gyro Z */
     private void setViewportGyroZ() {
         int size = pointValuesGyroZ.size();
@@ -897,71 +1037,12 @@ public class BleTestActivity extends BaseActivity {
             lineChartView.setCurrentViewport(viewport);
         }
     }
+
     /*Ble read data */
     private void readBleData() {
         mBleReadHandler.postDelayed(mBleRunnable, 50);
     }
-    /*This runnable thread for reading Iot Sensor data*/
-    Runnable mBleRunnable = new Runnable() {
-        int i = 0;
 
-        @Override
-        public void run() {
-            showReadCharacteristic();
-            mBleReadHandler.postDelayed(this, 50);
-        }
-    };
-    /*Read gyro x-axis */
-    Runnable mRunnableGyroX = new Runnable() {
-        private int i = 0;
-
-        @Override
-        public void run() {
-            LineChartData data = lineChartView.getLineChartData();
-            pointValuesGyroX.add(new PointValue(i++, gyroX));
-            data.getLines().get(0).setValues(new ArrayList<>(pointValuesGyroX));
-            lineChartView.setLineChartData(data);
-            setViewportGyroX();
-            mGyroXHandler.postDelayed(this, 50);
-        }
-    };
-    /*Read gyro y-axis*/
-    Runnable mRunnableGyroY = new Runnable() {
-        private int i = 0;
-
-        @Override
-        public void run() {
-            LineChartData data = lineChartView.getLineChartData();
-            pointValuesGyroY.add(new PointValue(i++, gyroY));
-            data.getLines().get(1).setValues(new ArrayList<>(pointValuesGyroY));
-            lineChartView.setLineChartData(data);
-            setViewportGyroY();
-            mGyroYHandler.postDelayed(this, 50);
-        }
-    };
-    /*Read gyro z-axis*/
-    Runnable mRunnableGyroZ = new Runnable() {
-        private int i = 0;
-
-        @Override
-        public void run() {
-            LineChartData data = lineChartView.getLineChartData();
-            pointValuesGyroZ.add(new PointValue(i++, gyroZ));
-            data.getLines().get(2).setValues(new ArrayList<>(pointValuesGyroZ));
-            lineChartView.setLineChartData(data);
-            setViewportGyroZ();
-            mGyroZHandler.postDelayed(this, 50);
-        }
-    };
-    /*Check Iot Sensor moved or not */
-    Runnable mRunnableCheckSensorMoved = new Runnable() {
-        @Override
-        public void run() {
-            checkDeviceMoved(dialogTextMessage, imageViewIcon, checkedTextViewOne, checkedTextViewTwo,
-                    checkedTextViewThree);
-            mCheckSensorMovedHandler.postDelayed(this, 30);
-        }
-    };
     /*Test gyroscope sensor...*/
     private boolean testGyroscopeSensor(GyroscopeModel currentGyroData) {
         boolean isTest = false;
@@ -1001,13 +1082,16 @@ public class BleTestActivity extends BaseActivity {
         avgGyroY = Float.parseFloat(df.format(avgGyroY));
         avgGyroZ = Float.parseFloat(df.format(avgGyroZ));
 
-        Log.w(TAG, "AVG X : " + avgGyroX);Log.w(TAG, "AVG Y : " + avgGyroY);
-        Log.w(TAG, "AVG Z : " + avgGyroZ);Log.w(TAG, "CUR X : " + currentGyroData.getGyro_x());
-        Log.w(TAG, "CUR Y : " + currentGyroData.getGyro_y());Log.w(TAG, "CUR Z : " + currentGyroData.getGyro_z());
+        Log.w(TAG, "AVG X : " + avgGyroX);
+        Log.w(TAG, "AVG Y : " + avgGyroY);
+        Log.w(TAG, "AVG Z : " + avgGyroZ);
+        Log.w(TAG, "CUR X : " + currentGyroData.getGyro_x());
+        Log.w(TAG, "CUR Y : " + currentGyroData.getGyro_y());
+        Log.w(TAG, "CUR Z : " + currentGyroData.getGyro_z());
 
-        if ((currentGyroData.getGyro_x() > (avgGyroX+threshold) || currentGyroData.getGyro_x() < (avgGyroX-threshold)) ||
-                (currentGyroData.getGyro_y() > (avgGyroY+threshold) || currentGyroData.getGyro_y() < (avgGyroY-threshold)) ||
-                (currentGyroData.getGyro_z() > (avgGyroZ+threshold) || currentGyroData.getGyro_z() < (avgGyroZ-threshold))) {
+        if ((currentGyroData.getGyro_x() > (avgGyroX + threshold) || currentGyroData.getGyro_x() < (avgGyroX - threshold)) ||
+                (currentGyroData.getGyro_y() > (avgGyroY + threshold) || currentGyroData.getGyro_y() < (avgGyroY - threshold)) ||
+                (currentGyroData.getGyro_z() > (avgGyroZ + threshold) || currentGyroData.getGyro_z() < (avgGyroZ - threshold))) {
             // check is required
             avgGyroX = 0.0f;
             avgGyroY = 0.0f;
@@ -1019,19 +1103,20 @@ public class BleTestActivity extends BaseActivity {
         }
         return isTest;
     }
+
     /*Show progress bar*/
-    private void showProgressBar(ProgressBar progressBar, TextView textViewStatus, Button buttonForTest){
+    private void showProgressBar(ProgressBar progressBar, TextView textViewStatus, Button buttonForTest) {
         progressBar.setVisibility(View.VISIBLE);
         progressStatus = gyroDataList.size();
         // Start the lengthy operation in a background thread
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(gyroDataList.size() < numOfLatestGyroList){
+                while (gyroDataList.size() < numOfLatestGyroList) {
                     // Try to sleep the thread for 20 milliseconds
-                    try{
+                    try {
                         Thread.sleep(50);
-                    }catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
@@ -1041,8 +1126,8 @@ public class BleTestActivity extends BaseActivity {
                         public void run() {
                             progressBar.setProgress(gyroDataList.size());
                             // Show the progress on TextView
-                            textViewStatus.setText(gyroDataList.size()+"");
-                            if(gyroDataList.size() >= numOfLatestGyroList) {
+                            textViewStatus.setText(gyroDataList.size() + "");
+                            if (gyroDataList.size() >= numOfLatestGyroList) {
                                 //test button visible
                                 buttonForTest.setVisibility(View.VISIBLE);
                             }
@@ -1052,16 +1137,17 @@ public class BleTestActivity extends BaseActivity {
             }
         }).start(); // Start the operation
     }
+
     /*Check device moved or not */
     private void checkDeviceMoved(TextView dialogTextMessage, ImageView imageViewIcon,
                                   CheckedTextView checkedTextViewOne, CheckedTextView checkedTextViewTwo,
-                                  CheckedTextView checkedTextViewThree){
+                                  CheckedTextView checkedTextViewThree) {
         boolean isMoved = false;
         //flagMessageOnce = false;
         if (gyroscopeModel != null) {
             isMoved = testGyroscopeSensor(gyroscopeModel);
-            if(isMoved) flagMessageOnce = true; //set flag dialog message
-            if(isMoved){
+            if (isMoved) flagMessageOnce = true; //set flag dialog message
+            if (isMoved) {
                 dialogTextMessage.setText(R.string.did_u_moved_sensor);
                 dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
                 imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
@@ -1069,16 +1155,16 @@ public class BleTestActivity extends BaseActivity {
                 isSensorMoved(isMoved);//check door open or closed
                 mCheckSensorMovedHandler.removeCallbacksAndMessages(mRunnableCheckSensorMoved);
 
-                if(!checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
+                if (!checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()) {
                     checkedTextViewOne.setVisibility(View.VISIBLE);
-                }else if(checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
+                } else if (checkedTextViewOne.isChecked() && !checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()) {
                     checkedTextViewTwo.setVisibility(View.VISIBLE);
-                }else if(checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()){
+                } else if (checkedTextViewOne.isChecked() && checkedTextViewTwo.isChecked() && !checkedTextViewThree.isChecked()) {
                     checkedTextViewThree.setVisibility(View.VISIBLE);
                 }
 
-            }else{
-                if(!flagMessageOnce){
+            } else {
+                if (!flagMessageOnce) {
                     //show message and status
                     imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
                     dialogTextMessage.setText(R.string.rotate_r_move_sensor);
@@ -1087,10 +1173,11 @@ public class BleTestActivity extends BaseActivity {
             }
         }
     }
+
     /*Device is moved then call door open or close*/
-    private void isSensorMoved(boolean isMoved){
-        if(isMoved ){
-            if(checkedTextViewDoor.isChecked()){
+    private void isSensorMoved(boolean isMoved) {
+        if (isMoved) {
+            if (checkedTextViewDoor.isChecked()) {
                 checkedTextViewDoor.setCheckMarkDrawable(R.drawable.ic_error_red_cc0000_24dp);
                 checkedTextViewDoor.setChecked(false);
                 imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_opened));
@@ -1098,7 +1185,7 @@ public class BleTestActivity extends BaseActivity {
                 dialogTextMessage.setText(R.string.did_u_moved_sensor);
                 dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
                 imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
-            }else{
+            } else {
                 checkedTextViewDoor.setCheckMarkDrawable(R.drawable.ic_check_green_24dp);
                 checkedTextViewDoor.setChecked(true);
                 imageViewDoor.setImageDrawable(getResources().getDrawable(R.drawable.ic_door_closed));
@@ -1107,7 +1194,7 @@ public class BleTestActivity extends BaseActivity {
                 dialogTextMessage.setTextColor(getResources().getColor(R.color.color_cyan));
                 imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green_24dp));
             }
-        }else{
+        } else {
             dialogTextMessage.setText(R.string.rotate_r_move_sensor);
             dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
             imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));

@@ -12,8 +12,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +39,7 @@ public class BleConnectionManager extends AppCompatActivity {
     private boolean isBluetoothEnabled;
     private boolean isScanning;
 
-    private BluetoothAdapter.LeScanCallback bleScanCallback= new BluetoothAdapter.LeScanCallback() {
+    private BluetoothAdapter.LeScanCallback bleScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
@@ -70,7 +68,7 @@ public class BleConnectionManager extends AppCompatActivity {
                                 bluetoothAdapter.stopLeScan(bleScanCallback);
                             }
                         }*/
-                    }  else{
+                    } else {
                         Log.e(TAG, "BLE :: name : " + device.getName() + " add : " + device.getAddress());
                     }
                 }
@@ -85,11 +83,11 @@ public class BleConnectionManager extends AppCompatActivity {
         activity = (Activity) context;
     }
 
-    public BleConnectionManager(Context context, String bleName, String service, String characteristic){
+    public BleConnectionManager(Context context, String bleName, String service, String characteristic) {
         this.context = context;
         this.mService = service;
         this.mCharacteristic = characteristic;
-        activity = (Activity)context;
+        activity = (Activity) context;
     }
 
     public BleConnectionManager(Context context) {
@@ -136,9 +134,8 @@ public class BleConnectionManager extends AppCompatActivity {
 
     }
 
-    public void initBle(){
+    public void initBle() {
         handler = new Handler();
-
         // Check BLE is supporting on device
         if (!activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(context, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
@@ -227,7 +224,6 @@ public class BleConnectionManager extends AppCompatActivity {
 
             case PERMISSION_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty
-
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     isLocationPermissionGranted = true;

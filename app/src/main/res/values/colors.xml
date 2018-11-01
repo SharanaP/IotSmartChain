@@ -81,6 +81,8 @@
     <color name="btn_send">#E3A506</color>
     <color name="btn_send_disabled">#8e8e8e</color>
 
+    <color name="color_purple">#17A2B8</color>
+    <color name="color_yellow_medium">#e9fff9c4</color>
 
     <color name="row_active">#efefef</color>
     <color name="bg_gray">#ecedef</color>

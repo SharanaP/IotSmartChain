@@ -54,7 +54,7 @@ public class FloorPlanViewFragment extends BaseFragment {
         webSetting.setJavaScriptEnabled(true);
         webSetting.setDisplayZoomControls(true);
         mWebView.loadUrl("http://111.93.31.170:10000/Floorplan/#");
-      //  mWebView.loadUrl("http://192.168.1.110:10002/geoserver/floorplan/wms?service=WMS&version=1.1.0&request=GetMap&layers=floorplan:floorplangroup&styles=&bbox=-0.0789120569825172,6.67328691482544,86.5327606201172,84.0403442382813&width=768&height=686&srs=EPSG:32643&format=application/openlayers");
+        //  mWebView.loadUrl("http://192.168.1.110:10002/geoserver/floorplan/wms?service=WMS&version=1.1.0&request=GetMap&layers=floorplan:floorplangroup&styles=&bbox=-0.0789120569825172,6.67328691482544,86.5327606201172,84.0403442382813&width=768&height=686&srs=EPSG:32643&format=application/openlayers");
     }
 
     //To handle "Back" key press event for WebView to go back to previous screen.

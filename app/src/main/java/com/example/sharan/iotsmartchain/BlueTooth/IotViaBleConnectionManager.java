@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,7 +41,7 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
     private boolean isLocationPermissionGranted;
     private boolean isBluetoothEnabled;
     private boolean isScanning;
-    private View mViewMessage;
+    private CoordinatorLayout mViewMessage;
 
     //BLE device scan and matching IoT device
     private BluetoothAdapter.LeScanCallback bleScanCallback = new BluetoothAdapter.LeScanCallback() {
@@ -60,7 +61,7 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
 //                            }
 //                            showMessage("IOT Device found", true);
 //                            //TODO Show BLE TEST :: Ble Test activity
-//                            Intent intent = new Intent(context, BleTestActivity.class);
+//                            Intent intent = new Intent(context, SensorViaBleTestActivity.class);
 //                            context.startActivity(intent);
 //
 //                        }
@@ -73,7 +74,7 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
                             }
                             showMessage("IOT Device found", true);
                             //TODO Show BLE TEST :: Ble Test activity
-                            Intent intent = new Intent(context, BleTestActivity.class);
+                            Intent intent = new Intent(context, SensorViaBleTestActivity.class);
                             intent.putExtra("DEVICE_NAME", device.getName());
                             intent.putExtra("DEVICE_ADDRESS", device.getAddress());
                             context.startActivity(intent);
@@ -87,14 +88,14 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
         }
     };
 
-    public IotViaBleConnectionManager(Context context, View viewMessage) {
+    public IotViaBleConnectionManager(Context context, CoordinatorLayout viewMessage) {
         this.context = context;
         this.mViewMessage = viewMessage;
         activity = (Activity) context;
     }
 
     //send all info
-    public IotViaBleConnectionManager(Context context, String service, String characteristic, View viewMessage) {
+    public IotViaBleConnectionManager(Context context, String service, String characteristic, CoordinatorLayout viewMessage) {
         this.context = context;
         this.service = service;
         this.characteristic = characteristic;
@@ -295,16 +296,16 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
         if (isSuccess) {
             Snackbar sb = Snackbar.make(mViewMessage, message, Snackbar.LENGTH_LONG);
             View view1 = sb.getView();
-            view1.setBackgroundColor(context.getResources().getColor(R.color.color_grey_light));
+            view1.setBackgroundColor(context.getResources().getColor(R.color.color_text));
             TextView tv = (TextView) view1.findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(context.getResources().getColor(R.color.color_text));
+            tv.setTextColor(context.getResources().getColor(R.color.white));
             sb.show();
         } else {
             Snackbar sb = Snackbar.make(mViewMessage, message, Snackbar.LENGTH_LONG);
             View view1 = sb.getView();
-            view1.setBackgroundColor(context.getResources().getColor(R.color.color_grey_light));
+            view1.setBackgroundColor(context.getResources().getColor(R.color.color_red));
             TextView tv = (TextView) view1.findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(context.getResources().getColor(R.color.color_red));
+            tv.setTextColor(context.getResources().getColor(R.color.white));
             sb.show();
         }
     }

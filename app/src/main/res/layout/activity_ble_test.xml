@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -326,16 +328,17 @@
 
                     <Button
                         android:id="@+id/button_conform"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_below="@+id/textview_conform_title"
-                        android:layout_gravity="left"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="25dp"
                         android:layout_marginBottom="2dp"
                         android:drawableLeft="@drawable/ic_check_green_24dp"
-                        android:background="@drawable/mysignin_button"
+                        android:background="@drawable/mysignup_button"
                         android:text="@string/conform"
                         android:textColor="@color/color_silver"
                         android:textSize="12sp"

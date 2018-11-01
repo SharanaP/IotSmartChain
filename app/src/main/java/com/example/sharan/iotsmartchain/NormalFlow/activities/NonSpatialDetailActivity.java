@@ -2,7 +2,7 @@ package com.example.sharan.iotsmartchain.NormalFlow.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.BlueTooth.IotViaBleConnectionManager;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.NonSpatialModel;
 
@@ -56,6 +58,8 @@ public class NonSpatialDetailActivity extends BaseActivity {
     EditText mEditTextLongitude;
     @BindView(R.id.edittext_address)
     EditText mEditTextAddress;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private NonSpatialModel nonSpatialModel = new NonSpatialModel();
 
@@ -70,7 +74,7 @@ public class NonSpatialDetailActivity extends BaseActivity {
 
         //initialize BLE connection
         IotViaBleConnectionManager iotViaBleConnectionManager =
-                new IotViaBleConnectionManager(NonSpatialDetailActivity.this, mView);
+                new IotViaBleConnectionManager(NonSpatialDetailActivity.this, mCoordinatorLayout);
         iotViaBleConnectionManager.initBle();
 
         Bundle extras = getIntent().getExtras();
@@ -96,7 +100,7 @@ public class NonSpatialDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 //connect BLE and get status
                 IotViaBleConnectionManager iotViaBleConnectionManager = new IotViaBleConnectionManager(NonSpatialDetailActivity.this,
-                        nonSpatialModel.getService(), nonSpatialModel.getCharacteristic(), mView);
+                        nonSpatialModel.getService(), nonSpatialModel.getCharacteristic(), mCoordinatorLayout);
                 iotViaBleConnectionManager.StartBleScan();
             }
         });
@@ -132,13 +136,17 @@ public class NonSpatialDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.menu_item_refresh:
-                Snackbar.make(mView, "Refresh", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(NonSpatialDetailActivity.this, mCoordinatorLayout,
+                        "Refresh", ALERTCONSTANT.INFO);
                 break;
             case R.id.menu_item_delete:
-                Snackbar.make(mView, "Deleted", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(NonSpatialDetailActivity.this, mCoordinatorLayout,
+                        "Deleted", ALERTCONSTANT.INFO);
                 break;
             case R.id.menu_item_edit:
-                Snackbar.make(mView, "Updated", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(NonSpatialDetailActivity.this, mCoordinatorLayout,
+                        "Updated", ALERTCONSTANT.INFO);
+                Editable();
                 break;
             default:
                 break;
@@ -147,15 +155,16 @@ public class NonSpatialDetailActivity extends BaseActivity {
     }
 
     private void Editable() {
-        mEditTextSerialNum.setEnabled(true);
+        mEditTextSerialNum.setEnabled(false);
         mEditTextLabel.setEnabled(true);
+        mEditTextLabel.requestFocus();
         mEditTextDescription.setEnabled(true);
-        mEditTextLatitude.setEnabled(true);
-        mEditTextLongitude.setEnabled(true);
-        mEditTextAddress.setEnabled(true);
-        mEditTextService.setEnabled(true);
-        mEditTextCharacteristic.setEnabled(true);
-        mEditTextTimeStamp.setEnabled(true);
+        mEditTextLatitude.setEnabled(false);
+        mEditTextLongitude.setEnabled(false);
+        mEditTextAddress.setEnabled(false);
+        mEditTextService.setEnabled(false);
+        mEditTextCharacteristic.setEnabled(false);
+        mEditTextTimeStamp.setEnabled(false);
     }
 
     private void NonEditable() {
