@@ -33,4 +33,7 @@ public class BaseFragment extends Fragment {
         if (a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
 }

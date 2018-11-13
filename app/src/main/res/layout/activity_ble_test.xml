@@ -337,10 +337,9 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginBottom="2dp"
-                        android:drawableLeft="@drawable/ic_check_green_24dp"
                         android:background="@drawable/mysignup_button"
                         android:text="@string/conform"
-                        android:textColor="@color/color_silver"
+                        android:textColor="@color/color_green"
                         android:textSize="12sp"
                         android:textStyle="italic|normal" />
 
