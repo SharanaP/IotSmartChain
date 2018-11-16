@@ -1,65 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/myanalytics_bg">
-
-        <TextView
-            android:id="@+id/textview_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Module name"
-            android:textColor="@color/color_silver"
-            android:textSize="16dp" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_title">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/tetxview_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/textview_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="dd/mm/yyyy hh:mm:ss"
+                android:text="Module name"
                 android:textColor="@color/color_grey_medium"
-                android:textSize="12dp" />
+                android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/textview_readmore"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/imageview_indicator"
-                android:gravity="center"
-                android:text="Read More"
-                android:textColor="@color/color_silver"
-                android:textSize="13dp" />
+                android:layout_below="@+id/textview_title">
 
-            <ImageView
-                android:id="@+id/imageview_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                <TextView
+                    android:id="@+id/tetxview_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="dd/mm/yyyy hh:mm:ss"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/textview_readmore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/imageview_indicator"
+                    android:gravity="center"
+                    android:text="Read More"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:id="@+id/imageview_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

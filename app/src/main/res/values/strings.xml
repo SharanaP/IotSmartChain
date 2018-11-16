@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">IotSmartChain</string>
+    <!--<string name="app_name">IotSmartChain</string>-->
+    <string name="app_name">TITO</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 
-    <string name="title">Welcome to IotSmart</string>
+    <!--<string name="title">Welcome to IotSmart</string>-->
+    <string name="title">Welcome to TITO</string>
 
     <!-- Login/SignUp: Module -->
     <string name="prompt_email">  Email</string>

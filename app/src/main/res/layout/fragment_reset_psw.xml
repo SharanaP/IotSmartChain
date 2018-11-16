@@ -3,13 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_splash_screen">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_splash_screen">
+        android:layout_height="match_parent">
 
         <!--Tool bar -->
         <android.support.v7.widget.Toolbar
@@ -18,10 +16,10 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center_horizontal"
             android:background="@color/color_actionBar"
-            android:titleTextColor="@color/color_silver"
+            android:titleTextColor="@color/color_white"
             android:visibility="visible"
             app:theme="@style/ToolbarColoredBackArrow"
-            app:titleTextColor="@color/color_silver" />
+            app:titleTextColor="@color/color_white" />
 
         <ProgressBar
             android:id="@+id/progressBar_reset"
@@ -69,6 +67,8 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:elevation="3dp"
                         app:cardBackgroundColor="@color/color_yellow_light">
 
                         <RelativeLayout
@@ -76,15 +76,17 @@
                             android:layout_height="fill_parent"
                             android:layout_gravity="bottom|center"
                             android:gravity="center|bottom"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/image_app_icon"
-                                android:layout_width="200dp"
-                                android:layout_height="80dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/app_title" />
+                                android:background="@drawable/tito_logo_v1" />
 
                             <EditText
                                 android:id="@+id/editText_email_mob"
@@ -95,8 +97,8 @@
                                 android:gravity="center"
                                 android:hint="Enter email Id"
                                 android:inputType="text"
-                                android:textColor="@color/color_silver"
-                                android:textColorHint="@color/color_silver"
+                                android:textColor="@color/color_grey_medium"
+                                android:textColorHint="@color/color_grey_medium"
                                 android:textSize="18sp" />
 
                             <EditText
@@ -109,8 +111,8 @@
                                 android:hint="Enter OTP "
                                 android:inputType="number"
                                 android:maxLength="4"
-                                android:textColor="@color/color_silver"
-                                android:textColorHint="@color/color_silver"
+                                android:textColor="@color/color_grey_medium"
+                                android:textColorHint="@color/color_grey_medium"
                                 android:textSize="18sp"
                                 android:visibility="visible" />
 
@@ -124,7 +126,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:background="@drawable/mysignin_button"
                                 android:text="Send reset link"
-                                android:textColor="@color/color_yellow"
+                                android:textColor="@color/color_white"
                                 android:textSize="15dp"
                                 android:textStyle="normal" />
 
@@ -139,7 +141,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:background="@drawable/mysignin_button"
                                 android:text="Submit OTP"
-                                android:textColor="@color/color_yellow"
+                                android:textColor="@color/color_white"
                                 android:textSize="15dp"
                                 android:textStyle="normal" />
                         </RelativeLayout>
@@ -163,11 +165,14 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
                         app:cardBackgroundColor="@color/color_yellow_light">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -182,8 +187,8 @@
                                     android:layout_marginTop="20dp"
                                     android:hint="New Password"
                                     android:inputType="textPassword"
-                                    android:textColor="@color/color_silver"
-                                    android:textColorHint="@color/color_silver"
+                                    android:textColor="@color/color_grey_medium"
+                                    android:textColorHint="@color/color_grey_medium"
                                     android:textSize="18sp" />
 
                                 <ImageButton
@@ -193,9 +198,10 @@
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
+
                                     android:background="@android:color/transparent"
-                                    android:src="@drawable/ic_visibility_24dp"
-                                    android:tint="@color/color_silver" />
+                                    app:srcCompat="@drawable/ic_visibility_24dp"
+                                    android:tint="@color/color_grey_medium" />
 
                             </RelativeLayout>
 
@@ -211,8 +217,8 @@
                                     android:layout_marginTop="20dp"
                                     android:hint="Re-enter New Password"
                                     android:inputType="textPassword"
-                                    android:textColor="@color/color_silver"
-                                    android:textColorHint="@color/color_silver"
+                                    android:textColor="@color/color_grey_medium"
+                                    android:textColorHint="@color/color_grey_medium"
                                     android:textSize="18sp" />
 
                                 <ImageButton
@@ -223,8 +229,8 @@
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:background="@android:color/transparent"
-                                    android:src="@drawable/ic_visibility_24dp"
-                                    android:tint="@color/color_silver" />
+                                    app:srcCompat="@drawable/ic_visibility_24dp"
+                                    android:tint="@color/color_grey_medium" />
 
                             </RelativeLayout>
 
@@ -237,7 +243,7 @@
                                 android:layout_marginBottom="20dp"
                                 android:background="@drawable/mysignin_button"
                                 android:text="Submit"
-                                android:textColor="@color/color_yellow"
+                                android:textColor="@color/color_white"
                                 android:textSize="15dp"
                                 android:textStyle="normal" />
 

@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:maxLength="20"
             android:text="Lock all IoTs Devices"
-            android:textColor="@color/color_grey_light"
+            android:textColor="@color/color_grey_medium"
             android:textSize="16dp"
             android:textStyle="normal" />
 

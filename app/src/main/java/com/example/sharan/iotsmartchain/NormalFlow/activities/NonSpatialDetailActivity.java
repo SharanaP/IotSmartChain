@@ -158,7 +158,19 @@ public class NonSpatialDetailActivity extends BaseActivity {
         mEditTextSerialNum.setEnabled(false);
         mEditTextLabel.setEnabled(true);
         mEditTextLabel.requestFocus();
+        mEditTextLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mEditTextDescription.setEnabled(true);
+        mEditTextDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mEditTextLatitude.setEnabled(false);
         mEditTextLongitude.setEnabled(false);
         mEditTextAddress.setEnabled(false);

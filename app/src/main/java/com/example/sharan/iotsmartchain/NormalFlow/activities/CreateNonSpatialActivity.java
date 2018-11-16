@@ -388,10 +388,10 @@ public class CreateNonSpatialActivity extends BaseActivity {
 
                 //Create new Floor plan
                 int isNetwork = NetworkUtil.getConnectivityStatus(CreateNonSpatialActivity.this);
-                if(isNetwork == 0){
+                if (isNetwork == 0) {
                     Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
                             getString(R.string.no_internet), ALERTCONSTANT.ERROR);
-                }else{
+                } else {
                     Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
                     createNonSpatialAsync = new CreateNonSpatialAsync(CreateNonSpatialActivity.this, nonSpatialModel);
                     createNonSpatialAsync.execute((Void) null);
@@ -519,10 +519,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
                         nonSpatialModel.setCharacteristic(mCharacteristic);
                     }
 
-
                     nonSpatialModel.setStatus("" + retVal);
                     nonSpatialModel.setMessage(message);
-                    nonSpatialModel.setTimeStamp("" + timeStamp);
+                    nonSpatialModel.setTimeStamp(Utils.convertTime(timeStamp));
 
                     Log.e(TAG, " SH : status : " + respData.getBoolean("status"));
                     Log.e(TAG, " SH : message : " + respData.getString("message"));

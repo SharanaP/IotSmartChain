@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_screen_two"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <!--toolbar-->
     <android.support.v7.widget.Toolbar
@@ -17,6 +15,7 @@
         android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@color/color_white" />
+
     <!--ScrollView-->
     <ScrollView
         android:id="@+id/scrollView_floorplan"
@@ -27,7 +26,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="100dp"
             android:gravity="top"
+            android:isScrollContainer="true"
             android:orientation="vertical">
 
             <!--Crate  a new -->
@@ -37,8 +38,7 @@
                 android:layout_height="100sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                app:cardBackgroundColor="@color/color_yellow_light">
+                android:layout_marginRight="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -111,8 +111,7 @@
                 android:layout_height="100sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                app:cardBackgroundColor="@color/color_yellow_light">
+                android:layout_marginRight="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -183,8 +182,7 @@
                 android:layout_height="100sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                app:cardBackgroundColor="@color/color_yellow_light">
+                android:layout_marginRight="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -257,7 +255,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                app:cardBackgroundColor="@color/color_yellow_light">
+                android:layout_marginBottom="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -326,10 +324,12 @@
         </LinearLayout>
 
     </ScrollView>
+
     <!--progressbar-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:gravity="center">
 
         <ProgressBar
@@ -340,24 +340,40 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
     <!--Next-->
-    <LinearLayout
-        android:id="@+id/bottom_panel"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/bottom_panel"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:gravity="center">-->
+
+    <!---->
+    <!--</LinearLayout>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center">
+        android:background="@android:color/transparent"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/button_next"
             android:layout_width="120dp"
             android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginBottom="5dp"
             android:background="@drawable/mysignin_button"
+            android:gravity="center"
             android:text="Done"
             android:textColor="@color/color_white"
             android:textSize="13dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/frame_layout"

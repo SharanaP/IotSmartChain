@@ -1,80 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout_splash"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/img_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_splash_screen"
-        android:id="@+id/img_splash"/>
+        android:background="@drawable/tab_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/app_icon"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:layout_above="@+id/app_title_logo"/>
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/app_title_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
     <ImageView
         android:id="@+id/app_title_logo"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/app_title"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_height="170dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/tito_logo_v1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/appName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/app_name"
-        android:visibility="visible"
-        android:typeface="monospace"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color_white"
-        android:textSize="55sp"/>-->
-
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/color_silver"
-        android:layout_above="@+id/poweredBy"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_centerHorizontal="true" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/geoknoLogo"-->
-        <!--android:layout_width="240dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:background="@drawable/geokno_logo"-->
-        <!--android:layout_marginTop="25dp"-->
-        <!--android:layout_above="@+id/poweredBy"-->
-        <!--android:visibility="gone"-->
-        <!--android:layout_centerHorizontal="true" />-->
+        android:textColor="@color/color_text"
+        android:textSize="55sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/app_title_logo" />
 
     <TextView
         android:id="@+id/poweredBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:paddingBottom="2dp"
         android:text="Powered by GeoKno India."
         android:textColor="@color/color_silver"
         android:textSize="10sp"
-        android:typeface="normal"
         android:textStyle="bold"
-        android:gravity="center"
-        android:paddingBottom="2dp"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

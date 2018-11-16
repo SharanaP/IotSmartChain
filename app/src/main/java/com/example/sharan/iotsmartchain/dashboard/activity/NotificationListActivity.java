@@ -80,7 +80,7 @@ public class NotificationListActivity extends BaseActivity {
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        setTitle("iSmartLink");
+        setTitle(getResources().getString(R.string.app_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setSubtitle("All Notifications");
 

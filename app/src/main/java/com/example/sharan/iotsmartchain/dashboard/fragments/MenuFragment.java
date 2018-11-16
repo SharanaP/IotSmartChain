@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -33,7 +34,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -165,7 +165,7 @@ public class MenuFragment extends BaseFragment {
         deviceTokenId = FirebaseInstanceId.getInstance().getToken();
 
         //Setup action bar title
-        getActivity().setTitle("iSmartLink");
+        getActivity().setTitle((getResources().getString(R.string.app_name)));
         android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setSubtitle("MyAccount");
 
@@ -186,23 +186,23 @@ public class MenuFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_db_menu, container, false);
 
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressbar_profile);
-        mProgressView = (View) rootView.findViewById(R.id.progressView);
-        img_profile = (CircleImageView) rootView.findViewById(R.id.profile_photo);
-        mProfileUpdate = (CircleImageView) rootView.findViewById(R.id.profile_camera);
-        mTvLoginName = (TextView) rootView.findViewById(R.id.textView_login_name);
-        mTextViewPhone = (TextView) rootView.findViewById(R.id.textView_mobile);
-        mTvEmail = (TextView) rootView.findViewById(R.id.textView_email);
-        mProfileEditIcon = (ImageView) rootView.findViewById(R.id.imageView_update_profile);
-        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView_menu);
-        mRlSettings = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_setting);
-        mRlFeedBack = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_feedback);
-        mRlAbout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_about);
-        mRlFAQ = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_faq);
-        mRlSupport = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_support);
-        mRlLogout = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_logout);
-        mRlCloseAccount = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_close_account);
-        mTvVersion = (TextView) rootView.findViewById(R.id.textView_version);
+        mProgressBar = rootView.findViewById(R.id.progressbar_profile);
+        mProgressView = rootView.findViewById(R.id.progressView);
+        img_profile = rootView.findViewById(R.id.profile_photo);
+        mProfileUpdate = rootView.findViewById(R.id.profile_camera);
+        mTvLoginName = rootView.findViewById(R.id.textView_login_name);
+        mTextViewPhone = rootView.findViewById(R.id.textView_mobile);
+        mTvEmail = rootView.findViewById(R.id.textView_email);
+        mProfileEditIcon = rootView.findViewById(R.id.imageView_update_profile);
+        mScrollView = rootView.findViewById(R.id.scrollView_menu);
+        mRlSettings = rootView.findViewById(R.id.relativeLayout_setting);
+        mRlFeedBack = rootView.findViewById(R.id.relativeLayout_feedback);
+        mRlAbout = rootView.findViewById(R.id.relativeLayout_about);
+        mRlFAQ = rootView.findViewById(R.id.relativeLayout_faq);
+        mRlSupport = rootView.findViewById(R.id.relativeLayout_support);
+        mRlLogout = rootView.findViewById(R.id.relativeLayout_logout);
+        mRlCloseAccount = rootView.findViewById(R.id.relativeLayout_close_account);
+        mTvVersion = rootView.findViewById(R.id.textView_version);
         /*Support Screen*/
         mRlSupport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -380,7 +380,7 @@ public class MenuFragment extends BaseFragment {
             //write into shared pref
             if (myBitmap != null) {
                 String profileImg = BitMapToString(myBitmap);
-                Log.e(TAG, "BitMapToString :\n" + profileImg.toString());
+                Log.e(TAG, "BitMapToString :\n" + profileImg);
                 //TODO check is required
                 SharedPreferences.Editor
                         editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
@@ -392,8 +392,7 @@ public class MenuFragment extends BaseFragment {
     }
 
     public String BitMapToString(Bitmap bitmap) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] b = baos.toByteArray();
             String temp = Base64.encodeToString(b, Base64.DEFAULT);
@@ -550,22 +549,29 @@ public class MenuFragment extends BaseFragment {
     private void profileDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_image_preview, null);
         dialogLayout.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
-        dialogLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.image_placeholder));
         dialog.setView(dialogLayout);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ImageView image = (ImageView) dialogLayout.findViewById(R.id.goProDialogImage);
-        image.setVisibility(View.INVISIBLE);
+        CircleImageView image = dialogLayout.findViewById(R.id.goProDialogImage);
+        ImageView imageViewClose = dialogLayout.findViewById(R.id.image_close);
         //check abd set profile image
         profileImgBase64 = App.getSharedPrefsComponent().getSharedPrefs().getString("PROFILE", null);
         Bitmap icon = StringToBitMap(profileImgBase64);
         if (profileImgBase64 != null) {
             //convert base64 to bitmap and set profile image
             Drawable drawable = new BitmapDrawable(icon);
-            dialogLayout.setBackground(drawable);
+           // dialogLayout.setBackground(drawable);
+            image.setImageBitmap(icon);
         }
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
@@ -644,10 +650,10 @@ public class MenuFragment extends BaseFragment {
                     JSONObject TestJson = new JSONObject(authResponseStr);
 
                     Log.e(TAG, "authResponse :: " + TestJson.toString());
-                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body"));
 
-                    String strData = TestJson.getString("body").toString();
-                    Log.e(TAG, "strData :: " + strData.toString());
+                    String strData = TestJson.getString("body");
+                    Log.e(TAG, "strData :: " + strData);
 
                     JSONObject respData = new JSONObject(strData);
                     /*{"message":"Mobile OTP Confirm","status":"true"}*/
@@ -765,10 +771,10 @@ public class MenuFragment extends BaseFragment {
                     JSONObject TestJson = new JSONObject(authResponseStr);
 
                     Log.e(TAG, "authResponse :: " + TestJson.toString());
-                    Log.e(TAG, "authResponse :: " + TestJson.getString("body").toString());
+                    Log.e(TAG, "authResponse :: " + TestJson.getString("body"));
 
-                    String strData = TestJson.getString("body").toString();
-                    Log.e(TAG, "strData :: " + strData.toString());
+                    String strData = TestJson.getString("body");
+                    Log.e(TAG, "strData :: " + strData);
 
                     JSONObject respData = new JSONObject(strData);
                     /*{"message":"Mobile OTP Confirm","status":"true"}*/

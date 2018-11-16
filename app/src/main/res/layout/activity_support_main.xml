@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_screen_two"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
         android:layout_gravity="center_horizontal"
         android:titleTextColor="@color/color_white"
         android:visibility="visible"
@@ -40,12 +40,12 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView_call_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_call_black_24dp"/>
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/ic_call_black_24dp"/>
 
                 <View
                     android:id="@+id/view_line_call"
@@ -109,12 +109,12 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView_mail_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_email_yellow_24dp"/>
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/ic_email_yellow_24dp"/>
 
                 <View
                     android:id="@+id/view_line_mail"
@@ -178,12 +178,12 @@
 
                 <ImageView
                     android:id="@+id/imageView_chat_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:padding="10dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/chat_message_icon"/>
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/chat_message_icon"/>
 
                 <View
                     android:id="@+id/view_line_chat"

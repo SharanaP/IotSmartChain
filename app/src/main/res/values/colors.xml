@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
 
     <!--<color name="color.Primary">#0764c7</color>-->
     <!--<color name="color.PrimaryDark">#347ab8</color>-->
     <!--<color name="color.Accent">#65bddf</color>-->
     <!--<color name="navigation_bar_background">#347ab8</color>-->
 
-    <color name="color_Primary">#212121</color>
-    <color name="color_PrimaryDark">#181818</color>
+    <color name="color_Primary">#008577</color>
+    <color name="color_PrimaryDark">#00574B</color>
     <color name="color_Accent">#E3A506</color>
     //#ffd700
     <color name="navigation_bar_background">#2e2d2d</color>
@@ -19,13 +19,13 @@
     <!--<color name="color.actionBar">#2d86cf</color>-->
 
     <color name="color_background">#686868</color>
-    <color name="color_actionBar">#FF000000</color>
+    <color name="color_actionBar">#008577</color>
     <color name="color_background_light_grey">#f3f3f3</color>
     <color name="color_background_screen">#ccede2</color>
     <color name="color_text">#009687</color>
 
-    <color name="color_brand_primary">#28292C</color>
-    <color name="color_brand_primary_dark">#28292C</color>
+    <color name="color_brand_primary">#008577</color>
+    <color name="color_brand_primary_dark">#00574B</color>
     <color name="color_brand_secondary">#077d6a</color>
     <color name="color_brand_accent">#ff441a</color>
 

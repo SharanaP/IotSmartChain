@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_screen_two">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:titleTextColor="@color/color_white"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/expandableListView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@color/color_white" />
 
     <ExpandableListView
         android:id="@+id/expandableListView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:childDivider="@null"
         android:divider="@null"
         android:dividerHeight="2dp"
         android:groupIndicator="@color/color_silver"
-        android:layout_height="match_parent"></ExpandableListView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"></ExpandableListView>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -86,7 +86,7 @@ public class AllNotificationsFragment extends BaseFragment {
         registrationId = FirebaseInstanceId.getInstance().getToken();
 
         //Set title and sub title
-        getActivity().setTitle("iSmartLink");
+        getActivity().setTitle((getResources().getString(R.string.app_name)));
         android.support.v7.app.ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setSubtitle("Notifications");
     }

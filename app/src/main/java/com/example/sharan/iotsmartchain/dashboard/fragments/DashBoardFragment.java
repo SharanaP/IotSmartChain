@@ -42,7 +42,7 @@ public class DashBoardFragment extends BaseFragment {
         Log.d(TAG, "onCreate()");
 
         //Setup action bar title and sub title
-        getActivity().setTitle("iSmartLink");
+        getActivity().setTitle((getResources().getString(R.string.app_name)));
         android.support.v7.app.ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setSubtitle("DashBoard");
     }

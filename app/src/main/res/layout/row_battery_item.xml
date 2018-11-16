@@ -26,7 +26,7 @@
                 android:gravity="center|left"
                 android:maxLength="20"
                 android:text="Home/Office"
-                android:textColor="@color/color_silver"
+                android:textColor="@color/color_grey_medium"
                 android:textSize="15dp" />
 
             <View
@@ -38,7 +38,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_toEndOf="@+id/textView_label"
                 android:layout_toRightOf="@+id/textView_label"
-                android:background="@color/color_silver"
+                android:background="@color/color_grey_medium"
                 android:gravity="center" />
 
             <ImageView
@@ -60,7 +60,7 @@
                 android:layout_toRightOf="@+id/imageView_battery"
                 android:gravity="center"
                 android:text="89%"
-                android:textColor="@color/color_silver"
+                android:textColor="@color/color_grey_medium"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:typeface="monospace" />

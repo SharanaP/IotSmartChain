@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_screen_two">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--options-->
     <LinearLayout
@@ -19,7 +18,7 @@
             android:id="@+id/cardview_new"
             android:layout_width="match_parent"
             android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
+            app:cardBackgroundColor="@color/color_white"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
@@ -27,7 +26,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
+                android:background="@color/color_white">
 
                 <ImageView
                     android:id="@+id/imageview_new"
@@ -93,7 +92,7 @@
             android:id="@+id/cardview_import"
             android:layout_width="match_parent"
             android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
+            app:cardBackgroundColor="@color/color_white"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
@@ -101,7 +100,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
+                android:background="@color/color_white">
 
                 <ImageView
                     android:id="@+id/imageview_import"
@@ -165,7 +164,7 @@
             android:id="@+id/cardview_list"
             android:layout_width="match_parent"
             android:layout_height="100sp"
-            app:cardBackgroundColor="@color/color_yellow_light"
+            app:cardBackgroundColor="@color/color_white"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
@@ -173,7 +172,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_yellow_light">
+                android:background="@color/color_white">
 
                 <ImageView
                     android:id="@+id/imageview_list"

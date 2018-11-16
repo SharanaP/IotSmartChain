@@ -8,7 +8,7 @@
         android:id="@+id/relativeLayout_header"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/color_grey_dark">
+        android:background="@color/color_Primary">
 
         <TextView
             android:id="@+id/dialog_title"
@@ -18,7 +18,7 @@
             android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
             android:text="Create an Non-Spatial Plan"
-            android:textColor="@color/color_silver"
+            android:textColor="@color/color_white"
             android:textSize="18sp"
             android:textStyle="bold|italic" />
 

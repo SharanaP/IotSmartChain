@@ -12,15 +12,17 @@
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <corners android:radius="70dp"></corners>
-            <stroke android:width="1dp" android:color="@color/color_PrimaryDark"></stroke>
-            <solid android:color="#c0c0c0"></solid>
+            <stroke android:width="1dp" android:color="@color/color_cyan"></stroke>
+            <solid android:color="@color/color_cyan_medium"></solid>
         </shape>
     </item>
 
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="70dp" />
-            <gradient android:angle="-90" android:endColor="#c0c0c0" android:startColor="@color/color_PrimaryDark"></gradient>
+            <gradient android:angle="-90"
+                android:endColor="@color/color_cyan_medium"
+                android:startColor="@color/color_cyan"></gradient>
         </shape>
     </item>
 </selector>

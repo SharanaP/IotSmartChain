@@ -21,7 +21,7 @@
             android:text="temperature"
             android:padding="5dp"
             android:gravity="center"
-            android:textColor="@color/color_silver"/>
+            android:textColor="@color/color_grey_medium"/>
         <TextView
             android:id="@+id/textview_numofdooropen"
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:text="Num of door open "
             android:padding="5dp"
             android:gravity="center"
-            android:textColor="@color/color_silver"/>
+            android:textColor="@color/color_grey_medium"/>
         <TextView
             android:id="@+id/textview_humidity"
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:text="humidity"
             android:padding="5dp"
             android:gravity="center"
-            android:textColor="@color/color_silver"/>
+            android:textColor="@color/color_grey_medium"/>
         <TextView
             android:id="@+id/textview_details"
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:text="sample child view details"
             android:padding="5dp"
             android:gravity="center"
-            android:textColor="@color/color_silver"/>
+            android:textColor="@color/color_grey_medium"/>
     </LinearLayout>
 
     <TextView

@@ -4,13 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_screen_two">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
         android:layout_gravity="center_horizontal"
         android:titleTextColor="@color/color_white"
         android:visibility="visible"
@@ -20,7 +20,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -37,14 +38,15 @@
                 android:id="@+id/edittext_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/color_silver"
+                android:textColor="@color/color_grey_medium"
                 android:clickable="false"
                 android:hint="email"
                 android:singleLine="true"
                 android:paddingLeft="4dp"
+                android:drawableTint="@color/color_grey_medium"
                 android:background="@drawable/edittextstyle"
                 android:maxLength="100"
-                android:textColorHint="@color/color_silver"
+                android:textColorHint="@color/color_grey_medium"
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/ic_email_black_24dp"/>
 
@@ -59,9 +61,9 @@
                 android:maxLength="250"
                 android:inputType="textMultiLine"
                 android:textStyle="normal"
-                android:textColor="@color/color_silver"
+                android:textColor="@color/color_grey_medium"
                 android:hint="Write your comments..."
-                android:textColorHint="@color/color_silver"
+                android:textColorHint="@color/color_grey_medium"
                 android:focusable="true"
                 android:gravity="left|top"
                 android:background="@drawable/edittextstyle"/>
@@ -72,8 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Submit_query"
-                android:textColor="@color/color_silver"
+                android:textColor="@color/color_white"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/mysignin_button"
                 android:layout_gravity="center"/>
         </LinearLayout>

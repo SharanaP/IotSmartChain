@@ -1,93 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_screen_two"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_actionBar"
         android:layout_gravity="center_horizontal"
+        android:background="@color/color_actionBar"
         android:titleTextColor="@color/color_white"
+        android:visibility="visible"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color_white"
-        android:visibility="visible"/>
+        app:titleTextColor="@color/color_white" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Set Wi-Fi and BLE Gateway configuration "
         android:layout_gravity="center"
-        android:textSize="20dp"
+        android:gravity="center"
         android:padding="20dp"
-        android:textColor="@color/color_grey"
-        android:gravity="center"/>
+        android:text="Set Wi-Fi and BLE Gateway configuration "
+        android:textColor="@color/color_text"
+        android:textSize="20dp" />
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center"
-        android:gravity="left|center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/myanalytics_bg"
-        android:padding="20dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="3dp">
 
-        <Button
-            android:id="@+id/button_WIFI"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:textColor="@color/color_white"
-            android:background="@drawable/mysignin_button"
-            android:text="Wi-Fi" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="left|center"
+            android:padding="20dp">
 
-        <ImageView
-            android:id="@+id/image_wifi_check"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/button_WIFI"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/ic_check_green_24dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp" />
+            <Button
+                android:id="@+id/button_WIFI"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:background="@drawable/mysignin_button"
+                android:text="Wi-Fi"
+                android:textColor="@color/color_white" />
 
-        <Button
-            android:id="@+id/button_GSM"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/button_WIFI"
-            android:layout_marginTop="40dp"
-            android:textColor="@color/color_white"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/mysignin_button"
-            android:text="GSM" />
+            <ImageView
+                android:id="@+id/image_wifi_check"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/button_WIFI"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/ic_check_green_24dp" />
 
-        <ImageView
-            android:id="@+id/image_gsm_check"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/button_GSM"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/ic_check_green_24dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp" />
+            <Button
+                android:id="@+id/button_GSM"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/button_WIFI"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/mysignin_button"
+                android:text="GSM"
+                android:textColor="@color/color_white" />
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/image_gsm_check"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/button_GSM"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/ic_check_green_24dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 
     <TextView
         android:id="@+id/textView_status"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:textSize="13dp"
         android:padding="20dp"
+        android:text=""
         android:textColor="@color/color_grey_medium"
-        android:text=""/>
+        android:textSize="13dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,11 +106,11 @@
             android:id="@+id/button_next"
             android:layout_width="120dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/mysignin_button"
             android:text="Next"
             android:textColor="@color/color_white"
-            android:textSize="13dp"
-            android:background="@drawable/mysignin_button"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="13dp" />
     </LinearLayout>
 
 </LinearLayout>

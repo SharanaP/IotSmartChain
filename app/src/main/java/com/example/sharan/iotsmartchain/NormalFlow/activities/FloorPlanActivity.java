@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.R;
@@ -44,6 +45,8 @@ public class FloorPlanActivity extends BaseActivity implements EasyPermissions.P
     Button mBtnNext;
     @BindView(R.id.progressBar_webView)
     ProgressBar progressBar;
+    @BindView(R.id.scrollView_floorplan)
+    ScrollView scrollView;
     @BindView(R.id.cardview_new)
     CardView cardViewCreateNew;
     @BindView(R.id.cardview_import)
@@ -64,6 +67,13 @@ public class FloorPlanActivity extends BaseActivity implements EasyPermissions.P
         injectViews();
 
         setupToolbar();
+
+        scrollView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override

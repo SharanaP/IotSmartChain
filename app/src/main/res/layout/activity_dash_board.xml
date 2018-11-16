@@ -72,49 +72,59 @@
 
 <!--</android.support.constraint.ConstraintLayout>-->
 
-<RelativeLayout android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_screen_two"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/background_screen_two">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:titleTextColor="@color/color_white"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@color/color_white" />
 
     <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/navigation"
-        android:layout_below="@+id/toolbar">
+        android:id="@+id/coordinatorLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_white"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <FrameLayout
             android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"/>
+            android:animateLayoutChanges="true" />
 
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
         android:visibility="visible"
         app:elevation="4dp"
-        app:itemBackground="@color/color_Primary"
+        app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@color/tabs"
         app:itemTextColor="@color/tabs"
-        app:menu="@menu/navigation_dashboard">
-    </android.support.design.widget.BottomNavigationView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/coordinatorLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout2"
+        app:menu="@menu/navigation_dashboard"></android.support.design.widget.BottomNavigationView>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

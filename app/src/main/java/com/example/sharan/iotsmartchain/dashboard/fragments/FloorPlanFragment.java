@@ -61,7 +61,7 @@ public class FloorPlanFragment extends BaseFragment implements EasyPermissions.P
 
 
         //Setup action bar title and sub title
-        getActivity().setTitle("iSmartLink");
+        getActivity().setTitle((getResources().getString(R.string.app_name)));
         android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setSubtitle("FloorPlan");
 

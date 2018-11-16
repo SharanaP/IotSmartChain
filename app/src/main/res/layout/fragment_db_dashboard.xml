@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_screen_two"
     android:orientation="vertical">
 
     <LinearLayout
@@ -32,8 +32,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="3"
                     android:onClick="modulesInUseView"
+                    android:text="3"
                     android:textColor="@color/color_green"
                     android:textSize="20dp"
                     android:textStyle="bold"
@@ -47,7 +47,7 @@
                     android:text="Modules in use"
                     android:textColor="@color/color_green"
                     android:textSize="15dp"
-                    android:textStyle="normal"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
 
             </LinearLayout>
@@ -55,9 +55,9 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="15dp"
                 android:background="@color/color_grey_light" />
 
             <LinearLayout
@@ -74,8 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="4"
                     android:onClick="modulesNotInUse"
+                    android:text="4"
                     android:textColor="@color/color_red"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -116,15 +116,15 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/chart_areaspline" />
+                    app:srcCompat="@drawable/chart_areaspline" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Analytics"
-                    android:textColor="#7DDAC1"
+                    android:textColor="@color/color_text"
                     android:textSize="15dp"
-                    android:textStyle="normal"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
 
             </LinearLayout>
@@ -132,9 +132,9 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="15dp"
                 android:background="@color/color_grey_light" />
 
             <LinearLayout
@@ -150,13 +150,13 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_battery_full_black_24dp" />
+                    app:srcCompat="@drawable/ic_battery_full_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Battery"
-                    android:textColor="#7DDAC1"
+                    android:textColor="@color/color_text"
                     android:textSize="15dp"
                     android:textStyle="normal"
                     android:typeface="monospace" />
@@ -193,24 +193,24 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:onClick="masterLockView"
                     android:gravity="center_vertical"
+                    android:onClick="masterLockView"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_db_lock_color_24dp" />
+                        app:srcCompat="@drawable/ic_db_lock_color_24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Master Lock"
-                        android:textColor="#7DDAC1"
+                        android:textColor="@color/color_text"
                         android:textSize="15dp"
-                        android:textStyle="normal"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
 
                 </LinearLayout>
@@ -220,9 +220,9 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="1dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="15dp"
                 android:background="@color/color_grey_light" />
 
             <LinearLayout
@@ -255,16 +255,16 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/format_list_bulleted" />
+                        app:srcCompat="@drawable/format_list_bulleted" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="List of modules"
-                        android:textColor="#7DDAC1"
+                        android:textColor="@color/color_text"
                         android:textSize="15dp"
-                        android:textStyle="normal"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
 
                 </LinearLayout>

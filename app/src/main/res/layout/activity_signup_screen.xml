@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_splash_screen">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_splash_screen">
+        android:layout_height="match_parent">
 
         <!-- <LinearLayout
              android:id="@+id/linearLayout1"
@@ -84,7 +82,7 @@
                         android:id="@+id/image_icon"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:background="@drawable/app_icon" />
+                        android:background="@drawable/tito_logo_v1" />
 
                     <TextView
                         android:id="@+id/TextView_title"
@@ -92,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="iSmartLink"
+                        android:text="@string/app_name"
                         android:textColor="@color/color_yellow"
                         android:textSize="35sp"
                         android:typeface="serif" />
@@ -103,8 +101,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:textColorHint="@color/color_grey_medium"
                         android:theme="@style/Widget.Design.TextInputLayout">
 
                         <EditText
@@ -122,8 +120,9 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:drawableTint="@color/color_grey_medium"
+                            android:textColor="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -132,7 +131,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--Last name -->
                     <android.support.design.widget.TextInputLayout
@@ -140,8 +139,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:textColorHint="@color/color_grey_medium"
                         android:theme="@style/Widget.Design.TextInputLayout">
 
                         <EditText
@@ -151,6 +150,7 @@
                             android:background="@android:color/transparent"
                             android:backgroundTint="@color/color_white"
                             android:drawableLeft="@drawable/ic_person_black_24dp"
+                            android:drawableTint="@color/color_grey_medium"
                             android:gravity="center_vertical"
                             android:hint="Last Name"
                             android:imeActionId="@+id/lname"
@@ -159,8 +159,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:textColor="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -169,7 +169,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--Email-->
                     <android.support.design.widget.TextInputLayout
@@ -177,8 +177,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:textColorHint="@color/color_grey_medium"
                         android:theme="@style/Widget.Design.TextInputLayout">
 
                         <EditText
@@ -188,6 +188,7 @@
                             android:background="@android:color/transparent"
                             android:backgroundTint="@color/color_white"
                             android:drawableLeft="@drawable/ic_email_black_24dp"
+                            android:drawableTint="@color/color_grey_medium"
                             android:gravity="center_vertical"
                             android:hint="Email"
                             android:imeActionId="@+id/email"
@@ -196,9 +197,9 @@
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color_white"
-                            android:textColorHighlight="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:textColor="@color/color_grey_medium"
+                            android:textColorHighlight="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -207,7 +208,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--Mobile number-->
                     <android.support.design.widget.TextInputLayout
@@ -215,8 +216,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:backgroundTint="@color/color_silver"
-                        android:textColorHint="@color/color_silver"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:textColorHint="@color/color_grey_medium"
                         android:theme="@style/Widget.Design.TextInputLayout">
 
                         <EditText
@@ -226,6 +227,7 @@
                             android:background="@android:color/transparent"
                             android:backgroundTint="@color/color_white"
                             android:drawableLeft="@drawable/ic_contact_phone_black_24dp"
+                            android:drawableTint="@color/color_grey_medium"
                             android:gravity="center_vertical"
                             android:hint="Phone Number"
                             android:imeActionId="@+id/phonenumber"
@@ -235,8 +237,8 @@
                             android:maxLength="10"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:textColor="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:textSize="16sp"
                             tools:ignore="InvalidImeActionId" />
 
@@ -245,7 +247,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--Password-->
                     <RelativeLayout
@@ -258,8 +260,8 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:backgroundTint="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:theme="@style/Widget.Design.TextInputLayout">
 
                             <EditText
@@ -267,8 +269,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:backgroundTint="@color/color_silver"
+                                android:backgroundTint="@color/color_grey_medium"
                                 android:drawableLeft="@drawable/ic_lock_black_24dp"
+                                android:drawableTint="@color/color_grey_medium"
                                 android:fontFamily="sans-serif"
                                 android:gravity="center_vertical"
                                 android:hint="Password"
@@ -278,8 +281,8 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/color_silver"
-                                android:textColorHint="@color/color_silver"
+                                android:textColor="@color/color_grey_medium"
+                                android:textColorHint="@color/color_grey_medium"
                                 android:textSize="16sp"
                                 tools:ignore="InvalidImeActionId" />
 
@@ -293,7 +296,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
                             android:background="@android:color/transparent"
-                            android:tint="@color/color_silver"
+                            android:tint="@color/color_grey_medium"
                             app:srcCompat="@drawable/ic_visibility_24dp" />
 
                     </RelativeLayout>
@@ -301,7 +304,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--Re-enter password-->
                     <RelativeLayout
@@ -314,8 +317,8 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/color_silver"
-                            android:textColorHint="@color/color_silver"
+                            android:backgroundTint="@color/color_grey_medium"
+                            android:textColorHint="@color/color_grey_medium"
                             android:theme="@style/Widget.Design.TextInputLayout">
 
                             <EditText
@@ -323,7 +326,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:backgroundTint="@color/color_silver"
+                                android:backgroundTint="@color/color_grey_medium"
+                                android:drawableTint="@color/color_grey_medium"
                                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                                 android:fontFamily="sans-serif"
                                 android:gravity="center_vertical"
@@ -334,8 +338,8 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/color_silver"
-                                android:textColorHint="@color/color_silver"
+                                android:textColor="@color/color_grey_medium"
+                                android:textColorHint="@color/color_grey_medium"
                                 android:textSize="16sp"
                                 tools:ignore="InvalidImeActionId" />
 
@@ -349,7 +353,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
                             android:background="@android:color/transparent"
-                            android:tint="@color/color_silver"
+                            android:tint="@color/color_grey_medium"
                             app:srcCompat="@drawable/ic_visibility_24dp" />
 
                     </RelativeLayout>
@@ -357,7 +361,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/color_silver" />
+                        android:background="@color/color_grey_medium" />
 
                     <!--check -->
                     <RelativeLayout
@@ -372,7 +376,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/color_random_green"
-                            android:textColor="@color/color_silver"
+                            android:textColor="@color/color_grey_medium"
                             android:textStyle="normal"
                             android:theme="@style/checkBoxColorStyle" />
 
@@ -395,7 +399,7 @@
                         android:layout_height="45dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginBottom="3dp"
                         android:gravity="center">
 
                         <Button
@@ -407,7 +411,7 @@
                             android:fontFamily="sans-serif"
                             android:gravity="center"
                             android:text="Register"
-                            android:textColor="@color/color_yellow"
+                            android:textColor="@color/color_white"
                             android:textSize="20sp"
                             android:textStyle="normal"
                             android:typeface="monospace" />

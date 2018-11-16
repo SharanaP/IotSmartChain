@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:backgroundTint="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/goProDialogImage"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/profile_upload_white"/>
+        android:backgroundTint="@android:color/transparent"
+        android:background="@android:color/transparent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/goProDialogImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/image_placeholder" />
+
+        <ImageView
+            android:id="@+id/image_close"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

@@ -16,7 +16,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/myanalytics_bg"
             android:orientation="horizontal">
 
             <ImageView
@@ -41,7 +40,7 @@
                     android:layout_marginLeft="5dp"
                     android:gravity="center"
                     android:text="end/gateway device"
-                    android:textColor="@color/color_silver"
+                    android:textColor="@color/color_text"
                     android:textSize="14sp"
                     android:textStyle="bold|italic"
                     android:typeface="normal" />
@@ -52,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Iot Device "
-                    android:textColor="@color/color_silver"
+                    android:textColor="@color/color_grey_dark"
                     android:textSize="13dp"
                     android:textStyle="bold"
                     android:typeface="normal" />
@@ -63,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Status"
-                    android:textColor="@color/color_silver"
+                    android:textColor="@color/color_grey_medium"
                     android:textSize="12dp"
                     android:typeface="normal" />
 

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_gravity="center_horizontal"
-            android:background="@color/color_PrimaryDark"
+            android:background="@color/colorPrimary"
             android:titleTextColor="@color/color_white"
             android:visibility="visible"
             app:theme="@style/ToolbarColoredBackArrow"
@@ -28,7 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/color_Primary">
+            android:background="@color/color_PrimaryDark">
 
             <TextView
                 android:id="@+id/textview_wifi_on_off"

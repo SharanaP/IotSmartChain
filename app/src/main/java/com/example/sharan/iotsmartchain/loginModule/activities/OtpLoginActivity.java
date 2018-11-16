@@ -237,7 +237,7 @@ public class OtpLoginActivity extends BaseActivity {
         Intent homeIntent = new Intent(OtpLoginActivity.this, DashBoardActivity.class);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(homeIntent);
-        this.finish();
+        OtpLoginActivity.this.finish();
     }
 
     private void RegisterIoTScreen() {
@@ -485,10 +485,10 @@ public class OtpLoginActivity extends BaseActivity {
                             mCoordinatorLayout, getString(R.string.error_otp_not_match),
                             ALERTCONSTANT.ERROR);
                 } else {
-                    mEditTextMobile.setError(getString(R.string.error_invalid_phone_number));
+                    mEditTextMobile.setError(authResponse.getMessage());
                     mEditTextMobile.requestFocus();
                     Utils.SnackBarView(OtpLoginActivity.this,
-                            mCoordinatorLayout, getString(R.string.error_invalid_phone_number),
+                            mCoordinatorLayout, authResponse.getMessage(),
                             ALERTCONSTANT.WARNING);
                 }
                 Utils.SnackBarView(OtpLoginActivity.this,

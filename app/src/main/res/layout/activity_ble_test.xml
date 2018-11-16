@@ -9,8 +9,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout_ble_test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_splash_screen">
+        android:layout_height="match_parent">
 
         <!--Toolbar-->
         <android.support.v7.widget.Toolbar
@@ -101,7 +100,7 @@
                             android:maxLength="40"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/color_silver"
+                            android:textColor="@color/color_grey_medium"
                             android:textColorHighlight="@color/color_silver"
                             android:textColorHint="#C0C0C0"
                             android:textSize="16sp" />
@@ -167,7 +166,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="5dp"
                         android:text="Ble Data"
-                        android:textColor="@color/color_silver"
+                        android:textColor="@color/color_grey_medium"
                         android:textSize="13sp"
                         android:textStyle="normal|italic" />
 

@@ -86,9 +86,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="E:\Sharan projects\app_icon.png" />
-                                      <entry key="foregroundLayerName" value="ic_back_png" />
-                                      <entry key="outputName" value="ic_iot_icon" />
+                                      <entry key="foregroundImage" value="E:\Sharan projects\logo_2018_11_03\2018_11_03\tito_logo_v1.png" />
+                                      <entry key="foregroundLayerName" value="app_tito_icon" />
+                                      <entry key="outputName" value="app_tito_icon" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -97,32 +97,33 @@
                             <entry key="launcherLegacy">
                               <value>
                                 <PersistentState>
-                                  <option name="children">
-                                    <map>
-                                      <entry key="image">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="trimmed" value="true" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="E:\Sharan projects\app_icon.png" />
-                                      <entry key="outputName" value="ic_iot_icon" />
+                                      <entry key="imageAsset" value="E:\Sharan projects\logo_2018_11_03\2018_11_03\tito_logo_v1.png" />
+                                      <entry key="outputName" value="app_tito_icon" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                            <entry key="notification">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>
@@ -148,7 +149,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_filter_none_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -158,8 +159,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="17a2b8" />
-                            <entry key="outputName" value="ic_filter_none_purple_24dp" />
+                            <entry key="outputName" value="ic_close_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\Sharan" />
                           </map>

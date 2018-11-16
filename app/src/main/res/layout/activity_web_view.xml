@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_gravity="center_horizontal"
-            android:background="@color/color_PrimaryDark"
+            android:background="@color/color_Primary"
             android:titleTextColor="@color/color_white"
             android:visibility="visible"
             app:theme="@style/ToolbarColoredBackArrow"
