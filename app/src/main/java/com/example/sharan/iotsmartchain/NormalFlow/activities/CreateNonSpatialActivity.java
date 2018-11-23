@@ -110,8 +110,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
     private GetListOfRegDevicesAsync getListOfRegDevicesAsync = null;
 
     //dialog related
-    private Spinner spinnerIotAdd;
-    private EditText editTextIotAdd;
+    private Spinner spinnerIotSensorSN;
+    private EditText editTextIotSensorSN;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -300,8 +300,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
         builder = new AlertDialog.Builder(CreateNonSpatialActivity.this);
         LayoutInflater layoutInflater = CreateNonSpatialActivity.this.getLayoutInflater();
         View rootView = layoutInflater.inflate(R.layout.dialog_init_non_spatial_item, null);
-        spinnerIotAdd = (Spinner) rootView.findViewById(R.id.spinner_iot_add);
-        editTextIotAdd = (EditText) rootView.findViewById(R.id.edittext_iot_add);
+        spinnerIotSensorSN = (Spinner) rootView.findViewById(R.id.spinner_iot_add);
+        editTextIotSensorSN = (EditText) rootView.findViewById(R.id.edittext_iot_add);
         EditText editTextIotLabel = (EditText) rootView.findViewById(R.id.edittext_iot_label);
         EditText editTextIotDes = (EditText) rootView.findViewById(R.id.edittext_iot_des);
         RelativeLayout relativeLayoutLat = (RelativeLayout) rootView.findViewById(R.id.relativeLayout_lat);
@@ -318,16 +318,16 @@ public class CreateNonSpatialActivity extends BaseActivity {
         arrayAdapter = new ArrayAdapter(CreateNonSpatialActivity.this,
                 android.R.layout.simple_spinner_item, mList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerIotAdd.setAdapter(arrayAdapter);
+        spinnerIotSensorSN.setAdapter(arrayAdapter);
 
         if (!TextUtils.isEmpty(iotSerialNum) && !iotSerialNum.isEmpty()) {
-            editTextIotAdd.setText(iotSerialNum);
-            editTextIotAdd.setEnabled(false);
-            spinnerIotAdd.setVisibility(View.GONE);
+            editTextIotSensorSN.setText(iotSerialNum);
+            editTextIotSensorSN.setEnabled(false);
+            spinnerIotSensorSN.setVisibility(View.GONE);
         } else {
-            editTextIotAdd.setText(iotSerialNum);
-            editTextIotAdd.setEnabled(true);
-            spinnerIotAdd.setVisibility(View.VISIBLE);
+            editTextIotSensorSN.setText(iotSerialNum);
+            editTextIotSensorSN.setEnabled(true);
+            spinnerIotSensorSN.setVisibility(View.VISIBLE);
         }
 
         NonSpatialModel nonSpatialModel = new NonSpatialModel();
@@ -335,18 +335,18 @@ public class CreateNonSpatialActivity extends BaseActivity {
         longitude = locationManagerUtils.getLongitude();
         addresses = locationManagerUtils.getAddresses();
 
-        spinnerIotAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerIotSensorSN.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String strSerialNum = parent.getItemAtPosition(position).toString();
                 Log.e(TAG, "Dialog item selection : strIotSn " + strSerialNum);
-                editTextIotAdd.setText(strSerialNum);
+                editTextIotSensorSN.setText(strSerialNum);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 String strSerialNum = (String) parent.getSelectedItem();
-                editTextIotAdd.setText(strSerialNum);
+                editTextIotSensorSN.setText(strSerialNum);
             }
 
         });
@@ -376,15 +376,27 @@ public class CreateNonSpatialActivity extends BaseActivity {
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String deviceAdd = spinnerIotAdd.getSelectedItem().toString();
-                String label = editTextIotLabel.getText().toString();
-                String description = editTextIotDes.getText().toString();
-                deviceAdd = editTextIotAdd.getText().toString();
+                try {
+                    String deviceAdd = spinnerIotSensorSN.getSelectedItem().toString();
+                    String label = editTextIotLabel.getText().toString();
+                    String description = editTextIotDes.getText().toString();
+                    deviceAdd = editTextIotSensorSN.getText().toString();
 
-                Log.e(TAG, "deviceAdd iot serial num : " + deviceAdd);
-                nonSpatialModel.setIotDeviceSerialNum(deviceAdd);
-                nonSpatialModel.setLabel(label);
-                nonSpatialModel.setDescription(description);
+                    Log.e(TAG, "deviceAdd iot serial num : " + deviceAdd);
+                    if (deviceAdd != null)
+                        nonSpatialModel.setIotDeviceSerialNum(deviceAdd);
+                    else Log.e(TAG, " DEVICE ADD is NULL");
+
+                    if (label != null)
+                        nonSpatialModel.setLabel(label);
+                    else Log.e(TAG, " LABEL is NULL");
+                    if (description != null)
+                        nonSpatialModel.setDescription(description);
+                    else Log.e(TAG, " DESCRIPTION ADD is NULL");
+
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
 
                 //Create new Floor plan
                 int isNetwork = NetworkUtil.getConnectivityStatus(CreateNonSpatialActivity.this);
@@ -392,15 +404,15 @@ public class CreateNonSpatialActivity extends BaseActivity {
                     Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
                             getString(R.string.no_internet), ALERTCONSTANT.ERROR);
                 } else {
-                    Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
-                    createNonSpatialAsync = new CreateNonSpatialAsync(CreateNonSpatialActivity.this, nonSpatialModel);
-                    createNonSpatialAsync.execute((Void) null);
-                    Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
-                            "Done \n" + spinnerIotAdd.getSelectedItem().toString(), ALERTCONSTANT.SUCCESS);
-
+                    if (validateInputs(nonSpatialModel)) {
+                        Utils.showProgress(CreateNonSpatialActivity.this, mView, mProgressBar, true);
+                        createNonSpatialAsync = new CreateNonSpatialAsync(CreateNonSpatialActivity.this, nonSpatialModel);
+                        createNonSpatialAsync.execute((Void) null);
+                        Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                                "Done \n" + nonSpatialModel.getIotDeviceSerialNum(), ALERTCONSTANT.SUCCESS);
+                    }
                 }
 
-                //TODO IOT details and information send to server
                 //show result in list view
                 dialog.dismiss();
             }
@@ -418,6 +430,53 @@ public class CreateNonSpatialActivity extends BaseActivity {
 
         dialog = builder.create();
         dialog.show();
+    }
+
+    private boolean validateInputs(NonSpatialModel nonSpatialModel) {
+        boolean isStatus = false;
+        if (nonSpatialModel.getIotDeviceSerialNum() != null) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Iot Sensor number is NULL", ALERTCONSTANT.WARNING);
+        }
+        if (nonSpatialModel.getLabel() != null) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Label is NULL", ALERTCONSTANT.WARNING);
+        }
+        if (nonSpatialModel.getDescription() != null) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Description is NULL", ALERTCONSTANT.WARNING);
+        }
+        if (nonSpatialModel.getLongitude() != -1) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Longitude number is NULL", ALERTCONSTANT.WARNING);
+        }
+        if (nonSpatialModel.getLatitude() != -1) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Latitude number is NULL", ALERTCONSTANT.WARNING);
+        }
+        if (nonSpatialModel.getAddress() != null) {
+            isStatus = true;
+        } else {
+            isStatus = false;
+            Utils.SnackBarView(CreateNonSpatialActivity.this, mCoordinatorLayout,
+                    "Address number is NULL", ALERTCONSTANT.WARNING);
+        }
+        return isStatus;
     }
 
     //Write server API for IoT installation
@@ -467,6 +526,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 jsonObject.put("longitude", mLongitude);
                 jsonObject.put("address", mAddress);
                 jsonObject.put("deviceId", mDeviceId);
+                jsonObject.put("isInstalling", "true"); //installation time
                 jsonObject.put("isSpatial", "false");
                 jsonObject.put("isApp", "true");
             } catch (JSONException e) {

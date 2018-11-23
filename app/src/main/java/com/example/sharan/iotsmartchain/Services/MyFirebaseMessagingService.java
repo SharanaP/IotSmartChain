@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Switch;
 
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
@@ -70,23 +71,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 //This line for remove all '\' character
                 remoteData = remoteData.toString().replaceAll("\\\\", "");
 
-                Log.e(TAG, "Sh : "+remoteData);
+                Log.e(TAG, "Sh : " + remoteData);
 
                 /** TODO {default={ "imageurl":"",
-              "id":"12",
-              "body":"This is body",
-              "title":"SignUP Process Completed ",
-              "message":"The message contains a details infomation",
-              "timestamp": d.getTime(),
-              "isbackground":"true"
-          };}*/
+                 "id":"12",
+                 "body":"This is body",
+                 "title":"SignUP Process Completed ",
+                 "message":"The message contains a details infomation",
+                 "timestamp": d.getTime(),
+                 "isbackground":"true"
+                 };}*/
 
                 //Json object
                 JSONObject TestJson = new JSONObject(remoteData);
                 String strData = TestJson.getJSONObject("default").toString();
-                     //   .getJSONObject("GCM").getJSONObject("data").toString();
+                //   .getJSONObject("GCM").getJSONObject("data").toString();
 
-                Log.e(TAG, "SH : "+strData.toString());
+                Log.e(TAG, "SH : " + strData.toString());
                 JSONObject jsonObjectData = new JSONObject(strData);
 
 //                JSONObject json = new JSONObject(remoteMessage.getData());
@@ -116,8 +117,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
-
-
+        NotificationType notificationType = null;
         try {
             //TODO JSONObject data = json.getJSONObject(json.toString());
             String _id = json.getString("id");
@@ -127,7 +127,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             boolean isBackground = json.getBoolean("isbackground");
             String imageUrl = json.getString("imageurl");
             String timestamp = json.getString("timestamp");
-          //  String unReadCount = json.getString("countValue");
+            int notifyType = json.getInt("notificationType");
+            //  String unReadCount = json.getString("countValue");
             //JSONObject payload = data.getJSONObject("payload");
 
             Log.e(TAG, "id : " + _id);
@@ -138,7 +139,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // Log.e(TAG, "payload: " + payload.toString());
             Log.e(TAG, "imageUrl : " + imageUrl);
             Log.e(TAG, "timestamp : " + timestamp);
-          //  Log.e(TAG, "Unread Count Value : "+unReadCount);
+            Log.e(TAG, "notifyType "+notifyType);
+
+            //  Log.e(TAG, "Unread Count Value : "+unReadCount);
 
 
             /*// app is in background, show the notification in notification tray
@@ -165,25 +168,71 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
 //                notificationUtils.playNotificationSound();
 //            } else {
-                // app is in background, show the notification in notification tray
-                Log.e(TAG, "App is in background");
-                Intent resultIntent = new Intent(getApplicationContext(), DashBoardActivity.class);
-                resultIntent.putExtra("message", message);
-
-                // check for image attachment
-                if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
-                    Log.d(TAG, " imageUrl is null");
-                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
-                } else {
-                    Log.d(TAG, " imageUrl is not null");
-                    // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
-//                }
+            // app is in background, show the notification in notification tray
+            switch (notifyType){
+                case 0:
+                    notificationType = NotificationType.NONE;
+                    break;
+                case 1:
+                    notificationType = NotificationType.LOW;
+                    break;
+                case 2:
+                    notificationType = NotificationType.MEDIUM;
+                    break;
+                case 3:
+                    notificationType = NotificationType.HIGH;
+                    break;
             }
+
+            /*Processing the notification */
+            processNotification(notificationType, message, title, timestamp, imageUrl);
+
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
+        }
+    }
+
+    private void processNotification(NotificationType notifyType, String message,
+                                     String title, String timestamp,
+                                     String imageUrl){
+        Intent resultIntent = new Intent(getApplicationContext(), DashBoardActivity.class);
+        resultIntent.putExtra("message", message);
+
+        switch(notifyType){
+            case LOW:
+                if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp, new Intent());
+                } else {
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message,
+                            timestamp, new Intent(), imageUrl);
+                }
+                break;
+            case MEDIUM:
+                /*On click based on notification go to DASHBOARD or notification screen */
+                if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp,
+                            resultIntent);
+                } else {
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message,
+                            timestamp, resultIntent, imageUrl);
+                }
+                break;
+            case HIGH:
+                /*Alert type of notifications after read notification it should be dismiss*/
+                if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp,
+                            resultIntent);
+                } else {
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message,
+                            timestamp, resultIntent, imageUrl);
+                }
+                break;
+            case NONE:
+                /*Normally goto dashboard screen */
+
+                break;
         }
     }
 

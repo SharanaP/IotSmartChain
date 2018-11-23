@@ -33,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * Created by Sharan on 18/06/18.
  */
@@ -45,171 +44,6 @@ public class NotificationUtils {
 
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
-        Log.e(TAG, "showNotificationMessage : image url is null");
-        showNotificationMessage(title, message, timeStamp, intent, null);
-    }
-
-    public void showNotificationMessage(final String title, final String message,
-                                        final String timeStamp, Intent intent, String imageUrl) {
-        Log.e(TAG, "showNotificationMessage : image url is not null");
-
-        // Check for empty push message
-        if (TextUtils.isEmpty(message))
-            return;
-
-        // notification icon
-        final int icon = R.mipmap.ic_launcher;
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        final PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        mContext,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT
-                );
-
-
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                mContext);
-
-        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                + "://" + mContext.getPackageName() + "/raw/appointed"); //TODO for Sound notification
-
-        if (!TextUtils.isEmpty(imageUrl)) {
-
-            if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
-
-                Bitmap bitmap = getBitmapFromURL(imageUrl);
-
-                if (bitmap != null) {
-                    Log.e(TAG, "before  showBigNotification ");
-                    showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-                } else {
-                    Log.e(TAG, "before showSmallNotification ");
-                    showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-                }
-            }
-        } else {
-            Log.e(TAG, "before showSmallNotification ");
-            showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-            playNotificationSound();
-        }
-    }
-
-
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title,
-                                       String message, String timeStamp,
-                                       PendingIntent resultPendingIntent, Uri alarmSound) {
-
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-
-        inboxStyle.addLine(message);
-        //TODO add channel ID
-        // Sets an ID for the notification, so it can be updated.
-        int notifyID = 1;
-        String CHANNEL_ID = "my_channel_01";// The id of the channel.
-        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel mChannel = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-        }
-
-
-        Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
-                .setAutoCancel(true)
-                .setContentTitle(title)
-                .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound)
-                .setStyle(inboxStyle)
-               // .setWhen(getTimeMilliSec(timeStamp))
-                .setWhen(Long.parseLong(timeStamp))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
-                .setContentText(message)
-                .setChannelId(CHANNEL_ID)
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannel(mChannel);
-        }
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
-    }
-
-    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
-
-        //TODO add channel ID
-        // Sets an ID for the notification, so it can be updated.
-        int notifyID = 1;
-        String CHANNEL_ID = "my_channel_01";// The id of the channel.
-        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel mChannel = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-        }
-
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-        bigPictureStyle.setBigContentTitle(title);
-        bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
-        bigPictureStyle.bigPicture(bitmap);
-        Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
-                .setAutoCancel(true)
-                .setContentTitle(title)
-                .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound)
-                .setStyle(bigPictureStyle)
-               // .setWhen(getTimeMilliSec(timeStamp))
-                .setWhen(Long.parseLong(timeStamp))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
-                .setContentText(message)
-                .setChannelId(CHANNEL_ID)
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannel(mChannel);
-        }
-        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
-    }
-
-    /**
-     * Downloading push notification image before displaying it in
-     * the notification tray
-     */
-    public Bitmap getBitmapFromURL(String strURL) {
-        try {
-            URL url = new URL(strURL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // Playing notification sound
-    public void playNotificationSound() {
-        try {
-            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                    + "://" + mContext.getPackageName() + "/raw/appointed");
-            Ringtone r = RingtoneManager.getRingtone(mContext, alarmSound);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -255,5 +89,172 @@ public class NotificationUtils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
+        Log.e(TAG, "showNotificationMessage : image url is null");
+        showNotificationMessage(title, message, timeStamp, intent, null);
+    }
+
+    public void showNotificationMessage(final String title, final String message,
+                                        final String timeStamp, Intent intent, String imageUrl) {
+        Log.e(TAG, "showNotificationMessage : image url is not null");
+
+        // Check for empty push message
+        if (TextUtils.isEmpty(message))
+            return;
+
+        // notification icon
+        final int icon = R.mipmap.ic_back_png;
+        PendingIntent resultPendingIntent = null;
+        if (intent != null) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            resultPendingIntent =
+                    PendingIntent.getActivity(
+                            mContext,
+                            0,
+                            intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT
+                    );
+        }
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                mContext);
+
+        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                + "://" + mContext.getPackageName() + "/raw/appointed"); //TODO for Sound notification
+
+        if (!TextUtils.isEmpty(imageUrl)) {
+
+            if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
+
+                Bitmap bitmap = getBitmapFromURL(imageUrl);
+
+                if (bitmap != null) {
+                    Log.e(TAG, "before  showBigNotification ");
+                    showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+                } else {
+                    Log.e(TAG, "before showSmallNotification ");
+                    showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+                }
+            }
+        } else {
+            Log.e(TAG, "before showSmallNotification ");
+            showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+            playNotificationSound();
+        }
+    }
+
+    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title,
+                                       String message, String timeStamp,
+                                       PendingIntent resultPendingIntent, Uri alarmSound) {
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        inboxStyle.addLine(message);
+        //TODO add channel ID
+        // Sets an ID for the notification, so it can be updated.
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
+
+        Notification notification;
+        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentIntent(resultPendingIntent)
+                .setSound(alarmSound)
+                .setStyle(inboxStyle)
+                // .setWhen(getTimeMilliSec(timeStamp))
+                .setWhen(Long.parseLong(timeStamp))
+                .setSmallIcon(R.mipmap.ic_back_png)
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
+                .setContentText(message)
+                .setChannelId(CHANNEL_ID)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+    }
+
+    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder,
+                                     int icon, String title, String message, String timeStamp,
+                                     PendingIntent resultPendingIntent, Uri alarmSound) {
+
+        //TODO add channel ID
+        // Sets an ID for the notification, so it can be updated.
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = mContext.getResources().getString(R.string.app_name); //.getString("channel_name");// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        bigPictureStyle.setBigContentTitle(title);
+        bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
+        bigPictureStyle.bigPicture(bitmap);
+        Notification notification;
+        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentIntent(resultPendingIntent)
+                .setSound(alarmSound)
+                .setStyle(bigPictureStyle)
+                // .setWhen(getTimeMilliSec(timeStamp))
+                .setWhen(Long.parseLong(timeStamp))
+                .setSmallIcon(R.mipmap.ic_back_png)
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
+                .setContentText(message)
+                .setChannelId(CHANNEL_ID)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
+    }
+
+    /**
+     * Downloading push notification image before displaying it in
+     * the notification tray
+     */
+    public Bitmap getBitmapFromURL(String strURL) {
+        try {
+            URL url = new URL(strURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Playing notification sound
+    public void playNotificationSound() {
+        try {
+            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + mContext.getPackageName() + "/raw/appointed");
+            Ringtone r = RingtoneManager.getRingtone(mContext, alarmSound);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

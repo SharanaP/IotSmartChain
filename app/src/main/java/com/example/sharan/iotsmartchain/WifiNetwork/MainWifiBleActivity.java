@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -39,6 +41,7 @@ import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +70,27 @@ public class MainWifiBleActivity extends BaseActivity {
 
     private LocationManager locationManager;
     private boolean GpsStatus = false;
+    private  WifiReceiver receiverWifi;
+    private StringBuilder sb = null;
 
+    class WifiReceiver extends BroadcastReceiver
+    {
+        public void onReceive(Context c, Intent intent)
+        {
+
+            ArrayList<String> connections=new ArrayList<String>();
+            ArrayList<Float> Signal_Strenth= new ArrayList<Float>();
+
+            sb = new StringBuilder();
+            List<ScanResult> wifiList;
+            wifiList = wifiManager.getScanResults();
+            for(int i = 0; i < wifiList.size(); i++)
+            {
+                connections.add(wifiList.get(i).SSID);
+            }
+            Log.d(TAG, "connections : "+connections.toString());
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -276,7 +299,6 @@ public class MainWifiBleActivity extends BaseActivity {
                 perms.put(Manifest.permission.BLUETOOTH, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.BLUETOOTH_ADMIN, PackageManager.PERMISSION_GRANTED);
 
-
                 // Fill with results
                 for (int i = 0; i < permissions.length; i++)
                     perms.put(permissions[i], grantResults[i]);
@@ -329,6 +351,8 @@ public class MainWifiBleActivity extends BaseActivity {
                 != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.CHANGE_WIFI_STATE)
                 != PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
                 != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN)
@@ -347,8 +371,10 @@ public class MainWifiBleActivity extends BaseActivity {
                     123);
 
 
-        } else
+        } else {
             Log.d(TAG, "Permissions already granted");
+
+        }
     }
 
     @Override

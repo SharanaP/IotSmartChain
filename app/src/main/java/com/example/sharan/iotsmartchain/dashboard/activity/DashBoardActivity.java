@@ -9,16 +9,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,18 +25,15 @@ import android.widget.Toast;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
 import com.example.sharan.iotsmartchain.R;
-import com.example.sharan.iotsmartchain.dashboard.adapter.NotificationGridAdapter;
 import com.example.sharan.iotsmartchain.dashboard.fragments.AllNotificationsFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.DashBoardFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.FloorPlanFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.HomeFragment;
 import com.example.sharan.iotsmartchain.dashboard.fragments.MenuFragment;
-import com.example.sharan.iotsmartchain.dashboard.fragments.NotificationsFragment;
+import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
-import com.example.sharan.iotsmartchain.model.RegisterIoTInfo;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -95,7 +89,7 @@ public class DashBoardActivity extends BaseActivity {
 
                     break;
                 case R.id.navigation_notifications:
-                  //  selectedFragment = NotificationsFragment.newInstance();
+                    //  selectedFragment = NotificationsFragment.newInstance();
                     selectedFragment = AllNotificationsFragment.newInstance();
                     break;
                 case R.id.navigation_menu:
@@ -129,38 +123,31 @@ public class DashBoardActivity extends BaseActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                Log.d(TAG, ""+intent.getAction().toString());
+                Log.d(TAG, "" + intent.getAction().toString());
                 // checking for type intent filter
                 if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
 
                     String message = intent.getStringExtra("message");
-                    Log.d(TAG, ""+message);
+                    Log.d(TAG, "" + message);
 
                     Toast.makeText(getApplicationContext(), "Push notification: " + message,
                             Toast.LENGTH_LONG).show();
                 }
             }
         };
-
         //TODO FirebaseMessaging.getInstance().subscribeToTopic("NEWS");
-
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         bottomNavigationView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
-        //TODO based cunt value show badge should be visible or invisible
-        setBadge(false , "");
-
-        //TODO
-//        token = "c9013c9f-f189-4c2d-93eb-fe7d9c57fef4";
-//        loginId = "sharan@gmail.com";
-//        registrationId = "cdNDSWda5z0:APA91bE7U3u4eOTjqi8LdLDqRDsCLWgXXh-3Y7H3zLSUcbvO6M1Sz2E0yA_l1LLHASMC32vafGbLeP6ra4VgUJKuE281XSjGnncBaYjUsdalmn5OHRQT5oo47x1RH9XZWeHiA90N1gl0gma4xusNCSpQ2EjpDiCHFw";
+        //based cunt value show badge should be visible or invisible
+        setBadge(false, "");
 
         //Get a notification count value
         getNotificationCountAsync = new GetNotificationCountAsync(DashBoardActivity.this,
                 loginId, token, registrationId);
-        getNotificationCountAsync.execute((Void)null);
+        getNotificationCountAsync.execute((Void) null);
 
         // Manually Start default Fragment screen
         Fragment selectedFragment = HomeFragment.newInstance();
@@ -169,7 +156,7 @@ public class DashBoardActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
-    private void setBadge(boolean isVisible, String unReadCount){
+    private void setBadge(boolean isVisible, String unReadCount) {
         //Display a notification badge
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
@@ -177,13 +164,13 @@ public class DashBoardActivity extends BaseActivity {
         BottomNavigationItemView itemView = (BottomNavigationItemView) v;
         View badge = LayoutInflater.from(this)
                 .inflate(R.layout.notification_badge, bottomNavigationMenuView, false);
-        TextView tv = (TextView)badge.findViewById(R.id.notifications_badge);
+        TextView tv = (TextView) badge.findViewById(R.id.notifications_badge);
 
-        if(isVisible){
+        if (isVisible) {
             tv.setText(unReadCount);
             itemView.addView(badge);
             badge.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             badge.setVisibility(View.INVISIBLE);
         }
     }
@@ -230,71 +217,97 @@ public class DashBoardActivity extends BaseActivity {
     }
 
     //Get unread Notification count value
-    public class GetNotificationCountAsync extends AsyncTask<Void, Void, Boolean>{
+    public class GetNotificationCountAsync extends AsyncTask<Void, Void, Boolean> {
         private Context context;
         private String mEmail;
         private String mToken;
-        private String registrationId;
-        private String unReadCount = "";
+        private String deviceId;
+        private int unReadCount;
+        private String authResponseStr = null;
+        private String message = null;
+        private long timeStamp;
 
         public GetNotificationCountAsync(Context context, String mEmail, String mToken,
                                          String registrationId) {
             this.context = context;
             this.mEmail = mEmail;
             this.mToken = mToken;
-            this.registrationId = registrationId;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
+            mUrl = App.getAppComponent().getApiServiceUrl();
+            mEmail = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
+            mToken = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
 
             boolean retVal = false;
             try {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    deviceId = Utils.getDeviceId(context);
+
+                    jsonObject.put("email", mEmail);
+                    jsonObject.put("userId", token);
+                    jsonObject.put("deviceId", deviceId);
+                    jsonObject.put("isApp", "true");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 OkHttpClient client = new OkHttpClient();
-                RequestBody formBody = new FormEncodingBuilder()
-                        .add("email", mEmail)
-                        .add("tokenid", mToken)
-                        .add("mtoken", registrationId)
-                        .build();
+
+                MediaType JSON
+                        = MediaType.parse("application/json; charset=utf-8");
+
+                RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
                 Request request = new Request.Builder()
-                        .url(mUrl + "/notificationCountValue")
+                        .url(mUrl + "notification-count")
                         .post(formBody)
                         .build();
-                Response response = client.newCall(request).execute();
-                if (response.code() != 200) {
-                    retVal = false;
-                } else {
-                    retVal = true;
-                    String authResponseStr = response.body().string();
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(authResponseStr);
+                Log.d(TAG, "SH : URL " + mUrl + "notification-count");
+                Log.d(TAG, "SH : formBody  " + formBody.toString());
+                Log.d(TAG, "SH : request " + request.getClass().toString());
 
-                        String respStatus = (String)jsonObject.get("status");
-
-                        Log.d(TAG, "SH :: "+respStatus);
-                        //{"data":{"count":"0"},"status":"true"}
-                        if(respStatus.equalsIgnoreCase("true")){
-                            retVal = true;
-
-                            JSONObject dataJsonObj = jsonObject.getJSONObject("data");
-                            String count = dataJsonObj.getString("count");
-                            Log.d(TAG, "count :: "+unReadCount);
-                            if(count.equals("0")){
-                                unReadCount = "";
-                            }else{
-                                unReadCount = count;
-                            }
-                        }else{
-                            retVal = false;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                    Log.e(TAG, "" + response.toString());
+                    authResponseStr = response.body().string();
+                    Log.e(TAG, "authResponseStr :: " + authResponseStr);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                Log.e("ERROR: ", "Exception at Get a notification count value : " + e.getMessage());
-            } catch (NullPointerException e1){
+
+                //Json object
+                JSONObject TestJson = null;
+                try {
+                    TestJson = new JSONObject(authResponseStr);
+                    unReadCount = TestJson.getInt("totalNotify");
+                    message = TestJson.getString("message");
+                    timeStamp = TestJson.getLong("timestamp");
+                    if (unReadCount == 0) {
+                        unReadCount = 0;
+                        retVal = false;
+                    } else {
+                        retVal = true;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String strData = null;
+                try {
+                    strData = TestJson.getString("body").toString();
+                    JSONArray jsonArray = TestJson.getJSONArray("body");
+                    Log.e(TAG, "jsonArray :: " + jsonArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e(TAG, "strData :: " + strData.toString());
+
+            } catch (NullPointerException e1) {
                 Log.e("ERROR: ", "null pointer Exception at Notification count value : " + e1.getMessage());
             }
             return retVal;
@@ -304,11 +317,11 @@ public class DashBoardActivity extends BaseActivity {
         protected void onPostExecute(Boolean Success) {
             super.onPostExecute(Success);
             //Set value
-            if(Success){
-                if(!unReadCount.isEmpty())
-                setBadge(true , unReadCount);
-            }else{
-                setBadge(false , unReadCount);
+            if (Success) {
+                if (unReadCount != 0)
+                    setBadge(true, "" + unReadCount);
+            } else {
+                setBadge(false, "" + unReadCount);
             }
             getNotificationCountAsync = null;
         }

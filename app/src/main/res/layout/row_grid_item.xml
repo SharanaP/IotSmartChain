@@ -5,42 +5,27 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="3dp">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp">
-
-        <!--Unread count -->
-        <!-- <TextView
-             android:id="@+id/textview_grid_unread"
-             android:layout_width="25sp"
-             android:layout_height="25sp"
-             android:layout_alignTop="@id/cardView"
-             android:layout_alignParentRight="true"
-             android:layout_marginTop="-5dp"
-             android:layout_marginRight="1dp"
-             android:background="@drawable/badge_background"
-             android:gravity="center"
-             android:textColor="@color/color_white"
-             android:visibility="visible" />-->
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:gravity="center"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout_grid"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp">
                 <!--title-->
@@ -49,43 +34,72 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="2dp"
                     android:gravity="center"
+                    android:maxLength="30"
                     android:text="notification title"
                     android:textColor="@color/color_grey_dark"
                     android:textSize="16sp"
                     android:textStyle="italic|bold" />
                 <!--line-->
                 <View
+                    android:id="@+id/view_line"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_below="@id/textview_grid_title"
                     android:background="@color/color_yellow" />
+                <!--Description-->
+                <TextView
+                    android:id="@+id/textview_desp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_line"
+                    android:layout_marginTop="2dp"
+                    android:maxLength="100"
+                    android:text="Description"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
+                <!--Iot Sensor SN-->
+                <TextView
+                    android:id="@+id/textview_iot_sn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textview_last_time"
+                    android:layout_below="@+id/textview_desp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:maxLength="20"
+                    android:text="IoT Sensor SN"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="11sp"
+                    android:textStyle="normal|bold" />
+
                 <!--image view icon-->
                 <ImageView
                     android:id="@+id/imageview_grid_icon"
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="2dp"
                     android:background="@drawable/app_icon" />
                 <!--TimeStamp-->
                 <TextView
                     android:id="@+id/textview_last_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_toEndOf="@+id/imageview_grid_icon"
                     android:layout_toRightOf="@+id/imageview_grid_icon"
                     android:gravity="right"
                     android:text="dd/mm/yyyy hh:mm a"
-                    android:textColor="@color/color_grey_dark"
-                    android:textSize="12sp"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="11sp"
                     android:textStyle="italic" />
 
             </RelativeLayout>
@@ -98,14 +112,14 @@
     <!--Unread count-->
     <TextView
         android:id="@+id/textview_grid_unread"
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:layout_alignTop="@id/cardView"
+        android:layout_width="23sp"
+        android:layout_height="23sp"
+        android:layout_alignTop="@+id/cardView"
         android:layout_alignParentRight="true"
         android:layout_gravity="top|right"
         android:layout_marginTop="1dp"
-        android:layout_marginRight="1dp"
-        android:background="@drawable/badge_background"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/shape_drawable"
         android:gravity="center"
         android:textColor="@color/color_white"
         android:visibility="visible" />

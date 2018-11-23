@@ -41,7 +41,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/mysignin_button"
                 android:text="@string/connect"
-                android:textColor="@color/color_Accent"
+                android:textColor="@color/color_white"
                 android:textSize="14sp"
                 android:textStyle="normal|italic" />
 
@@ -119,7 +119,7 @@
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/mysignin_button"
                         android:text="@string/read"
-                        android:textColor="@color/color_Accent"
+                        android:textColor="@color/color_white"
                         android:textSize="14sp"
                         android:textStyle="normal|italic" />
 
@@ -133,7 +133,7 @@
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/mysignin_button"
                         android:text="@string/write"
-                        android:textColor="@color/color_Accent"
+                        android:textColor="@color/color_white"
                         android:textSize="14sp"
                         android:textStyle="normal|italic" />
 
@@ -278,7 +278,7 @@
                         android:layout_marginBottom="2dp"
                         android:background="@drawable/mysignin_button"
                         android:text="@string/test"
-                        android:textColor="@color/color_silver"
+                        android:textColor="@color/color_white"
                         android:textSize="13sp"
                         android:textStyle="italic|normal"
                         android:visibility="invisible" />
@@ -336,7 +336,7 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginBottom="2dp"
-                        android:background="@drawable/mysignup_button"
+                        android:background="@drawable/myanalytics_bg"
                         android:text="@string/conform"
                         android:textColor="@color/color_green"
                         android:textSize="12sp"
@@ -351,6 +351,42 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="2dp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/color_Accent" />
+
+                <!--Next screen : Dash Board-->
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_db"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:visibility="invisible">
+
+                    <Button
+                        android:id="@+id/button_done"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/mysignin_button"
+                        android:text="@string/done"
+                        android:textColor="@color/color_white"
+                        android:textSize="12sp"
+                        android:textStyle="italic|normal" />
 
                 </RelativeLayout>
 

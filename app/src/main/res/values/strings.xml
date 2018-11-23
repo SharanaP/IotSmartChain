@@ -195,7 +195,7 @@
     <string name="test">Test</string>
     <string name="final_test_conf">Finally Sensor Test conformation from user </string>
     <string name="final_test">Final Test</string>
-    <string name="conform">Yes Iot Sensor Test is Done </string>
+    <string name="conform"> Iot Sensor Test is Done </string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="say_yes">Say yes to click above test</string>

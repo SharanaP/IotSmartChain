@@ -99,9 +99,13 @@ public class NonSpatialDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //connect BLE and get status
-                IotViaBleConnectionManager iotViaBleConnectionManager = new IotViaBleConnectionManager(NonSpatialDetailActivity.this,
-                        nonSpatialModel.getService(), nonSpatialModel.getCharacteristic(), mCoordinatorLayout);
+                IotViaBleConnectionManager iotViaBleConnectionManager =
+                        new IotViaBleConnectionManager(NonSpatialDetailActivity.this,
+                        nonSpatialModel.getService(), nonSpatialModel.getCharacteristic(),
+                                nonSpatialModel.getIotDeviceSerialNum(),
+                        mCoordinatorLayout);
                 iotViaBleConnectionManager.StartBleScan();
+                NonSpatialDetailActivity.this.finish();
             }
         });
     }

@@ -27,15 +27,16 @@ public class ConnectionManager {
     public ConnectionManager(Context context) {
         this.context = context;
         this.activity = (Activity) context;
-
         //init wifi service
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        Log.d(TAG, "ConnectionManager : "+wifiManager.toString());
     }
 
     public void enableWifi() {
         if (wifiManager == null)
             wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         Log.e(TAG, "wifiManager.isWifiEnabled() : " + wifiManager.isWifiEnabled());
+
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
             Toast.makeText(context, "WIFI Turned On", Toast.LENGTH_SHORT).show();
@@ -80,7 +81,7 @@ public class ConnectionManager {
 
     public int requestWIFIConnection(String networkSSID, String networkPass) {
         try {
-            if(wifiManager == null)
+            if (wifiManager == null)
                 wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
             //Check ssid exists
@@ -146,8 +147,8 @@ public class ConnectionManager {
         wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
         int networkId = wifiManager.addNetwork(wc);
-        if(networkId != -1);
-        else{
+        if (networkId != -1) ;
+        else {
             Log.e(TAG, "Already wifi network connected");
             wifiManager.disconnect();
         }
@@ -203,8 +204,10 @@ public class ConnectionManager {
         List<ScanResult> scanList = new LinkedList<>();
         try {
             if (wifiManager == null)
-                wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                wifiManager = (WifiManager) this.context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             scanList = wifiManager.getScanResults();
+        } catch (SecurityException se){
+            se.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
             Toast.makeText(context, "Error Connecting WIFI " + ex, Toast.LENGTH_SHORT).show();

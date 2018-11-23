@@ -35,6 +35,7 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
     private Context context;
     private String service;
     private String characteristic;
+    private String iotSn;
     private Activity activity;
     private BluetoothAdapter bluetoothAdapter;
     private Handler handler;
@@ -63,7 +64,6 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
 //                            //TODO Show BLE TEST :: Ble Test activity
 //                            Intent intent = new Intent(context, SensorViaBleTestActivity.class);
 //                            context.startActivity(intent);
-//
 //                        }
 
                         if (device.getName().contains("MyESP32")) {
@@ -77,6 +77,7 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
                             Intent intent = new Intent(context, SensorViaBleTestActivity.class);
                             intent.putExtra("DEVICE_NAME", device.getName());
                             intent.putExtra("DEVICE_ADDRESS", device.getAddress());
+                            intent.putExtra("IotSN", iotSn);
                             context.startActivity(intent);
 
                         }
@@ -95,10 +96,12 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
     }
 
     //send all info
-    public IotViaBleConnectionManager(Context context, String service, String characteristic, CoordinatorLayout viewMessage) {
+    public IotViaBleConnectionManager(Context context, String service, String characteristic,
+                                      String iotSn, CoordinatorLayout viewMessage) {
         this.context = context;
         this.service = service;
         this.characteristic = characteristic;
+        this.iotSn = iotSn;
         this.mViewMessage = viewMessage;
         activity = (Activity) context;
     }

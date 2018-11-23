@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,12 +35,23 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.sharan.iotsmartchain.App;
+import com.example.sharan.iotsmartchain.NormalFlow.activities.CreateNonSpatialActivity;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.GyroscopeModel;
+import com.example.sharan.iotsmartchain.model.NonSpatialModel;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -105,6 +117,11 @@ public class SensorViaBleTestActivity extends BaseActivity {
     ImageView imageViewConform;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.relativeLayout_db)
+    RelativeLayout relativeLayoutDone;
+    @BindView(R.id.button_done)
+    Button buttonDone;
+
     /*Test cases for device sensor*/
     private TextView textViewTitle;
     private TextView dialogTextMessage;
@@ -120,6 +137,8 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private RelativeLayout relativeLayoutProgressBar;
     private ProgressBar progressBarInDialog;
     private TextView tvProgressBarValueDialog;
+    /*API for update sensor test status*/
+    private DeviceTestUpdateAsync deviceTestUpdateAsync = null;
 
     /*progress bar */
     private int progressStatus = 0;
@@ -144,6 +163,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private int numOfLatestGyroList = 20;
     private String mDeviceName;
     private String mDeviceAddress;
+    private String mIotSN;
     private BluetoothLeService mBluetoothLeService;
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -530,6 +550,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        mIotSN = intent.getStringExtra("IotSN");
         Log.e("DEVICE_INFO :: ", mDeviceName + " " + mDeviceAddress);
 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -635,9 +656,24 @@ public class SensorViaBleTestActivity extends BaseActivity {
         buttonConform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //TODO send to API
+                deviceTestUpdateAsync = new DeviceTestUpdateAsync(SensorViaBleTestActivity.this,
+                        true, mIotSN);
+                deviceTestUpdateAsync.execute((Void) null);
+
+                //TODO GOTO DAHSBOARD
+
+            }
+        });
+
+        buttonDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
                         "Conformation Local Sensor Test is Done", ALERTCONSTANT.SUCCESS);
-                Intent intentDashBroad = new Intent(SensorViaBleTestActivity.this, DashBoardActivity.class);
+                Intent intentDashBroad = new Intent(SensorViaBleTestActivity.this,
+                        DashBoardActivity.class);
                 startActivity(intentDashBroad);
             }
         });
@@ -890,6 +926,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 isConformButton();
+                relativeLayoutDone.setVisibility(View.VISIBLE);
                 //reset all test case
                 checkedTextViewOne.setChecked(false);
                 checkedTextViewTwo.setChecked(false);
@@ -902,6 +939,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 isConformButton();
+                relativeLayoutDone.setVisibility(View.VISIBLE);
                 checkedTextViewOne.setChecked(false);
                 checkedTextViewTwo.setChecked(false);
                 checkedTextViewThree.setChecked(false);
@@ -1198,6 +1236,153 @@ public class SensorViaBleTestActivity extends BaseActivity {
             dialogTextMessage.setText(R.string.rotate_r_move_sensor);
             dialogTextMessage.setTextColor(getResources().getColor(R.color.color_yellow));
             imageViewIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_warning_black_24dp));
+        }
+    }
+
+    /*Show Alert  message */
+    private void alertMessageDialog(){
+        new AlertDialog.Builder(SensorViaBleTestActivity.this)
+                .setIcon(R.drawable.tito_logo_v1)
+                .setTitle("Alert Message")
+                .setMessage("Do you want test another IoT Sensor device then click ok!")
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                SensorViaBleTestActivity.this.finish();
+                            }
+                        }
+                )
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                               dialog.dismiss();
+                            }
+                        }
+                )
+                .create().show();
+
+    }
+
+    /*API: Write a api to update IoT sensor test is done */
+    public class DeviceTestUpdateAsync extends AsyncTask<Void, Void, Boolean> {
+        private Context context;
+        private boolean retVal = false;
+        private String message;
+        private Long timeStamp;
+        private String mDeviceId;
+        private boolean isTested = false;
+        private String mUrl, mEmail;
+        private String token;
+        private String mIotDeviceSN;
+
+
+        public DeviceTestUpdateAsync(Context context, boolean isTested, String iotSn) {
+            this.context = context;
+            this.isTested = isTested;
+            this.mIotDeviceSN = iotSn;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            mDeviceId = Utils.getDeviceId(context);
+
+            mUrl = App.getAppComponent().getApiServiceUrl();
+            token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
+            mEmail = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
+
+            Log.e(TAG, "DeviceId :: " + mDeviceId);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", mEmail);
+                jsonObject.put("userId", token);
+                jsonObject.put("iotDeviceSN", mIotDeviceSN);
+                jsonObject.put("isInstalling", "false");
+                jsonObject.put("deviceId", mDeviceId);
+                jsonObject.put("isSpatial", "false");
+                jsonObject.put("isApp", "true");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+
+            Request request = new Request.Builder()
+                    .url(mUrl + "iot-device-installation")
+                    .post(formBody)
+                    .build();
+
+            Log.d(TAG, "SH : URL " + mUrl + "iot-device-installation");
+            Log.d(TAG, "SH : formBody  " + formBody.toString());
+            Log.d(TAG, "SH : request " + request.getClass().toString());
+
+
+            retVal = false;
+            try {
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "" + response.toString());
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+                    Log.e(TAG, "TestJson :: " + TestJson.toString());
+                    Log.e(TAG, "TestJson : body :: " + TestJson.getString("body").toString());
+
+                    String strData = TestJson.getString("body").toString();
+                    Log.e(TAG, "strData :: " + strData.toString());
+
+                    JSONObject respData = new JSONObject(strData);
+                    retVal = respData.getBoolean("status");
+                    message = respData.getString("message");
+                    timeStamp = respData.getLong("timestamp");
+
+                    Log.e(TAG, " SH : status : " + respData.getBoolean("status"));
+                    Log.e(TAG, " SH : message : " + respData.getString("message"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at RegistrationActivity: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at RegistrationActivity: " + e1.getMessage());
+            }
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            Utils.showProgress(SensorViaBleTestActivity.this, relativeLayoutProgressBar,
+                    progressBarInDialog, false);
+            alertMessageDialog();
+            if (isSuccess) {
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.SUCCESS);
+            } else {
+                Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
+                        message, ALERTCONSTANT.WARNING);
+            }
+            deviceTestUpdateAsync = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            deviceTestUpdateAsync = null;
+            Utils.showProgress(SensorViaBleTestActivity.this, relativeLayoutProgressBar,
+                    progressBarInDialog, false);
         }
     }
 }
