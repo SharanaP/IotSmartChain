@@ -6,20 +6,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
-import com.example.sharan.iotsmartchain.dashboard.activity.NotificationListActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.AllNotificationDetailsActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.IotDeviceNotificationActivity;
 import com.example.sharan.iotsmartchain.dashboard.adapter.NotificationGridAdapter;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.NetworkUtil;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 import com.example.sharan.iotsmartchain.model.NotificationCountModel;
@@ -44,12 +50,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AllNotificationsFragment extends BaseFragment {
     private static String TAG = AllNotificationsFragment.class.getSimpleName();
     private String mUrl, loginId, token, registrationId;
-
+    private CoordinatorLayout mCoordinatorLayout;
     private CircleImageView circleImageView;
     private TextView tvTitle;
     private TextView tvUnreadCunt;
     private GridView gridView;
     private RelativeLayout rlAllNotification;
+    private ProgressBar progressBar;
+    private View view;
     private List<NotificationCountModel> mList = new ArrayList<>();
     private NotificationGridAdapter mAdapter = null;
     private GetNotificationCountAsync getNotificationCountAsync = null;
@@ -80,7 +88,9 @@ public class AllNotificationsFragment extends BaseFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_dashboard_notification, container,
                 false);
-
+        mCoordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.coordinatorLayout);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressbar);
+        view = (View) rootView.findViewById(R.id.progressView);
         circleImageView = (CircleImageView) rootView.findViewById(R.id.imageView_icon);
         tvTitle = (TextView) rootView.findViewById(R.id.textView_all_notifications);
         tvUnreadCunt = (TextView) rootView.findViewById(R.id.textView_unreadBadge);
@@ -91,13 +101,19 @@ public class AllNotificationsFragment extends BaseFragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "SH : " + parent.getAdapter().getItem(position).toString());
-
                 // Get the selected item text
-                String selectedItem = parent.getItemAtPosition(position).toString();
+                NotificationCountModel selectedItem = (NotificationCountModel) parent.getAdapter().getItem(position);
+                Log.e(TAG, "gridView === " + selectedItem.getIotSensorSn());
+                String iotDeviceSn = selectedItem.getIotSensorSn().toString();
 
-                Log.d(TAG, " === " + selectedItem);
-
+                if (TextUtils.isEmpty(iotDeviceSn)) {
+                    Log.e(TAG, "iotDeviceSn is empty");
+                } else {
+                    Intent intent = new Intent(getActivity(), IotDeviceNotificationActivity.class);
+                    intent.putExtra("IOT_DEVICE_SN", iotDeviceSn);
+                    intent.putExtra("FLOW", "IOT_NOTIFY");
+                    startActivity(intent);
+                }
             }
         });
 
@@ -109,13 +125,22 @@ public class AllNotificationsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //show a list all unread notification
-                Intent allNotificationIntent = new Intent(getActivity(), NotificationListActivity.class);
+                Intent allNotificationIntent = new Intent(getActivity(), AllNotificationDetailsActivity.class);
+                allNotificationIntent.putExtra("FLOW", "ALL_NOTIFY");
                 startActivity(allNotificationIntent);
             }
         });
 
-        getNotificationCountAsync = new GetNotificationCountAsync(getActivity(), loginId, token, registrationId);
-        getNotificationCountAsync.execute((Void) null);
+
+        int isNetwork = NetworkUtil.getConnectivityStatus(getActivity());
+        if (isNetwork == 0) {
+            Utils.SnackBarView(getActivity(), mCoordinatorLayout,
+                    getString(R.string.no_internet), ALERTCONSTANT.ERROR);
+        } else {
+            Utils.showProgress(getActivity(), view, progressBar, true);
+            getNotificationCountAsync = new GetNotificationCountAsync(getActivity(), loginId, token, registrationId);
+            getNotificationCountAsync.execute((Void) null);
+        }
 
         return rootView;
     }
@@ -229,6 +254,7 @@ public class AllNotificationsFragment extends BaseFragment {
         protected void onPostExecute(Boolean Success) {
             super.onPostExecute(Success);
 
+            Utils.showProgress(getActivity(), view, progressBar, false);
             if (unReadCount == null || unReadCount.equalsIgnoreCase("0")) {
                 tvUnreadCunt.setVisibility(View.INVISIBLE);
             } else {
@@ -242,6 +268,12 @@ public class AllNotificationsFragment extends BaseFragment {
                 mAdapter.notifyDataSetChanged();
             }
             getNotificationCountAsync = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Utils.showProgress(getActivity(), view, progressBar, false);
         }
     }
 }

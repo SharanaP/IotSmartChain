@@ -1,32 +1,34 @@
 package com.example.sharan.iotsmartchain.dashboard.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.global.Utils;
-import com.example.sharan.iotsmartchain.model.NotificationModel;
+import com.example.sharan.iotsmartchain.model.NotificationDetailModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ListOfNotificationAdapter extends ArrayAdapter<NotificationModel> {
+import de.hdodenhof.circleimageview.CircleImageView;
 
+public class ListOfNotificationAdapter extends ArrayAdapter<NotificationDetailModel> {
+    private static String TAG = ListOfNotificationAdapter.class.getSimpleName();
     private Context mContext;
-    private List<NotificationModel> mNotificationsList;
-    private NotificationModel mNotificationModel = new NotificationModel();
+    private List<NotificationDetailModel> mNotificationsList;
+    private NotificationDetailModel mNotificationModel = new NotificationDetailModel();
     private ViewHolder viewHolder;
 
-    public ListOfNotificationAdapter(Context context, List<NotificationModel> mList) {
+    public ListOfNotificationAdapter(Context context, List<NotificationDetailModel> mList) {
         super(context, R.layout.row_notification_item);
         this.mContext = context;
         this.mNotificationsList = mList;
@@ -39,32 +41,28 @@ public class ListOfNotificationAdapter extends ArrayAdapter<NotificationModel> {
 
     @Nullable
     @Override
-    public NotificationModel getItem(int position) {
+    public NotificationDetailModel getItem(int position) {
         return mNotificationsList.get(position);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         LayoutInflater layoutInflater = null;
-
-        mNotificationModel = new NotificationModel();
-
+        mNotificationModel = new NotificationDetailModel();
         mNotificationModel = mNotificationsList.get(position);
         try {
-
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-
                 layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = layoutInflater.inflate(R.layout.row_notification_item, parent, false);
-
-                viewHolder.mTextViewTitle = (TextView) convertView.findViewById(R.id.textView_model_name);
-                viewHolder.mTextViewBody = (TextView) convertView.findViewById(R.id.textView_body);
-                viewHolder.mTextViewStatus = (TextView) convertView.findViewById(R.id.textView_status);
-                viewHolder.mTextViewTimeStamp = (TextView) convertView.findViewById(R.id.textView_timeStamp);
+                viewHolder.mCardView = (CardView) convertView.findViewById(R.id.cardView_notify);
+                viewHolder.mImageViewIcon = (ImageView) convertView.findViewById(R.id.icon_iot);
+                viewHolder.mTextViewLabel = (TextView) convertView.findViewById(R.id.textView_label);
+                viewHolder.mTextViewIotSn = (TextView) convertView.findViewById(R.id.textView_iot_sn);
                 viewHolder.mTextViewDetails = (TextView) convertView.findViewById(R.id.textView_details);
+                viewHolder.mTextViewTimeStamp = (TextView) convertView.findViewById(R.id.textView_timeStamp);
+                viewHolder.mImageViewNotifyType = (CircleImageView) convertView.findViewById(R.id.imageview_notify_type);
 
                 viewHolder.mTextViewDetails.setTag(viewHolder);
                 convertView.setTag(viewHolder);
@@ -76,25 +74,62 @@ public class ListOfNotificationAdapter extends ArrayAdapter<NotificationModel> {
             ex.printStackTrace();
         }
 
-        viewHolder.notificationModel = getItem(position);
-        Log.d("SHARAN ", "" + viewHolder.notificationModel.toString());
+        viewHolder.notificationDetailModel = getItem(position);
+        Log.d(TAG, "" + viewHolder.notificationDetailModel.toString());
 
-        if (viewHolder.notificationModel != null) {
-            if (viewHolder.notificationModel.getTitle() != null)
-                viewHolder.mTextViewTitle.setText("Name : " + viewHolder.notificationModel.getTitle().trim());
+        if (viewHolder.notificationDetailModel != null) {
+            if (viewHolder.notificationDetailModel.getLabel() != null)
+                viewHolder.mTextViewLabel.setText(viewHolder.notificationDetailModel.getLabel().trim());
 
-            if (viewHolder.notificationModel.getBody() != null)
-                viewHolder.mTextViewBody.setText("Type : " + viewHolder.notificationModel.getBody().trim());
+            if (viewHolder.notificationDetailModel.getGatewaySn() != null) {
+                if (viewHolder.notificationDetailModel.getIotDeviceSn() != null) {
+                    viewHolder.mTextViewIotSn.setText(viewHolder.notificationDetailModel.getGatewaySn().trim() + " / "
+                            + viewHolder.notificationDetailModel.getIotDeviceSn().trim());
+                    if (viewHolder.notificationDetailModel.isRead()) {
+                        viewHolder.mTextViewIotSn.setTextColor(mContext.getResources().getColor(R.color.color_grey_medium));
+                    } else {
+                        viewHolder.mTextViewIotSn.setTextColor(mContext.getResources().getColor(R.color.color_black_dark));
+                    }
+                }
 
-//            if (ViewHolder.notificationModel.isStatus())
-                viewHolder.mTextViewStatus.setText("Status : " + viewHolder.notificationModel.isStatus());
+            }
 
-            if (viewHolder.notificationModel.getTimeStamp() != null){
+            if (viewHolder.notificationDetailModel.getDetails() != null)
+                viewHolder.mTextViewDetails.setText(viewHolder.notificationDetailModel.getDetails());
 
-                Long timeStamp = Long.parseLong(viewHolder.notificationModel.getTimeStamp());
-                String dateFormat = Utils.convertTime(timeStamp);
+            if (viewHolder.notificationDetailModel.getTimeStamp() != -1) {
+                //   Long timeStamp = Long.parseLong(viewHolder.notificationDetailModel.getTimeStamp());
+                //  String dateFormat = Utils.convertTime(timeStamp);
+                viewHolder.mTextViewTimeStamp.setText(Utils.convertTime(viewHolder.notificationDetailModel.getTimeStamp()));
+                viewHolder.mTextViewTimeStamp.setTextColor(mContext.getResources().getColor(R.color.color_cyan));
+            }
 
-                viewHolder.mTextViewTimeStamp.setText(dateFormat);
+            if (viewHolder.notificationDetailModel.isRead()) {
+                viewHolder.mTextViewTimeStamp.setTextColor(mContext.getResources().getColor(R.color.color_grey_medium));
+                viewHolder.mTextViewLabel.setTypeface(null, Typeface.NORMAL);
+            } else {
+                viewHolder.mTextViewLabel.setTypeface(null, Typeface.BOLD);
+                viewHolder.mTextViewTimeStamp.setTextColor(mContext.getResources().getColor(R.color.color_cyan));
+            }
+
+            //notification priority
+            if (viewHolder.notificationDetailModel.getNotifyType() != -1) {
+                int notifyType = viewHolder.notificationDetailModel.getNotifyType();
+                Log.d(TAG, "notifyType : " + notifyType);
+                switch (notifyType) {
+                    case 0:
+                        viewHolder.mImageViewNotifyType.setImageDrawable(mContext.getResources().getDrawable(R.drawable.priority_normal));
+                        break;
+                    case 1:
+                        viewHolder.mImageViewNotifyType.setImageDrawable(mContext.getResources().getDrawable(R.drawable.priority_low));
+                        break;
+                    case 2:
+                        viewHolder.mImageViewNotifyType.setImageDrawable(mContext.getResources().getDrawable(R.drawable.priority_medium));
+                        break;
+                    case 3:
+                        viewHolder.mImageViewNotifyType.setImageDrawable(mContext.getResources().getDrawable(R.drawable.priority_high));
+                        break;
+                }
             }
         }
 
@@ -102,12 +137,14 @@ public class ListOfNotificationAdapter extends ArrayAdapter<NotificationModel> {
     }
 
     static class ViewHolder {
-        TextView mTextViewTitle;
-        TextView mTextViewBody;
+        CardView mCardView;
+        ImageView mImageViewIcon;
+        TextView mTextViewLabel;
+        TextView mTextViewIotSn;
         TextView mTextViewDetails;
         TextView mTextViewTimeStamp;
-        TextView mTextViewStatus;
-        NotificationModel notificationModel;
+        CircleImageView mImageViewNotifyType;
+        NotificationDetailModel notificationDetailModel;
     }
 
 }

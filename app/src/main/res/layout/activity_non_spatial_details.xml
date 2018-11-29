@@ -77,9 +77,9 @@
                                 android:fontFamily="sans-serif"
                                 android:gravity="center"
                                 android:text="Local Test"
-                                android:textColor="@color/color_yellow"
+                                android:textColor="@color/color_white"
                                 android:textSize="18sp"
-                                android:textStyle="normal"
+                                android:textStyle="normal|bold"
                                 android:typeface="monospace" />
 
                             <TextView

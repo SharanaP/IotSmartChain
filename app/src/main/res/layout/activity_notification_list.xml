@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/color_grey">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
-        android:layout_gravity="center_horizontal"
-        android:titleTextColor="@color/color_white"
-        android:visibility="visible"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/color_white" />
-
-    <ListView
-        android:id="@+id/listview_all_notification"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:divider="@null"
-        android:dividerHeight="0dp"></ListView>
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_no_notification"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="50dp">
-
-        <ImageView
-            android:id="@+id/imageView_noNotification"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_actionBar"
+            android:titleTextColor="@color/color_white"
+            android:visibility="visible"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="@color/color_white">
+        </android.support.v7.widget.Toolbar>
+
+        <!--progress bar and view -->
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:background="@drawable/no_notification" />
+            android:layout_marginBottom="8dp"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView_noNotification"
+        <RelativeLayout
+            android:id="@+id/relativeLayout_notify"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/listview_all_notification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_no_notification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="No Notifications"
-            android:textColor="@color/color_silver"
-            android:textSize="25sp"
-            android:textStyle="normal|italic"
-            android:typeface="monospace" />
+            android:orientation="vertical"
+            android:padding="50dp">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView_noNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/no_notification" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/textView_noNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="No Notifications"
+                android:textColor="@color/color_silver"
+                android:textSize="25sp"
+                android:textStyle="normal|italic"
+                android:typeface="monospace" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

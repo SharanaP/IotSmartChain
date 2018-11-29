@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_grey">
+        <!--Toolbar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_actionBar"
+            android:titleTextColor="@color/color_white"
+            android:visibility="visible"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="@color/color_white" />
+        <!--progress bar and view -->
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
+        <!--Relative layout-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--Notify detail info-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView_notify_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--label-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinputlayout_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/color_white"
+                    android:textColor="@color/color_black_dark"
+                    android:textColorHint="@color/color_black_dark">
+
+                    <EditText
+                        android:id="@+id/edittext_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:gravity="left"
+                        android:hint="Label"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/color_grey_medium"
+                        android:textColorHint="@color/color_grey_medium"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Gaateway Sn and iot device Sn-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinputlayout_iot_sn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_label"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/color_white"
+                    android:textColor="@color/color_black_dark"
+                    android:textColorHint="@color/color_black_dark">
+
+                    <EditText
+                        android:id="@+id/edittext_serial_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:gravity="left"
+                        android:hint="Gateway/IoT Serial Number"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/color_grey_medium"
+                        android:textColorHint="@color/color_black_dark"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Description-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinputlayout_desp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/color_white"
+                    android:textColor="@color/color_black_dark"
+                    android:textColorHint="@color/color_black_dark">
+
+                    <EditText
+                        android:id="@+id/edittext_desp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:gravity="left"
+                        android:hint="Description"
+                        android:inputType="text"
+                        android:singleLine="false"
+                        android:text=""
+                        android:textColor="@color/color_grey_medium"
+                        android:textColorHint="@color/color_black_dark"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Message-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinputlayout_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/color_white"
+                    android:textColor="@color/color_black_dark"
+                    android:textColorHint="@color/color_black_dark">
+
+                    <EditText
+                        android:id="@+id/edittext_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:backgroundTint="@color/color_grey_medium"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:gravity="left"
+                        android:hint="Message"
+                        android:inputType="text"
+                        android:singleLine="false"
+                        android:text=""
+                        android:textColor="@color/color_grey_medium"
+                        android:textColorHint="@color/color_black_dark"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </android.support.design.widget.TextInputLayout>
+                <!--Time stamp-->
+                <TextView
+                    android:id="@+id/textView_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="right"
+                    android:text="time stamp"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+        <!--Image based notify-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView_notify_info"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageview_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <!--Notify action-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardview_imageview"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textview_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="center"
+                    android:text="Notification Action"
+                    android:textColor="@color/color_grey_medium"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/textview_action"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/color_yellow" />
+
+                <ImageView
+                    android:id="@+id/imageView_location"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/view_line"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

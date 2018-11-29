@@ -77,16 +77,16 @@ public class NotificationsFragment extends BaseFragment {
                 false);
 
         mRecyclerView = (ListView)rootView.findViewById(R.id.notification_recycler_view);
-        mAdapter = new ListOfNotificationAdapter(getActivity(), mList);
-        mRecyclerView.setAdapter(mAdapter);
+       // mAdapter = new ListOfNotificationAdapter(getActivity(), mList);
+      //  mRecyclerView.setAdapter(mAdapter);
 
         //TODO get all notifications from server and display
 //        token = "c9013c9f-f189-4c2d-93eb-fe7d9c57fef4";
 //        loginId = "sharan@gmail.com";
 //        registrationId = "cdNDSWda5z0:APA91bE7U3u4eOTjqi8LdLDqRDsCLWgXXh-3Y7H3zLSUcbvO6M1Sz2E0yA_l1LLHASMC32vafGbLeP6ra4VgUJKuE281XSjGnncBaYjUsdalmn5OHRQT5oo47x1RH9XZWeHiA90N1gl0gma4xusNCSpQ2EjpDiCHFw";
 
-        getNotificationDetailLists = new GetNotificationDetailLists(getActivity(), loginId, token, registrationId);
-        getNotificationDetailLists.execute((Void)null);
+//        getNotificationDetailLists = new GetNotificationDetailLists(getActivity(), loginId, token, registrationId);
+//        getNotificationDetailLists.execute((Void)null);
 
         return rootView;
     }
@@ -177,10 +177,10 @@ public class NotificationsFragment extends BaseFragment {
         protected void onPostExecute(Boolean status) {
             super.onPostExecute(status);
             Log.d(TAG, "SH : "+mList.toString());
-            for(NotificationModel notificationModel : notificationModelList){
-                mList.add(notificationModel);
-                mAdapter.notifyDataSetChanged();
-            }
+//            for(NotificationModel notificationModel : notificationModelList){
+//                mList.add(notificationModel);
+//                mAdapter.notifyDataSetChanged();
+//            }
             getNotificationDetailLists = null;
         }
     }

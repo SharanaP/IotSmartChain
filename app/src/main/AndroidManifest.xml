@@ -138,7 +138,7 @@
             android:label="Modules"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".dashboard.activity.NotificationListActivity"
+            android:name=".dashboard.activity.AllNotificationDetailsActivity"
             android:label="Notifications"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -200,6 +200,12 @@
             android:name=".BlueTooth.SensorViaBleTestActivity"
             android:label="Ble Test"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".dashboard.activity.ViewNotificationActivity"
+            android:label="Notification Details"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".dashboard.activity.IotDeviceNotificationActivity"
+            android:label="Notification Details"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <service
             android:name=".BlueTooth.BluetoothLeService"

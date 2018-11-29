@@ -3,18 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView_notify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:gravity="center"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -22,13 +25,25 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/icon_iot"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|left"
-                android:padding="10dp"
-                app:srcCompat="@drawable/ic_notifications_black_24dp" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:layout_marginRight="2dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/icon_iot"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/app_icon"
+                    app:civ_border_color="@color/color_yellow"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="1dp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,65 +52,90 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView_model_name"
+                    android:id="@+id/textView_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Office/Home"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="left"
                     android:maxLength="50"
-                    android:textSize="13dp"
-                    android:layout_marginBottom="2dp"
+                    android:text="label"
+                    android:textColor="@color/color_black_dark"
+                    android:textSize="15dp"
                     android:textStyle="bold"
                     android:typeface="normal" />
 
-                <TextView
-                    android:id="@+id/textView_body"
+                <!--<View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/color_yellow" />-->
+
+                <TextView
+                    android:id="@+id/textView_iot_sn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="notification body"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="iot device sn"
+                    android:textColor="@color/color_black_dark"
                     android:textSize="13dp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:typeface="normal" />
 
                 <TextView
-                    android:id="@+id/textView_status"
+                    android:id="@+id/textView_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Active/Inactive"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="Details"
                     android:textSize="12dp"
                     android:typeface="normal" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginBottom="1dp"
+                    android:gravity="right">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageview_notify_type"
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/priority_normal"
+                        app:civ_circle_background_color="@color/color_grey_medium"
+                        app:civ_fill_color="@color/color_grey_medium" />
+
+                    <TextView
+                        android:id="@+id/textView_timeStamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_toEndOf="@+id/imageview_notify_type"
+                        android:layout_toRightOf="@+id/imageview_notify_type"
+                        android:text="12:35:23 21 may 2018"
+                        android:textColor="@color/color_grey_medium"
+                        android:textSize="11dp"
+                        android:typeface="normal" />
+
+                </RelativeLayout>
+
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView_timeStamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|right|bottom"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="right|bottom"
-            android:text="12:35:23 21 may 2018"
-            android:textColor="@color/color_grey_medium"
-            android:textSize="11dp"
-            android:typeface="normal" />
-
-        <TextView
-            android:id="@+id/textView_details"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|right|top"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/mysignup_button"
-            android:gravity="center"
-            android:text="Details" />
     </android.support.v7.widget.CardView>
+
 
 </RelativeLayout>

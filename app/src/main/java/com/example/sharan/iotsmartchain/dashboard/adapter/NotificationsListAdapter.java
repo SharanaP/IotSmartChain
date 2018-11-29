@@ -64,8 +64,8 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            mTextViewTitle = (TextView)itemView.findViewById(R.id.textView_model_name);
-            mTextViewBody = (TextView)itemView.findViewById(R.id.textView_body);
+//            mTextViewTitle = (TextView)itemView.findViewById(R.id.textView_model_name);
+//            mTextViewBody = (TextView)itemView.findViewById(R.id.textView_body);
             mTextViewStatus = (TextView)itemView.findViewById(R.id.textView_status);
             mTextViewTimeStamp = (TextView)itemView.findViewById(R.id.textView_timeStamp);
             mTextViewDetails = (TextView)itemView.findViewById(R.id.textView_details);

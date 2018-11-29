@@ -254,7 +254,7 @@ public class DashBoardActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
-                OkHttpClient client = new OkHttpClient();
+                  OkHttpClient client = new OkHttpClient();
 
                 MediaType JSON
                         = MediaType.parse("application/json; charset=utf-8");
