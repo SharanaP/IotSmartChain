@@ -1,0 +1,27 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=DF:4E:82:C0:5B:01:28:A3:54:E1:48:27:23:90:5F:95:1B:37:BB:3B%3Bcom.example.sharan.iotsmartchain.LocationModule
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    DF:4E:82:C0:5B:01:28:A3:54:E1:48:27:23:90:5F:95:1B:37:BB:3B
+
+    SHA-1 certificate fingerprint:
+    DF:4E:82:C0:5B:01:28:A3:54:E1:48:27:23:90:5F:95:1B:37:BB:3B
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <!--CHECK below link : Regenerate
+    https://console.cloud.google.com/apis/credentials/key/577050c9-34a3-4898-907a-437a81421c93?project=tito-8212b&authuser=1-->
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBH6eU8Ug8mpMNE8HhRD0Iw_47V1VObLzU</string>
+</resources>

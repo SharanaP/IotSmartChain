@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +31,7 @@ public class DashBoardFragment extends BaseFragment {
     private LinearLayout mLlMasterLock;
     private LinearLayout mLlListOfModules;
 
-    public static DashBoardFragment newInstance(){
+    public static DashBoardFragment newInstance() {
         DashBoardFragment dashBoardFragment = new DashBoardFragment();
         return dashBoardFragment;
     }
@@ -44,7 +43,7 @@ public class DashBoardFragment extends BaseFragment {
 
         //Setup action bar title and sub title
         getActivity().setTitle((getResources().getString(R.string.app_name)));
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setSubtitle("DashBoard");
     }
 
@@ -108,13 +107,13 @@ public class DashBoardFragment extends BaseFragment {
     }
 
     private void listOfModulesView(View v) {
-       // Toast.makeText(getActivity(), "list Of ModulesView", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "list Of ModulesView", Toast.LENGTH_SHORT).show();
         Intent moduleIntent = new Intent(getActivity(), ModulesActivity.class);
         startActivity(moduleIntent);
     }
 
     private void masterLockView(View v) {
-       // Toast.makeText(getActivity(), "masterLockView", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "masterLockView", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), MasterLockActivity.class);
         startActivity(intent);
     }

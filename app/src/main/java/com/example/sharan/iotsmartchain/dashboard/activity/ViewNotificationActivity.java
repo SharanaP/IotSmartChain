@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.App;
+import com.example.sharan.iotsmartchain.LocationModule.MapsActivity;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.NetworkUtil;
@@ -113,6 +115,17 @@ public class ViewNotificationActivity extends BaseActivity {
                 updateIsReadNotifyAsync.execute((Void) null);
             }
         }
+
+        //GOTO google map based on click listener
+        imageViewLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentGoogleMap = new Intent(ViewNotificationActivity.this, MapsActivity.class);
+                intentGoogleMap.putExtra("latitude", notificationDetailModel.getLatitude());
+                intentGoogleMap.putExtra("longitude", notificationDetailModel.getLongitude());
+                startActivity(intentGoogleMap);
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -152,7 +165,7 @@ public class ViewNotificationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.menu_refresh:
-                //TODO call API to get updated battery status
+                //call API to get updated battery status
                 Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
                 break;
             default:

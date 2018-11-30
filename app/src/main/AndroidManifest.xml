@@ -200,12 +200,14 @@
             android:name=".BlueTooth.SensorViaBleTestActivity"
             android:label="Ble Test"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".dashboard.activity.ViewNotificationActivity"
+        <activity
+            android:name=".dashboard.activity.ViewNotificationActivity"
             android:label="Notification Details"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name=".dashboard.activity.IotDeviceNotificationActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".dashboard.activity.IotDeviceNotificationActivity"
             android:label="Notification Details"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <service
             android:name=".BlueTooth.BluetoothLeService"
@@ -228,6 +230,21 @@
             android:name=".Services.RegistrationIntentService"
             tools:ignore="InnerclassSeparator" />
 
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".LocationModule.MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

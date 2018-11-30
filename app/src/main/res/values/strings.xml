@@ -201,4 +201,5 @@
     <string name="say_yes">Say yes to click above test</string>
     <string name="did_u_moved_sensor">Did you moved the sensor, Then say YES by clicking test</string>
     <string name="rotate_r_move_sensor">Rotate or Move the sensor device</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -203,6 +203,13 @@ public class MenuFragment extends BaseFragment {
         mRlLogout = rootView.findViewById(R.id.relativeLayout_logout);
         mRlCloseAccount = rootView.findViewById(R.id.relativeLayout_close_account);
         mTvVersion = rootView.findViewById(R.id.textView_version);
+
+        if(img_profile != null){
+            img_profile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile_upload_white));
+            img_profile.setFillColor(getActivity().getResources().getColor(R.color.color_grey_medium));
+            img_profile.setBorderColor(getActivity().getResources().getColor(R.color.color_black_dark));
+        }
+
         /*Support Screen*/
         mRlSupport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,7 +388,7 @@ public class MenuFragment extends BaseFragment {
             if (myBitmap != null) {
                 String profileImg = BitMapToString(myBitmap);
                 Log.e(TAG, "BitMapToString :\n" + profileImg);
-                //TODO check is required
+                //check is required
                 SharedPreferences.Editor
                         editor = App.getSharedPrefsComponent().getSharedPrefsEditor();
                 editor.putString("PROFILE", profileImg);
