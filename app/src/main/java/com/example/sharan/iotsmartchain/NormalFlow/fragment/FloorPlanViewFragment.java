@@ -57,7 +57,9 @@ public class FloorPlanViewFragment extends BaseFragment {
         //mWebView.loadUrl("http://111.93.31.170:10000/Floorplan/#");
 
       //  mWebView.loadUrl("http://192.168.1.27:10000/Floorplan/create_test.jsp");// 19th nov 2018
-        mWebView.loadUrl("http://192.168.1.27:10000/Floorplan/alert.html");// 19th nov 2018
+       // mWebView.loadUrl("http://192.168.1.27:10000/Floorplan/alert.html");// 19th nov 2018
+        mWebView.loadUrl("http://192.168.1.32:10000/FloorplanLeaflet/leafletfloor.html");// 1st dec 2018
+      //  mWebView.loadUrl("http://192.168.1.48:11000/IOT/");// 1st dec 2018
         //  mWebView.loadUrl("http://192.168.1.110:10002/geoserver/floorplan/wms?service=WMS&version=1.1.0&request=GetMap&layers=floorplan:floorplangroup&styles=&bbox=-0.0789120569825172,6.67328691482544,86.5327606201172,84.0403442382813&width=768&height=686&srs=EPSG:32643&format=application/openlayers");
     }
 

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.sharan.iotsmartchain.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -66,8 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setZoomGesturesEnabled(false);
         mMap.getUiSettings().setCompassEnabled(true);
 
         //Initialize Google Play Services
@@ -85,7 +86,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Sensor Located"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(sydney,
+                13.0f);
+        mMap.moveCamera(update);
+        mMap.animateCamera(update);
+   //     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     }
 }

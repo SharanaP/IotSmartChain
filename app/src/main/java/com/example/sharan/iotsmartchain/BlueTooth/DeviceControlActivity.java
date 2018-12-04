@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -247,9 +248,9 @@ public class DeviceControlActivity extends Activity {
                     Log.d(TAG, "progress dialog is dismiss");
 
                     //disconnect Wi-Fi network.
-                    ConnectionManager connectionManager = new ConnectionManager(DeviceControlActivity.this);
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    ConnectionManager connectionManager = new ConnectionManager(DeviceControlActivity.this, wifiManager);
                     connectionManager.disableWifi();
-
                 }
 
             } else {

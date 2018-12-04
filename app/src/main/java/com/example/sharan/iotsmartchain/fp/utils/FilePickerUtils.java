@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.android.internal.util.Predicate;
+import com.google.android.gms.common.util.Predicate;
 
 import java.io.File;
 import java.util.ArrayList;

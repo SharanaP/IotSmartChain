@@ -590,8 +590,10 @@ public class MenuFragment extends BaseFragment {
         editor.putString("PHONE", "");
         editor.putString("PROFILE", "");
         editor.putString("EMAIL", "");
+        editor.putString("NAME", "");
         editor.apply();
         editor.commit();
+        Log.e(TAG, "CLEAR :: Shared Pref");
     }
 
     //Application logout async

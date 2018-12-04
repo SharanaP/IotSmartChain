@@ -253,21 +253,24 @@ public class AllNotificationsFragment extends BaseFragment {
         @Override
         protected void onPostExecute(Boolean Success) {
             super.onPostExecute(Success);
-
-            Utils.showProgress(getActivity(), view, progressBar, false);
-            if (unReadCount == null || unReadCount.equalsIgnoreCase("0")) {
-                tvUnreadCunt.setVisibility(View.INVISIBLE);
-            } else {
-                tvUnreadCunt.setText(unReadCount); //Total no of unread count messages
-                tvUnreadCunt.setVisibility(View.VISIBLE);
-            }
-
-            //Set value
-            for (NotificationCountModel notificationCountModel : notificationCountModelList) {
-                mList.add(notificationCountModel);
-                mAdapter.notifyDataSetChanged();
-            }
             getNotificationCountAsync = null;
+            if (getActivity() != null) {
+                Utils.showProgress(getActivity(), view, progressBar, false);
+                if (unReadCount == null || unReadCount.equalsIgnoreCase("0")) {
+                    tvUnreadCunt.setVisibility(View.INVISIBLE);
+                } else {
+                    tvUnreadCunt.setText(unReadCount); //Total no of unread count messages
+                    tvUnreadCunt.setVisibility(View.VISIBLE);
+                }
+
+                //Set value
+                for (NotificationCountModel notificationCountModel : notificationCountModelList) {
+                    mList.add(notificationCountModel);
+                    mAdapter.notifyDataSetChanged();
+                }
+            } else {
+                Log.e(TAG, "getActivity is null");
+            }
         }
 
         @Override

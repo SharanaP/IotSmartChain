@@ -7,12 +7,12 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.android.internal.util.Predicate;
 import com.example.sharan.iotsmartchain.fp.PickerManager;
 import com.example.sharan.iotsmartchain.fp.cursors.loadercallbacks.FileMapResultCallback;
 import com.example.sharan.iotsmartchain.fp.models.Document;
 import com.example.sharan.iotsmartchain.fp.models.FileType;
 import com.example.sharan.iotsmartchain.fp.utils.FilePickerUtils;
+import com.google.android.gms.common.util.Predicate;
 
 
 import java.io.File;

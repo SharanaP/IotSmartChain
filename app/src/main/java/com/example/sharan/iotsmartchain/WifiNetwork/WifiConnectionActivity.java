@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.BlueTooth.BleConnectionManager;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.global.Check_SDK;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -71,8 +74,12 @@ public class WifiConnectionActivity extends AppCompatActivity {
         //check permission
         checkPersmissions();
 
+        //init
+        wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
         //init and check default wi-fi status
-        connectionManager = new ConnectionManager(WifiConnectionActivity.this);
+        if(wifiManager == null)
+        connectionManager = new ConnectionManager(WifiConnectionActivity.this, wifiManager);
         if (connectionManager.CheckWifiStatus()) {
             mTvWifiStatus.setText("On");
             mSwitchWifi.setChecked(true);
@@ -103,7 +110,8 @@ public class WifiConnectionActivity extends AppCompatActivity {
                     if (connectionManager != null)
                         connectionManager.enableWifi();
                     else {
-                        connectionManager = new ConnectionManager(WifiConnectionActivity.this);
+                        if(wifiManager == null)
+                        connectionManager = new ConnectionManager(WifiConnectionActivity.this, wifiManager);
                         connectionManager.enableWifi();
                     }
 
@@ -128,7 +136,8 @@ public class WifiConnectionActivity extends AppCompatActivity {
                     if (connectionManager != null)
                         connectionManager.disableWifi();
                     else {
-                        connectionManager = new ConnectionManager(WifiConnectionActivity.this);
+                        if(wifiManager == null)
+                        connectionManager = new ConnectionManager(WifiConnectionActivity.this, wifiManager);
                         connectionManager.disableWifi();
                     }
 
@@ -276,6 +285,8 @@ public class WifiConnectionActivity extends AppCompatActivity {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.CHANGE_WIFI_STATE)
+                != PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
                 != PackageManager.PERMISSION_GRANTED)

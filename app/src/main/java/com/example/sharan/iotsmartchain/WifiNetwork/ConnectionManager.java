@@ -24,12 +24,16 @@ public class ConnectionManager {
     private Activity activity;
     private WifiManager wifiManager = null;
 
-    public ConnectionManager(Context context) {
+    public ConnectionManager(Context context, WifiManager wifiManager) {
         this.context = context;
         this.activity = (Activity) context;
-        //init wifi service
-        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        Log.d(TAG, "ConnectionManager : "+wifiManager.toString());
+        this.wifiManager = wifiManager;
+
+        if (wifiManager == null) {
+            //init wifi service
+            wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        }
+        Log.d(TAG, "ConnectionManager : " + wifiManager.toString());
     }
 
     public void enableWifi() {
@@ -206,7 +210,7 @@ public class ConnectionManager {
             if (wifiManager == null)
                 wifiManager = (WifiManager) this.context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             scanList = wifiManager.getScanResults();
-        } catch (SecurityException se){
+        } catch (SecurityException se) {
             se.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();

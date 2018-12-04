@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -139,6 +140,7 @@ public class DashBoardActivity extends BaseActivity {
         //TODO FirebaseMessaging.getInstance().subscribeToTopic("NEWS");
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         bottomNavigationView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
+        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
         //based cunt value show badge should be visible or invisible

@@ -8,12 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -38,11 +38,13 @@ import com.example.sharan.iotsmartchain.BlueTooth.BleConnectionManager;
 import com.example.sharan.iotsmartchain.NormalFlow.activities.InstallConfigureIoTActivity;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.Check_SDK;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -70,27 +72,10 @@ public class MainWifiBleActivity extends BaseActivity {
 
     private LocationManager locationManager;
     private boolean GpsStatus = false;
-    private  WifiReceiver receiverWifi;
+    private WifiReceiver receiverWifi;
     private StringBuilder sb = null;
+    private Check_SDK check_sdk;
 
-    class WifiReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-
-            ArrayList<String> connections=new ArrayList<String>();
-            ArrayList<Float> Signal_Strenth= new ArrayList<Float>();
-
-            sb = new StringBuilder();
-            List<ScanResult> wifiList;
-            wifiList = wifiManager.getScanResults();
-            for(int i = 0; i < wifiList.size(); i++)
-            {
-                connections.add(wifiList.get(i).SSID);
-            }
-            Log.d(TAG, "connections : "+connections.toString());
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,16 +92,20 @@ public class MainWifiBleActivity extends BaseActivity {
 
         //setUp toolbar
         setupToolbar();
+
         //manually check enable a location and bluetooth device
         checkLocationPermissions();
 
-        //turn on GPS status
-        if (GPSStatus() == true) {
-            Log.e(TAG, "Location Services Is Enabled");
-        } else {
-            Log.e(TAG, "Location Services Is Disabled and manually turn on");
-            Intent intent1 = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent1);
+        //init wifi manager
+        wifiManager = (WifiManager)
+                getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        //Check current version API
+        check_sdk = new Check_SDK(MainWifiBleActivity.this);
+        Log.e(TAG, "" + check_sdk.getCurrentVersion());
+        int currentApiSdk = check_sdk.getCurrentVersion();
+        if (currentApiSdk >= android.os.Build.VERSION_CODES.P) {
+            GetScannedWifiList();
         }
 
         //ble
@@ -124,8 +113,10 @@ public class MainWifiBleActivity extends BaseActivity {
         bleConnectionManager.initBle();
 
         //init and check and update wi-fi networks status
-        if (connectionManager == null)
-            connectionManager = new ConnectionManager(MainWifiBleActivity.this);
+        if (connectionManager == null) {
+            if (wifiManager != null)
+                connectionManager = new ConnectionManager(MainWifiBleActivity.this, wifiManager);
+        }
 
         //adapter init
         scannedWiFiAdapter = new ScannedWiFiAdapter(MainWifiBleActivity.this, scanResultList);
@@ -142,7 +133,7 @@ public class MainWifiBleActivity extends BaseActivity {
             }
         });
 
-
+        /*Listener */
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -189,7 +180,7 @@ public class MainWifiBleActivity extends BaseActivity {
             }
         });
 
-        //progress dialog listner
+        //progress dialog listener
         if (progressDialog != null)
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
@@ -284,14 +275,57 @@ public class MainWifiBleActivity extends BaseActivity {
     }
 
     private boolean GPSStatus() {
+        boolean isCheck = false;
         locationManager = (LocationManager) MainWifiBleActivity.this.getSystemService(Context.LOCATION_SERVICE);
-        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return GpsStatus;
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+        try {
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        try {
+            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        if (!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainWifiBleActivity.this);
+            dialog.setCancelable(false);
+            dialog.setMessage(MainWifiBleActivity.this.getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(MainWifiBleActivity.this.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    MainWifiBleActivity.this.startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton(MainWifiBleActivity.this.getString(R.string.close), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
+                            "Location not enabled", ALERTCONSTANT.ERROR);
+                }
+            });
+            dialog.show();
+        } else {
+            isCheck = true;
+        }
+
+        return isCheck;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        GPSStatus(); //call gps and enable location
+
         switch (requestCode) {
+
             case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
                 Map<String, Integer> perms = new HashMap<String, Integer>();
                 // Initial
@@ -307,18 +341,14 @@ public class MainWifiBleActivity extends BaseActivity {
                         && perms.get(Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED
                         && perms.get(Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
-
                     Log.e(TAG, "all permissions granted");
-
                 } else {
                     // Permission Denied
                     Log.e(TAG, "Permission Denied");
                     Utils.SnackBarView(MainWifiBleActivity.this, mCoordinatorLayout,
                             "Some Permission is Denied", ALERTCONSTANT.ERROR);
                 }
-
                 //TODO check play services
-
             }
             break;
 
@@ -349,9 +379,11 @@ public class MainWifiBleActivity extends BaseActivity {
         //Check for permissions
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.CHANGE_WIFI_STATE)
                 != PackageManager.PERMISSION_GRANTED)
-                || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
                 != PackageManager.PERMISSION_GRANTED)
                 || (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
                 != PackageManager.PERMISSION_GRANTED)
@@ -394,7 +426,7 @@ public class MainWifiBleActivity extends BaseActivity {
             if (connectionManager != null)
                 connectionManager.enableWifi();
             else {
-                connectionManager = new ConnectionManager(MainWifiBleActivity.this);
+                connectionManager = new ConnectionManager(MainWifiBleActivity.this, wifiManager);
                 connectionManager.enableWifi();
             }
 
@@ -416,12 +448,20 @@ public class MainWifiBleActivity extends BaseActivity {
             mListView.setAdapter(scannedWiFiAdapter);
             scannedWiFiAdapter.notifyDataSetChanged();
 
+            //pie version check
+            check_sdk = new Check_SDK(MainWifiBleActivity.this);
+            Log.e(TAG, "" + check_sdk.getCurrentVersion());
+            int currentApiSdk = check_sdk.getCurrentVersion();
+            if (currentApiSdk >= android.os.Build.VERSION_CODES.P) {
+                GetScannedWifiList();
+            }
+
         } else {
 
             if (connectionManager != null)
                 connectionManager.disableWifi();
             else {
-                connectionManager = new ConnectionManager(MainWifiBleActivity.this);
+                connectionManager = new ConnectionManager(MainWifiBleActivity.this, wifiManager);
                 connectionManager.disableWifi();
             }
 
@@ -475,6 +515,76 @@ public class MainWifiBleActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /*PIE version: Get list of scanned result :: wifi list */
+    private void GetScannedWifiList() {
+        BroadcastReceiver wifiScanReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent intent) {
+                boolean success = intent.getBooleanExtra(
+                        WifiManager.EXTRA_RESULTS_UPDATED, false);
+                if (success) {
+                    scanSuccess();
+                } else {
+                    // scan failure handling
+                    scanFailure();
+                }
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        getApplicationContext().registerReceiver(wifiScanReceiver, intentFilter);
+
+        boolean success = wifiManager.startScan();
+        if (!success) {
+            // scan failure handling
+            Log.e(TAG, "Failure");
+            scanFailure();
+        } else {
+            Log.e(TAG, "Success");
+        }
+    }
+
+    private void scanSuccess() {
+        List<ScanResult> results = wifiManager.getScanResults();
+        Map<String, ScanResult> map = new LinkedHashMap<>();
+        for (ScanResult scanResult : results) {
+            map.put(scanResult.BSSID.toString(), scanResult);
+        }
+
+        List<ScanResult> finalWifi = new ArrayList<>(map.values());
+        Log.e(TAG, "wifi\n\n" + finalWifi.toString());
+        scannedWiFiAdapter = new ScannedWiFiAdapter(MainWifiBleActivity.this, finalWifi);
+        mListView.setAdapter(scannedWiFiAdapter);
+
+        Log.i(TAG, "scanSuccess\n" + results.toString());
+        //  ... use new scan results ...
+    }
+
+    private void scanFailure() {
+        // handle failure: new scan did NOT succeed
+        // consider using old scan results: these are the OLD results!
+        List<ScanResult> results = wifiManager.getScanResults();
+        Log.e(TAG, "scanFailure\n" + results.toString());
+        //  ... potentially use older scan results ...
+    }
+
+    /*Broad Cast Receiver*/
+    class WifiReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
+            ArrayList<String> connections = new ArrayList<String>();
+            ArrayList<Float> Signal_Strength = new ArrayList<Float>();
+
+            sb = new StringBuilder();
+            List<ScanResult> wifiList;
+            wifiList = wifiManager.getScanResults();
+            for (int i = 0; i < wifiList.size(); i++) {
+                connections.add(wifiList.get(i).SSID);
+            }
+            Log.d(TAG, "connections : " + connections.toString());
+        }
     }
 
 }
