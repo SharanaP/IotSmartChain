@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/switch_background" />
+            android:background="@android:color/transparent" />
     </RelativeLayout>
 
 </RelativeLayout>

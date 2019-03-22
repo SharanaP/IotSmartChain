@@ -1,5 +1,6 @@
 package com.example.sharan.iotsmartchain.NormalFlow.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +22,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +38,7 @@ import android.widget.TextView;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.NormalFlow.adapter.AdapterNonSpatialPlan;
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.LocationManagerUtils;
 import com.example.sharan.iotsmartchain.global.NetworkUtil;
@@ -81,6 +86,10 @@ public class CreateNonSpatialActivity extends BaseActivity {
     FloatingActionButton mFabManually;
     @BindView(R.id.fab_camera)
     FloatingActionButton mFabQrScanner;
+    @BindView(R.id.textview_db)
+    TextView mTextViewDashBroad;
+    @BindView(R.id.fab_db)
+    FloatingActionButton fabDb;
     //dialog
     private Dialog dialog;
     private AlertDialog.Builder builder;
@@ -112,7 +121,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
     //dialog related
     private Spinner spinnerIotSensorSN;
     private EditText editTextIotSensorSN;
+    private Animation makeInAnimation, makeOutAnimation;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +150,9 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, mList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        //show animation
+        showAnimation();
+
         //get a list of registered device
         getRegisterIotDevices();
 
@@ -154,6 +168,36 @@ public class CreateNonSpatialActivity extends BaseActivity {
                 intent.putExtra("NonSpatialModel", (Serializable) nonSpatialModel);
                 startActivity(intent);
             }
+        });
+
+        if (mFabManually.isShown() || mFabQrScanner.isShown()) {
+            mFabManually.startAnimation(makeOutAnimation);
+            mFabQrScanner.startAnimation(makeOutAnimation);
+            mTextViewDashBroad.startAnimation(makeOutAnimation);
+        }
+
+        if (!mFabManually.isShown() || !mFabQrScanner.isShown()) {
+            mFabManually.startAnimation(makeInAnimation);
+            mFabQrScanner.startAnimation(makeInAnimation);
+            mTextViewDashBroad.startAnimation(makeInAnimation);
+        }
+
+        //list view listener
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                mFabManually.show();
+                mFabQrScanner.show();
+                mTextViewDashBroad.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mFabManually.hide();
+                mFabQrScanner.hide();
+                mTextViewDashBroad.setVisibility(View.INVISIBLE);
+            }
+
         });
 
         //manually capture and send to server
@@ -178,6 +222,56 @@ public class CreateNonSpatialActivity extends BaseActivity {
                         "Qr code scanner", ALERTCONSTANT.INFO);
                 Intent qrIntent = new Intent(CreateNonSpatialActivity.this, QrCodeActivity.class);
                 startActivityForResult(qrIntent, REQUEST_CODE_QR_SCAN);
+            }
+        });
+
+        //Goto DashBroad
+        mTextViewDashBroad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateNonSpatialActivity.this, DashBoardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void showAnimation() {
+        makeInAnimation = AnimationUtils.makeInAnimation(getBaseContext(), false);
+        makeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mFabManually.setVisibility(View.VISIBLE);
+                mFabQrScanner.setVisibility(View.VISIBLE);
+                mTextViewDashBroad.setVisibility(View.VISIBLE);
+            }
+        });
+
+        makeOutAnimation = AnimationUtils.makeOutAnimation(getBaseContext(), true);
+        makeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mFabManually.setVisibility(View.INVISIBLE);
+                mFabQrScanner.setVisibility(View.INVISIBLE);
+                mFabQrScanner.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
             }
         });
     }
@@ -224,7 +318,8 @@ public class CreateNonSpatialActivity extends BaseActivity {
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        setTitle("Non-Spatial plan");
+        setTitle("TiTo");
+        getSupportActionBar().setSubtitle("Install IoT device");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -479,7 +574,7 @@ public class CreateNonSpatialActivity extends BaseActivity {
         return isStatus;
     }
 
-    //Write server API for IoT installation
+    //API for IoT device installation
     public class CreateNonSpatialAsync extends AsyncTask<Void, Void, Boolean> {
         private Context context;
         private NonSpatialModel nonSpatialModel = new NonSpatialModel();

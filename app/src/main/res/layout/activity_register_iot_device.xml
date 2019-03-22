@@ -4,6 +4,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_grey_light_high"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -50,8 +51,7 @@
             <ListView
                 android:id="@+id/listRegisterIoTs"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="30dp"
+                android:layout_height="match_parent"
                 android:divider="@null" />
         </RelativeLayout>
 
@@ -74,9 +74,10 @@
             android:id="@+id/button_next"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:drawableRight="@drawable/ic_touch_icon"
             android:background="@drawable/mysignin_button"
             android:gravity="center"
             android:text="next"

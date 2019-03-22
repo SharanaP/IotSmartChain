@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.sharan.iotsmartchain.App;
-import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
-import com.example.sharan.iotsmartchain.dashboard.activity.BatteryStatusActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.NormalFlow.activities.HomeActivity;
-import com.example.sharan.iotsmartchain.NormalFlow.activities.RegisterIoTDeviceActivity;
-import com.example.sharan.iotsmartchain.dashboard.activity.MasterLockActivity;
 import com.example.sharan.iotsmartchain.loginModule.activities.LoginActivity;
-import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.main.activities.MainActivity;
+import com.example.sharan.iotsmartchain.newDesignTiTo.AddBridgeActivity;
 
 import javax.inject.Inject;
 
@@ -67,9 +63,15 @@ public class MainActivityPresenter implements ActivityPresenterBase {
     }
 
     public void launchRegisterIotActivity(){
-        //Launch RegIoTDeviceActivity
-        Intent regIotActivityIntent = new Intent(this.mMainActivity,
+        //TODO Launch RegIoTDeviceActivity
+       /* Intent regIotActivityIntent = new Intent(this.mMainActivity,
                 RegisterIoTDeviceActivity.class);
+        regIotActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mMainActivity.startActivity(regIotActivityIntent);
+        mMainActivity.finish();*/
+
+        Intent regIotActivityIntent = new Intent(this.mMainActivity,
+                AddBridgeActivity.class);
         regIotActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mMainActivity.startActivity(regIotActivityIntent);
         mMainActivity.finish();

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_grey_light_high"
+    tools:context=".newDesignTiTo.EndNodeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Toolbar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_actionBar"
+            android:titleTextColor="@color/color_white"
+            android:visibility="visible"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="@color/color_white" />
+
+        <!--progress bar and view -->
+        <ProgressBar
+            android:id="@+id/reg_iot_progress"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_reg_iot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--list View-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+            <ListView
+                android:id="@+id/listview_gateway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                tools:listitem="@layout/row_gateway_item" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <com.example.sharan.iotsmartchain.FloatingActionMenu.OptionsFabLayout
+        android:id="@+id/fab_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:color="@color/colorAccent"
+        app:options_color="@color/colorPrimary"
+        app:options_menu="@menu/fab_gateway_menu"
+        app:src="@drawable/ic_add_white_24dp" />
+
+
+    <!--<android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_gatway"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="visible"
+        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+
+    <!--Bottom sheet dialog -->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clipToPadding="true"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <include layout="@layout/bottom_sheet_content" />
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

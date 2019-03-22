@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <android.support.v7.widget.AppCompatTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:text="Update and Delete options for Bridge device."
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_bridge_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textColor="@color/color_grey_medium"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/text_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Do you want to update and delete the bridge item!"
+        android:textColor="@color/color_grey_dark" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/color_grey_medium"
+            android:src="@drawable/ic_action_edit_icon"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:backgroundTint="@color/color_grey_medium"
+            app:elevation="3dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fab_edit"
+            android:gravity="center"
+            android:text="Edit" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:background="@color/color_grey_medium"
+            android:src="@drawable/ic_action_delete_icon"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:backgroundTint="@color/color_grey_medium"
+            app:elevation="3dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fab_delete"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Delete" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:background="@color/color_grey_medium"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:backgroundTint="@color/color_grey_medium"
+            app:elevation="3dp"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fab_cancel"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="Cancel" />
+    </RelativeLayout>
+
+</LinearLayout>

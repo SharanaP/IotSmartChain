@@ -28,4 +28,48 @@ public class TargetGattAttributes {
     public static String TEST_BLE_SERVICE ="edfec62e-9910-0bac-5241-d8bda6932b00";
     public static String TEST_BLE_CHARACTERISTIC = "edfec62e-9910-0bac-5241-d8bda6932b01";
 
+    //TITO
+    public static String TITO_BLE_SERVICE ="edfec62e-9910-0bac-5241-d8bda6932a2f";
+    public static String TITO_BLE_READ_CHARACTERISTIC = "15005991-b131-3396-014c-664c9867b917";
+    public static String TITO_BLE_WRITE_CHARACTERISTIC = "2d86686a-53dc-25b3-0c4a-f0e10c8dee20";
+
+    public static String getTargetBleService() {
+        return TARGET_BLE_SERVICE;
+    }
+
+    public static void setTargetBleService(String targetBleService) {
+        TARGET_BLE_SERVICE = targetBleService;
+    }
+
+    public static String getTargetBleCharacteristic() {
+        return TARGET_BLE_CHARACTERISTIC;
+    }
+
+    public static void setTargetBleCharacteristic(String targetBleCharacteristic) {
+        TARGET_BLE_CHARACTERISTIC = targetBleCharacteristic;
+    }
+
+    public static String getTitoBleService() {
+        return TITO_BLE_SERVICE;
+    }
+
+    public static void setTitoBleService(String titoBleService) {
+        TITO_BLE_SERVICE = titoBleService;
+    }
+
+    public static String getTitoBleReadCharacteristic() {
+        return TITO_BLE_READ_CHARACTERISTIC;
+    }
+
+    public static void setTitoBleReadCharacteristic(String titoBleReadCharacteristic) {
+        TITO_BLE_READ_CHARACTERISTIC = titoBleReadCharacteristic;
+    }
+
+    public static String getTitoBleWriteCharacteristic() {
+        return TITO_BLE_WRITE_CHARACTERISTIC;
+    }
+
+    public static void setTitoBleWriteCharacteristic(String titoBleWriteCharacteristic) {
+        TITO_BLE_WRITE_CHARACTERISTIC = titoBleWriteCharacteristic;
+    }
 }

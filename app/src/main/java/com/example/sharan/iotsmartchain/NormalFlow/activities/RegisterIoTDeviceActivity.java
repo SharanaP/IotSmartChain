@@ -1,5 +1,6 @@
 package com.example.sharan.iotsmartchain.NormalFlow.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -70,6 +74,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout mCoordinatorLayout;
 
+    private Animation makeInAnimation, makeOutAnimation;
     private EditText mEditTextUID;
     private Dialog dialog;
     private AlertDialog.Builder builder;
@@ -115,6 +120,44 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
             getListOfRegDevicesAsync.execute((Void) null);
         }
 
+        //Start init animation
+        showAnimation();
+
+        if (mFab.isShown() || mFabCamera.isShown()) {
+            mFab.startAnimation(makeOutAnimation);
+            mFabCamera.startAnimation(makeOutAnimation);
+        }
+
+        if (!mFab.isShown() || !mFabCamera.isShown()) {
+            mFab.startAnimation(makeInAnimation);
+            mFabCamera.startAnimation(makeInAnimation);
+        }
+
+        mLvRegIoTDevice.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.e(TAG, "scrollState : " + scrollState);
+                mFab.show();
+                mFabCamera.show();
+                mBtnNext.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.e(TAG, "firstVisibleItem : " + firstVisibleItem + "\nvisibleItemCount : " + visibleItemCount + "\ntotalItemCount : " + totalItemCount);
+                int lastItem = firstVisibleItem + visibleItemCount;
+
+                if (lastItem == totalItemCount) {
+                    mFabCamera.hide();
+                    mFab.hide();
+                    mBtnNext.setVisibility(View.INVISIBLE);
+                } else {
+                    mFabCamera.show();
+                    mFab.show();
+                    mBtnNext.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         //Floating button
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +191,47 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
         });
     }
 
+    //Show Animation
+    private void showAnimation() {
+        makeInAnimation = AnimationUtils.makeInAnimation(getBaseContext(), false);
+        makeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mFab.setVisibility(View.VISIBLE);
+                mFabCamera.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.VISIBLE);
+            }
+        });
+
+        makeOutAnimation = AnimationUtils.makeOutAnimation(getBaseContext(), true);
+        makeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mFab.setVisibility(View.INVISIBLE);
+                mFabCamera.setVisibility(View.INVISIBLE);
+                mBtnNext.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+        });
+    }
+
 //    @Subscribe
 //    public void getQrCodeScannedResult(QrCodeResult qrCodeResult){
 //        RegisterIoTDeviceActivity.this.runOnUiThread(()->displayData(qrCodeResult));
@@ -159,7 +243,8 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
-        setTitle("Register IoT Devices");
+        setTitle("TiTo");
+        getSupportActionBar().setSubtitle("Register IoT and Bridge devices");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
@@ -385,7 +470,7 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 adapterRegisterIoTDevices.notifyDataSetChanged();
                 //Show snack bar
                 Utils.SnackBarView(RegisterIoTDeviceActivity.this,
-                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
+                        mCoordinatorLayout, "Successfully Registered", ALERTCONSTANT.SUCCESS);
             } else {
                 Utils.SnackBarView(RegisterIoTDeviceActivity.this,
                         mCoordinatorLayout, message, ALERTCONSTANT.WARNING);
@@ -534,8 +619,8 @@ public class RegisterIoTDeviceActivity extends BaseActivity {
                 adapterRegisterIoTDevices = new AdapterRegisterIoTDevices(mContext, mList);
                 mLvRegIoTDevice.setAdapter(adapterRegisterIoTDevices);
                 //adapterRegisterIoTDevices.notifyDataSetChanged();
-                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
-                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
+//                Utils.SnackBarView(RegisterIoTDeviceActivity.this,
+//                        mCoordinatorLayout, message, ALERTCONSTANT.SUCCESS);
 
             } else {
                 Utils.SnackBarView(RegisterIoTDeviceActivity.this,

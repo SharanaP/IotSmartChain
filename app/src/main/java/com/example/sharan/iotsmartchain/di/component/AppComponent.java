@@ -23,6 +23,9 @@ public interface AppComponent {
     void inject(App app);
 
     Application getApplication();
-    @Named("ApiServiceUrl") String getApiServiceUrl();
+
+    @Named("ApiServiceUrl")
+    String getApiServiceUrl();
+
     Bus getBus();
 }

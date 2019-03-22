@@ -79,7 +79,19 @@ public class IotViaBleConnectionManager extends AppCompatActivity {
                             intent.putExtra("DEVICE_ADDRESS", device.getAddress());
                             intent.putExtra("IotSN", iotSn);
                             context.startActivity(intent);
-
+                        } else if (device.getName().contains("DLG-PRPH")) {
+                            Log.e(TAG, "DLG-PRPH Device found...\n DLG-PRPH device name is : "
+                                    + device.getName() + "\nDLG-PRPH Device SN : " + device.getAddress());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                bluetoothAdapter.stopLeScan(bleScanCallback);
+                            }
+                            showMessage("IOT Device found", true);
+                            //TODO Show BLE TEST :: Ble Test activity
+                            Intent intent = new Intent(context, SensorViaBleTestActivity.class);
+                            intent.putExtra("DEVICE_NAME", device.getName());
+                            intent.putExtra("DEVICE_ADDRESS", device.getAddress());
+                            intent.putExtra("IotSN", iotSn);
+                            context.startActivity(intent);
                         }
                     } else {
                         Log.e(TAG, "BLE :: name : " + device.getName() + " add : " + device.getAddress());

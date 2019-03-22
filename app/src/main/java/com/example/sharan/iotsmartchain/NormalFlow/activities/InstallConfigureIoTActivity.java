@@ -44,8 +44,14 @@ public class InstallConfigureIoTActivity extends BaseActivity {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InstallConfigureIoTActivity.this,
+                //TODO floor plan flow
+               /* Intent intent = new Intent(InstallConfigureIoTActivity.this,
                         FloorPlanActivity.class);
+                startActivity(intent);*/
+
+               //Install IoT Sensor device
+                Intent intent = new Intent(InstallConfigureIoTActivity.this,
+                        CreateNonSpatialActivity.class);
                 startActivity(intent);
             }
         });
@@ -70,7 +76,8 @@ public class InstallConfigureIoTActivity extends BaseActivity {
 
     private void setupToolBar() {
         setSupportActionBar(toolbar);
-        setTitle("Wi-Fi & BLE Gateway");
+        setTitle("TiTo");
+        getSupportActionBar().setSubtitle("Wi-Fi and Bridge setup");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

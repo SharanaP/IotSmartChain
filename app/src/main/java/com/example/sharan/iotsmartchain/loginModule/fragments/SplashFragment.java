@@ -1,21 +1,20 @@
 package com.example.sharan.iotsmartchain.loginModule.fragments;
 
 import android.app.Fragment;
-import android.graphics.Typeface;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.global.BusProvider;
-import com.squareup.picasso.Picasso;
 
 
 /**
@@ -26,6 +25,7 @@ public class SplashFragment extends Fragment {
 
     private static final int SPLASH_TIME = 3000;
     private static final String TAG = "SplashFragment";
+    public static String PACKAGE_NAME = "";
     private Handler mHandler = new Handler();
 
     @Nullable
@@ -33,30 +33,35 @@ public class SplashFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
+        getActivity().getWindow().setFormat(PixelFormat.UNKNOWN);
+        PACKAGE_NAME = getActivity().getPackageName();
 
         //App title and logo
-        ImageView mImageViewLogo = (ImageView)view.findViewById(R.id.app_logo);
-        ImageView mImageTitle = (ImageView)view.findViewById(R.id.app_title_logo);
+        VideoView videoView = (VideoView) view.findViewById(R.id.video_view);
+//        ImageView mImageIcon = (ImageView) view.findViewById(R.id.app_logo);
+//        ImageView mImageTitle = (ImageView) view.findViewById(R.id.app_title_logo);
+//        mImageIcon.setVisibility(View.GONE);
 
-        //Load image locally : logo and title
-      //  Picasso.get().load(R.drawable.app_icon).into(mImageViewLogo);
-        Picasso.get().load(R.drawable.app_title).into(mImageTitle);
+        String path = "android.resource://" + PACKAGE_NAME + "/" + R.raw.sample_test_3;
+        Log.e(TAG, "path :: " + path);
+        Uri uri = Uri.parse(path);
+        Log.e(TAG, "uri :: " + uri.toString());
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
 
-        mImageViewLogo.setVisibility(View.GONE);
-
-        // Set font
-//        TextView appName = (TextView) view.findViewById(R.id.appName);
-//        appName.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
-//                "fonts/MyriadPro-Light.otf"));
-
-        //geokno or app powered by logo
-      //  ImageView imageLogo = (ImageView)view.findViewById(R.id.geoknoLogo);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
 
         // Dismiss timer
         Runnable exitRunnable = new Runnable() {
             @Override
             public void run() {
-                 BusProvider.getInstance().post(new SplashEvent());
+                BusProvider.getInstance().post(new SplashEvent());
             }
         };
 
@@ -66,23 +71,9 @@ public class SplashFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 BusProvider.getInstance().post(new SplashEvent());
+                BusProvider.getInstance().post(new SplashEvent());
             }
         });
-
-        //Start animation title
-//        Animation animation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.alpha);
-//        animation.reset();
-//        appName.setAnimation(animation);
-//        appName.clearAnimation();
-//        appName.startAnimation(animation);
-
-        //start animation logo
-//        Animation animLogo= AnimationUtils.loadAnimation(this.getActivity(), R.anim.translate);
-//        animLogo.reset();
-//        imageLogo.setAnimation(animLogo);
-//        imageLogo.clearAnimation();
-//        imageLogo.setAnimation(animLogo);
 
         return view;
     }

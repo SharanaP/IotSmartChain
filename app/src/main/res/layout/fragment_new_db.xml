@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="3dp"
+            app:cardBackgroundColor="@color/color_background_screen">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Home/Away"
+                android:textColor="@color/color_garnet"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/cardView"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/color_yellow_light">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_alert"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:elevation="4dp"
+                android:src="@drawable/no_notification"
+                app:civ_border_color="@color/color_text"
+                app:civ_border_width="2dp"
+                android:onClick="alert"
+                app:civ_circle_background_color="@color/color_grey_light" />
+
+
+            <ImageView
+                android:id="@+id/image_logos"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_alignTop="@+id/image_alert"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_toEndOf="@+id/image_alert"
+                android:layout_toRightOf="@+id/image_alert"
+                android:onClick="logs"
+                android:padding="15dp"
+                app:srcCompat="@drawable/logs_icon" />
+
+
+            <ImageView
+                android:id="@+id/image_master_lock"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_above="@+id/image_logos"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_toEndOf="@+id/image_alert"
+                android:layout_toRightOf="@+id/image_alert"
+                android:onClick="masterLock"
+                android:padding="15dp"
+                app:srcCompat="@drawable/lock_icon" />
+
+            <ImageView
+                android:id="@+id/image_bridges"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_above="@+id/image_alert"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:onClick="bridges"
+                android:padding="15dp"
+                app:srcCompat="@drawable/list_of_bridges_icon" />
+
+
+            <ImageView
+                android:id="@+id/image_analytics"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_above="@+id/image_logos"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_toStartOf="@id/image_alert"
+                android:onClick="analytics"
+                android:padding="15dp"
+                app:srcCompat="@drawable/analytics_icon" />
+
+            <ImageView
+                android:id="@+id/image_future"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_below="@+id/image_analytics"
+                android:layout_alignBaseline="@id/image_alert"
+                android:layout_alignTop="@+id/image_alert"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toStartOf="@+id/image_alert"
+                android:onClick="optional"
+                android:padding="15dp"
+                app:srcCompat="@drawable/optional_icon" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

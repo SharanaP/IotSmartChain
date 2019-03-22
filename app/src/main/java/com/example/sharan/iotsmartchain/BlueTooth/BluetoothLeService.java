@@ -118,8 +118,6 @@ public class BluetoothLeService extends Service {
                 }
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             }
-
-
         }
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

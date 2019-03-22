@@ -62,9 +62,9 @@ public class ApiServiceModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache, Interceptor interceptor) {
         OkHttpClient client = new OkHttpClient();
-        try{
+        try {
             client.interceptors().add(interceptor);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         client.setCache(cache);
@@ -76,11 +76,11 @@ public class ApiServiceModule {
     @Singleton
     OkHttpClient provideOkHttpClient_non_cached(Interceptor interceptor) {
         OkHttpClient client = new OkHttpClient();
-        try{
+        try {
             client.interceptors().add(interceptor);
-        } catch(RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return client;
@@ -119,12 +119,11 @@ public class ApiServiceModule {
 
                 request = reqBuilder.build();
             }
-            try{
+            try {
                 return chain.proceed(request); //Exception java.net.SocketTimeoutException
-            }
-            catch (SocketTimeoutException e){
+            } catch (SocketTimeoutException e) {
                 return null;
-            } catch (ConnectException connectException){
+            } catch (ConnectException connectException) {
                 return null;
             }
 

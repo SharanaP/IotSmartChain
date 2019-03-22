@@ -36,14 +36,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.sharan.iotsmartchain.App;
-import com.example.sharan.iotsmartchain.NormalFlow.activities.CreateNonSpatialActivity;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
 import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.GyroscopeModel;
-import com.example.sharan.iotsmartchain.model.NonSpatialModel;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -161,6 +159,67 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private GyroscopeModel gyroscopeModel = new GyroscopeModel();
     private int maxNumberOfPoints = 100;
     private int numOfLatestGyroList = 20;
+    private int minNumOfPoints = 50;
+    /*Read gyro x-axis */
+    Runnable mRunnableGyroX = new Runnable() {
+        private int i = 0;
+
+        @Override
+        public void run() {
+            try {
+                isGyroXRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroX.add(new PointValue(i++, gyroX));
+                data.getLines().get(0).setValues(new ArrayList<>(pointValuesGyroX));
+                lineChartView.setLineChartData(data);
+                setViewportGyroX();
+                mGyroXHandler.postDelayed(this, 50);
+            } catch (Exception e) {
+                e.printStackTrace();
+                isGyroXRunning = false;
+            }
+        }
+    };
+    /*Read gyro y-axis*/
+    Runnable mRunnableGyroY = new Runnable() {
+        private int i = 0;
+
+        @Override
+        public void run() {
+            try {
+                isGyroYRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroY.add(new PointValue(i++, gyroY));
+                data.getLines().get(1).setValues(new ArrayList<>(pointValuesGyroY));
+                lineChartView.setLineChartData(data);
+                setViewportGyroY();
+                mGyroYHandler.postDelayed(this, 50);
+            } catch (Exception e) {
+                e.printStackTrace();
+                isGyroYRunning = false;
+            }
+        }
+    };
+    /*Read gyro z-axis*/
+    Runnable mRunnableGyroZ = new Runnable() {
+        private int i = 0;
+
+        @Override
+        public void run() {
+            try {
+                isGyroZRunning = true;
+                LineChartData data = lineChartView.getLineChartData();
+                pointValuesGyroZ.add(new PointValue(i++, gyroZ));
+                data.getLines().get(2).setValues(new ArrayList<>(pointValuesGyroZ));
+                lineChartView.setLineChartData(data);
+                setViewportGyroZ();
+                mGyroZHandler.postDelayed(this, 50);
+            } catch (Exception e) {
+                e.printStackTrace();
+                isGyroZRunning = false;
+            }
+        }
+    };
     private String mDeviceName;
     private String mDeviceAddress;
     private String mIotSN;
@@ -194,31 +253,17 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private boolean mConnected = false;
     private BluetoothGattCharacteristic mNotifyCharacteristic;
     private BluetoothGattCharacteristic characteristic = null;
-    private int charaProp = -1;
+    private BluetoothGattCharacteristic readCharacteristic = null;
+    private BluetoothGattCharacteristic writeCharacteristic = null;
+    private int readCharaProp = -1;
+    private int writeCharaProp = -1;
     /*Show dialog*/
     private Dialog dialog;
     private AlertDialog.Builder builder;
     private LayoutInflater inflater;
     private View rootView;
     private ProgressDialog progressDialog;
-    //line chart view
-    private LineChartData data;
-    private int numberOfLines = 3;
-    private int maxNumberOfLines = 4;//4
-    private int numberOfPoints = 12;
-    private boolean hasAxes = true;
-    private boolean hasAxesNames = true;
-    private boolean hasLines = true;
-    private boolean hasPoints = true;
-    private ValueShape shape = ValueShape.CIRCLE; //shape of chart
-    private boolean isFilled = false;
-    private boolean hasLabels = false;
-    private boolean isCubic = false;
-    private boolean hasLabelForSelected = false;
-    private boolean pointsHaveDifferentColor;
-    private boolean hasGradientToTransparent = false;
-    //init once only for showing door option
-    private boolean flagMessageOnce = false;
+
     // Handles various events fired by the Service.
     // ACTION_GATT_CONNECTED: connected to a GATT server.
     // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
@@ -329,12 +374,32 @@ public class SensorViaBleTestActivity extends BaseActivity {
                         if (bService.getUuid().toString()
                                 .equals(TargetGattAttributes.TEST_BLE_SERVICE)) {
                             Log.e("HRS SERVICE", bService.toString());
-                            characteristic =
+                            /*characteristic =
                                     bService.getCharacteristic(
                                             UUID.fromString(TargetGattAttributes.TEST_BLE_CHARACTERISTIC));
                             Log.e(TAG, "characteristic uuid :: " + characteristic.getUuid().toString());
                             if (characteristic != null) {
                                 charaProp = characteristic.getProperties();
+                                //display read char
+                                // showReadCharacteristic();
+                                isShowDialog = true;
+                            } else {
+                                isShowDialog = false;
+                            }*/
+
+                            readCharacteristic =
+                                    bService.getCharacteristic(
+                                            UUID.fromString(TargetGattAttributes.TEST_BLE_CHARACTERISTIC));
+                            Log.e(TAG, "Read characteristic uuid :: " + readCharacteristic.getUuid().toString());
+
+                            writeCharacteristic =
+                                    bService.getCharacteristic(
+                                            UUID.fromString(TargetGattAttributes.TEST_BLE_CHARACTERISTIC));
+                            Log.e(TAG, "write characteristic uuid :: " + writeCharacteristic.getUuid().toString());
+
+                            if (readCharacteristic != null && writeCharacteristic != null) {
+                                readCharaProp = readCharacteristic.getProperties();
+                                writeCharaProp = writeCharacteristic.getProperties();
                                 //display read char
                                 // showReadCharacteristic();
                                 isShowDialog = true;
@@ -350,78 +415,40 @@ public class SensorViaBleTestActivity extends BaseActivity {
             }
         }
     };
-    /*Read gyro x-axis */
-    Runnable mRunnableGyroX = new Runnable() {
-        private int i = 0;
-        @Override
-        public void run() {
-            try{
-                isGyroXRunning = true;
-                LineChartData data = lineChartView.getLineChartData();
-                pointValuesGyroX.add(new PointValue(i++, gyroX));
-                data.getLines().get(0).setValues(new ArrayList<>(pointValuesGyroX));
-                lineChartView.setLineChartData(data);
-                setViewportGyroX();
-                mGyroXHandler.postDelayed(this, 50);
-            }catch (Exception e){
-                e.printStackTrace();
-                isGyroXRunning = false;
-            }
-        }
-    };
-    /*Read gyro y-axis*/
-    Runnable mRunnableGyroY = new Runnable() {
-        private int i = 0;
-        @Override
-        public void run() {
-            try {
-                isGyroYRunning = true;
-                LineChartData data = lineChartView.getLineChartData();
-                pointValuesGyroY.add(new PointValue(i++, gyroY));
-                data.getLines().get(1).setValues(new ArrayList<>(pointValuesGyroY));
-                lineChartView.setLineChartData(data);
-                setViewportGyroY();
-                mGyroYHandler.postDelayed(this, 50);
-            }catch (Exception e){
-                e.printStackTrace();
-                isGyroYRunning = false;
-            }
-        }
-    };
-    /*Read gyro z-axis*/
-    Runnable mRunnableGyroZ = new Runnable() {
-        private int i = 0;
-        @Override
-        public void run() {
-            try{
-                isGyroZRunning = true;
-                LineChartData data = lineChartView.getLineChartData();
-                pointValuesGyroZ.add(new PointValue(i++, gyroZ));
-                data.getLines().get(2).setValues(new ArrayList<>(pointValuesGyroZ));
-                lineChartView.setLineChartData(data);
-                setViewportGyroZ();
-                mGyroZHandler.postDelayed(this, 50);
-            }catch (Exception e){
-                e.printStackTrace();
-                isGyroZRunning = false;
-            }
-        }
-    };
     /*This runnable thread for reading Iot Sensor data*/
     Runnable mBleRunnable = new Runnable() {
         int i = 0;
+
         @Override
         public void run() {
-            try{
+            try {
                 isDataRunning = true;
                 showReadCharacteristic();
                 mBleReadHandler.postDelayed(this, 50);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 isDataRunning = false;
             }
         }
 
     };
+    //line chart view
+    private LineChartData data;
+    private int numberOfLines = 3;
+    private int maxNumberOfLines = 4;//4
+    private int numberOfPoints = 12;
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = true;
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private ValueShape shape = ValueShape.CIRCLE; //shape of chart
+    private boolean isFilled = false;
+    private boolean hasLabels = false;
+    private boolean isCubic = false;
+    private boolean hasLabelForSelected = false;
+    private boolean pointsHaveDifferentColor;
+    private boolean hasGradientToTransparent = false;
+    //init once only for showing door option
+    private boolean flagMessageOnce = false;
     /*Check Iot Sensor moved or not */
     Runnable mRunnableCheckSensorMoved = new Runnable() {
         @Override
@@ -431,7 +458,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
                 checkDeviceMoved(dialogTextMessage, imageViewIcon, checkedTextViewOne, checkedTextViewTwo,
                         checkedTextViewThree);
                 mCheckSensorMovedHandler.postDelayed(this, 30);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 isMovedRunning = false;
             }
@@ -450,7 +477,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
     //read characteristic
     private boolean showReadCharacteristic() {
         boolean isReadChar = false;
-        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+        if ((readCharaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
             // If there is an active notification on a characteristic, clear
             // it first so it doesn't update the data field on the user interface.
             if (mNotifyCharacteristic != null) {
@@ -460,18 +487,27 @@ public class SensorViaBleTestActivity extends BaseActivity {
                             mNotifyCharacteristic, false);
                 mNotifyCharacteristic = null;
                 isReadChar = false;
+            } else {
+                Log.e(TAG, "mNotifyCharacteristic is null");
             }
 
             if (mBluetoothLeService != null) {
-                isReadChar = mBluetoothLeService.readCharacteristic(characteristic);
-                if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+                isReadChar = mBluetoothLeService.readCharacteristic(readCharacteristic);
+                if ((readCharaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                     mNotifyCharacteristic = characteristic;
                     mBluetoothLeService.setCharacteristicNotification(
-                            characteristic, true);
+                            readCharacteristic, true);
+                    byte[] data = readCharacteristic.getValue();
+                    if (data != null) {
+                        for (double val : data)
+                            Log.e(TAG, "aaa " + val);
+                    }
                 }
+            } else {
+                Log.e(TAG, "mBluetoothLeService is null");
             }
 
-            Log.d(TAG, "get properties : " + characteristic.getProperties());
+            Log.d(TAG, "get properties : " + readCharacteristic.getProperties());
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
@@ -493,10 +529,10 @@ public class SensorViaBleTestActivity extends BaseActivity {
             }
 
             //write BLE characteristic
-            if ((charaProp | BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
-                if (characteristic != null) {
+            if ((writeCharaProp | BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
+                if (writeCharacteristic != null) {
                     if (value != null) {
-                        boolean isWrite = mBluetoothLeService.writeCharacteristic(characteristic, value);
+                        boolean isWrite = mBluetoothLeService.writeCharacteristic(writeCharacteristic, value);
                         if (isWrite) {
                             Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
                                     "BLE Write Successfully", ALERTCONSTANT.SUCCESS);
@@ -508,7 +544,8 @@ public class SensorViaBleTestActivity extends BaseActivity {
                             Utils.SnackBarView(SensorViaBleTestActivity.this, mCoordinatorLayout,
                                     "Fail to write input message", ALERTCONSTANT.WARNING);
                             //show alert dialog message
-                            showBleGatewayDialog("Failed to set input message and try again!!!", ALERTCONSTANT.ERROR, false);
+                            showBleGatewayDialog("Failed to set input message and try again!!!",
+                                    ALERTCONSTANT.ERROR, false);
                             progressDialog.setMessage("Failed to set input message and try again!!!");
                         }
                     } else {
@@ -564,7 +601,9 @@ public class SensorViaBleTestActivity extends BaseActivity {
             if (!progressDialog.isShowing()) progressDialog.show();
         }
 
+
         //edit text input for write into BLE
+        editTextInput.setText("1");
         editTextInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -690,6 +729,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_battery_status, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_refresh);
+        menuItem.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -721,28 +761,28 @@ public class SensorViaBleTestActivity extends BaseActivity {
 
     /*Clear all runnable call backs*/
     private void ClearAllRunnableCallBacks() {
-        if(isDataRunning){
+        if (isDataRunning) {
             isDataRunning = false;
-            Log.d(TAG, "isDataRunning : "+isDataRunning);
+            Log.d(TAG, "isDataRunning : " + isDataRunning);
             mBleReadHandler.removeCallbacks(mBleRunnable);
         }
-        if(isGyroXRunning){
+        if (isGyroXRunning) {
             isGyroXRunning = false;
-            Log.d(TAG, "isGyroXRunning : "+isGyroXRunning);
+            Log.d(TAG, "isGyroXRunning : " + isGyroXRunning);
             mGyroXHandler.removeCallbacks(mRunnableGyroX);
         }
-        if(isGyroYRunning){
+        if (isGyroYRunning) {
             isGyroYRunning = false;
-            Log.d(TAG, "isGyroYRunning : "+isGyroYRunning);
+            Log.d(TAG, "isGyroYRunning : " + isGyroYRunning);
             mGyroYHandler.removeCallbacks(mRunnableGyroY);
         }
-        if(isGyroZRunning){
-            Log.d(TAG, "isGyroZRunning : "+isGyroZRunning);
+        if (isGyroZRunning) {
+            Log.d(TAG, "isGyroZRunning : " + isGyroZRunning);
             isGyroZRunning = false;
             mGyroZHandler.removeCallbacks(mRunnableGyroZ);
         }
-        if(isMovedRunning){
-            Log.d(TAG, "isMovedRunning : "+isMovedRunning);
+        if (isMovedRunning) {
+            Log.d(TAG, "isMovedRunning : " + isMovedRunning);
             isMovedRunning = false;
             mCheckSensorMovedHandler.removeCallbacks(mRunnableCheckSensorMoved);
         }
@@ -752,24 +792,24 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private void StartAllRunnableCallBacks() {
         //TODO IndexOutOfBoundsException
         try {
-            if(!isDataRunning){
-                Log.d(TAG, "start : isDataRunning : "+isDataRunning);
+            if (!isDataRunning) {
+                Log.d(TAG, "start : isDataRunning : " + isDataRunning);
                 mBleRunnable.run();
             }
-            if(!isGyroXRunning){
-                Log.d(TAG, "start : isGyroXRunning : "+isGyroXRunning);
+            if (!isGyroXRunning) {
+                Log.d(TAG, "start : isGyroXRunning : " + isGyroXRunning);
                 mRunnableGyroX.run();
             }
-            if(!isGyroYRunning){
-                Log.d(TAG, "start : isGyroYRunning : "+isGyroYRunning);
+            if (!isGyroYRunning) {
+                Log.d(TAG, "start : isGyroYRunning : " + isGyroYRunning);
                 mRunnableGyroY.run();
             }
-            if(!isGyroZRunning){
-                Log.d(TAG, "start : isGyroZRunning : "+isGyroZRunning);
+            if (!isGyroZRunning) {
+                Log.d(TAG, "start : isGyroZRunning : " + isGyroZRunning);
                 mRunnableGyroZ.run();
             }
-            if(!isMovedRunning){
-                Log.d(TAG, "start : isMovedRunning : "+isMovedRunning);
+            if (!isMovedRunning) {
+                Log.d(TAG, "start : isMovedRunning : " + isMovedRunning);
                 mRunnableCheckSensorMoved.run();
             }
         } catch (IndexOutOfBoundsException ex) {
@@ -996,9 +1036,9 @@ public class SensorViaBleTestActivity extends BaseActivity {
     private void showGyroData() {
         lineChartView.setInteractive(true);
         lineChartView.setMaxZoom(1000.0f);
+//        lineChartView.setInteractive(true);//todo
         lineChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
         lineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
-
         lines = new ArrayList<>();
         Line line = null;
         LineChartData data = null;
@@ -1006,6 +1046,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
         for (int i = 0; i < 3; i++) {
             line = new Line();
             line.setHasLines(true);
+            line.setStrokeWidth(1);
             line.setCubic(true);
             line.setHasPoints(false);
             line.setColor(ChartUtils.COLORS[i]);
@@ -1038,7 +1079,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
         int size = pointValuesGyroX.size();
         if (size > maxNumberOfPoints) {
             final Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-            viewport.left = size - 50;
+            viewport.left = size - minNumOfPoints;
             lineChartView.setMaximumViewport(viewport);
             lineChartView.setCurrentViewport(viewport);
         }
@@ -1054,7 +1095,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
         int size = pointValuesGyroY.size();
         if (size > maxNumberOfPoints) {
             final Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-            viewport.left = size - 50;
+            viewport.left = size - minNumOfPoints;
             lineChartView.setMaximumViewport(viewport);
             lineChartView.setCurrentViewport(viewport);
         }
@@ -1070,7 +1111,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
         int size = pointValuesGyroZ.size();
         if (size > maxNumberOfPoints) {
             final Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-            viewport.left = size - 50;
+            viewport.left = size - minNumOfPoints;
             lineChartView.setMaximumViewport(viewport);
             lineChartView.setCurrentViewport(viewport);
         }
@@ -1240,7 +1281,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
     }
 
     /*Show Alert  message */
-    private void alertMessageDialog(){
+    private void alertMessageDialog() {
         new AlertDialog.Builder(SensorViaBleTestActivity.this)
                 .setIcon(R.drawable.tito_logo_v1)
                 .setTitle("Alert Message")
@@ -1257,7 +1298,7 @@ public class SensorViaBleTestActivity extends BaseActivity {
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                               dialog.dismiss();
+                                dialog.dismiss();
                             }
                         }
                 )

@@ -65,6 +65,7 @@ public class ListOfLockAdapter extends ArrayAdapter<DeviceLockerModel> {
             if (viewHolder.deviceLockerModel.getDeviceType() != null) {
                 viewHolder.mTvDeviceName.setText(viewHolder.deviceLockerModel.getDeviceType());
             }
+
             if (viewHolder.deviceLockerModel.isLocked()) {
                 viewHolder.mSwitch.setChecked(true);
             } else {
@@ -72,8 +73,11 @@ public class ListOfLockAdapter extends ArrayAdapter<DeviceLockerModel> {
             }
 
             if(viewHolder.deviceLockerModel.isMasterLocked()){
-//                ViewHolder.mSwitch.setChecked(true);
                 viewHolder.mSwitch.setEnabled(false);
+                viewHolder.mSwitch.setChecked(true);
+            }else{
+                viewHolder.mSwitch.setEnabled(true);
+                viewHolder.mSwitch.setChecked(false);
             }
         }
 

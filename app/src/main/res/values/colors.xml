@@ -94,4 +94,11 @@
     <drawable name="tab_gray">@color/bg_gray</drawable>
     <drawable name="tab_white">@android:color/white</drawable>
 
+
+    <!--FAB-->
+    <color name="colorWindowBackground">#303030</color>
+    <color name="colorWhiteBackground">#9F333232</color>
+    <color name="green_fab">#57BB8A</color>
+    <color name="colorTransBg">#26000000</color>
+
 </resources>

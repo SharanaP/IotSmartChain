@@ -4,6 +4,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_grey_light_high"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -104,6 +105,12 @@
         android:layout_marginBottom="5dp"
         app:backgroundTint="@color/color_orange"
         app:srcCompat="@drawable/qrcode_scan" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        layout="@layout/custom_fab_textview"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -29,17 +29,14 @@ import butterknife.BindView;
 
 public class MasterLockActivity extends BaseActivity {
     private static String TAG = MasterLockActivity.class.getSimpleName();
-
     @BindView(R.id.toolbar)Toolbar mToolbar;
     @BindView(R.id.switch_lock_all)SwitchCompat mSwitchLockAll;
     @BindView(R.id.listViewLocks)ListView mLvDeviceLocks;
-
     private DeviceLockerModel deviceLockerModel;
     private ListOfLockAdapter mAdapter;
     private HashMap<String, DeviceLockerModel> mDeviceMap = new LinkedHashMap<>();
     private String mUrl, loginId, token;
     private ArrayList<DeviceLockerModel> arrayListOfLock = new ArrayList<>();
-
     private String listDeviceLockStr = "{\"tokenid\": \"84h39873423h823\",\"emailid\": \"personName@gmail.com\", " +
             "\"status\": \"true\", \"message\" : \"Successfully\",  \"masterLock\" : false, " +
             " \"deviceLockInfo\": [\n" +
@@ -72,7 +69,6 @@ public class MasterLockActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-
             }
         });
 
@@ -81,11 +77,7 @@ public class MasterLockActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //TODO based on selection enable switch
                 mAdapter.clear();
-                if(isChecked){
-                    readStringToList(true);
-                }else{
-                    readStringToList(false);
-                }
+                readStringToList(isChecked);
             }
         });
 
@@ -109,7 +101,7 @@ public class MasterLockActivity extends BaseActivity {
             tokenid = (String) jObject.get("tokenid");
             status = (String) jObject.get("status");
             message = (String)jObject.get("message");
-            isMasterLocked = (Boolean)jObject.getBoolean("masterLock");
+         //   isMasterLocked = (Boolean)jObject.getBoolean("masterLock");
 
 
         } catch (JSONException e) {

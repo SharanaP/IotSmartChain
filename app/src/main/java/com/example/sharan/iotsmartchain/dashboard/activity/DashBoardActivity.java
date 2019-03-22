@@ -84,11 +84,11 @@ public class DashBoardActivity extends BaseActivity {
               /*  case R.id.navigation_Register_iot:
                     selectedFragment = RegisterNewIotFragment.newInstance();
                     break;*/
-                case R.id.navigation_floorplan:
-                    selectedFragment = FloorPlanFragment.newInstance();
-                    floorPlanFragment = (FloorPlanFragment) selectedFragment;
-
-                    break;
+//                case R.id.navigation_floorplan:
+//                    selectedFragment = FloorPlanFragment.newInstance();
+//                    floorPlanFragment = (FloorPlanFragment) selectedFragment;
+//
+//                    break;
                 case R.id.navigation_notifications:
                     //  selectedFragment = NotificationsFragment.newInstance();
                     selectedFragment = AllNotificationsFragment.newInstance();
@@ -162,7 +162,7 @@ public class DashBoardActivity extends BaseActivity {
         //Display a notification badge
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        View v = bottomNavigationMenuView.getChildAt(2);
+        View v = bottomNavigationMenuView.getChildAt(1);
         BottomNavigationItemView itemView = (BottomNavigationItemView) v;
         View badge = LayoutInflater.from(this)
                 .inflate(R.layout.notification_badge, bottomNavigationMenuView, false);

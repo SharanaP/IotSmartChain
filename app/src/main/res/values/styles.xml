@@ -11,6 +11,7 @@
         <item name="actionModeStyle">@style/Widget_ActionMode</item>
         <item name="panelBackground">@color/color_Accent</item>
         <item name="searchViewStyle">@style/SearchViewMy</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <!--Action mode -->
@@ -28,7 +29,6 @@
         <item name="android:icon">@null</item>
         <item name="android:textColorHint">@color/color_grey_medium</item>
     </style>
-
 
     <!--Toolbar-->
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
@@ -54,7 +54,6 @@
         <item name="colorAccent">@color/color_random_green</item>
         <item name="android:textColorSecondary">@color/color_random_green</item>
     </style>  //26A69A
-
 
     <!--Cardview -->
     <style name="MyCardViewStyle" parent="Theme.AppCompat.Light">
@@ -87,7 +86,6 @@
         <item name="colorAccent">@color/color_Accent</item>
     </style>
 
-
     <style name="Widget.Design.TextInputLayout" parent="AppTheme">
         <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
     </style>
@@ -117,7 +115,6 @@
         <item name="android:colorBackground">@android:color/background_light</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
-
 
     <style name="SmoothCheckBoxStyle">
         <item name="color_checked">@color/checkbox_color</item>
@@ -149,4 +146,27 @@
         <item name="android:windowBackground">@null</item>
         <item name="android:windowFrame">@null</item>
     </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_left_right_dialog</item>
+    </style>
+
+    <style name="MyCustomPickerTheme" parent="MultiContactPicker.Azure">
+        <item name="colorPrimary">@color/color_Primary</item>
+        <item name="colorPrimaryDark">@color/color_PrimaryDark</item>
+        <item name="mcpToolbarTheme">@style/MyCustomToolbarTheme</item>
+        <item name="mcpListPopupWindowStyleTheme">@style/MyCustomToolbarTheme</item>
+    </style>
+
+    <style name="MyCustomToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/color_white</item>
+        <item name="android:textColorSecondary">@color/color_grey_medium</item>
+    </style>
+
 </resources>

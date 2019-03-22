@@ -8,13 +8,13 @@
         android:title="DashBoard"
         android:showAsAction="always|withText"
         tools:ignore="AppCompatResource" />
-
+<!--
     <item
         android:id="@+id/navigation_floorplan"
         android:icon="@drawable/floorplan"
         android:title="FloorPlan"
         android:showAsAction="always|withText"
-        tools:ignore="AppCompatResource" />
+        tools:ignore="AppCompatResource" />-->
 
     <item
         android:id="@+id/navigation_notifications"

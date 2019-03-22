@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview_gateway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--icon-->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/tito_logo_v1"
+                app:civ_border_color="@color/color_grey"
+                app:civ_border_width="@dimen/_1sdp"
+                app:civ_circle_background_color="@color/color_grey" />
+
+            <LinearLayout
+                android:id="@+id/ll_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/image_icon"
+                android:orientation="vertical">
+
+                <!--label-->
+                <LinearLayout
+                    android:id="@+id/ll_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/image_icon"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Label"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/text_split"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_label_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Home/Office"
+                        android:textColor="@color/color_text"
+                        android:textSize="15sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+                <!--gateway UID-->
+                <LinearLayout
+                    android:id="@+id/ll_gateway"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_label"
+                    android:layout_toRightOf="@+id/image_icon"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_uid_label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Bridge UID"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/text_split1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_gateway"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="GGS0090010"
+                        android:textColor="@color/color_grey_dark"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <!--status-->
+                <LinearLayout
+                    android:id="@+id/ll_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_gateway"
+                    android:layout_toRightOf="@+id/image_icon"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_status_label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Status"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/text_split2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@color/color_black_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Installed"
+                        android:textColor="@color/color_grey_medium"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <!--Time stamp and setting -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right">
+
+                    <TextView
+                        android:id="@+id/text_timestamp"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_toLeftOf="@+id/image_setting"
+                        android:gravity="right|bottom"
+                        android:text="12:35:23 21 may 2018"
+                        android:textColor="@color/color_grey_medium"
+                        android:textSize="11sp"
+                        android:typeface="normal" />
+
+                    <ImageView
+                        android:id="@+id/image_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="2dp"
+                        app:srcCompat="@drawable/settings_outline" />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--Arrow icon -->
+            <ImageView
+                android:id="@+id/image_arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+            <!--Info icon-->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_info"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_info"
+                android:visibility="visible"
+                app:civ_border_color="@color/color_grey"
+                app:civ_border_width="1dp"
+                app:civ_circle_background_color="@color/color_grey_light" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

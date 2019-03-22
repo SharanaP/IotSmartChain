@@ -3,7 +3,6 @@ package com.example.sharan.iotsmartchain.di.component;
 import com.example.sharan.iotsmartchain.di.module.ActivityModule;
 import com.example.sharan.iotsmartchain.di.scope.PerActivity;
 
-
 import dagger.Component;
 
 /**

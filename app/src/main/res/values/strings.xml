@@ -91,7 +91,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="rationale_photo_picker">We require this permission to select photo from gallery and camera.</string>
-    <string name="rationale_doc_picker">We need this pemission to read documents from device.</string>
+    <string name="rationale_doc_picker">We need this permission to read documents from device.</string>
 
     <!--BLE-->
     <string name="ble_not_supported">You device not supporting BLE</string>
@@ -202,4 +202,15 @@
     <string name="did_u_moved_sensor">Did you moved the sensor, Then say YES by clicking test</string>
     <string name="rotate_r_move_sensor">Rotate or Move the sensor device</string>
     <string name="title_activity_maps">Map</string>
+
+    <string-array name="array_labels">
+        <item>Home</item>
+        <item>Office</item>
+        <item>Room</item>
+        <item>Work Station</item>
+        <item>Locker</item>
+        <item>Guest House</item>
+        <item>Home ground floor</item>
+        <item>Home 1st Floor</item>
+    </string-array>
 </resources>

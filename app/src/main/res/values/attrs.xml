@@ -8,4 +8,18 @@
         <attr name="color_unchecked" format="color"/>
         <attr name="color_unchecked_stroke" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="FabWithTitleView">
+        <attr name="fab_title" format="string" />
+        <attr name="fab_color" format="color" />
+        <attr name="fab_drawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="OptionsFabLayout">
+        <attr name="options_menu" format="reference" />
+        <attr name="options_color" format="color" />
+        <attr name="src" format="reference" />
+        <attr name="color" format="color" />
+        <attr name="background_color" format="color" />
+    </declare-styleable>
 </resources>

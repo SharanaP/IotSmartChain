@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fab_qr"
+        android:icon="@drawable/qrcode_scan"
+        android:title="Qr Scanner" />
+
+    <item
+        android:id="@+id/fab_add"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="Manually" />
+
+    <item
+        android:id="@+id/fab_cancel"
+        android:icon="@drawable/ic_close_black_24dp"
+        android:title="Cancel" />
+
+</menu>

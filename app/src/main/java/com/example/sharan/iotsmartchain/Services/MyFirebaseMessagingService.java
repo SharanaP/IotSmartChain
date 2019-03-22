@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Switch;
 
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
-import com.example.sharan.iotsmartchain.dashboard.activity.DashBoardActivity;
 import com.example.sharan.iotsmartchain.global.NotificationUtils;
+import com.example.sharan.iotsmartchain.newDesignTiTo.NewDashBoardActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -139,7 +138,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // Log.e(TAG, "payload: " + payload.toString());
             Log.e(TAG, "imageUrl : " + imageUrl);
             Log.e(TAG, "timestamp : " + timestamp);
-            Log.e(TAG, "notifyType "+notifyType);
+            Log.e(TAG, "notifyType " + notifyType);
 
             //  Log.e(TAG, "Unread Count Value : "+unReadCount);
 
@@ -169,7 +168,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                notificationUtils.playNotificationSound();
 //            } else {
             // app is in background, show the notification in notification tray
-            switch (notifyType){
+            switch (notifyType) {
                 case 0:
                     notificationType = NotificationType.NONE;
                     break;
@@ -196,11 +195,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void processNotification(NotificationType notifyType, String message,
                                      String title, String timestamp,
-                                     String imageUrl){
-        Intent resultIntent = new Intent(getApplicationContext(), DashBoardActivity.class);
+                                     String imageUrl) {
+        Intent resultIntent = new Intent(getApplicationContext(), NewDashBoardActivity.class);
         resultIntent.putExtra("message", message);
 
-        switch(notifyType){
+        switch (notifyType) {
             case LOW:
                 if (TextUtils.isEmpty(imageUrl) && imageUrl != null) {
                     showNotificationMessage(getApplicationContext(), title, message, timestamp, new Intent());

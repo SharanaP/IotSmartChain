@@ -15,21 +15,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.R;
-import com.example.sharan.iotsmartchain.WifiNetwork.ConnectionManager;
+import com.example.sharan.iotsmartchain.global.ALERTCONSTANT;
+import com.example.sharan.iotsmartchain.global.NetworkUtil;
+import com.example.sharan.iotsmartchain.global.Utils;
+import com.example.sharan.iotsmartchain.model.BridgeModel;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -81,6 +94,8 @@ public class DeviceControlActivity extends Activity {
             mBluetoothLeService = null;
         }
     };
+    private ProgressBar progressBar;
+    private CoordinatorLayout coordinatorLayout;
     /*Show dialog*/
     private Dialog dialog;
     private AlertDialog.Builder builder;
@@ -88,7 +103,8 @@ public class DeviceControlActivity extends Activity {
     private BluetoothGattCharacteristic characteristic = null;
     private int charaProp = -1;
     private ProgressDialog progressDialog;
-
+    private BridgeModel bridgeModel;
+    private BridgeConfigureAsync bridgeConfigureAsync = null;
     // Handles various events fired by the Service.
     // ACTION_GATT_CONNECTED: connected to a GATT server.
     // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
@@ -104,7 +120,10 @@ public class DeviceControlActivity extends Activity {
                 mConnected = true;
                 Log.e(TAG, "Connected");
                 mTextView.setText("BLE Connected");
-                Snackbar.make(mView, "BLE Connected", Snackbar.LENGTH_LONG).show();
+                /*Snackbar.make(mView, "BLE Connected", Snackbar.LENGTH_LONG).show();*/
+                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                        bridgeModel.getGatewayUid() + "\n BLE Connected",
+                        ALERTCONSTANT.SUCCESS);
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) progressDialog.setMessage("BLE Connected");
                 }
@@ -112,7 +131,10 @@ public class DeviceControlActivity extends Activity {
                 mConnected = false;
                 Log.d(TAG, "Disconnected");
                 mTextView.setText("BLE Disconnected");
-                Snackbar.make(mView, "BLE is disconnected adn try again", Snackbar.LENGTH_LONG).show();
+                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                        bridgeModel.getGatewayUid() + "\n BLE is disconnected adn try again",
+                        ALERTCONSTANT.WARNING);
+                //  Snackbar.make(mView, "BLE is disconnected adn try again", Snackbar.LENGTH_LONG).show();
 
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) {
@@ -134,16 +156,18 @@ public class DeviceControlActivity extends Activity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         Log.e(TAG, "UUID : " + bService.getUuid().toString());
                     }
-                    Log.e(TAG, "TARGET : " + TargetGattAttributes.TARGET_BLE_SERVICE);
+
+                    Log.e(TAG, "TARGET : " + TargetGattAttributes.getTargetBleService());
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+
                         if (bService.getUuid().toString()
-                                .equals(TargetGattAttributes.TARGET_BLE_SERVICE)) {
+                                .equals(TargetGattAttributes.getTargetBleService())) {
                             Log.e("HRS SERVICE", bService.toString());
 
                             characteristic =
                                     bService.getCharacteristic(
-                                            UUID.fromString(TargetGattAttributes.TARGET_BLE_CHARACTERISTIC));
+                                            UUID.fromString(TargetGattAttributes.getTargetBleCharacteristic()));
                             charaProp = characteristic.getProperties();
 
                             //                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
@@ -221,45 +245,66 @@ public class DeviceControlActivity extends Activity {
                         if (value != null) {
                             boolean isWrite = mBluetoothLeService.writeCharacteristic(characteristic, value);
                             if (isWrite) {
-                                Snackbar.make(mView, "Set SSID is Successfully ",
-                                        Snackbar.LENGTH_LONG).show();
+                                /*Snackbar.make(mView, "Set SSID is Successfully ",
+                                        Snackbar.LENGTH_LONG).show();*/
+                                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                        bridgeModel.getGatewayUid() + "\n Set SSID is Successfully",
+                                        ALERTCONSTANT.WARNING);
+                                progressDialog.setMessage("Successfully write to BLE bridge\n and wait for movement");
 
-                                showBleGatewayDialog("Successfully write to BLE gateway");
-                                progressDialog.setMessage("Successfully write to BLE gateway");
+                                int isNetwork = NetworkUtil.getConnectivityStatus(DeviceControlActivity.this);
+                                if (isNetwork == 0) {
+                                    Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                            getString(R.string.no_internet), ALERTCONSTANT.ERROR);
+                                } else {
+                                    //CALL Configure API
+                                    Utils.showProgress(DeviceControlActivity.this, mView, progressBar, true);
+                                    bridgeConfigureAsync = new BridgeConfigureAsync(DeviceControlActivity.this,
+                                            bridgeModel);
+                                    bridgeConfigureAsync.execute((Void) null);
+                                }
 
                             } else {
-                                Snackbar.make(mView, "Failed to set SSID",
-                                        Snackbar.LENGTH_LONG).show();
+                                /*Snackbar.make(mView, "Failed to set SSID",
+                                        Snackbar.LENGTH_LONG).show();*/
+                                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                        bridgeModel.getGatewayUid() + "\n Failed to set SSID",
+                                        ALERTCONSTANT.WARNING);
                                 showBleGatewayDialog("Failed to set SSID and try again!!!");
                                 progressDialog.setMessage("Failed to set SSID and try again!!!");
                             }
                         } else {
                             Log.e(TAG, " value is null ");
+                           /* Snackbar.make(mView, "Try again!!!",
+                                    Snackbar.LENGTH_LONG).show();*/
+                            Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                    bridgeModel.getGatewayUid() + "\n Try again!!!",
+                                    ALERTCONSTANT.WARNING);
                         }
                     } else {
                         Log.e(TAG, "characteristic is null");
+                        /*Snackbar.make(mView, "Try again!!!",
+                                Snackbar.LENGTH_LONG).show();*/
+                        Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                bridgeModel.getGatewayUid() + "\n Try again!!!",
+                                ALERTCONSTANT.WARNING);
                     }
                 }
 
-                //Dismiss progress dialog
-                if (progressDialog.isShowing()) {
-                    progressDialog.cancel();
-                    progressDialog.dismiss();
-                    Log.d(TAG, "progress dialog is dismiss");
-
-                    //disconnect Wi-Fi network.
-                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                    ConnectionManager connectionManager = new ConnectionManager(DeviceControlActivity.this, wifiManager);
-                    connectionManager.disableWifi();
-                }
 
             } else {
-                Snackbar.make(mView, "Enter the Gateway device Password and it should not be empty!!!",
-                        Snackbar.LENGTH_LONG).show();
+               /* Snackbar.make(mView, "Enter the Gateway device Password and it should not be empty!!!",
+                        Snackbar.LENGTH_LONG).show();*/
+                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                        bridgeModel.getGatewayUid() + "\n Enter the Gateway device Password and it should not be empty!!!",
+                        ALERTCONSTANT.WARNING);
             }
         } else {
-            Snackbar.make(mView, "Enter the Gateway device SSID and it should not be empty!!!",
-                    Snackbar.LENGTH_LONG).show();
+            /*Snackbar.make(mView, "Enter the Gateway device SSID and it should not be empty!!!",
+                    Snackbar.LENGTH_LONG).show();*/
+            Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                    bridgeModel.getGatewayUid() + "\n Enter the Gateway device SSID and it should not be empty!!!",
+                    ALERTCONSTANT.WARNING);
         }
     }
 
@@ -270,16 +315,23 @@ public class DeviceControlActivity extends Activity {
 
         mTextView = (TextView) findViewById(R.id.textview);
         mView = (View) findViewById(R.id.view_show);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_test);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+
 
         final Intent intent = getIntent();
-        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
-        mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
-        mSsidName = intent.getStringExtra("SSID");
-        mPassword = intent.getStringExtra("PASSWORD");
+        if (intent != null) {
+            mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
+            mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+            mSsidName = intent.getStringExtra("SSID");
+            mPassword = intent.getStringExtra("PASSWORD");
+            bridgeModel = (BridgeModel) intent.getSerializableExtra("BRIDGE");
+            Log.e(TAG, mDeviceName + " " + mDeviceAddress);
+            Log.e(TAG, mSsidName + " " + mPassword);
+            Log.e(TAG, "BridgeModel : " + bridgeModel.toString());
+        }
 
-        Log.e("DEVICE_INFO :: ", mDeviceName + " " + mDeviceAddress);
-        Log.e("Wi-Fi :: ", mSsidName + " " + mPassword);
-
+        //gatt service intent
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
@@ -399,11 +451,17 @@ public class DeviceControlActivity extends Activity {
                                 boolean isWrite = mBluetoothLeService.writeCharacteristic(characteristic, value);
                                 Log.e(TAG, "written is " + isWrite);
                                 if (isWrite) {
-                                    Snackbar.make(mView, "Set SSID is Successfully ",
-                                            Snackbar.LENGTH_LONG).show();
+//                                    Snackbar.make(mView, "Set SSID is Successfully ",
+//                                            Snackbar.LENGTH_LONG).show();
+                                    Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                            bridgeModel.getGatewayUid() + "\n Set SSID is Successfully ",
+                                            ALERTCONSTANT.SUCCESS);
                                 } else {
-                                    Snackbar.make(mView, "Failed to set SSID",
-                                            Snackbar.LENGTH_LONG).show();
+//                                    Snackbar.make(mView, "Failed to set SSID",
+//                                            Snackbar.LENGTH_LONG).show();
+                                    Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                            bridgeModel.getGatewayUid() + "\n Failed to set SSID ",
+                                            ALERTCONSTANT.SUCCESS);
                                 }
                             } else {
                                 Log.e(TAG, " value is null ");
@@ -411,12 +469,20 @@ public class DeviceControlActivity extends Activity {
                         }
 
                     } else {
-                        Snackbar.make(mView, "Enter the Gateway device Password and it should not be empty!!!",
-                                Snackbar.LENGTH_LONG).show();
+//                        Snackbar.make(mView, "Enter the Gateway device Password and it should not be empty!!!",
+//                                Snackbar.LENGTH_LONG).show();
+                        Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                                bridgeModel.getGatewayUid() + "\n Enter the Gateway device" +
+                                        " Password and it should not be empty!!!",
+                                ALERTCONSTANT.WARNING);
                     }
                 } else {
-                    Snackbar.make(mView, "Enter the Gateway device SSID and it should not be empty!!!",
-                            Snackbar.LENGTH_LONG).show();
+//                    Snackbar.make(mView, "Enter the Gateway device SSID and it should not be empty!!!",
+//                            Snackbar.LENGTH_LONG).show();
+                    Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                            bridgeModel.getGatewayUid() + "\n Enter the Gateway device" +
+                                    " SSID and it should not be empty!!!",
+                            ALERTCONSTANT.WARNING);
                 }
 
                 //clear data
@@ -441,7 +507,7 @@ public class DeviceControlActivity extends Activity {
         final EditText editTextSSID = (EditText) rootView.findViewById(R.id.edittext_ssid);
         final EditText editTextPSW = (EditText) rootView.findViewById(R.id.edittext_psw);
 
-        textViewTitle.setText("BLE Gateway Message");
+        textViewTitle.setText("BLE Bridge");
         editTextSSID.setText(mSsidName);
         editTextSSID.setEnabled(false);
 
@@ -461,6 +527,108 @@ public class DeviceControlActivity extends Activity {
         });
 
         builder.create().show();
+    }
+
+    public class BridgeConfigureAsync extends AsyncTask<Void, Void, Boolean> {
+        private Context context;
+        private BridgeModel bridgeModel;
+        private boolean retVal = false;
+        private String mDeviceId, message;
+        private String mUrl, mEmail, token;
+
+        public BridgeConfigureAsync(Context context, BridgeModel bridgeModel) {
+            this.context = context;
+            this.bridgeModel = bridgeModel;
+            mUrl = App.getAppComponent().getApiServiceUrl();
+            mEmail = App.getSharedPrefsComponent().getSharedPrefs().getString("AUTH_EMAIL_ID", null);
+            token = App.getSharedPrefsComponent().getSharedPrefs().getString("TOKEN", null);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            mDeviceId = Utils.getDeviceId(context);
+            Log.e(TAG, "DeviceId :: " + mDeviceId);
+
+            // create your json here
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", mEmail);
+                jsonObject.put("userId", token);
+                jsonObject.put("deviceId", mDeviceId);
+                jsonObject.put("bridgeId", bridgeModel.getGatewayUid());
+                jsonObject.put("isConfigured", true);
+                jsonObject.put("isApp", "true");
+                jsonObject.put("type", 5);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+            RequestBody formBody = RequestBody.create(JSON, jsonObject.toString());
+            Request request = new Request.Builder()
+                    .url(mUrl + "tito-bridge")
+                    .post(formBody)
+                    .build();
+
+            Log.e(TAG, request.toString());
+
+            retVal = false;
+            try {
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "" + response.toString());
+
+                String authResponseStr = response.body().string();
+                Log.e(TAG, "authResponseStr :: " + authResponseStr);
+
+                //Json object
+                try {
+                    JSONObject TestJson = new JSONObject(authResponseStr);
+                    String strData = TestJson.getString("body").toString();
+                    JSONObject respData = new JSONObject(strData);
+                    retVal = respData.getBoolean("status");
+                    message = respData.getString("message");
+                    Log.e(TAG, " SH : status : " + respData.getBoolean("status"));
+                    Log.e(TAG, " SH : message : " + respData.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                Log.e("ERROR: ", "Exception at DeviceControlActivity: " + e.getMessage());
+            } catch (NullPointerException e1) {
+                Log.e("ERROR: ", "null pointer Exception at DeviceControlActivity: " + e1.getMessage());
+            }
+            return retVal;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            Utils.showProgress(DeviceControlActivity.this, mView, progressBar, false);
+            if (aBoolean) {
+                showBleGatewayDialog("Successfully write to BLE bridge");
+                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                        bridgeModel.getGatewayUid() + "\n" + message, ALERTCONSTANT.SUCCESS);
+            } else {
+                Utils.SnackBarView(DeviceControlActivity.this, coordinatorLayout,
+                        bridgeModel.getGatewayUid() + "\n" + message, ALERTCONSTANT.WARNING);
+            }
+
+            //Dismiss progress dialog
+            if (progressDialog.isShowing()) {
+                progressDialog.cancel();
+                progressDialog.dismiss();
+                Log.d(TAG, "progress dialog is dismiss");
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Utils.showProgress(DeviceControlActivity.this, mView, progressBar, false);
+        }
     }
 
 }

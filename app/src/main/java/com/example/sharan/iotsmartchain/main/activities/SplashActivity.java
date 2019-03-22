@@ -25,12 +25,14 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "OnCreate()");
         injectViews();
+        BusProvider.getInstance().register(this);
+
         /*Splash Fragment */
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_fragment);
         Utils.replaceFragment(this, new SplashFragment(), R.id.fragment_container, false);
-        BusProvider.getInstance().register(this);
+
     }
 
     @Override

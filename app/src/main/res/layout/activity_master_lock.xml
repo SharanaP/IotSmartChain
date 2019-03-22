@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             style="@style/SwitchCompatStyle"
             android:layout_alignParentRight="true"
-            android:background="@drawable/switch_background"/>
+            android:background="@android:color/transparent"/>
 
     </RelativeLayout>
 

@@ -161,8 +161,7 @@
         <activity
             android:name=".dashboard.activity.SupportMainActivity"
             android:label="Support"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- <activity android:name=".vi.filepicker.MainActivity"/> -->
+            android:windowSoftInputMode="adjustPan" /> <!-- <activity android:name=".vi.filepicker.MainActivity"/> -->
         <activity
             android:name=".vi.filepicker.FragmentActivity"
             android:label="File Picker"
@@ -209,12 +208,38 @@
             android:name=".dashboard.activity.IotDeviceNotificationActivity"
             android:label="Notification Details"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".dashboard.activity.RegIotGatewayActivity"
+            android:label="Register"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- New UI Design -->
+        <activity
+            android:name=".newDesignTiTo.AddBridgeActivity"
+            android:label="Gateways"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".newDesignTiTo.EndNodeActivity"
+            android:label="EndNodes"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".newDesignTiTo.BridgeWifiConfigureActivity"
+            android:label="Wi-Fi"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".newDesignTiTo.NodeSettingActivity"
+            android:label="setting"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".newDesignTiTo.BridgeSettingActivity"
+            android:label="setting"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".newDesignTiTo.NewDashBoardActivity"
+            android:label="DashBroad"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".BlueTooth.BluetoothLeService"
-            android:enabled="true" />
-
-        <!-- Fire base Notifications -->
+            android:enabled="true" /> <!-- Fire base Notifications -->
         <service android:name=".Services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -224,13 +249,10 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
-
-        <!-- ./Firebase Notifications -->
+        </service> <!-- ./Firebase Notifications -->
         <service
             android:name=".Services.RegistrationIntentService"
             tools:ignore="InnerclassSeparator" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -245,7 +267,7 @@
 
         <activity
             android:name=".LocationModule.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
     </application>
 
 </manifest>

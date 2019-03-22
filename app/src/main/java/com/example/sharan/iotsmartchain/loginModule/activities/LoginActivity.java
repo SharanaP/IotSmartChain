@@ -46,7 +46,6 @@ import android.widget.Toast;
 import com.example.sharan.iotsmartchain.App;
 import com.example.sharan.iotsmartchain.FireBaseMessagModule.Config;
 import com.example.sharan.iotsmartchain.NormalFlow.activities.HomeActivity;
-import com.example.sharan.iotsmartchain.NormalFlow.activities.RegisterIoTDeviceActivity;
 import com.example.sharan.iotsmartchain.Presenter.LoginActivityPresenter;
 import com.example.sharan.iotsmartchain.R;
 import com.example.sharan.iotsmartchain.Services.RegistrationIntentService;
@@ -57,6 +56,7 @@ import com.example.sharan.iotsmartchain.global.Utils;
 import com.example.sharan.iotsmartchain.main.activities.BaseActivity;
 import com.example.sharan.iotsmartchain.model.DataModel;
 import com.example.sharan.iotsmartchain.model.LoginResultType;
+import com.example.sharan.iotsmartchain.newDesignTiTo.AddBridgeActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.MediaType;
@@ -560,7 +560,12 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     }
 
     private void RegisterIoTScreen() {
-        Intent intent = new Intent(LoginActivity.this, RegisterIoTDeviceActivity.class);
+       /* Intent intent = new Intent(LoginActivity.this, RegisterIoTDeviceActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        LoginActivity.this.finish();*/
+
+        Intent intent = new Intent(LoginActivity.this, AddBridgeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         LoginActivity.this.finish();

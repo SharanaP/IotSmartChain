@@ -20,6 +20,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.sharan.iotsmartchain.R;
+import com.example.sharan.iotsmartchain.model.BridgeModel;
 
 
 public class BleConnectionManager extends AppCompatActivity {
@@ -28,11 +29,12 @@ public class BleConnectionManager extends AppCompatActivity {
     private static final int REQUEST_BLUETOOTH_ENABLE = 2;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
-
     private Context context;
     private Activity activity;
     private String mSSID, mPassword;
     private String mService, mCharacteristic;
+    private String mReadCharacteristic, mWriteCharacteristic;
+    private BridgeModel bridgeModel;
     private BluetoothAdapter bluetoothAdapter;
     private Handler handler;
     private boolean isLocationPermissionGranted;
@@ -47,27 +49,23 @@ public class BleConnectionManager extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (device.getName() != null) {
-                        if (device.getName().contains("QUECTEL")) {
-                            Log.e(TAG, "Nodic device found, device name is: " + device.getName()
+                        if (device.getName().contains("tito")) {
+                            Log.e(TAG, "TITO device found, device name is: " + device.getName()
                                     + "and address is: " + device.getAddress());
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                                 bluetoothAdapter.stopLeScan(bleScanCallback);
                             }
-                            //TODO Show BLE Device Control activity
+                            //Show BLE Device Control activity
                             Intent intent = new Intent(context,
                                     DeviceControlActivity.class);
                             intent.putExtra("DEVICE_NAME", device.getName());
                             intent.putExtra("DEVICE_ADDRESS", device.getAddress());
                             intent.putExtra("SSID", mSSID);
+                            intent.putExtra("BRIDGE", bridgeModel);
                             intent.putExtra("PASSWORD", mPassword);
                             context.startActivity(intent);
-                        } /*else if(device.getName().contains("IoT-DK-SFL")){
-                            Log.e(TAG, "IOT Device found...\n IOT device name is : "
-                                    +device.getName()+"\nIoT Device SN : "+device.getAddress());
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                bluetoothAdapter.stopLeScan(bleScanCallback);
-                            }
-                        }*/
+                        }
                     } else {
                         Log.e(TAG, "BLE :: name : " + device.getName() + " add : " + device.getAddress());
                     }
@@ -75,6 +73,37 @@ public class BleConnectionManager extends AppCompatActivity {
             });
         }
     };
+
+    //This constructor using for bridge and node read or write operation.
+    public BleConnectionManager(Context context, String mSSID, String mPassword,
+                                String mService, String mCharacteristic, BridgeModel bridgeModel) {
+        this.context = context;
+        this.mSSID = mSSID;
+        this.mPassword = mPassword;
+        this.mService = mService;
+        this.mCharacteristic = mCharacteristic;
+        this.bridgeModel = bridgeModel;
+        activity = (Activity) context;
+
+        //set service and characteristic
+        TargetGattAttributes.setTargetBleCharacteristic(mCharacteristic);
+        TargetGattAttributes.setTargetBleService(mService);
+    }
+
+    public BleConnectionManager(Context context, String mSSID, String mPassword, String mService,
+                                String mReadCharacteristic, String mWriteCharacteristic, BridgeModel bridgeModel) {
+        this.context = context;
+        this.mSSID = mSSID;
+        this.mPassword = mPassword;
+        this.mService = mService;
+        this.mReadCharacteristic = mReadCharacteristic;
+        this.mWriteCharacteristic = mWriteCharacteristic;
+        this.bridgeModel = bridgeModel;
+
+        TargetGattAttributes.setTargetBleService(mService);
+        TargetGattAttributes.setTitoBleReadCharacteristic(mReadCharacteristic);
+        TargetGattAttributes.setTitoBleWriteCharacteristic(mWriteCharacteristic);
+    }
 
     public BleConnectionManager(Context context, String ssid, String psw) {
         this.context = context;

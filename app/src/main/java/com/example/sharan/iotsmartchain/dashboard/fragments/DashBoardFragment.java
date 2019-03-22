@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.example.sharan.iotsmartchain.dashboard.activity.AnalyticsActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.BatteryStatusActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.MasterLockActivity;
 import com.example.sharan.iotsmartchain.dashboard.activity.ModulesActivity;
+import com.example.sharan.iotsmartchain.dashboard.activity.RegIotGatewayActivity;
 import com.example.sharan.iotsmartchain.main.activities.BaseFragment;
 
 
@@ -30,6 +32,7 @@ public class DashBoardFragment extends BaseFragment {
     private LinearLayout mLlBattery;
     private LinearLayout mLlMasterLock;
     private LinearLayout mLlListOfModules;
+    private FloatingActionButton mFabReg;
 
     public static DashBoardFragment newInstance() {
         DashBoardFragment dashBoardFragment = new DashBoardFragment();
@@ -60,6 +63,7 @@ public class DashBoardFragment extends BaseFragment {
         mLlBattery = (LinearLayout) rootView.findViewById(R.id.linearLayout_battery);
         mLlMasterLock = (LinearLayout) rootView.findViewById(R.id.linearLayout_masterLock);
         mLlListOfModules = (LinearLayout) rootView.findViewById(R.id.linearLayout_listOfModules);
+        mFabReg = (FloatingActionButton)rootView.findViewById(R.id.fab_reg);
 
         mTvModulesInUse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +107,14 @@ public class DashBoardFragment extends BaseFragment {
             }
         });
 
+        //add device
+        mFabReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentReg = new Intent(getActivity(), RegIotGatewayActivity.class);
+                startActivity(intentReg);
+            }
+        });
         return rootView;
     }
 
@@ -131,7 +143,10 @@ public class DashBoardFragment extends BaseFragment {
         startActivity(analyticsIntent);
     }
 
-    //Modules not in use
+     /**
+     * Module not in use
+     * @param v
+     */
     private void modulesNotInUse(View v) {
         Toast.makeText(getActivity(), "modules Not In Use", Toast.LENGTH_SHORT).show();
     }
@@ -140,6 +155,5 @@ public class DashBoardFragment extends BaseFragment {
     private void modulesInUseView(View v) {
         Toast.makeText(getActivity(), "modules In Use View", Toast.LENGTH_SHORT).show();
     }
-
-
+    
 }
